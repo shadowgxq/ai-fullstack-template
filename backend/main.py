@@ -1,3 +1,4 @@
+from app.api.v1.health import router as health_router
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
@@ -31,3 +32,6 @@ app.include_router(auth_router, prefix="/api/v1")
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
+
+
+app.include_router(health_router)

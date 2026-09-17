@@ -1,3 +1,3 @@
-# CLAUDE.md
+# Claude 入口
 
-本项目的 agent 协作规范在 [AGENTS.md](./AGENTS.md) 中，所有任务执行前先读取并遵循 AGENTS.md 的规则。
+遵循 [AGENTS.md](AGENTS.md)，不维护第二份规则。

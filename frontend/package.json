@@ -1,5 +1,5 @@
 {
-  "name": "frontend-agent-template",
+  "name": "fullstack-frontend",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -17,13 +17,13 @@
     "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.node.json",
     "test": "vitest run",
     "test:watch": "vitest",
-    "format": "prettier . --write",
-    "format:check": "prettier . --check",
-    "manager:validate": "python3 scripts/manager/validate_plan.py manager/plan.yaml",
+    "format": "prettier \"src/**/*.{ts,tsx,css,json}\" \"*.{js,ts,json,html}\" --write",
+    "format:check": "prettier \"src/**/*.{ts,tsx,css,json}\" \"*.{js,ts,json,html}\" --check",
+    "manager:validate": "python3 ../scripts/manager/validate_plan.py ../manager/plan.yaml",
     "workflow:validate": "pnpm manager:validate && pnpm repairs:validate",
     "check": "pnpm typecheck && pnpm lint:ci && pnpm test && pnpm workflow:validate && pnpm format:check",
-    "repairs:validate": "python3 scripts/repairs/validate_repairs.py",
-    "repairs:status": "python3 scripts/repairs/validate_repairs.py --status-only"
+    "repairs:validate": "cd .. && python3 scripts/repairs/validate_repairs.py",
+    "repairs:status": "cd .. && python3 scripts/repairs/validate_repairs.py --status-only"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.16",

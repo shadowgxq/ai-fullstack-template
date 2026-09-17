@@ -1,13 +1,18 @@
 """A deterministic workflow: validates graph/checkpoint wiring without paid calls."""
+
 from typing import TypedDict
+
 from langgraph.graph import END, START, StateGraph
+
 
 class EchoState(TypedDict, total=False):
     text: str
     result: dict[str, str]
 
+
 def echo(state: EchoState) -> dict:
     return {"result": {"text": state["text"]}}
+
 
 def build_graph(checkpointer):
     builder = StateGraph(EchoState)
@@ -15,6 +20,7 @@ def build_graph(checkpointer):
     builder.add_edge(START, "echo")
     builder.add_edge("echo", END)
     return builder.compile(checkpointer=checkpointer)
+
 
 def execute_echo(run_id: str, text: str, checkpointer) -> dict[str, str]:
     graph = build_graph(checkpointer)

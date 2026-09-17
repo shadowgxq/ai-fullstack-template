@@ -49,9 +49,9 @@ extends = "manager-normal"
 [permissions.manager-worker.filesystem.":workspace_roots"]
 "manager" = "read"
 "openspec" = "read"
-"docs/prd" = "read"
-"docs/technical" = "read"
-"docs/design/baselines" = "read"
+"docs/product" = "read"
+"docs/architecture" = "read"
+"docs/contracts" = "read"
 # Workers may write only evidence here; individual run directories are instruction scoped.
 "manager/runtime/evidence" = "write"
 
