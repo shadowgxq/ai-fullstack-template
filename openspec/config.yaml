@@ -1,0 +1,14 @@
+schema: spec-driven
+context: |
+  全栈 monorepo：frontend / backend / ai-service。
+  所有入口先读根 AGENTS.md 与 docs/README.md，按任务补读端专项规范。
+  产品在 docs/product，架构在 docs/architecture，契约在 docs/contracts。
+  根 manager/plan.yaml 是唯一批次与进度入口，历史 examples 不参与执行。
+  默认中文；不调用付费模型或部署生产；当前 AI 是确定性 echo 初始化。
+rules:
+  proposal:
+    - 引用 REQ-ID、范围、非目标与直接消费者。
+  design:
+    - 引用架构、接口、配置、迁移和失败恢复；区分已实现与目标。
+  tasks:
+    - 每项明确 owner、读写范围、依赖、验证命令及实际证据。

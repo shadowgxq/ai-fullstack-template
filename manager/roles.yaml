@@ -1,0 +1,2 @@
+# Optional execution profiles belong to the operator, not the project truth.
+default: {}

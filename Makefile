@@ -1,0 +1,40 @@
+.PHONY: install infra migrate dev-frontend dev-backend dev-ai worker up down check docs contracts contracts-check smoke
+install:
+	pnpm --dir frontend install --frozen-lockfile
+	cd backend && uv sync --locked
+	cd ai-service && uv sync --locked
+infra:
+	docker compose up -d --wait postgres redis
+migrate:
+	cd backend && uv run --locked alembic upgrade head
+	cd ai-service && uv run --locked python -m ai_service.infrastructure.migrate
+dev-frontend:
+	pnpm --dir frontend dev
+dev-backend:
+	cd backend && uv run --locked uvicorn main:app --reload --port 8000
+dev-ai:
+	cd ai-service && uv run --locked uvicorn ai_service.api.app:create_app --factory --reload --port 8001
+worker:
+	cd ai-service && uv run --locked python -m ai_service.worker
+up:
+	docker compose up --build -d --wait --wait-timeout 180
+down:
+	docker compose down
+check: docs
+	pnpm --dir frontend check
+	$(MAKE) -C backend check
+	$(MAKE) -C ai-service check
+	$(MAKE) contracts-check
+docs:
+	python3 scripts/check_docs.py
+	python3 scripts/manager/validate_plan.py manager/plan.yaml
+	python3 scripts/repairs/validate_repairs.py
+	python3 -m unittest discover -s scripts/tests -v
+contracts:
+	python3 scripts/export_contracts.py --service backend
+	python3 scripts/export_contracts.py --service ai-service
+contracts-check:
+	python3 scripts/export_contracts.py --service backend --check
+	python3 scripts/export_contracts.py --service ai-service --check
+smoke:
+	python3 scripts/smoke.py

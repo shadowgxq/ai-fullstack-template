@@ -1,0 +1,46 @@
+updated_at: '2026-09-17'
+current:
+  title: 全栈初始化已验证，进入 PR 评审
+  batch: batch-foundation
+  wave: wave-foundation
+  next: 审查 PR 与验证证据；合并需人工决定，后续业务或生产能力另立需求。
+requirements:
+  - id: REQ-MONO-001
+    title: 三端 monorepo 与统一启动验证
+    source: docs/product/bootstrap.md
+  - id: REQ-DOC-001
+    title: 精简入口与文档单源
+    source: docs/product/bootstrap.md
+  - id: REQ-AI-001
+    title: AI 服务初始化
+    source: docs/product/bootstrap.md
+openspec:
+  - id: fullstack-foundation
+    title: 全栈工程基座
+    phase: verify
+    state: ready_for_review
+    requirements:
+      - REQ-MONO-001
+      - REQ-DOC-001
+      - REQ-AI-001
+    inputs:
+      - id: architecture
+        source: docs/architecture/README.md
+        required: true
+      - id: contracts
+        source: docs/contracts/README.md
+        required: true
+      - id: verification
+        source: openspec/changes/fullstack-foundation/verification.md
+        required: true
+    path: openspec/changes/fullstack-foundation
+    tasks: openspec/changes/fullstack-foundation/tasks.md
+    depends_on: []
+batches:
+  - id: batch-foundation
+    goal: 三端可运行、契约可验证、文档无平行事实源
+    waves:
+      - id: wave-foundation
+        parallel: false
+        openspec:
+          - fullstack-foundation

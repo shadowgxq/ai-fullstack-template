@@ -1,0 +1,112 @@
+name: Verify monorepo
+on:
+  pull_request:
+  push:
+    branches: [main, refactor/fullstack-vibe-monorepo]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - run: make docs
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: pnpm/action-setup@v4
+        with: {package_json_file: frontend/package.json}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+        working-directory: frontend
+      - run: pnpm check && pnpm build
+        working-directory: frontend
+      - name: Start preview and fetch compiled app
+        working-directory: frontend
+        run: |
+          pnpm preview --host 127.0.0.1 --port 4173 > /tmp/vite.log 2>&1 &
+          pid=$!
+          trap 'kill "$pid" 2>/dev/null || true' EXIT
+          for n in $(seq 1 30); do
+            if curl --fail -s http://127.0.0.1:4173/ > /tmp/index.html; then
+              grep -q '/assets/' /tmp/index.html && exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/vite.log; exit 1
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: astral-sh/setup-uv@v6
+        with: {python-version: '3.12'}
+      - run: uv sync --locked
+        working-directory: backend
+      - run: make -C backend check
+      - run: python3 scripts/export_contracts.py --service backend --check
+  ai-service:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: ai_runtime_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U test -d ai_runtime_test"
+          --health-interval 2s --health-timeout 3s --health-retries 30
+    env:
+      AI_TEST_DATABASE_URL: postgresql://test:test@localhost:5432/ai_runtime_test
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: astral-sh/setup-uv@v6
+        with: {python-version: '3.12'}
+      - run: uv sync --locked
+        working-directory: ai-service
+      - run: make -C ai-service check
+      - run: uv build
+        working-directory: ai-service
+      - run: python3 scripts/export_contracts.py --service ai-service --check
+  stack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - name: Build and start all services
+        run: docker compose up --build -d --wait --wait-timeout 180
+      - name: Verify HTTP and Worker lifecycle
+        run: python3 scripts/smoke.py
+      - name: Capture logs
+        if: always()
+        run: |
+          docker compose ps -a > /tmp/stack.log
+          docker compose logs --no-color >> /tmp/stack.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stack-logs
+          path: /tmp/stack.log
+          retention-days: 7
+      - name: Stop disposable CI services
+        if: always()
+        run: docker compose down -v --remove-orphans
