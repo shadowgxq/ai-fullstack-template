@@ -1,93 +1,18 @@
-# Frontend Agent Template
+# Frontend
 
-这是一个面向 AI Agent 协作的前端模板项目，用于快速建立可迁移、可执行、可维护的前端工程基线。
+保留 React 18 + TypeScript + Vite、React Router、Query、Zustand、Radix、主题与国际化基座。业务需求不在本端重复维护。
 
-模板默认提供 `Vite + React + TypeScript + pnpm` 的最小可运行工程，并预装公司默认场景的基础前端依赖，同时保留 Agent 协作规则、文档结构、Manager/OpenSpec 工作流入口和源码目录骨架。
-
-## 适用场景
-
-- 新建一个 AI Agent 友好的前端项目。
-- 将统一的协作规则、工程规范和文档结构迁入已有前端项目。
-- 让 Agent 能通过稳定的入口文档、计划状态和规格流程推进需求。
-
-## 项目内容
-
-| 路径                                          | 作用                                                             |
-| --------------------------------------------- | ---------------------------------------------------------------- |
-| `AGENTS.md`                                   | Agent 协作入口规则。                                             |
-| `docs/`                                       | 长期文档入口，包含 AI 协作、前端规范、API 和 PRD 目录说明。      |
-| `manager/`                                    | Manager 计划、执行状态、archive。                                |
-| `repairs/`                                    | 小范围修复队列（`$repair-intake` 登记、`$repair-runner` 执行）。 |
-| `openspec/`                                   | OpenSpec 规格驱动工作流骨架。                                    |
-| `.agents/skills/`                             | 项目级 Agent skills。                                            |
-| `scripts/`                                    | Manager 校验和 Ralph shell runner。                              |
-| `src/`                                        | 模板自身的最小可运行源码。                                       |
-| `package.json`、`vite.config.ts`、`tsconfig*` | 默认前端工程配置。                                               |
-
-## 快速开始
+Node 22、pnpm 10.33.0；在本目录执行：
 
 ```bash
-pnpm install
+pnpm install --frozen-lockfile
+cp .env.example .env
 pnpm dev
-```
-
-常用验证命令：
-
-```bash
 pnpm check
-pnpm typecheck
-pnpm test
-pnpm lint
 pnpm build
+pnpm preview
 ```
 
-## 文档入口
+开发端口默认 5173。`DEV_PROXY_TARGET=http://localhost:8000` 将 `/api` 转发到后端；`VITE_API_BASE_URL=/api`。`VITE_*` 公开到浏览器，不放服务 token。环境变量边界保留在 `src/shared/config/`。
 
-- `docs/README.md`：文档目录职责、读取顺序和维护规则。
-- `AGENTS.md`：Agent 协作硬规则、验证范围和交付要求。
-- `docs/ai/openspec-manager-flow.md`：Manager/OpenSpec 生命周期和批次推进规则。
-- `docs/frontend/standards/frontend-development.md`：前端日常开发规范。
-- `docs/frontend/guides/project-bootstrap.md`：基于模板创建新项目和已有项目迁入清单。
-- `docs/frontend/guides/runtime-config-and-vite.md`：typed runtime config、开发代理和拆包规则。
-
-## 工作流入口
-
-Manager 用于把需求拆成可执行批次，并通过 OpenSpec 管理规格变更：
-
-- 计划状态保存在 `manager/plan.yaml`。
-- 执行规则参考 `docs/ai/openspec-manager-flow.md`。
-- 连续推进优先使用 Goal 循环调用 `$manager-execute-current-batch`。
-- 需要外部非交互 shell runner 时，使用 `scripts/ralph/ralph.sh`。
-- repair 队列位于 `repairs/`，用 `$repair-intake` 登记、`$repair-runner` 执行。
-
-## 业务边界
-
-本仓库只保存通用前端工程模板，不保存具体业务域规则、业务实体、接口契约、页面需求或验收标准。
-
-迁入具体项目后，业务内容应放入使用方项目自己的 `docs/prd/`、`docs/api/`、`openspec/specs/` 或对应业务文档目录。
-
-## 默认技术基线
-
-- `Node >=20.19`
-- `pnpm`
-- `React 18`
-- `Vite 6`
-- `TypeScript 5`
-
-## 默认工程选型
-
-以下能力会随模板预装并默认启用。使用方项目可以显式替换或移除，但应把它作为项目基线变更，同步源码、依赖、测试和文档：
-
-- Routing：`react-router-dom`
-- HTTP request：`axios`
-- Server state：`@tanstack/react-query`
-- Client UI state：`zustand`
-- UI primitive：少量 Radix UI 基础包
-- Icons：`lucide-react`，并在 `shared/icons` 预留业务自定义图标出口
-- className：`clsx`
-- Animation：`gsap`（按需引入，并尊重 `prefers-reduced-motion`）
-- i18n：`i18next` + `react-i18next`（`shared/i18n`，默认提供 en/zh）
-- Theming：CSS 变量 + `data-theme` 换肤（`shared/theme`，light/dark，零新依赖）
-- Testing：`vitest`、React Testing Library、`jsdom`
-
-表单、表格、schema validation、日期工具和图表库不默认预装，使用方项目按业务复杂度和团队约定补充。
+`pnpm check` 包含 typecheck、Lint、测试、根 Manager/repairs 校验与代码格式；根文档用 `make docs` 校验。根 Compose 中使用 Nginx 提供构建产物和 `/api` 代理，访问 8080。启动命令见 [根 README](../README.md)，实现细则见 [专项导航](../docs/engineering/frontend/README.md)。

@@ -1,0 +1,88 @@
+# Development only. Separate databases/roles prevent accidental cross-service writes.
+name: ai-fullstack
+x-ai: &ai
+  build: ./ai-service
+  environment:
+    AI_DATABASE_URL: postgresql://ai_service:ai-dev@postgres:5432/ai_runtime
+    AI_API_KEY: ${AI_API_KEY:-local-ai-service-key-change-before-deploy}
+    AI_SCOPE: local
+  restart: "no"
+x-backend: &backend
+  build: ./backend
+  environment:
+    DATABASE_URL: postgresql+psycopg2://backend:backend-dev@postgres:5432/backend
+    SECRET_KEY: ${BACKEND_SECRET_KEY:-local-backend-key-change-before-deploy}
+    REDIS_URL: redis://redis:6379/0
+  restart: "no"
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: local_admin
+      POSTGRES_PASSWORD: local-admin-dev
+      POSTGRES_DB: postgres
+    ports: ["127.0.0.1:5432:5432"]
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./infra/postgres/init.sql:/docker-entrypoint-initdb.d/01-services.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U local_admin -d postgres"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  redis:
+    image: redis:7-alpine
+    ports: ["127.0.0.1:6379:6379"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  backend-migrate:
+    <<: *backend
+    command: ["uv", "run", "--locked", "--no-dev", "alembic", "upgrade", "head"]
+    depends_on:
+      postgres: {condition: service_healthy}
+  backend:
+    <<: *backend
+    ports: ["127.0.0.1:8000:8000"]
+    depends_on:
+      backend-migrate: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "uv", "run", "--locked", "--no-dev", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/ready', timeout=5)"]
+      interval: 3s
+      timeout: 8s
+      retries: 30
+  ai-migrate:
+    <<: *ai
+    command: ["uv", "run", "--locked", "--no-dev", "python", "-m", "ai_service.infrastructure.migrate"]
+    depends_on:
+      postgres: {condition: service_healthy}
+  ai-service:
+    <<: *ai
+    ports: ["127.0.0.1:8001:8001"]
+    depends_on:
+      ai-migrate: {condition: service_completed_successfully}
+    healthcheck:
+      test: ["CMD", "uv", "run", "--locked", "--no-dev", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/ready', timeout=5)"]
+      interval: 3s
+      timeout: 8s
+      retries: 30
+  ai-worker:
+    <<: *ai
+    command: ["uv", "run", "--locked", "--no-dev", "python", "-m", "ai_service.worker"]
+    depends_on:
+      ai-migrate: {condition: service_completed_successfully}
+  frontend:
+    build: ./frontend
+    ports: ["127.0.0.1:8080:8080"]
+    depends_on:
+      backend: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8080/"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+volumes:
+  postgres-data:

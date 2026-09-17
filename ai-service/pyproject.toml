@@ -1,0 +1,34 @@
+[project]
+name = "fullstack-ai-service"
+version = "0.1.0"
+description = "Deterministic Agent Runtime bootstrap with API, Worker and PostgreSQL checkpoints"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.136.3,<1",
+  "pydantic-settings>=2.14.1,<3",
+  "uvicorn[standard]>=0.48.0,<1",
+  "psycopg[binary,pool]>=3.2,<4",
+  "langgraph>=1,<2",
+  "langgraph-checkpoint-postgres>=3,<4",
+]
+
+[dependency-groups]
+dev = ["pytest>=9.0.3,<10", "httpx>=0.28.1,<1", "ruff>=0.15.14,<1"]
+
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ai_service"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["integration: requires an explicitly configured PostgreSQL test database"]
+
+[tool.ruff]
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
