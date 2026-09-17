@@ -1,9 +1,0 @@
-{
-  "note": "确属产品决策的开发态文案白名单。key 为 <locale文件>:<key路径>，value 必须写明保留理由和摘除条件。条目失效会导致 lint:locales 失败，需与文案同步清理。",
-  "allowlist": {
-    "zh.json:share.uploadDevelopment": "分享图片 upload 真实接口未就绪期间，PRD 要求展示显式 mock 标识而非伪造生产 URL；接入真实 upload adapter 后删除",
-    "zh.json:share.uploadedDevelopment": "同上，mock upload 返回的 asset marker 文案；接入真实 upload adapter 后删除",
-    "en.json:share.uploadDevelopment": "同 zh.json:share.uploadDevelopment",
-    "en.json:share.uploadedDevelopment": "同 zh.json:share.uploadedDevelopment"
-  }
-}

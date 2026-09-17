@@ -1,1 +1,0 @@
-export { ResearchLaunchForm } from './ResearchLaunchForm';

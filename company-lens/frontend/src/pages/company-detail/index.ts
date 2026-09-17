@@ -1,1 +1,0 @@
-export { CompanyDetailPage } from './CompanyDetailPage';
