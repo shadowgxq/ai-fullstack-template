@@ -1,0 +1,58 @@
+{
+  "app": {
+    "title": "前端 Agent 模板"
+  },
+  "home": {
+    "status": "模板就绪",
+    "eyebrow": "Vite · React 18 · TypeScript",
+    "title": "为 Agent 打造的考究前端基线。",
+    "description": "交付可迁移、可执行、可维护的前端。协作规则、分层文档与 token 驱动的运行时均已接线，让 Agent 专注构建，而非搭架子。",
+    "cta": "查看模板结构",
+    "sections": {
+      "appShell": {
+        "title": "应用装配层",
+        "text": "应用级 providers、路由、全局样式与 error boundary 都在 src/app。"
+      },
+      "layeredSource": {
+        "title": "分层源码",
+        "text": "以单向 import，用 widgets、features、entities 与 shared 组合页面。"
+      },
+      "projectDocs": {
+        "title": "项目文档",
+        "text": "把业务 PRD、接口契约与验收标准迁入目标项目的文档目录。"
+      }
+    },
+    "footer": "生而业务中性 —— 迁入你自己的业务域即可。"
+  },
+  "demo": {
+    "theme": {
+      "label": "主题",
+      "light": "浅色",
+      "dark": "深色"
+    },
+    "language": {
+      "label": "语言"
+    }
+  },
+  "errors": {
+    "global": {
+      "eyebrow": "应用错误",
+      "title": "应用遇到了意外错误。",
+      "description": "你的数据不会因此改变。请重新加载页面重试，或返回首页重新开始。"
+    },
+    "route": {
+      "eyebrow": "页面错误",
+      "title": "当前页面暂时无法显示。",
+      "description": "路由加载时发生错误。请重新加载页面，或返回首页选择其他路径。"
+    },
+    "notFound": {
+      "eyebrow": "404",
+      "title": "找不到这个页面。",
+      "description": "页面地址可能已失效或不完整，请返回首页继续。"
+    },
+    "actions": {
+      "reload": "重新加载",
+      "home": "返回首页"
+    }
+  }
+}

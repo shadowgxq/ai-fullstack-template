@@ -1,0 +1,154 @@
+.overlay {
+  position: fixed;
+  z-index: 50;
+  background: rgb(0 0 0 / 65%);
+  inset: 0;
+}
+
+/* Content 自己定位而不是靠 overlay 做 grid 居中：Radix 打开弹窗时会锁滚动并
+   给 body 补 padding 抵消滚动条，靠父级居中会跟着偏移。fixed + translate
+   只认视口，不受这些影响。 */
+/*
+ * 卡片外观由这一层持有（AuthForm 只做布局），这样矮视口下需要滚动时，
+ * 滚动条落在卡片内部、跟着圆角裁切，而不是飘在卡片外面贴着遮罩。
+ *
+ * 宽度不再压到 28rem。当初窄是迁就 GIS 渲染的 Google 按钮（跨域 iframe，宽度上限
+ * 400px），现在按钮是自绘的、宽度随容器走，就没有理由再把表单挤成一条。
+ */
+/*
+ * 卡片本身：只画外观、不滚动。滚动交给内层 .body，这样关闭按钮可以绝对定位到
+ * 卡片右上角而不被卷进滚动内容里。overflow: hidden 让内层滚动条被圆角裁掉。
+ *
+ * 宽度不再压到 28rem。当初窄是迁就 GIS 渲染的 Google 按钮（跨域 iframe，宽度上限
+ * 400px），现在按钮是自绘的、宽度随容器走，就没有理由再把表单挤成一条。
+ */
+.content {
+  position: fixed;
+  z-index: 51;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  width: min(34rem, calc(100% - var(--space-8)));
+  max-height: calc(100vh - var(--space-8));
+  flex-direction: column;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+}
+
+/* min-height: 0 是必须的：flex 子项默认 min-height:auto，不给 0 就不会真的滚。 */
+/*
+ * 顶部内边距比其它三边大：关闭按钮绝对定位在卡片上，占到距顶 12+32=44px，内容若还从
+ * 34px 起排，第一行（邮箱验证码 / 账号密码 切换）会被它压住——按钮看起来就是"贴"在
+ * tab 条上的。留出 52px 让它有自己的地带，与内容之间还剩 8px 呼吸。
+ */
+.body {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  padding: 52px 34px 34px;
+  overflow-y: auto;
+  /* 内容放得下就不显示；放不下时给一条细的、跟着主题走的，不用系统那根粗灰条 */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+
+.body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.body::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background: var(--color-border-strong);
+}
+
+/* 窄屏收内边距。这两档原先在 AuthForm 上，卡片外观移到弹窗后一并搬过来。
+   顶部那条不能跟着收——关闭按钮尺寸不随断点变，压住内容的风险也不变。 */
+@media (max-width: 720px) {
+  .body {
+    padding: 48px 20px 26px;
+  }
+}
+
+@media (max-width: 430px) {
+  .body {
+    padding-right: var(--space-4);
+    padding-left: var(--space-4);
+  }
+}
+
+/*
+ * 定位在卡片（.content）上而不是滚动容器里，滚动时始终待在右上角。
+ *
+ * 这里没有 header 承托，静止态必须安静：无边框无底色，只留一个淡图标。但安静不
+ * 等于「像一个漏进页面的字符」——原先方角、悬停只换字色，既没有形状也没有可点的
+ * 暗示。改成圆形幽灵按钮：悬停/按下才浮出一层底色，形状交给 --radius-full。
+ */
+.close {
+  position: absolute;
+  z-index: 1;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition:
+    background-color 140ms ease,
+    color 140ms ease;
+}
+
+/*
+ * 底色用 color-mix 叠文本色而不是 --color-surface-hover：后者是为「页面底色上的悬停」
+ * 调的，压在 --color-surface 卡片上时深色主题几乎看不出差别。叠加式的写法两套主题
+ * 都自动拿到同样的对比度。
+ */
+.close:hover {
+  background: color-mix(in srgb, var(--color-text) 9%, transparent);
+  color: var(--color-text);
+}
+
+.close:active {
+  background: color-mix(in srgb, var(--color-text) 15%, transparent);
+}
+
+.close:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .close {
+    transition: none;
+  }
+}
+
+/*
+ * AuthForm 自己已经渲染了可见标题（auth.title），这里的 Dialog.Title 只为读屏与
+ * Radix 的 aria-labelledby 关联而存在，视觉上隐藏，避免页面出现两个重复标题。
+ */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  border: 0;
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}

@@ -1,0 +1,247 @@
+.details {
+  display: grid;
+  grid-template-rows: 0fr;
+  padding: 0 18px;
+  border-top: 1px solid var(--color-border-subtle);
+  background: var(--color-surface-subtle);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    grid-template-rows 350ms cubic-bezier(0.22, 1, 0.36, 1),
+    padding 350ms ease,
+    opacity 220ms ease,
+    visibility 0s linear 350ms;
+}
+
+.details[data-expanded='true'] {
+  grid-template-rows: 1fr;
+  padding-bottom: 10px;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    grid-template-rows 380ms cubic-bezier(0.22, 1, 0.36, 1),
+    padding 380ms ease,
+    opacity 280ms 40ms ease,
+    visibility 0s;
+}
+
+.detailsInner {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  padding: 2px 12px 0 28px;
+}
+
+.timelineViewport {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.timelineViewport[data-scrollable='true'] {
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 8px;
+  overscroll-behavior: contain;
+  scrollbar-color: var(--color-border-strong) transparent;
+  scrollbar-width: thin;
+}
+
+.timeline {
+  position: relative;
+  margin: 0;
+  padding: 2px 0 4px;
+  list-style: none;
+}
+
+.timelineItem:not(:last-child)::before {
+  position: absolute;
+  top: 18px;
+  bottom: -18px;
+  left: 11px;
+  width: 1px;
+  background: color-mix(in srgb, var(--color-primary) 30%, var(--color-border));
+  content: '';
+}
+
+.timelineItem {
+  position: relative;
+  display: grid;
+  grid-template-columns: 24px 58px minmax(0, 1fr);
+  gap: 8px;
+  min-width: 0;
+  padding: 6px 0;
+  animation: thinkingStepIn 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.timelineDot {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 10px;
+  height: 10px;
+  margin: 4px auto 0;
+  border: 2px solid var(--color-surface-subtle);
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+.timelineItem[aria-current='step'] .timelineDot {
+  background: var(--color-success);
+  box-shadow: 0 0 0 1px var(--color-success);
+}
+
+.timelineItem:not(:last-child) .timelineCopy {
+  padding-bottom: 7px;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.timelineCopy {
+  min-width: 0;
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.timelineMeta {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 3px 7px;
+}
+
+.timelineMeta strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(--color-text-strong);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-normal);
+}
+
+.timelineMeta span,
+.sourceCount {
+  flex: 0 0 auto;
+  color: var(--color-muted);
+  font-family: var(--font-family-mono);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.timelineTime {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: start;
+  padding-top: 2px;
+  color: var(--color-muted);
+  font-family: var(--font-family-mono);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.timelineCopy p {
+  margin: 3px 0 0;
+  overflow-wrap: anywhere;
+  color: var(--color-muted);
+  font-size: var(--font-size-xs);
+  line-height: 1.55;
+}
+
+.sourceLinks {
+  display: grid;
+  gap: 5px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sourceLink {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: flex-start;
+  gap: 5px;
+  color: var(--color-primary);
+  font-size: var(--font-size-xs);
+  line-height: 1.45;
+  text-decoration: none;
+}
+
+.sourceLink:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.sourceLink span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.sourceLink svg {
+  flex: 0 0 auto;
+  margin-top: 3px;
+}
+
+.sourceCount {
+  display: block;
+  margin-top: 5px;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  min-width: 0;
+  margin: 0;
+  padding: 22px 0;
+  color: var(--color-muted);
+  font-size: var(--font-size-sm);
+  line-height: var(--leading-relaxed);
+}
+
+@keyframes thinkingStepIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .timelineItem {
+    grid-template-columns: 24px 54px minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .details {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+
+  .detailsInner {
+    padding-right: 4px;
+    padding-left: 14px;
+  }
+
+  .timelineItem {
+    grid-template-columns: 22px 52px minmax(0, 1fr);
+    gap: 7px;
+  }
+
+  .timelineTime {
+    font-size: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .details,
+  .timelineItem {
+    animation: none;
+    transition: none;
+  }
+}

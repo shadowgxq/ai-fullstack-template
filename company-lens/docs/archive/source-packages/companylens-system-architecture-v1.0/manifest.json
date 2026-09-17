@@ -1,0 +1,83 @@
+{
+  "document": "CL-SAD-001",
+  "version": "1.0",
+  "created_at": "2026-09-16",
+  "canonical_document": "docs/architecture/ai-architecture.md",
+  "input_skill": {
+    "repository": "shadowgxq/skills",
+    "commit": "f77052abde543d2d2365b3d18886951379193c93",
+    "path": "manager-plan-from-doc"
+  },
+  "files": [
+    {
+      "path": "MANAGER_HANDOFF.md",
+      "sha256": "046ae768bd9354c4b2d55c416e4f5cb399593c646da07649a48c49c28ad02756",
+      "size_bytes": 6671
+    },
+    {
+      "path": "README.md",
+      "sha256": "10838a57049e05d5945312ac1c70da9a8888705f12061db2596c7ba09e6a1c24",
+      "size_bytes": 2651
+    },
+    {
+      "path": "VALIDATION.md",
+      "sha256": "1913350479dc0170d867641181b6eff3e2b6c6e652ae77306d93b2ea6443890b",
+      "size_bytes": 1619
+    },
+    {
+      "path": "docs/architecture/ai-architecture.md",
+      "sha256": "c848501183cd32cd4dcf9b4868df4e5797fd05b8e1fe6b6eb47b04fd3042d6f7",
+      "size_bytes": 83954
+    },
+    {
+      "path": "docs/architecture/decisions/0002-preserve-frontend.md",
+      "sha256": "99b2649e46595bf999c973acede2214a21cec7ebe88972dd02955c2ff5842464",
+      "size_bytes": 1698
+    },
+    {
+      "path": "docs/architecture/decisions/0003-processes-and-storage.md",
+      "sha256": "1e24409da8223b0809a8eb0b33eaa02af35264d7709221f13948446fc0f9b896",
+      "size_bytes": 1614
+    },
+    {
+      "path": "docs/architecture/decisions/0004-ledger-and-checkpoint.md",
+      "sha256": "cd39cd183e1b742f2770062260c7425d54b76727726ddccc086b9fa17d5ae5d9",
+      "size_bytes": 1587
+    },
+    {
+      "path": "docs/architecture/decisions/0005-api-events-contract.md",
+      "sha256": "f4f4b7e173e97b0782875c7c7349dceb73d1899c89ab64b7cb3292008021a269",
+      "size_bytes": 1462
+    },
+    {
+      "path": "docs/architecture/decisions/0006-immutable-delivery.md",
+      "sha256": "af77dfaef8cff4b41e89e025236f52af7c3988ea8ecf9ac0a139fb3e250b1511",
+      "size_bytes": 1579
+    },
+    {
+      "path": "docs/design/AI-Agent通用模板_技术设计与实现规范_v1.1.md",
+      "sha256": "a7ff6aaf7f87a7521988cc9eb2d1e7c598e4f0d4f7f7951c69e361f0dc6921d2",
+      "size_bytes": 72889
+    },
+    {
+      "path": "docs/design/AI公司研究_业务架构与接入设计_v1.1.md",
+      "sha256": "1482b9ecab985a15bed217d5eae5f6ebafe80b848dfc974554c0ff6e41cffd1d",
+      "size_bytes": 105738
+    },
+    {
+      "path": "docs/design/system-integration-details.md",
+      "sha256": "32b04807f6d8ce8f09de9948c4d8763921640f903faf8a4b441cd4c7a9557bea",
+      "size_bytes": 27363
+    },
+    {
+      "path": "docs/references/requirement-index.json",
+      "sha256": "11be5813e45ecf6f69b7210cd1f23b10bdf5d09bae394b48d6719b567f8ef626",
+      "size_bytes": 6770
+    },
+    {
+      "path": "validation-results.json",
+      "sha256": "4637259ab41492bfbf4c21f922db9a9667cc5d18265cf28f2259b0258b89cfd6",
+      "size_bytes": 6943
+    }
+  ]
+}

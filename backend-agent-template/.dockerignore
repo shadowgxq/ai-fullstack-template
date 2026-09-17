@@ -1,0 +1,12 @@
+__pycache__/
+.git/
+.gitignore
+.gitattributes
+.env*
+*.md
+tests/
+docs/
+.venv/
+.idea/
+.vscode/
+.claude/

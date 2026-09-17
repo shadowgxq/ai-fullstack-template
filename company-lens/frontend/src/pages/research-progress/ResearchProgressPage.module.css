@@ -1,0 +1,1058 @@
+.page {
+  min-height: 100%;
+  background:
+    radial-gradient(
+      circle at 8% 16%,
+      color-mix(in srgb, var(--color-primary-soft) 35%, transparent),
+      transparent 30%
+    ),
+    var(--color-background);
+}
+
+.main {
+  width: min(calc(100% - 48px), 1120px);
+  margin: 0 auto;
+  padding: 32px 0 64px;
+}
+
+.back {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: 15px;
+  color: var(--color-muted);
+  font-size: var(--font-size-sm);
+  text-decoration: none;
+}
+
+.back:hover {
+  color: var(--color-primary-strong);
+}
+
+.back:focus-visible,
+.resultLink:focus-visible,
+.primaryAction:focus-visible,
+.agentDetailLink:focus-visible,
+.retryButton:focus-visible,
+.capabilityToggle:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-5);
+  margin: 0 0 28px;
+}
+
+.headerCopy {
+  min-width: 0;
+}
+
+.headerActions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+.eyebrow,
+.sectionLabel {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--color-primary-strong);
+  font-size: 13px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.02em;
+}
+
+.title {
+  max-width: 760px;
+  overflow: hidden;
+  color: var(--color-text-strong);
+  font-size: clamp(32px, 4vw, 40px);
+  font-weight: 750;
+  letter-spacing: -0.045em;
+  line-height: 1.14;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.query {
+  margin-top: 7px;
+  color: var(--color-muted);
+  font-size: 15px;
+  font-weight: var(--font-weight-medium);
+}
+
+.taskStatus,
+.researchPill {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--space-2);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, var(--color-border));
+  border-radius: var(--radius-full);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+  font-size: 13px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+}
+
+.taskStatus {
+  padding: 10px 15px;
+}
+
+.taskStatus[data-status='completed'],
+.taskStatus[data-status='partial'] {
+  border-color: color-mix(in srgb, var(--color-success) 36%, var(--color-border));
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.taskStatus[data-status='failed'],
+.taskStatus[data-status='cancelled'] {
+  border-color: color-mix(in srgb, var(--color-danger) 35%, var(--color-border));
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+.taskStatus svg {
+  flex: 0 0 auto;
+}
+
+.content {
+  display: grid;
+  gap: 24px;
+}
+
+.details,
+.overview,
+.stages,
+.capabilityList {
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 14px;
+  background: var(--color-surface-raised);
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--color-text) 5%, transparent);
+}
+
+.details {
+  padding: 28px 30px 30px;
+}
+
+.sectionTitle {
+  color: var(--color-text-strong);
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.025em;
+  line-height: 1.3;
+}
+
+.metadataGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 25px 48px;
+  margin-top: 28px;
+}
+
+.metadataGrid div {
+  min-width: 0;
+}
+
+.metadataGrid dt {
+  margin-bottom: 8px;
+  color: var(--color-muted);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.metadataGrid dd {
+  overflow-wrap: anywhere;
+  color: var(--color-text-strong);
+  font-size: 15px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.5;
+}
+
+.overview {
+  padding: 26px 30px 28px;
+  border-color: color-mix(in srgb, var(--color-primary) 18%, var(--color-border-subtle));
+  background: linear-gradient(
+    180deg,
+    var(--color-surface-raised) 0%,
+    color-mix(in srgb, var(--color-primary-soft) 33%, var(--color-surface-raised)) 100%
+  );
+}
+
+.overview[data-status='failed'],
+.overview[data-status='cancelled'] {
+  border-color: color-mix(in srgb, var(--color-danger) 32%, var(--color-border-subtle));
+  background: linear-gradient(
+    180deg,
+    var(--color-surface-raised) 0%,
+    color-mix(in srgb, var(--color-danger-soft) 28%, var(--color-surface-raised)) 100%
+  );
+}
+
+.progressHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.researchPill {
+  padding: 8px 12px;
+  border-color: transparent;
+  background: color-mix(in srgb, var(--color-primary-soft) 82%, transparent);
+}
+
+.overview[data-status='failed'] .researchPill,
+.overview[data-status='cancelled'] .researchPill {
+  border-color: color-mix(in srgb, var(--color-danger) 30%, transparent);
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+.progressPercent {
+  display: block;
+  margin: 18px 0 14px;
+  color: var(--color-primary);
+  font-size: 46px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.overview[data-status='failed'] .progressPercent,
+.overview[data-status='cancelled'] .progressPercent {
+  color: var(--color-danger);
+}
+
+.progressTrack {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 8px;
+  overflow: hidden;
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--color-border) 45%, var(--color-surface-active));
+}
+
+.progressFill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    var(--color-primary),
+    color-mix(in srgb, var(--color-primary) 70%, #20b58a)
+  );
+  transition: width 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.overview[data-status='failed'] .progressFill,
+.overview[data-status='cancelled'] .progressFill {
+  background: linear-gradient(
+    90deg,
+    var(--color-danger),
+    color-mix(in srgb, var(--color-danger) 70%, #ff8a8a)
+  );
+}
+
+.overview[data-running='true'] .progressTrack::after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -18%;
+  width: 18%;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, #ffffff 55%, transparent),
+    transparent
+  );
+  content: '';
+  animation: progressTrackSweep 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.progressMeta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  margin-top: 26px;
+}
+
+.metaItem {
+  display: flex;
+  min-width: 0;
+  min-height: 56px;
+  align-items: center;
+  gap: 14px;
+}
+
+.metaItem + .metaItem {
+  padding-left: 32px;
+  border-left: 1px solid var(--color-border-subtle);
+}
+
+.metaIcon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 13px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.metaCopy {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.metaLabel {
+  color: var(--color-muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.metaValue {
+  overflow: hidden;
+  color: var(--color-text-strong);
+  font-size: 15px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.45;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.durationHint {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border-subtle);
+  color: var(--color-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.durationHint .referenceIcon {
+  flex: 0 0 auto;
+  color: var(--color-muted);
+}
+
+.overviewBody {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.partialNotice,
+.failureReason {
+  font-size: var(--font-size-sm);
+  line-height: var(--leading-normal);
+}
+
+.partialNotice {
+  color: var(--color-warning);
+}
+
+.failureReason {
+  color: var(--color-danger);
+}
+
+.resultActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -4px;
+}
+
+.resultLink,
+.primaryAction,
+.agentDetailLink,
+.retryButton {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  transition:
+    border-color 170ms ease,
+    background-color 170ms ease,
+    color 170ms ease,
+    transform 170ms ease;
+}
+
+.resultLink,
+.primaryAction {
+  padding: 0 15px;
+  border: 1px solid var(--color-primary);
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+}
+
+.resultLink:hover,
+.primaryAction:hover {
+  border-color: var(--color-primary-strong);
+  background: var(--color-primary-strong);
+  color: var(--color-primary-contrast);
+  transform: translateY(-1px);
+}
+
+.resultLink:disabled {
+  cursor: wait;
+  opacity: 0.72;
+  transform: none;
+}
+
+.reportPending {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-muted);
+  font-size: var(--font-size-sm);
+}
+
+.reportPending svg {
+  flex: 0 0 auto;
+}
+
+.agents {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin: 0 0 12px;
+}
+
+.agents .sectionTitle {
+  font-size: 24px;
+}
+
+.sectionDescription {
+  margin-top: 5px;
+  color: var(--color-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.capabilityList {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.capabilityItem {
+  border-bottom: 1px solid var(--color-border-subtle);
+  background: var(--color-surface-raised);
+}
+
+.capabilityItem:last-child {
+  border-bottom: 0;
+}
+
+.capabilityRowShell {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: stretch;
+  transition: background-color 180ms ease;
+}
+
+.capabilityToggle {
+  position: relative;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 46px minmax(150px, 0.8fr) minmax(260px, 1.45fr) 34px;
+  align-items: center;
+  gap: 14px;
+  min-height: 86px;
+  padding: 14px 18px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  transition: background-color 170ms ease;
+}
+
+.capabilityToggle:hover {
+  background: var(--color-surface-hover);
+}
+
+.capabilityRowShell:focus-within {
+  background: color-mix(in srgb, var(--color-primary-soft) 32%, var(--color-surface-raised));
+}
+
+.capabilityToggle::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 3px;
+  border-radius: 0 var(--radius-full) var(--radius-full) 0;
+  background: var(--color-primary);
+  content: '';
+  opacity: 0;
+  transform: scaleY(0.72);
+  transform-origin: center;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.capabilityToggle[aria-expanded='true']::before,
+.capabilityToggle:focus-visible::before {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .capabilityRowShell:hover {
+    background: color-mix(in srgb, var(--color-primary-soft) 32%, var(--color-surface-raised));
+  }
+
+  .capabilityToggle:hover {
+    background: transparent;
+  }
+
+  .capabilityToggle:hover .capabilitySummary strong {
+    color: var(--color-primary-strong);
+  }
+
+  .capabilityToggle:hover .capabilityChevron {
+    background: var(--color-primary);
+    color: var(--color-primary-contrast);
+    transform: translateX(3px);
+  }
+
+  .capabilityItem[data-expanded='true'] .capabilityToggle:hover .capabilityChevron {
+    transform: translateX(3px) rotate(180deg);
+  }
+}
+
+.capabilityIcon {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border-radius: 13px;
+}
+
+.capabilityIcon[data-role='fundamentals'] {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.capabilityIcon[data-role='team'] {
+  background: color-mix(in srgb, var(--color-chart-3) 15%, var(--color-surface));
+  color: var(--color-chart-3);
+}
+
+.capabilityIcon[data-role='management'] {
+  background: color-mix(in srgb, #8b5cf6 14%, var(--color-surface));
+  color: #7c4dd9;
+}
+
+.capabilityIcon[data-role='synthesis'] {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+}
+
+.capabilitySummary {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.capabilitySummary strong,
+.capabilitySummary span {
+  min-width: 0;
+}
+
+.capabilitySummary strong {
+  overflow: hidden;
+  color: var(--color-text-strong);
+  font-size: 15px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.capabilityStateLine {
+  display: flex;
+  align-items: center;
+}
+
+.capabilityStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--color-muted);
+  font-size: 13px;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+.capabilityStatus[data-status='running'] {
+  color: var(--color-primary);
+}
+
+.capabilityStatus[data-status='succeeded'] {
+  color: var(--color-success);
+}
+
+.capabilityStatus[data-status='failed'] {
+  color: var(--color-danger);
+}
+
+.capabilityStatusDot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+  border-radius: var(--radius-full);
+  background: currentColor;
+}
+
+.capabilityStatus[data-status='running'] .capabilityStatusDot {
+  animation: statusPulse 1.7s ease-in-out infinite;
+}
+
+.capabilityLatestWrap {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 5px;
+  padding-left: 24px;
+  border-left: 1px solid var(--color-border-subtle);
+}
+
+.capabilityLatestLabel {
+  color: var(--color-muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.capabilityLatest {
+  overflow: hidden;
+  color: var(--color-text);
+  font-size: 14px;
+  line-height: 1.45;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.capabilityChevron {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-active);
+  color: var(--color-muted);
+  transition:
+    color 170ms ease,
+    background-color 170ms ease,
+    transform 220ms ease;
+}
+
+.capabilityItem[data-expanded='true'] .capabilityChevron {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  transform: rotate(180deg);
+}
+
+.capabilityActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  padding: 0 16px 0 0;
+}
+
+.retryButtonTooltip {
+  display: inline-flex;
+}
+
+.agentDetailLink,
+.retryButton {
+  padding: 0 10px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+}
+
+.agentDetailLink:hover,
+.retryButton:hover:not(:disabled) {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-hover);
+}
+
+.retryButton {
+  color: var(--color-danger);
+}
+
+.retryButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.errorToast {
+  position: fixed;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  left: 50%;
+  z-index: var(--z-toast);
+  display: flex;
+  width: fit-content;
+  max-width: calc(100vw - 32px);
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: #1f1f1f;
+  box-shadow: var(--shadow-lg);
+  color: #ffffff;
+  font-size: var(--font-size-sm);
+  line-height: var(--leading-normal);
+  pointer-events: none;
+  text-align: center;
+  animation: errorToastEnter 160ms ease-out both;
+  transform: translateX(-50%);
+}
+
+.errorToast svg {
+  flex: 0 0 auto;
+  color: #ffffff;
+}
+
+@keyframes errorToastEnter {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.emptyAgents {
+  padding: 24px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 14px;
+  background: var(--color-surface-raised);
+  color: var(--color-muted);
+  font-size: var(--font-size-sm);
+}
+
+.stages {
+  padding: 24px 30px;
+}
+
+.stageList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stageList li {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 12px 14px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-subtle);
+}
+
+.stageList span,
+.stageList small {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stageList span {
+  color: var(--color-text-strong);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.stageList small {
+  color: var(--color-muted);
+  font-size: var(--font-size-xs);
+}
+
+.referenceIcon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+}
+
+.capabilityChevron .referenceIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.spin {
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes statusPulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.86);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes progressTrackSweep {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  75%,
+  100% {
+    transform: translateX(650%);
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 900px) {
+  .capabilityToggle {
+    grid-template-columns: 44px minmax(130px, 0.75fr) minmax(190px, 1.3fr) 32px;
+    gap: 12px;
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .capabilityLatestWrap {
+    padding-left: 16px;
+  }
+
+  .capabilityActions {
+    padding-right: 12px;
+  }
+}
+
+@media (max-width: 720px) {
+  .main {
+    width: min(calc(100% - 32px), 640px);
+    padding-top: 24px;
+  }
+
+  .back {
+    display: none;
+  }
+
+  .header,
+  .sectionHeader,
+  .progressHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .headerActions {
+    align-self: stretch;
+    justify-content: flex-start;
+  }
+
+  .taskStatus,
+  .researchPill {
+    align-self: flex-start;
+  }
+
+  .title {
+    max-width: 100%;
+  }
+
+  .details,
+  .overview,
+  .stages {
+    padding: 22px 20px 24px;
+  }
+
+  .metadataGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 24px;
+    margin-top: 24px;
+  }
+
+  .progressMeta {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .metaItem + .metaItem {
+    padding-top: 18px;
+    padding-left: 0;
+    border-top: 1px solid var(--color-border-subtle);
+    border-left: 0;
+  }
+
+  .capabilityRowShell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .capabilityToggle {
+    grid-template-columns: 40px minmax(0, 1fr) 30px;
+    min-height: 0;
+    gap: 12px;
+    padding: 16px 14px;
+  }
+
+  .capabilityIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+  }
+
+  .capabilityLatestWrap {
+    grid-column: 2 / -1;
+    padding: 9px 0 0;
+    border-left: 0;
+  }
+
+  .capabilityLatest {
+    white-space: normal;
+  }
+
+  .capabilityActions {
+    justify-content: flex-start;
+    padding: 0 14px 14px 66px;
+  }
+
+  .stageList {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .main {
+    width: min(calc(100% - 24px), 640px);
+  }
+
+  .title {
+    font-size: 31px;
+  }
+
+  .metadataGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .progressPercent {
+    font-size: 42px;
+  }
+
+  .capabilityToggle {
+    grid-template-columns: 36px minmax(0, 1fr) 28px;
+    gap: 10px;
+  }
+
+  .capabilityIcon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .capabilityActions {
+    padding-left: 60px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .resultLink,
+  .primaryAction,
+  .capabilityRowShell,
+  .capabilityToggle,
+  .capabilityChevron,
+  .progressFill {
+    transition: none;
+  }
+
+  .capabilityToggle::before {
+    transition: none;
+  }
+
+  .overview[data-running='true'] .progressTrack::after,
+  .capabilityStatus[data-status='running'] .capabilityStatusDot,
+  .spin,
+  .errorToast {
+    animation: none;
+  }
+
+  .resultLink:hover,
+  .primaryAction:hover {
+    transform: none;
+  }
+}

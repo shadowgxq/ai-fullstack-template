@@ -1,0 +1,249 @@
+{
+  "status": "pass",
+  "verified_at": "2026-09-16",
+  "scope": "document static checks only; not skill execution or product runtime",
+  "markdown_files_checked": 11,
+  "local_links_checked": 22,
+  "system_requirements": 26,
+  "acceptance_clauses": 78,
+  "mermaid_source_diagrams": 8,
+  "explicit_input_sources": 3,
+  "input_locator_checks": 38,
+  "locator_checks": [
+    {
+      "input": "core-runtime-design",
+      "locator": "heading:1. 实现目标、工程边界与首期剖面",
+      "exists": true
+    },
+    {
+      "input": "core-runtime-design",
+      "locator": "heading:3. 技术选型与依赖方向",
+      "exists": true
+    },
+    {
+      "input": "core-runtime-design",
+      "locator": "heading:5. 公共数据契约",
+      "exists": true
+    },
+    {
+      "input": "research-domain-design",
+      "locator": "heading:1. 需求依据、产品边界与本轮调整",
+      "exists": true
+    },
+    {
+      "input": "research-domain-design",
+      "locator": "heading:3. 输入、模式、服务接入与小状态",
+      "exists": true
+    },
+    {
+      "input": "system-integration-detail",
+      "locator": "heading:0. 共享合同与适用性",
+      "exists": true
+    },
+    {
+      "input": "core-runtime-design",
+      "locator": "heading:6. Runner 接口与状态转换",
+      "exists": true
+    },
+    {
+      "input": "core-runtime-design",
+      "locator": "heading:7. 持久化、事务和恢复",
+      "exists": true
+    },
+    {
+      "input": "core-runtime-design",
+      "locator": "heading:15. 应用宿主、HTTP 与前端接入合同",
+      "exists": true
+    },
+    {
+      "input": "core-runtime-design",
+      "locator": "heading:7. 持久化、事务和恢复",
+      "exists": true
+    },
+    {
+      "input": "core-runtime-design",
+      "locator": "heading:8. 操作、重试与预算",
+      "exists": true
+    },
+    {
+      "input": "core-runtime-design",
+      "locator": "heading:9. 模型、工具、Skill 和上下文接口",
+      "exists": true
+    },
+    {
+      "input": "core-runtime-design",
+      "locator": "heading:10. 事件与 Langfuse",
+      "exists": true
+    },
+    {
+      "input": "core-runtime-design",
+      "locator": "heading:12. 后续实现验收要求",
+      "exists": true
+    },
+    {
+      "input": "core-runtime-design",
+      "locator": "heading:13. 跨版本评估与优化依据",
+      "exists": true
+    },
+    {
+      "input": "core-runtime-design",
+      "locator": "heading:15. 应用宿主、HTTP 与前端接入合同",
+      "exists": true
+    },
+    {
+      "input": "research-domain-design",
+      "locator": "heading:4. 公司、证券、人物与三市场适配",
+      "exists": true
+    },
+    {
+      "input": "research-domain-design",
+      "locator": "heading:5. 时间、研究范围与信息丰富度",
+      "exists": true
+    },
+    {
+      "input": "research-domain-design",
+      "locator": "heading:6. 取证架构：发现、读取、抽取分别落地",
+      "exists": true
+    },
+    {
+      "input": "research-domain-design",
+      "locator": "heading:7. 数据核验与来源独立性",
+      "exists": true
+    },
+    {
+      "input": "research-domain-design",
+      "locator": "heading:8. 财务对象与确定性计算",
+      "exists": true
+    },
+    {
+      "input": "research-domain-design",
+      "locator": "heading:9. 标准工作流与 P0 可实现闭环",
+      "exists": true
+    },
+    {
+      "input": "research-domain-design",
+      "locator": "heading:13. 报告、审计与结果合同",
+      "exists": true
+    },
+    {
+      "input": "research-domain-design",
+      "locator": "heading:14. 修订、依赖失效与恢复",
+      "exists": true
+    },
+    {
+      "input": "research-domain-design",
+      "locator": "heading:15. 业务模块、方法资源与接入文件",
+      "exists": true
+    },
+    {
+      "input": "research-domain-design",
+      "locator": "heading:15. 业务模块、方法资源与接入文件",
+      "exists": true
+    },
+    {
+      "input": "research-domain-design",
+      "locator": "heading:18. ai-berkshire 源码抽离与 LangGraph 迁移方案",
+      "exists": true
+    },
+    {
+      "input": "research-domain-design",
+      "locator": "heading:13. 报告、审计与结果合同",
+      "exists": true
+    },
+    {
+      "input": "research-domain-design",
+      "locator": "heading:16. 统一实施顺序与可验收的里程碑",
+      "exists": true
+    },
+    {
+      "input": "research-domain-design",
+      "locator": "heading:17. 开发前配置、未解决事项与上线门槛",
+      "exists": true
+    },
+    {
+      "input": "research-domain-design",
+      "locator": "heading:19. 业务页面、API 投影与研究可解释性",
+      "exists": true
+    },
+    {
+      "input": "system-integration-detail",
+      "locator": "heading:1. 应用数据与约束",
+      "exists": true
+    },
+    {
+      "input": "system-integration-detail",
+      "locator": "heading:2. 事务与恢复协议",
+      "exists": true
+    },
+    {
+      "input": "system-integration-detail",
+      "locator": "heading:3. HTTP 与 DTO 合同",
+      "exists": true
+    },
+    {
+      "input": "system-integration-detail",
+      "locator": "heading:4. 事件与快照算法",
+      "exists": true
+    },
+    {
+      "input": "system-integration-detail",
+      "locator": "heading:5. 前端迁移与访问控制",
+      "exists": true
+    },
+    {
+      "input": "system-integration-detail",
+      "locator": "heading:6. 启动、存储与升级协议",
+      "exists": true
+    },
+    {
+      "input": "system-integration-detail",
+      "locator": "heading:7. 故障注入与验收接缝",
+      "exists": true
+    }
+  ],
+  "parsed_json_yaml_fences": [
+    {
+      "file": "MANAGER_HANDOFF.md",
+      "language": "yaml"
+    },
+    {
+      "file": "docs/design/system-integration-details.md",
+      "language": "json"
+    },
+    {
+      "file": "docs/design/system-integration-details.md",
+      "language": "json"
+    },
+    {
+      "file": "docs/design/system-integration-details.md",
+      "language": "json"
+    },
+    {
+      "file": "docs/design/system-integration-details.md",
+      "language": "json"
+    }
+  ],
+  "baseline_hashes": [
+    {
+      "name": "AI-Agent通用模板_技术设计与实现规范_v1.1.md",
+      "sha256": "a7ff6aaf7f87a7521988cc9eb2d1e7c598e4f0d4f7f7951c69e361f0dc6921d2",
+      "unchanged": true
+    },
+    {
+      "name": "AI公司研究_业务架构与接入设计_v1.1.md",
+      "sha256": "1482b9ecab985a15bed217d5eae5f6ebafe80b848dfc974554c0ff6e41cffd1d",
+      "unchanged": true
+    }
+  ],
+  "errors": [],
+  "warnings": [],
+  "not_run": [
+    "Manager skill/structural validators in target repo",
+    "full-source semantic coverage by actual Manager preview",
+    "application or PostgreSQL tests",
+    "model/source live calls",
+    "browser/visual regression",
+    "performance/backup drills",
+    "Mermaid renderer or parser"
+  ]
+}

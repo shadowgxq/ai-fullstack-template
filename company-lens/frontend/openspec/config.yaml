@@ -1,0 +1,8 @@
+schema: spec-driven
+
+language: |
+  use Chinese for communication
+  and explanation by default. Keep technical terms, identifiers, commands,
+  paths, filenames, environment variables, config keys, error messages,
+  logs, and URLs unchanged. If clarification is helpful, explain in
+  Chinese while preserving the original term.

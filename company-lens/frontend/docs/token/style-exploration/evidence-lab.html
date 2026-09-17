@@ -1,0 +1,1299 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Evidence Lab - AI Berkshire 风格审核</title>
+    <script>
+      (() => {
+        const params = new URLSearchParams(window.location.search);
+        const requested = params.get('theme');
+        if (params.get('style') === 'educational') {
+          document.documentElement.dataset.style = 'educational';
+        }
+        let stored = null;
+        try {
+          stored = window.localStorage.getItem('ai-berkshire-style-review-theme');
+        } catch {
+          stored = null;
+        }
+        const preferred = window.matchMedia?.('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light';
+        document.documentElement.dataset.theme =
+          requested === 'dark' || requested === 'light'
+            ? requested
+            : stored === 'dark' || stored === 'light'
+              ? stored
+              : preferred;
+      })();
+    </script>
+    <link rel="stylesheet" href="./base.css" />
+    <link rel="stylesheet" href="./evidence-lab.css" />
+    <script>
+      if (document.documentElement.dataset.style === 'educational') {
+        const styleLink = document.createElement('link');
+        styleLink.rel = 'stylesheet';
+        styleLink.href = './evidence-lab-educational.css';
+        document.head.append(styleLink);
+      }
+    </script>
+  </head>
+  <body class="lab-page">
+    <svg class="visually-hidden" aria-hidden="true">
+      <symbol id="icon-moon" viewBox="0 0 24 24">
+        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+      </symbol>
+      <symbol id="icon-sun" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="4" />
+        <path
+          d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+        />
+      </symbol>
+      <symbol id="icon-plus" viewBox="0 0 24 24">
+        <path d="M5 12h14M12 5v14" />
+      </symbol>
+      <symbol id="icon-search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="7" />
+        <path d="m20 20-4-4" />
+      </symbol>
+      <symbol id="icon-arrow" viewBox="0 0 24 24">
+        <path d="M5 12h14M13 6l6 6-6 6" />
+      </symbol>
+      <symbol id="icon-share" viewBox="0 0 24 24">
+        <circle cx="18" cy="5" r="3" />
+        <circle cx="6" cy="12" r="3" />
+        <circle cx="18" cy="19" r="3" />
+        <path d="m8.6 10.5 6.8-4M8.6 13.5l6.8 4" />
+      </symbol>
+      <symbol id="icon-user" viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="4" />
+        <path d="M4 21a8 8 0 0 1 16 0" />
+      </symbol>
+      <symbol id="icon-file" viewBox="0 0 24 24">
+        <path d="M6 3h8l4 4v14H6zM14 3v5h5M9 13h6M9 17h6" />
+      </symbol>
+      <symbol id="icon-refresh" viewBox="0 0 24 24">
+        <path d="M20 11a8 8 0 0 0-14.8-4L3 10M4 13a8 8 0 0 0 14.8 4L21 14M3 4v6h6M21 20v-6h-6" />
+      </symbol>
+    </svg>
+
+    <a class="skip-link" href="#main-content">跳到证据工作台</a>
+
+    <header class="review-bar app-toolbar">
+      <button
+        class="toolbar-brand"
+        type="button"
+        data-view="result"
+        aria-label="AI Berkshire 研究结果"
+      >
+        <span class="toolbar-mark" aria-hidden="true"
+          ><svg class="icon"><use href="#icon-search" /></svg
+        ></span>
+        <span>AI Berkshire</span>
+      </button>
+      <nav class="product-nav" aria-label="研究工作流">
+        <button type="button" data-view="research">开始研究</button>
+        <button type="button" data-view="progress">研究进度</button>
+        <button type="button" data-view="result" aria-current="page">研究结果</button>
+        <button type="button" data-view="history">研究记录</button>
+      </nav>
+      <div class="toolbar-actions">
+        <div class="language-switch" role="group" aria-label="语言">
+          <button type="button" aria-pressed="true">中</button
+          ><button type="button" aria-pressed="false">EN</button>
+        </div>
+        <button
+          class="icon-action theme-toggle"
+          type="button"
+          data-theme-toggle
+          aria-label="切换主题"
+        >
+          <svg class="icon" data-theme-icon aria-hidden="true"><use href="#icon-moon" /></svg>
+          <span class="visually-hidden" data-theme-label>切换为深色</span>
+        </button>
+        <button class="login-action" type="button" data-dialog-open="login-dialog">
+          <svg class="icon" aria-hidden="true"><use href="#icon-user" /></svg><span>登录</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="main-content" class="lab-main" data-view-panel="result">
+      <header class="lab-header">
+        <div class="lab-brand">
+          <span class="lab-mark" aria-hidden="true"
+            ><span></span><span></span><span></span><span></span
+          ></span>
+          <div>
+            <span class="lab-eyebrow">AI Berkshire / Evidence-first research</span>
+            <h1>Company Evidence Lab</h1>
+            <p>把投资结论拆成可以逐项核验的证据账本</p>
+          </div>
+        </div>
+        <div class="header-tools">
+          <div class="header-status" aria-label="研究元数据">
+            <span><strong>A</strong> 信息评级</span>
+            <span><strong>27</strong> 证据项</span>
+            <span><strong>07.25</strong> 数据日期</span>
+          </div>
+          <button class="secondary-button" type="button" data-dialog-open="share-dialog">
+            <svg class="icon" aria-hidden="true"><use href="#icon-share" /></svg>分享
+          </button>
+        </div>
+      </header>
+
+      <section class="lab-hero" aria-labelledby="company-title">
+        <div class="company-summary">
+          <div>
+            <span class="company-meta">腾讯控股 / 0700.HK / 专家团队研究</span>
+            <h2 id="company-title">好生意已经确认，价格仍待验证。</h2>
+            <p>
+              核心业务质量和现金流得到较强证据支持；当前投资判断主要受估值与新业务回报不确定性约束。点击下方结论可展开证据、来源与限制。
+            </p>
+          </div>
+          <div class="hero-actions">
+            <div class="decision-seal" aria-label="投资结论：观望">观望</div>
+            <button class="text-button" type="button" data-dialog-open="company-dialog">
+              查看公司详情 <svg class="icon" aria-hidden="true"><use href="#icon-arrow" /></svg>
+            </button>
+          </div>
+        </div>
+
+        <aside class="confidence-panel" aria-labelledby="confidence-title">
+          <span class="section-label">Confidence map</span>
+          <h2 id="confidence-title">判断可信度</h2>
+          <div class="confidence-metric">
+            <div class="confidence-heading">
+              <span class="metric-label">AI 分析置信度</span><strong>82%</strong>
+            </div>
+            <div class="confidence-track" aria-hidden="true">
+              <div class="confidence-fill" style="width: 82%"></div>
+            </div>
+          </div>
+          <div class="confidence-metric">
+            <div class="confidence-heading">
+              <span class="metric-label">公司投资确定性</span><strong>68%</strong>
+            </div>
+            <div class="confidence-track" aria-hidden="true">
+              <div class="confidence-fill" style="width: 68%"></div>
+            </div>
+          </div>
+          <p class="demo-notice">视觉演示数据，仅用于风格审核，不构成投资建议。</p>
+        </aside>
+      </section>
+
+      <div class="workspace-grid">
+        <section class="claim-workspace" aria-labelledby="claims-title">
+          <header class="workspace-heading">
+            <div>
+              <span class="section-label">Claim ledger / 06 items</span>
+              <h2 id="claims-title">结论与证据账本</h2>
+              <p>筛选证据状态，展开任一结论查看来源和使用限制。</p>
+            </div>
+            <div class="filter-group" role="group" aria-label="按证据状态筛选">
+              <button class="filter-button" type="button" data-filter="all" aria-pressed="true">
+                全部 6
+              </button>
+              <button
+                class="filter-button"
+                type="button"
+                data-filter="verified"
+                aria-pressed="false"
+              >
+                已验证 3
+              </button>
+              <button
+                class="filter-button"
+                type="button"
+                data-filter="inferred"
+                aria-pressed="false"
+              >
+                有据推算 2
+              </button>
+              <button
+                class="filter-button"
+                type="button"
+                data-filter="missing"
+                aria-pressed="false"
+              >
+                信息缺失 1
+              </button>
+            </div>
+          </header>
+
+          <div class="claim-table-header" aria-hidden="true">
+            <span>编号</span><span>关键结论</span><span>证据状态</span><span>置信度</span
+            ><span></span>
+          </div>
+
+          <div class="claim-list">
+            <article class="claim-item" data-claim-state="verified">
+              <button
+                class="claim-row-summary"
+                type="button"
+                aria-expanded="true"
+                aria-controls="claim-detail-01"
+              >
+                <span class="claim-id">CL-01</span>
+                <span class="claim-title">核心业务仍具备强网络效应与定价能力</span>
+                <span class="evidence-state" data-state="verified">已验证事实</span>
+                <span class="claim-confidence">92%</span>
+                <span class="expand-icon"
+                  ><svg class="icon" aria-hidden="true"><use href="#icon-plus" /></svg
+                ></span>
+              </button>
+              <div class="claim-detail" id="claim-detail-01">
+                <div>
+                  <span class="section-label">Why it matters</span>
+                  <h3>商业质量的核心证据</h3>
+                  <p>
+                    用户关系链、内容分发与支付闭环共同降低获客成本，并让广告主能够完成从触达到交易的闭环验证。
+                  </p>
+                </div>
+                <div class="source-record">
+                  <span class="source-label">Primary source / verified</span>
+                  <strong>2025 年度业绩公告与电话会</strong>
+                  <span>发布时间 2026.03.18 · 已与交易所披露交叉核验</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="claim-item" data-claim-state="verified">
+              <button
+                class="claim-row-summary"
+                type="button"
+                aria-expanded="false"
+                aria-controls="claim-detail-02"
+              >
+                <span class="claim-id">CL-02</span>
+                <span class="claim-title">自由现金流能够覆盖回购与核心投入</span>
+                <span class="evidence-state" data-state="verified">已验证事实</span>
+                <span class="claim-confidence">89%</span>
+                <span class="expand-icon"
+                  ><svg class="icon" aria-hidden="true"><use href="#icon-plus" /></svg
+                ></span>
+              </button>
+              <div class="claim-detail" id="claim-detail-02" hidden>
+                <div>
+                  <span class="section-label">Why it matters</span>
+                  <h3>资本配置具备持续性</h3>
+                  <p>
+                    近三年经营现金流与资本开支记录支持回购规模，尚未发现依赖举债维持股东回报的情况。
+                  </p>
+                </div>
+                <div class="source-record">
+                  <span class="source-label">Primary source / verified</span>
+                  <strong>现金流量表与交易所回购记录</strong>
+                  <span>数据期间 2023–2026 · 逐笔记录已核对</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="claim-item" data-claim-state="inferred">
+              <button
+                class="claim-row-summary"
+                type="button"
+                aria-expanded="false"
+                aria-controls="claim-detail-03"
+              >
+                <span class="claim-id">CL-03</span>
+                <span class="claim-title">视频号广告仍有两年以上结构性增长空间</span>
+                <span class="evidence-state" data-state="inferred">有据推算</span>
+                <span class="claim-confidence">74%</span>
+                <span class="expand-icon"
+                  ><svg class="icon" aria-hidden="true"><use href="#icon-plus" /></svg
+                ></span>
+              </button>
+              <div class="claim-detail" id="claim-detail-03" hidden>
+                <div>
+                  <span class="section-label">Inference method</span>
+                  <h3>方向可信，斜率待验证</h3>
+                  <p>
+                    结合公司披露、行业广告预算迁移和同类平台商业化效率进行区间推算，不将单一季度增长外推为长期结论。
+                  </p>
+                </div>
+                <div class="source-record">
+                  <span class="source-label">Two-source estimate</span>
+                  <strong>公司电话会 / 行业广告样本</strong>
+                  <span>数据期间 2025 Q4–2026 Q2 · 数值仅使用区间</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="claim-item" data-claim-state="inferred">
+              <button
+                class="claim-row-summary"
+                type="button"
+                aria-expanded="false"
+                aria-controls="claim-detail-04"
+              >
+                <span class="claim-id">CL-04</span>
+                <span class="claim-title">中性价值区间位于 HK$ 360–410</span>
+                <span class="evidence-state" data-state="inferred">有据推算</span>
+                <span class="claim-confidence">71%</span>
+                <span class="expand-icon"
+                  ><svg class="icon" aria-hidden="true"><use href="#icon-plus" /></svg
+                ></span>
+              </button>
+              <div class="claim-detail" id="claim-detail-04" hidden>
+                <div>
+                  <span class="section-label">Valuation method</span>
+                  <h3>估值依赖利润率与回购假设</h3>
+                  <p>区间综合历史估值、同行比较与反向 DCF；对广告利润率改善和回购持续性较敏感。</p>
+                </div>
+                <div class="source-record">
+                  <span class="source-label">Model inputs</span>
+                  <strong>三情景估值输入表</strong>
+                  <span>基准日 2026.07.25 · 港币口径 · 未包含实时行情</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="claim-item" data-claim-state="missing">
+              <button
+                class="claim-row-summary"
+                type="button"
+                aria-expanded="false"
+                aria-controls="claim-detail-05"
+              >
+                <span class="claim-id">CL-05</span>
+                <span class="claim-title">大模型投入可以在三年内形成可量化回报</span>
+                <span class="evidence-state" data-state="missing">信息缺失</span>
+                <span class="claim-confidence">38%</span>
+                <span class="expand-icon"
+                  ><svg class="icon" aria-hidden="true"><use href="#icon-plus" /></svg
+                ></span>
+              </button>
+              <div class="claim-detail" id="claim-detail-05" hidden>
+                <div>
+                  <span class="section-label">Evidence gap</span>
+                  <h3>缺少独立披露的投入回报数据</h3>
+                  <p>
+                    现有披露不足以拆分相关资本开支、收入贡献和增量利润，不能输出伪精确的回报周期。
+                  </p>
+                </div>
+                <div class="source-record">
+                  <span class="source-label">Next validation</span>
+                  <strong>等待业务分部披露与季度电话会</strong>
+                  <span>缺口状态：开放 · 下次复核 2026 Q3</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="claim-item" data-claim-state="verified">
+              <button
+                class="claim-row-summary"
+                type="button"
+                aria-expanded="false"
+                aria-controls="claim-detail-06"
+              >
+                <span class="claim-id">CL-06</span>
+                <span class="claim-title">当前价格未提供足够安全边际</span>
+                <span class="evidence-state" data-state="verified">已验证事实</span>
+                <span class="claim-confidence">85%</span>
+                <span class="expand-icon"
+                  ><svg class="icon" aria-hidden="true"><use href="#icon-plus" /></svg
+                ></span>
+              </button>
+              <div class="claim-detail" id="claim-detail-06" hidden>
+                <div>
+                  <span class="section-label">Decision rule</span>
+                  <h3>价格高于中性区间下沿</h3>
+                  <p>基准日价格与三情景估值对照后，预期回报尚不足以覆盖外部风险和模型误差。</p>
+                </div>
+                <div class="source-record">
+                  <span class="source-label">Verified input</span>
+                  <strong>基准日收盘价与估值模型</strong>
+                  <span>数据日期 2026.07.25 · 价格仅作演示</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <aside class="workspace-side">
+          <section class="valuation-panel" aria-labelledby="valuation-title">
+            <header class="side-heading">
+              <span class="section-label">Price map</span>
+              <h2 id="valuation-title">安全边际地图</h2>
+            </header>
+            <div class="valuation-plot">
+              <div class="valuation-scale" aria-label="三情景估值区间，演示价格位于中性区间">
+                <span class="valuation-zone" data-zone="risk"></span>
+                <span class="valuation-zone" data-zone="neutral"></span>
+                <span class="valuation-zone" data-zone="upside"></span>
+                <span class="price-marker" title="演示价格"></span>
+              </div>
+              <div class="valuation-labels">
+                <span>280</span><span>360</span><span>410</span><span>520</span>
+              </div>
+              <p class="valuation-callout">当前演示价格接近中性区间上部，结论为“观望”。</p>
+            </div>
+          </section>
+
+          <section class="watch-panel" aria-labelledby="watch-title">
+            <header class="side-heading">
+              <span class="section-label">Watch signals</span>
+              <h2 id="watch-title">后续观察信号</h2>
+            </header>
+            <ol class="watch-list">
+              <li>
+                <span class="watch-index">01</span
+                ><span><strong>广告利润率</strong><span>连续两个季度高于中性假设</span></span>
+              </li>
+              <li>
+                <span class="watch-index">02</span
+                ><span><strong>回购节奏</strong><span>是否继续覆盖股权激励稀释</span></span>
+              </li>
+              <li>
+                <span class="watch-index">03</span
+                ><span><strong>大模型投入</strong><span>出现可独立验证的收入或效率贡献</span></span>
+              </li>
+            </ol>
+          </section>
+        </aside>
+      </div>
+
+      <section class="agent-report-strip" aria-labelledby="result-agents-title">
+        <header class="workspace-heading">
+          <div>
+            <span class="section-label">Agent reports / 05 ready</span>
+            <h2 id="result-agents-title">专业 Agent 研究输出</h2>
+            <p>查看各 Agent 的事实、分析判断、待验证风险和证据来源。</p>
+          </div>
+        </header>
+        <div class="report-link-grid">
+          <button type="button" data-agent-report="行业研究">
+            <span>01</span><strong>行业研究</strong><small>已完成 · 8 个来源</small
+            ><svg class="icon" aria-hidden="true"><use href="#icon-arrow" /></svg>
+          </button>
+          <button type="button" data-agent-report="瓶颈洞察">
+            <span>02</span><strong>瓶颈洞察</strong><small>已完成 · 5 个来源</small
+            ><svg class="icon" aria-hidden="true"><use href="#icon-arrow" /></svg>
+          </button>
+          <button type="button" data-agent-report="质量筛选">
+            <span>03</span><strong>质量筛选</strong><small>已完成 · 6 个来源</small
+            ><svg class="icon" aria-hidden="true"><use href="#icon-arrow" /></svg>
+          </button>
+          <button type="button" data-agent-report="行业漏斗">
+            <span>04</span><strong>行业漏斗</strong><small>已完成 · 4 个来源</small
+            ><svg class="icon" aria-hidden="true"><use href="#icon-arrow" /></svg>
+          </button>
+          <button type="button" data-agent-report="投资检查清单">
+            <span>05</span><strong>投资检查清单</strong><small>已完成 · 4 个来源</small
+            ><svg class="icon" aria-hidden="true"><use href="#icon-arrow" /></svg>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <main class="lab-main workflow-page" data-view-panel="research" hidden>
+      <header class="page-intro">
+        <span class="section-label">新建研究项目</span>
+        <h1>你现在想研究什么？</h1>
+        <p>输入你的研究问题，也可以输入公司名或股票代码。</p>
+      </header>
+      <section class="launch-layout">
+        <form class="launch-panel" data-research-form novalidate>
+          <label for="research-query">研究对象</label>
+          <div class="query-shell">
+            <svg class="icon" aria-hidden="true"><use href="#icon-search" /></svg>
+            <textarea
+              id="research-query"
+              rows="2"
+              maxlength="200"
+              placeholder="例如：腾讯、NVDA 或美团"
+              aria-describedby="query-help query-error"
+            ></textarea>
+            <span class="query-count" data-query-count>0 / 200</span>
+          </div>
+          <p id="query-error" class="field-error" role="alert" hidden>请输入公司名称或股票代码。</p>
+          <div class="candidate-popover" data-candidates hidden>
+            <span class="section-label">可能匹配以下上市公司</span>
+            <button type="button" data-candidate="腾讯控股|0700.HK|港股">
+              <strong>腾讯控股</strong><span>0700.HK · 港股</span>
+            </button>
+            <button type="button" data-candidate="腾讯音乐|TME|美股">
+              <strong>腾讯音乐</strong><span>TME · 美股</span>
+            </button>
+          </div>
+          <div class="selected-company" data-selected-company hidden>
+            <span data-selected-label></span
+            ><button type="button" data-clear-candidate aria-label="清除已选公司">×</button>
+          </div>
+          <div class="suggestion-row">
+            <span id="query-help">当前热门：</span
+            ><button type="button" data-suggestion="腾讯">腾讯</button
+            ><button type="button" data-suggestion="NVDA">NVDA</button
+            ><button type="button" data-suggestion="美团">美团</button
+            ><button type="button" data-suggestion="商业航天">商业航天</button
+            ><button type="button" data-switch-suggestions>
+              <svg class="icon" aria-hidden="true"><use href="#icon-refresh" /></svg>换一批
+            </button>
+          </div>
+          <fieldset class="market-field">
+            <legend>目标市场</legend>
+            <label><input type="radio" name="market" value="港股" checked />港股</label
+            ><label><input type="radio" name="market" value="美股" />美股</label
+            ><label><input type="radio" name="market" value="A股" />A股</label>
+          </fieldset>
+          <button class="primary-button" type="submit">
+            开始研究 <svg class="icon" aria-hidden="true"><use href="#icon-arrow" /></svg>
+          </button>
+        </form>
+        <aside class="recent-panel">
+          <span class="section-label">Recent research</span>
+          <h2>最近研究</h2>
+          <button type="button" data-view="progress">
+            <span><strong>腾讯控股</strong><small>专家团队研究 · 港股</small></span
+            ><span class="status-dot running">研究中</span></button
+          ><button type="button" data-view="result">
+            <span><strong>AI 算力产业链</strong><small>主题研究 · 美股</small></span
+            ><span class="status-dot completed">已完成</span>
+          </button>
+        </aside>
+      </section>
+    </main>
+
+    <main class="lab-main workflow-page" data-view-panel="progress" hidden>
+      <header class="progress-header">
+        <div>
+          <span class="section-label">研究进度 / 腾讯控股</span>
+          <h1>专业 Agent 正在并行研究</h1>
+          <p aria-live="polite">2 个 Agent 正在研究，已完成 3 个。</p>
+        </div>
+        <button class="primary-button" type="button" data-view="result">
+          查看部分结果 <svg class="icon" aria-hidden="true"><use href="#icon-arrow" /></svg>
+        </button>
+      </header>
+      <section class="progress-overview" aria-label="项目状态">
+        <div><span>总体进度</span><strong>68%</strong></div>
+        <progress max="100" value="68">68%</progress>
+        <dl>
+          <div>
+            <dt>运行中</dt>
+            <dd>2</dd>
+          </div>
+          <div>
+            <dt>已完成</dt>
+            <dd>3 / 5</dd>
+          </div>
+          <div>
+            <dt>证据来源</dt>
+            <dd>27</dd>
+          </div>
+        </dl>
+      </section>
+      <section class="agent-ledger" aria-labelledby="agent-ledger-title">
+        <header class="workspace-heading">
+          <div>
+            <span class="section-label">Research chain</span>
+            <h2 id="agent-ledger-title">5 个专业 Agent</h2>
+            <p>展开查看完整研究过程；已生成报告的 Agent 可直接阅读报告。</p>
+          </div>
+        </header>
+        <div class="agent-table-head" aria-hidden="true">
+          <span>研究 Agent</span><span>当前状态</span><span>研究输出</span><span></span>
+        </div>
+        <div data-agent-list>
+          <article class="agent-row" data-agent-state="completed">
+            <button
+              type="button"
+              class="agent-summary"
+              aria-expanded="true"
+              aria-controls="agent-trail-01"
+            >
+              <span class="agent-index">01</span
+              ><span><strong>行业研究</strong><small>行业空间、格局与增长驱动</small></span
+              ><span class="status-dot completed">已完成</span><span>8 个来源</span
+              ><svg class="icon" aria-hidden="true"><use href="#icon-plus" /></svg>
+            </button>
+            <div class="agent-trail" id="agent-trail-01">
+              <p>
+                <strong>核心过程：</strong
+                >完成公司披露、行业预算迁移与同类平台商业化效率的交叉核验。
+              </p>
+              <button type="button" class="text-button" data-agent-report="行业研究">
+                <svg class="icon" aria-hidden="true"><use href="#icon-file" /></svg>阅读报告
+              </button>
+            </div>
+          </article>
+          <article class="agent-row" data-agent-state="running">
+            <button
+              type="button"
+              class="agent-summary"
+              aria-expanded="false"
+              aria-controls="agent-trail-02"
+            >
+              <span class="agent-index">02</span
+              ><span><strong>瓶颈洞察</strong><small>关键约束与反证</small></span
+              ><span class="status-dot running">运行中</span><span>54%</span
+              ><svg class="icon" aria-hidden="true"><use href="#icon-plus" /></svg>
+            </button>
+            <div class="agent-trail" id="agent-trail-02" hidden>
+              <p>
+                <strong>当前过程：</strong>正在核对大模型投入的资本开支、收入贡献与增量利润披露。
+              </p>
+            </div>
+          </article>
+          <article class="agent-row" data-agent-state="completed">
+            <button
+              type="button"
+              class="agent-summary"
+              aria-expanded="false"
+              aria-controls="agent-trail-03"
+            >
+              <span class="agent-index">03</span
+              ><span><strong>质量筛选</strong><small>商业质量与现金流</small></span
+              ><span class="status-dot completed">已完成</span><span>6 个来源</span
+              ><svg class="icon" aria-hidden="true"><use href="#icon-plus" /></svg>
+            </button>
+            <div class="agent-trail" id="agent-trail-03" hidden>
+              <p><strong>核心过程：</strong>现金流、回购记录与资本配置已完成核验。</p>
+              <button type="button" class="text-button" data-agent-report="质量筛选">
+                <svg class="icon" aria-hidden="true"><use href="#icon-file" /></svg>阅读报告
+              </button>
+            </div>
+          </article>
+          <article class="agent-row" data-agent-state="failed">
+            <button
+              type="button"
+              class="agent-summary"
+              aria-expanded="false"
+              aria-controls="agent-trail-04"
+            >
+              <span class="agent-index">04</span
+              ><span><strong>行业漏斗</strong><small>候选比较与收敛</small></span
+              ><span class="status-dot failed">失败</span><span>报告不可用</span
+              ><svg class="icon" aria-hidden="true"><use href="#icon-plus" /></svg>
+            </button>
+            <div class="agent-trail" id="agent-trail-04" hidden>
+              <p class="field-error">部分来源暂时无法连接，可重试同一个 Agent。</p>
+              <button type="button" class="secondary-button" data-retry-agent>
+                <svg class="icon" aria-hidden="true"><use href="#icon-refresh" /></svg>重试 Agent
+              </button>
+            </div>
+          </article>
+          <article class="agent-row" data-agent-state="completed">
+            <button
+              type="button"
+              class="agent-summary"
+              aria-expanded="false"
+              aria-controls="agent-trail-05"
+            >
+              <span class="agent-index">05</span
+              ><span><strong>投资检查清单</strong><small>估值、风险与结论</small></span
+              ><span class="status-dot completed">已完成</span><span>4 个来源</span
+              ><svg class="icon" aria-hidden="true"><use href="#icon-plus" /></svg>
+            </button>
+            <div class="agent-trail" id="agent-trail-05" hidden>
+              <p><strong>核心过程：</strong>三情景估值与安全边际检查已完成。</p>
+              <button type="button" class="text-button" data-agent-report="投资检查清单">
+                <svg class="icon" aria-hidden="true"><use href="#icon-file" /></svg>阅读报告
+              </button>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <main class="lab-main workflow-page" data-view-panel="history" hidden>
+      <header class="page-intro">
+        <span class="section-label">Research archive</span>
+        <h1>研究记录</h1>
+        <p>你在这台设备上发起过的研究。</p>
+      </header>
+      <section class="history-panel">
+        <div class="history-tools">
+          <label for="history-search">筛选研究记录</label>
+          <div>
+            <svg class="icon" aria-hidden="true"><use href="#icon-search" /></svg
+            ><input id="history-search" type="search" placeholder="搜索公司或研究主题" />
+          </div>
+        </div>
+        <ul class="history-list">
+          <li>
+            <button type="button" data-view="progress">
+              <span><strong>腾讯控股</strong><small>公司 · 港股 · 2026.07.25</small></span
+              ><span class="status-dot running">研究中</span
+              ><svg class="icon" aria-hidden="true"><use href="#icon-arrow" /></svg>
+            </button>
+          </li>
+          <li>
+            <button type="button" data-view="result">
+              <span><strong>AI 算力产业链</strong><small>投资主题 · 美股 · 2026.07.22</small></span
+              ><span class="status-dot completed">已完成</span
+              ><svg class="icon" aria-hidden="true"><use href="#icon-arrow" /></svg>
+            </button>
+          </li>
+          <li>
+            <button type="button" data-view="result">
+              <span><strong>美团</strong><small>公司 · 港股 · 2026.07.18</small></span
+              ><span class="status-dot completed">已完成</span
+              ><svg class="icon" aria-hidden="true"><use href="#icon-arrow" /></svg>
+            </button>
+          </li>
+        </ul>
+        <div class="history-empty" data-history-empty hidden>
+          <h2>没有匹配的研究记录</h2>
+          <p>调整搜索词，或开始一项新研究。</p>
+          <button class="primary-button" type="button" data-view="research">开始研究</button>
+        </div>
+      </section>
+    </main>
+
+    <div
+      class="dialog-layer"
+      id="login-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="login-title"
+      hidden
+    >
+      <button class="dialog-scrim" type="button" data-dialog-close aria-label="关闭登录"></button>
+      <section class="dialog-card auth-dialog">
+        <button class="dialog-close" type="button" data-dialog-close aria-label="关闭">×</button
+        ><span class="section-label">Account</span>
+        <h2 id="login-title">登录 / 注册</h2>
+        <p>登录后可跨设备同步研究记录；未登录也能直接使用。</p>
+        <button class="google-button" type="button">用 Google 继续</button>
+        <div class="dialog-divider"><span>或</span></div>
+        <form data-auth-form>
+          <label for="login-email">邮箱</label
+          ><input
+            id="login-email"
+            type="email"
+            autocomplete="email"
+            placeholder="you@example.com"
+            required
+          />
+          <p class="field-error" role="alert" hidden>请输入有效的邮箱地址</p>
+          <button class="primary-button" type="submit">发送验证码</button>
+        </form>
+        <button class="text-button auth-switch" type="button" data-auth-switch>
+          用户名密码登录
+        </button>
+      </section>
+    </div>
+
+    <div
+      class="dialog-layer"
+      id="share-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="share-title"
+      hidden
+    >
+      <button class="dialog-scrim" type="button" data-dialog-close aria-label="关闭分享"></button>
+      <section class="dialog-card share-dialog">
+        <button class="dialog-close" type="button" data-dialog-close aria-label="关闭">×</button
+        ><span class="section-label">Share research</span>
+        <h2 id="share-title">分享研究结果</h2>
+        <div class="share-preview">
+          <span>AI Berkshire · 公司研究</span><strong>腾讯控股</strong>
+          <p>好生意已经确认，价格仍待验证。</p>
+          <small>数据日期 2026.07.25 · 不构成投资建议</small>
+        </div>
+        <div class="dialog-actions">
+          <button class="primary-button" type="button" data-copy-link>复制链接</button
+          ><button class="secondary-button" type="button" data-save-poster>保存分享图</button>
+        </div>
+        <p class="dialog-feedback" aria-live="polite"></p>
+      </section>
+    </div>
+
+    <div
+      class="dialog-layer"
+      id="report-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="report-title"
+      hidden
+    >
+      <button class="dialog-scrim" type="button" data-dialog-close aria-label="关闭报告"></button>
+      <section class="dialog-card detail-dialog">
+        <button class="dialog-close" type="button" data-dialog-close aria-label="关闭">×</button
+        ><span class="section-label">Agent report / available</span>
+        <h2 id="report-title"><span data-report-name>行业研究</span>报告</h2>
+        <p class="report-lead">由专业 Agent 整理，区分关键事实、分析判断与待验证风险。</p>
+        <div class="report-sections">
+          <section>
+            <span>关键事实</span>
+            <p>核心业务收入、现金流与回购记录已完成公司披露和交易所记录的交叉核验。</p>
+          </section>
+          <section>
+            <span>分析判断</span>
+            <p>业务质量证据较强，投资判断的主要约束来自估值与新业务回报不确定性。</p>
+          </section>
+          <section>
+            <span>待验证风险</span>
+            <p>大模型投入缺少可独立拆分的投入回报数据，需等待后续业务分部披露。</p>
+          </section>
+        </div>
+        <div class="source-record">
+          <span class="source-label">Evidence / verified</span
+          ><strong>2025 年度业绩公告与电话会</strong
+          ><span>发布时间 2026.03.18 · 已与交易所披露交叉核验</span>
+        </div>
+      </section>
+    </div>
+
+    <div
+      class="dialog-layer"
+      id="company-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="company-dialog-title"
+      hidden
+    >
+      <button
+        class="dialog-scrim"
+        type="button"
+        data-dialog-close
+        aria-label="关闭公司详情"
+      ></button>
+      <section class="dialog-card detail-dialog">
+        <button class="dialog-close" type="button" data-dialog-close aria-label="关闭">×</button
+        ><span class="section-label">Company profile / 0700.HK</span>
+        <h2 id="company-dialog-title">腾讯控股</h2>
+        <p class="report-lead">核心业务仍具备强网络效应与定价能力。</p>
+        <dl class="company-facts">
+          <div>
+            <dt>研究市场</dt>
+            <dd>港股</dd>
+          </div>
+          <div>
+            <dt>质量评分</dt>
+            <dd>82 / 100</dd>
+          </div>
+          <div>
+            <dt>研究结论</dt>
+            <dd>观望</dd>
+          </div>
+        </dl>
+        <div class="report-sections">
+          <section>
+            <span>入选原因</span>
+            <p>用户关系链、内容分发与支付闭环共同降低获客成本。</p>
+          </section>
+          <section>
+            <span>主要优势</span>
+            <p>自由现金流能够覆盖回购与核心投入。</p>
+          </section>
+          <section>
+            <span>主要风险</span>
+            <p>当前价格未提供足够安全边际；新业务回报仍待验证。</p>
+          </section>
+          <section>
+            <span>下一步验证</span>
+            <p>持续观察广告利润率、回购节奏与大模型投入回报。</p>
+          </section>
+        </div>
+        <button class="secondary-button" type="button" data-dialog-open="share-dialog">
+          <svg class="icon" aria-hidden="true"><use href="#icon-share" /></svg>分享公司详情
+        </button>
+      </section>
+    </div>
+
+    <div
+      class="dialog-layer"
+      id="preflight-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="preflight-title"
+      hidden
+    >
+      <button class="dialog-scrim" type="button" data-dialog-close aria-label="返回修改"></button>
+      <section class="dialog-card">
+        <button class="dialog-close" type="button" data-dialog-close aria-label="返回修改">×</button
+        ><span class="section-label">市场确认</span>
+        <h2 id="preflight-title">发现市场不匹配</h2>
+        <p>已识别研究对象的上市市场与当前选择不同，请确认后继续。</p>
+        <dl class="company-facts">
+          <div>
+            <dt>研究对象</dt>
+            <dd>腾讯控股</dd>
+          </div>
+          <div>
+            <dt>当前市场</dt>
+            <dd data-current-market>美股</dd>
+          </div>
+          <div>
+            <dt>匹配市场</dt>
+            <dd>港股</dd>
+          </div>
+        </dl>
+        <div class="preflight-actions">
+          <button class="primary-button" type="button" data-confirm-market>
+            切换到港股，研究腾讯控股</button
+          ><button class="secondary-button" type="button" data-continue-market>
+            继续当前市场，寻找相关公司</button
+          ><button class="text-button" type="button" data-dialog-close>返回修改</button>
+        </div>
+      </section>
+    </div>
+
+    <span class="visually-hidden" aria-live="polite" data-theme-status></span>
+    <span class="visually-hidden" aria-live="polite" data-filter-status></span>
+    <span class="visually-hidden" aria-live="polite" data-app-status></span>
+    <script src="./demo.js"></script>
+    <script>
+      (() => {
+        const appStatus = document.querySelector('[data-app-status]');
+        const viewPanels = [...document.querySelectorAll('[data-view-panel]')];
+        const viewButtons = [...document.querySelectorAll('[data-view]')];
+        const viewNames = {
+          research: '开始研究',
+          progress: '研究进度',
+          result: '研究结果',
+          history: '研究记录',
+        };
+
+        function showView(view, updateUrl = true) {
+          const nextView = viewNames[view] ? view : 'result';
+          viewPanels.forEach((panel) => {
+            const active = panel.dataset.viewPanel === nextView;
+            panel.hidden = !active;
+            if (active) panel.id = 'main-content';
+            else panel.removeAttribute('id');
+          });
+          viewButtons.forEach((button) => {
+            if (!button.closest('.product-nav')) return;
+            if (button.dataset.view === nextView) button.setAttribute('aria-current', 'page');
+            else button.removeAttribute('aria-current');
+          });
+          if (updateUrl) window.history.replaceState(null, '', `#${nextView}`);
+          document.title = `${viewNames[nextView]} - AI Berkshire`;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          const heading = viewPanels
+            .find((panel) => panel.dataset.viewPanel === nextView)
+            ?.querySelector('h1');
+          if (heading) {
+            heading.tabIndex = -1;
+            heading.focus({ preventScroll: true });
+          }
+          appStatus.textContent = `已进入${viewNames[nextView]}`;
+        }
+
+        viewButtons.forEach((button) =>
+          button.addEventListener('click', () => showView(button.dataset.view)),
+        );
+
+        const initialView = window.location.hash.slice(1);
+        showView(initialView || 'result', false);
+
+        let activeDialog = null;
+        let dialogTrigger = null;
+
+        function closeDialog(dialog = activeDialog) {
+          if (!dialog) return;
+          dialog.hidden = true;
+          document.body.classList.remove('has-dialog');
+          activeDialog = null;
+          dialogTrigger?.focus();
+          dialogTrigger = null;
+        }
+
+        function openDialog(id, trigger) {
+          closeDialog(activeDialog);
+          const dialog = document.getElementById(id);
+          if (!dialog) return;
+          activeDialog = dialog;
+          dialogTrigger = trigger;
+          dialog.hidden = false;
+          document.body.classList.add('has-dialog');
+          dialog.querySelector('button, input, [href], textarea, select')?.focus();
+        }
+
+        document.querySelectorAll('[data-dialog-open]').forEach((button) => {
+          button.addEventListener('click', () => openDialog(button.dataset.dialogOpen, button));
+        });
+        document.querySelectorAll('[data-dialog-close]').forEach((button) => {
+          button.addEventListener('click', () => closeDialog(button.closest('.dialog-layer')));
+        });
+        document.addEventListener('keydown', (event) => {
+          if (!activeDialog) return;
+          if (event.key === 'Escape') {
+            event.preventDefault();
+            closeDialog();
+            return;
+          }
+          if (event.key !== 'Tab') return;
+          const focusable = [
+            ...activeDialog.querySelectorAll(
+              'button:not([disabled]), input:not([disabled]), [href], textarea:not([disabled]), select:not([disabled])',
+            ),
+          ];
+          if (!focusable.length) return;
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+          }
+        });
+
+        const filterButtons = document.querySelectorAll('[data-filter]');
+        const claims = document.querySelectorAll('[data-claim-state]');
+        const filterStatus = document.querySelector('[data-filter-status]');
+
+        filterButtons.forEach((button) => {
+          button.addEventListener('click', () => {
+            const filter = button.dataset.filter;
+            let visibleCount = 0;
+            filterButtons.forEach((item) =>
+              item.setAttribute('aria-pressed', String(item === button)),
+            );
+            claims.forEach((claim) => {
+              const isVisible = filter === 'all' || claim.dataset.claimState === filter;
+              claim.hidden = !isVisible;
+              if (isVisible) visibleCount += 1;
+            });
+            filterStatus.textContent = `当前显示 ${visibleCount} 条结论`;
+          });
+        });
+
+        document.querySelectorAll('.claim-row-summary').forEach((button) => {
+          button.addEventListener('click', () => {
+            const detail = document.getElementById(button.getAttribute('aria-controls'));
+            const isExpanded = button.getAttribute('aria-expanded') === 'true';
+            button.setAttribute('aria-expanded', String(!isExpanded));
+            if (detail) detail.hidden = isExpanded;
+          });
+        });
+
+        document.querySelectorAll('.agent-summary').forEach((button) => {
+          button.addEventListener('click', () => {
+            const detail = button.nextElementSibling;
+            const expanded = button.getAttribute('aria-expanded') === 'true';
+            button.setAttribute('aria-expanded', String(!expanded));
+            if (detail) detail.hidden = expanded;
+          });
+        });
+
+        document.querySelectorAll('[data-agent-report]').forEach((button) => {
+          button.addEventListener('click', () => {
+            document.querySelector('[data-report-name]').textContent = button.dataset.agentReport;
+            openDialog('report-dialog', button);
+          });
+        });
+
+        document.querySelectorAll('[data-retry-agent]').forEach((button) => {
+          button.addEventListener('click', () => {
+            if (button.disabled) return;
+            button.disabled = true;
+            button.innerHTML =
+              '<svg class="icon" aria-hidden="true"><use href="#icon-refresh" /></svg>重试中…';
+            window.setTimeout(() => {
+              const row = button.closest('.agent-row');
+              const status = row?.querySelector('.status-dot');
+              if (status) {
+                status.className = 'status-dot running';
+                status.textContent = '运行中';
+              }
+              const error = row?.querySelector('.field-error');
+              if (error) error.textContent = '已重新连接，Agent 正在继续研究。';
+              button.hidden = true;
+              appStatus.textContent = '行业漏斗 Agent 已重新启动';
+            }, 900);
+          });
+        });
+
+        const queryInput = document.querySelector('#research-query');
+        const queryCount = document.querySelector('[data-query-count]');
+        const queryError = document.querySelector('#query-error');
+        const candidates = document.querySelector('[data-candidates]');
+        const selectedCompany = document.querySelector('[data-selected-company]');
+        const selectedLabel = document.querySelector('[data-selected-label]');
+        let selectedCandidate = null;
+
+        function updateQuery() {
+          const value = queryInput.value;
+          queryCount.textContent = `${[...value].length} / 200`;
+          queryError.hidden = Boolean(value.trim());
+          candidates.hidden = !value.trim().includes('腾讯') || Boolean(selectedCandidate);
+        }
+
+        queryInput.addEventListener('input', updateQuery);
+        queryInput.addEventListener('keydown', (event) => {
+          if (event.key === 'ArrowDown' && !candidates.hidden) {
+            event.preventDefault();
+            candidates.querySelector('button')?.focus();
+          }
+          if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+            event.preventDefault();
+            queryInput.form?.requestSubmit();
+          }
+        });
+
+        document.querySelectorAll('[data-candidate]').forEach((button) => {
+          button.addEventListener('click', () => {
+            selectedCandidate = button.dataset.candidate;
+            selectedLabel.textContent = selectedCandidate.replaceAll('|', ' · ');
+            selectedCompany.hidden = false;
+            candidates.hidden = true;
+            appStatus.textContent = `已选择${selectedLabel.textContent}`;
+          });
+        });
+
+        document.querySelector('[data-clear-candidate]').addEventListener('click', () => {
+          selectedCandidate = null;
+          selectedCompany.hidden = true;
+          updateQuery();
+          queryInput.focus();
+        });
+
+        document.querySelectorAll('[data-suggestion]').forEach((button) => {
+          button.addEventListener('click', () => {
+            queryInput.value = button.dataset.suggestion;
+            selectedCandidate = null;
+            selectedCompany.hidden = true;
+            updateQuery();
+            queryInput.focus();
+          });
+        });
+
+        const suggestionBatches = [
+          ['腾讯', 'NVDA', '美团', '商业航天'],
+          ['创新药', '固态电池', '半导体设备', '低空经济'],
+          ['智能驾驶', '腾讯', 'NVDA', '美团'],
+        ];
+        let suggestionBatch = 0;
+        document.querySelector('[data-switch-suggestions]').addEventListener('click', () => {
+          suggestionBatch = (suggestionBatch + 1) % suggestionBatches.length;
+          document.querySelectorAll('[data-suggestion]').forEach((button, index) => {
+            const value = suggestionBatches[suggestionBatch][index];
+            button.dataset.suggestion = value;
+            button.textContent = value;
+          });
+          appStatus.textContent = '已更换热门研究对象';
+        });
+
+        const researchForm = document.querySelector('[data-research-form]');
+        researchForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          if (!queryInput.value.trim()) {
+            queryError.hidden = false;
+            queryInput.focus();
+            return;
+          }
+          const market = researchForm.querySelector('input[name="market"]:checked').value;
+          if (queryInput.value.includes('腾讯') && market !== '港股') {
+            document.querySelector('[data-current-market]').textContent = market;
+            openDialog('preflight-dialog', researchForm.querySelector('[type="submit"]'));
+            return;
+          }
+          showView('progress');
+        });
+
+        document.querySelector('[data-confirm-market]').addEventListener('click', () => {
+          researchForm.querySelector('input[value="港股"]').checked = true;
+          closeDialog();
+          showView('progress');
+        });
+        document.querySelector('[data-continue-market]').addEventListener('click', () => {
+          closeDialog();
+          showView('progress');
+        });
+
+        const historySearch = document.querySelector('#history-search');
+        const historyItems = [...document.querySelectorAll('.history-list li')];
+        const historyEmpty = document.querySelector('[data-history-empty]');
+        historySearch.addEventListener('input', () => {
+          const term = historySearch.value.trim().toLocaleLowerCase();
+          let visible = 0;
+          historyItems.forEach((item) => {
+            const matches = item.textContent.toLocaleLowerCase().includes(term);
+            item.hidden = !matches;
+            if (matches) visible += 1;
+          });
+          historyEmpty.hidden = visible !== 0;
+        });
+
+        const languageButtons = [...document.querySelectorAll('.language-switch button')];
+        languageButtons.forEach((button, index) => {
+          button.addEventListener('click', () => {
+            languageButtons.forEach((item) =>
+              item.setAttribute('aria-pressed', String(item === button)),
+            );
+            document.documentElement.lang = index === 0 ? 'zh-CN' : 'en';
+            appStatus.textContent =
+              index === 0 ? '语言已切换为中文' : 'Language switched to English';
+          });
+        });
+
+        const authForm = document.querySelector('[data-auth-form]');
+        const authSwitch = document.querySelector('[data-auth-switch]');
+        let passwordMode = false;
+        authSwitch.addEventListener('click', () => {
+          passwordMode = !passwordMode;
+          authForm.innerHTML = passwordMode
+            ? '<label for="login-username">用户名</label><input id="login-username" autocomplete="username" placeholder="用户名" required><label for="login-password">密码</label><input id="login-password" type="password" autocomplete="current-password" placeholder="密码" required><button class="primary-button" type="submit">登录</button>'
+            : '<label for="login-email-code">邮箱</label><input id="login-email-code" type="email" autocomplete="email" placeholder="you@example.com" required><p class="field-error" role="alert" hidden>请输入有效的邮箱地址</p><button class="primary-button" type="submit">发送验证码</button>';
+          authSwitch.textContent = passwordMode ? '用邮箱验证码' : '用户名密码登录';
+          authForm.querySelector('input')?.focus();
+        });
+        authForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          if (!authForm.reportValidity()) return;
+          const submit = authForm.querySelector('[type="submit"]');
+          submit.disabled = true;
+          submit.textContent = passwordMode ? '处理中…' : '发送中…';
+          window.setTimeout(() => {
+            submit.disabled = false;
+            submit.textContent = passwordMode ? '登录' : '60s 后重发';
+            appStatus.textContent = passwordMode ? '登录演示已完成' : '验证码已发送';
+          }, 700);
+        });
+
+        document.querySelector('[data-copy-link]').addEventListener('click', async () => {
+          const feedback = document.querySelector('.dialog-feedback');
+          try {
+            await navigator.clipboard.writeText(window.location.href);
+            feedback.textContent = '链接已复制';
+          } catch {
+            feedback.textContent = '当前浏览器未允许复制，请从地址栏复制链接';
+          }
+        });
+
+        document.querySelector('[data-save-poster]').addEventListener('click', () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = 1080;
+          canvas.height = 1440;
+          const context = canvas.getContext('2d');
+          context.fillStyle = '#eef0f3';
+          context.fillRect(0, 0, canvas.width, canvas.height);
+          context.fillStyle = '#2455c3';
+          context.fillRect(72, 72, 12, 1296);
+          context.fillStyle = '#111a30';
+          context.font = '700 48px sans-serif';
+          context.fillText('AI Berkshire', 132, 170);
+          context.font = '700 82px serif';
+          context.fillText('腾讯控股', 132, 410);
+          context.font = '700 44px sans-serif';
+          context.fillText('好生意已经确认，', 132, 570);
+          context.fillText('价格仍待验证。', 132, 640);
+          context.fillStyle = '#5b6477';
+          context.font = '32px sans-serif';
+          context.fillText('研究结论：观望', 132, 800);
+          context.fillText('数据日期：2026.07.25', 132, 860);
+          context.font = '26px sans-serif';
+          context.fillText('视觉演示数据，不构成投资建议', 132, 1260);
+          canvas.toBlob((blob) => {
+            if (!blob) return;
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'ai-berkshire-tencent-research.png';
+            link.click();
+            URL.revokeObjectURL(link.href);
+            document.querySelector('.dialog-feedback').textContent = '分享图已保存';
+          }, 'image/png');
+        });
+      })();
+    </script>
+  </body>
+</html>

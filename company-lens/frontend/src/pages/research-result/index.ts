@@ -1,0 +1,1 @@
+export { ResearchResultPage } from './ResearchResultPage';

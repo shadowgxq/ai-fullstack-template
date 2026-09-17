@@ -1,0 +1,43 @@
+[project]
+name = "backend-agent-template"
+version = "0.1.0"
+description = "FastAPI 后端模板：分层架构 + SQLAlchemy/Alembic + Redis + JWT 认证 + 统一响应/异常/日志"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "alembic>=1.18.4",
+    "asyncpg>=0.31.0",
+    "bcrypt>=5.0.0",
+    "fastapi>=0.136.3",
+    "passlib>=1.7.4",
+    "psycopg2-binary>=2.9.12",
+    "pydantic-settings>=2.14.1",
+    "python-jose>=3.5.0",
+    "redis>=8.0.0",
+    "sqlalchemy>=2.0.50",
+    "uvicorn[standard]>=0.48.0",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pytest>=9.0.3",
+    "ruff>=0.15.14",
+]
+
+# SQLAlchemy 2.0 的 Mapped/mapped_column、func.xxx() 在运行时由 DeclarativeBase
+# 元类和 _FunctionGenerator 动态生成，pylint 静态分析无法识别，会对模型字段
+# (no-member) 和 func.now() (not-callable) 误报。本项目以 ruff + Pylance 为准，
+# 这里关闭这两类 pylint 误报。
+[tool.pylint."messages control"]
+disable = [
+    "no-member",
+    "not-callable",
+]
+
+# pytest 配置：
+#   testpaths  —— 只在 tests/ 下找测试，pytest 不用全项目乱扫
+#   pythonpath —— 把项目根加入 import 路径，测试里才能 `from app... / from main...`
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

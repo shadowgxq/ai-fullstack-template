@@ -1,0 +1,58 @@
+{
+  "app": {
+    "title": "Frontend Agent Template"
+  },
+  "home": {
+    "status": "Template ready",
+    "eyebrow": "Vite · React 18 · TypeScript",
+    "title": "The considered baseline for agent-built frontends.",
+    "description": "Ship migratable, executable, maintainable frontends. Collaboration rules, layered docs, and a token-driven runtime — already wired, so agents can build instead of scaffold.",
+    "cta": "Explore the structure",
+    "sections": {
+      "appShell": {
+        "title": "App Shell",
+        "text": "App-level providers, routing, global styles, and error boundaries live in src/app."
+      },
+      "layeredSource": {
+        "title": "Layered Source",
+        "text": "Compose pages from widgets, features, entities, and shared modules with one import direction."
+      },
+      "projectDocs": {
+        "title": "Project Docs",
+        "text": "Move business PRD, API contracts, and acceptance criteria into the target project docs."
+      }
+    },
+    "footer": "Business-neutral by design — bring your own domain."
+  },
+  "demo": {
+    "theme": {
+      "label": "Theme",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "language": {
+      "label": "Language"
+    }
+  },
+  "errors": {
+    "global": {
+      "eyebrow": "Application error",
+      "title": "The application hit an unexpected error.",
+      "description": "Your data is unchanged. Reload the page to retry, or return home to start again."
+    },
+    "route": {
+      "eyebrow": "Page error",
+      "title": "This page could not be displayed.",
+      "description": "The route failed while loading. Reload the page, or return home and try another path."
+    },
+    "notFound": {
+      "eyebrow": "404",
+      "title": "This page does not exist.",
+      "description": "The address may be outdated or incomplete. Return home to continue."
+    },
+    "actions": {
+      "reload": "Reload page",
+      "home": "Return home"
+    }
+  }
+}
