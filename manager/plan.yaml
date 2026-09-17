@@ -1,9 +1,9 @@
 updated_at: '2026-09-17'
 current:
-  title: 全栈初始化与统一文档体系
+  title: 全栈初始化已验证，进入 PR 评审
   batch: batch-foundation
   wave: wave-foundation
-  next: 执行 CI 和真实启动验证，记录证据后提交 PR；不自动合并。
+  next: 审查 PR 与验证证据；合并需人工决定，后续业务或生产能力另立需求。
 requirements:
   - id: REQ-MONO-001
     title: 三端 monorepo 与统一启动验证
@@ -18,7 +18,7 @@ openspec:
   - id: fullstack-foundation
     title: 全栈工程基座
     phase: verify
-    state: in_progress
+    state: ready_for_review
     requirements:
       - REQ-MONO-001
       - REQ-DOC-001
@@ -29,6 +29,9 @@ openspec:
         required: true
       - id: contracts
         source: docs/contracts/README.md
+        required: true
+      - id: verification
+        source: openspec/changes/fullstack-foundation/verification.md
         required: true
     path: openspec/changes/fullstack-foundation
     tasks: openspec/changes/fullstack-foundation/tasks.md

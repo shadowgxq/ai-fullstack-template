@@ -1,64 +1,33 @@
-# 技术基线与架构边界
+# 后端技术基线与架构边界
 
-> 记录 `app/` 的技术选型、分层、依赖方向和数据流边界。具体命名 / 编码细则见 [standards/](../standards/python-development.md)。
+`app/` 均指 `backend/app/`。安装、启动和检查命令的唯一入口为 [后端 README](../../../../backend/README.md) 与 Makefile。
 
 ## 技术基线
 
-| 领域 | 选型 | 说明 |
-|---|---|---|
-| 框架 | FastAPI | OpenAPI（`/docs`）即接口事实源；路由为**同步 `def`** |
-| 语言 | Python ≥ 3.10 | 用 PEP 604 `X \| None`；不追求 mypy strict，以 ruff 静态检查为准 |
-| ORM | SQLAlchemy 2.0（**同步**） | `Mapped` / `mapped_column` 声明式；驱动 psycopg2；会话用 `Session` |
-| 校验 / 序列化 | Pydantic v2 + pydantic-settings | 出入参 schema；配置从 `.env` 读取 |
-| 数据库 | PostgreSQL | 可筛字段建列 + 索引 |
-| 缓存 / 限流 | Redis | `redis_safe` 容错降级；缓存、登录失败限流、JWT 黑名单 |
-| 迁移 | Alembic | 改表必须留迁移，禁止手改表不留记录 |
-| 认证 | python-jose(JWT) + bcrypt | 自签 JWT（带 `jti`）；登出走 Redis 黑名单 |
-| 包管理 | uv（`pyproject.toml` + `uv.lock`） | `uv sync` / `uv run`，不混用 pip/poetry |
-| 校验工具 | `ruff check` + `ruff format` + `pytest` | 经 `make lint` / `make test` 执行 |
+| 领域 | 选型与边界 |
+|---|---|
+| Python | 本地默认、Docker 与 CI 使用 3.12；包元数据保留原有 ≥3.10 兼容声明，未据此宣称验证了所有版本 |
+| 框架 | FastAPI，同步 `def` 路由；Pydantic v2 DTO，OpenAPI 由提供方代码生成 |
+| 数据访问 | SQLAlchemy 2.0 同步 Session + psycopg2；Alembic 版本化迁移 |
+| 数据库 | PostgreSQL；与 AI 服务分库分角色，禁止跨服务直接查询 |
+| 缓存与认证 | Redis；python-jose JWT + bcrypt，保留既有登录限流与 token 黑名单 |
+| 包管理 | uv + 独立 uv.lock，冻结依赖安装，不混用 pip/poetry |
+| 检查 | `make check` 只读检查和测试；`make format` 才修复代码；`make lint` 不自动修复 |
 
-> 不引入 ORM 之外的查询构建器、不引入重型 DI 框架（用 FastAPI `Depends`）；配置读取只走 `core/config.Settings`，不散读 `os.environ`。新依赖先评估是否进 `pyproject.toml` 并 `uv lock`。
->
-> **同步基线说明**：本模板 IO 路径为同步（`Session` + psycopg2）。若某项目确需 async，须整体切换（`AsyncSession` + asyncpg + `async def`），不在同一代码库混用同步与异步 DB 驱动。
+不引入重型 DI、额外查询构建器或未经评估的依赖。异步数据库改造必须整体评审，不因已有 asyncpg 依赖就混用 AsyncSession 与同步 Session。
 
-## `app/` 目录分层
+## 依赖与数据流
 
 ```text
-app/
-├── api/v1/          # 版本化路由：auth（__init__ 预留聚合位）
-├── services/        # 业务编排（规则 + 调 repository + 拼装出参）
-├── repositories/    # 数据访问层（封装 ORM 查询/写入的类，不含业务规则）
-├── models/          # SQLAlchemy ORM（表结构）
-├── schemas/         # Pydantic 出入参（response.py 放 ApiResponse/success_response）
-└── core/            # 横切基础设施：
-                     #   config（settings）/ session（engine+get_db+transaction）
-                     #   security（JWT+bcrypt）/ deps（get_current_user）
-                     #   redis_client（redis_safe）/ exceptions（BusinessException）
-                     #   exception_handlers / logging / middlewares（请求日志）
-main.py              # FastAPI 实例、中间件、统一异常处理、/health、路由注册
+HTTP → api/v1 → services → repositories → models / DB
+          │        │            │
+          └── schemas / deps    └── core（配置、会话、日志等）
 ```
 
-分层职责与各层写法见 [standards/layer-definition.md](../standards/layer-definition.md)；新代码放哪一层见 [standards/file-organization.md](../standards/file-organization.md)。
+业务路由不查 ORM、不自建 engine；services 收口规则和事务，repositories 只负责存取。`schemas`、`core` 为横切模块，不反向依赖业务。`/ready` 是运维探针例外：读取已迁移表与 Redis 的可用性，不承载业务查询、不执行迁移。
 
-## 依赖方向
+应用启动不自动改表。Alembic 升级是独立部署步骤；请求事务使用 `transaction(db)`。业务异常通过统一 handler 转 `{code,message,data}`。
 
-```text
-api  →  services  →  repositories  →  models
- │         │              │
- └── schemas / deps        └── core（config/session/security/redis/exceptions）
-```
+Redis 容错沿用模板，生产前必须评审登录限流和撤销 token 在故障时是否应拒绝请求；初始化测试通过不代表生产安全验收。
 
-- **依赖只向下、不反向、不跨级**：`repositories` 不调 `services`，`services` 不 import `api`。
-- `schemas` 与 `core` 为横切：被各层依赖，自身不依赖业务层。
-- 各层职责、函数签名与跨层禁止项以 [standards/layer-definition.md](../standards/layer-definition.md) 为 owner，此处不重复。
-
-## 数据流边界
-
-```text
-HTTP 请求 → api/v1 路由（校验入参）→ service 业务方法 → repository 查询 → models/DB
-         ← ApiResponse[T] 包装      ← schema 出参拼装   ← ORM 对象
-```
-
-- 请求级 `Session` 由 `core/session.get_db` 经 `Depends` 注入；路由 / service 不自建 engine、不自管连接。写操作用 `with transaction(db):` 收口单一 commit 点（见 [standards/infrastructure.md](../standards/infrastructure.md)）。
-- 业务错误用 `core/exceptions.BusinessException`（及子类）抛出，由 `main.py` 的 exception handler 统一转 `{code,message,data}`；各层不自己拼错误响应。
-- Redis 相关能力（缓存、限流、黑名单）在 `core/redis_client` + `services/*_redis_service` / `cache_service` 收口，故障时 `redis_safe` 降级，不阻断主流程、不散落到路由。
+细则按需读 [分层](../standards/layer-definition.md)、[目录](../standards/file-organization.md)、[Python](../standards/python-development.md)、[基础设施](../standards/infrastructure.md)。跨端规范以 [公共约束](../../common/README.md) 为准。

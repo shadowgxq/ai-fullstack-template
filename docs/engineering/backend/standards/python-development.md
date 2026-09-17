@@ -1,51 +1,27 @@
 # Python Development
 
-日常后端实现入口。技术基线和分层看 [../architecture/technology-baseline.md](../architecture/technology-baseline.md)；分层职责、API 契约、基础设施细则看本目录其他文件。
-适用范围：`app/`（FastAPI + SQLAlchemy 2.0 同步 + Pydantic v2，Python ≥ 3.10）。
+适用于 `backend/app/`。运行与依赖版本见 [技术基线](../architecture/technology-baseline.md)，公共安全与协作约束不在此重复。
 
-## 命名和类型注解
+## 类型、数据与命名
 
-- 模块 / 函数 / 变量用 `snake_case`；类（Model/Schema/异常）用 `PascalCase`；常量 `UPPER_SNAKE_CASE`（`MAX_LOGIN_FAILURES`、`ACCESS_TOKEN_EXPIRE_MINUTES`）。
-- 命名表达业务含义，避免 `data`、`info`、`tmp`、`obj`；集合用复数（`users`、`tasks`），映射用语义后缀（`user_by_id`）。
-- 公开函数签名显式标注参数与返回类型；用 PEP 604 `User | None`，不用 `Optional[...]`/`Union[...]`。
-- 不用裸 `Any` 兜底；动态结构（如缓存 JSON）用 `dict | None` 并在 service 边界转成 schema。
-- 每个模块用一句简短中文注释 / docstring 说明职责（沿用现有风格）；公开函数按需补 docstring，不为 getter 凑字数。
+函数、模块、变量使用 snake_case；类使用 PascalCase，常量使用 UPPER_SNAKE_CASE。公开函数标注参数和返回类型，名称表达业务含义，不使用裸 Any 掩盖边界。
 
-## Pydantic 与 SQLAlchemy 风格
+请求、响应使用各自 Pydantic v2 schema，字段 snake_case。通用响应复用 `schemas/response.py` 的 ApiResponse，保留现有 Generic/TypeVar 写法，不引入与包最低 Python 声明不兼容的语法。
 
-- 出入参用 Pydantic v2 `BaseModel`，字段 `snake_case`；按用途分型：入参（`XxxRequest`/`XxxQuery`）、出参（`XxxResponse`）分开，不一个模型走天下。
-- 通用响应结构（`ApiResponse[T]`、`success_response`）集中在 `schemas/response.py`，不在各域重复定义；泛型用 PEP 695（`class ApiResponse[T]`）或既有 `TypeVar` 风格，保持与现有文件一致。
-- ORM 用 2.0 声明式 `Mapped[...]` + `mapped_column(...)`；可空列标 `Mapped[str | None]`，唯一/可筛字段加 `unique=True`/`index=True`。
-- 查询在 `repositories` 层用 `self.db.query(Model).filter(...)`（沿用现有仓储风格）；不在 service/api 里直接查 ORM、不裸拼 SQL 字符串。
+SQLAlchemy 使用 Mapped/mapped_column，查询放 repositories，可空列、唯一约束与索引明确。不要在 API 或 service 直接查 ORM，不拼接不可信 SQL。
 
-## 同步 IO
+## IO、异常与依赖
 
-- 路由、service、repository 都是**同步 `def`**；DB 走注入的 `Session`，不写 `async def`、不 `await`。
-- 会话由 `core/session.get_db` 经 `Depends` 注入，函数内不自建 engine / session（见 [infrastructure.md](./infrastructure.md)）。
-- 写操作用 `with transaction(db):` 包裹，统一 commit / rollback 边界，不在多处散写 `db.commit()`。
+业务路由、service、repository 沿用同步 def；Session 经 Depends 注入，不在请求里新建 engine。写操作由 `transaction(db)` 收口 commit/rollback。`/ready` 是只读基础设施探针，不遵循业务 DTO 包装，不执行迁移。
 
-## 异常与日志
+业务失败抛 BusinessException 子类，由注册的 handler 统一返回。只捕获可处理的具体异常，不吞异常、不在 service/repository 中返回错误字典。日志使用已有 logger，避免敏感值。
 
-- 业务错误抛 `core/exceptions.BusinessException` 及子类（`TokenRevokedException`/`LoginFailedException` 等），由 `main.py` 注册的 handler 统一转响应；**不在 service/repository 里返回错误字典或裸抛 `HTTPException`**（契约细则见 [api-and-error-contract.md](./api-and-error-contract.md)）。
-- 不吞异常（`except: pass`）；只捕获能处理的具体异常（如 `JWTError`、`RedisError`），其余交给全局兜底 handler。
-- 日志走 `core/logging` 配置的 logger（`logging.getLogger(__name__)`），不用 `print`；不记敏感信息（token 明文、密码、密钥）。
-
-## Import 与依赖
-
-- 用绝对导入 `from app.xxx import ...`，不写包外相对导入；import 顺序交给 ruff isort（`I`）自动整理。
-- 依赖方向只能向下（`api→services→repositories→models`），不反向、不跨级 import（见 [../architecture/technology-baseline.md](../architecture/technology-baseline.md)）。
-- 新增第三方依赖先评估必要性，加进 `pyproject.toml` 并 `uv lock`；不在代码里临时 `pip install`。
-
-## 配置
-
-- 所有配置经 `core/config.Settings`（`pydantic-settings`）从环境变量 / `.env` 读取，模块内 `from app.core.config import settings` 使用，不散读 `os.environ`。
-- 密钥（`secret_key`、DB 密码）只走 `.env`，提供 `.env.example`；不硬编码、不入库、不进 Git。
+绝对导入 `from app...`，依赖只向下：api→services→repositories→models。新依赖先评审必要性，再修改 pyproject 与 lockfile。配置统一走 `core/config.Settings`；环境变量与密钥要求见 [公共约束](../../common/README.md)。
 
 ## 验证
 
-> 当前验证手段：`make lint`（`ruff check --fix .` + `ruff format .`）+ `make test`（`pytest`）。改动后按下表自查。
+`make lint` 只执行 ruff check；`make check` 执行只读静态检查、格式检查和 pytest；`make format` 才会自动修复。完整命令见 [后端 README](../../../../backend/README.md)，不要在其他规范再定义不同语义。
 
-- 任意改动：跑 `make lint`，保持 ruff 通过。
-- 业务逻辑（service）改动：补 / 跑 `make test`，核心 service 分支（如登录限流、黑名单）必测。
-- 模型 / 表结构改动：`make migrate m="..."` 生成 Alembic 迁移并 `make upgrade` 验证。
-- 测试基座见 `tests/conftest.py`：用内存 SQLite + `FakeRedis`，测试不依赖外部服务；新增 model 后在 `conftest` / `alembic/env.py` 追加 import 使其注册到 `Base.metadata`。
+业务分支修改补相邻回归，公共基础设施变更运行完整检查。表结构变化生成并审查 Alembic 迁移，然后在测试库升级。新增模型同时检查 Alembic 和测试 metadata 注册。
+
+现有单测使用 SQLite/FakeRedis；真实 PostgreSQL/Redis 启动与认证由根 Compose smoke 验证，两者不能互相替代。跨端契约变更还需导出 schema、校验漂移及直接消费者。
