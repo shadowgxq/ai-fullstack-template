@@ -3,7 +3,8 @@ context: |
   全栈 monorepo：frontend / backend / ai-service。
   所有入口先读根 AGENTS.md 与 docs/README.md，按任务补读端专项规范。
   产品在 docs/product，架构在 docs/architecture，契约在 docs/contracts。
-  根 manager/plan.yaml 是唯一批次与进度入口，历史 examples 不参与执行。
+  根 manager/plan.yaml 索引批次与 change 阶段；细项进度只在 tasks.md。
+  已合并变更归档至 openspec/changes/archive，生效要求在 openspec/specs；不读取历史业务工作树。
   默认中文；不调用付费模型或部署生产；当前 AI 是确定性 echo 初始化。
 rules:
   proposal:

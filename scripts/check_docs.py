@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def active_files(root):
     files = set(root.glob("*.md"))
-    for folder in ("docs", "openspec/changes", "repairs"):
+    for folder in ("docs", "openspec/changes", "openspec/specs", "repairs", ".agents/skills", ".claude/skills", ".codex/skills"):
         files.update((root / folder).rglob("*.md"))
     for service in ("frontend", "backend", "ai-service"):
         files.update((root / service).glob("*.md"))
@@ -33,23 +33,37 @@ def link_errors(root, path):
 
 
 def plan_errors(root):
-    path = root / "manager/plan.yaml"
-    if not path.exists():
-        return ["missing manager/plan.yaml"]
-    text = path.read_text()
+    # Share the same semantic validator used by the Manager CLI.
+    from manager.validate_plan import validate_plan
+    return validate_plan(root / "manager/plan.yaml")
+
+
+def hygiene_errors(root):
     errors = []
-    for ref in re.findall(r"^\s+(?:source|path|tasks):\s*([^\s#]+)", text, flags=re.M):
-        ref = ref.strip("'\"")
-        if not (root / ref).exists():
-            errors.append(f"manager/plan.yaml: missing source/path/tasks: {ref}")
-    defined = set(re.findall(r"^\s+- id: (REQ-[A-Z0-9-]+)\s*$", text, flags=re.M))
-    mentioned = set(re.findall(r"\bREQ-[A-Z0-9-]+\b", text))
-    for ref in mentioned - defined:
-        errors.append(f"manager/plan.yaml: undefined requirement: {ref}")
-    products = "\n".join(p.read_text() for p in (root / "docs/product").rglob("*.md"))
-    for ref in defined:
-        if ref not in products:
-            errors.append(f"requirement not defined in product source: {ref}")
+    legacy = (
+        "frontend-agent-template", "backend-agent-template", "company-lens", "ai-server",
+        "examples/personal-bookkeeping", "scripts/ralph", "manager/roles.yaml",
+        ".codex/skills", "frontend/.codex", "frontend/.claude",
+        "frontend/docs", "backend/docs", "ai-service/docs",
+        "frontend/manager", "frontend/openspec", "backend/openspec", "ai-service/openspec",
+    )
+    for name in legacy:
+        if (root / name).exists():
+            errors.append(f"legacy or duplicate root reintroduced: {name}")
+    skills = {}
+    for folder in (".agents/skills", ".codex/skills", ".claude/skills"):
+        for skill in (root / folder).glob("*/SKILL.md"):
+            name = skill.parent.name
+            if name in skills:
+                errors.append(f"duplicate skill: {name}")
+            skills[name] = skill
+    stale = re.compile(r"(?<![\w/-])(?:docs/prd/|docs/frontend/|docs/backend/|app/core/deps\.py)")
+    for path in active_files(root):
+        rel = path.relative_to(root)
+        # Review records may intentionally name removed paths; execution guidance may not.
+        if path.name in {"AGENTS.md", "CLAUDE.md", "SKILL.md"} or str(rel).startswith("docs/engineering/"):
+            if stale.search(path.read_text()):
+                errors.append(f"{rel}: stale execution-guidance path")
     return errors
 
 
@@ -63,9 +77,7 @@ def validate(root):
             errors.append(f"missing {name}")
         elif len(path.read_text().splitlines()) > 60:
             errors.append(f"{name}: routing entry exceeds 60 lines; move details into docs")
-    for legacy in ("frontend/docs", "backend/docs", "ai-service/docs", "frontend/manager", "frontend/openspec"):
-        if (root / legacy).exists():
-            errors.append(f"duplicate documentation/workflow root: {legacy}")
+    errors.extend(hygiene_errors(root))
     errors.extend(plan_errors(root))
     return errors
 

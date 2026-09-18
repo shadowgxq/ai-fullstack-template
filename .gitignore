@@ -13,6 +13,5 @@
 *.pyc
 *.log
 .DS_Store
-scripts/ralph/logs/
-scripts/ralph/progress.txt
+.codex/config.toml
 manager/runtime/

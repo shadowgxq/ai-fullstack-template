@@ -42,3 +42,13 @@ describe('normalizeApiError', () => {
     expect(apiError.message).toBe('Forbidden');
   });
 });
+
+it('preserves backend field errors from the data envelope', () => {
+  const details = [{ loc: ['body', 'username'], type: 'string_too_long', msg: 'Too long' }];
+  const result = normalizeApiError({
+    isAxiosError: true,
+    response: { status: 422, data: { code: 42200, message: 'Validation error', data: details } },
+  });
+  expect(result.details).toEqual(details);
+  expect(result.message).toBe('Validation error');
+});

@@ -42,3 +42,18 @@ def test_each_token_has_unique_jti():
     p1 = decode_access_token(create_access_token(subject="1"))
     p2 = decode_access_token(create_access_token(subject="1"))
     assert p1["jti"] != p2["jti"]
+
+
+def test_revocation_ttl_rounds_up(monkeypatch):
+    from app.core import security
+
+    class Clock:
+        @staticmethod
+        def now(tz):
+            from datetime import datetime
+
+            return datetime.fromtimestamp(100.2, tz)
+
+    monkeypatch.setattr(security, "datetime", Clock)
+    assert security.get_token_ttl_seconds({"exp": 101}) == 1
+    assert security.get_token_ttl_seconds({"exp": 100}) == 0

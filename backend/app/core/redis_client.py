@@ -1,39 +1,57 @@
+"""Separate optional caching from required security dependency policies."""
+
 import functools
 import logging
-
 import redis
 from redis.exceptions import RedisError
 
 from app.core.config import settings
+from app.core.exceptions import AuthDependencyUnavailable
 
 logger = logging.getLogger(__name__)
-
 redis_client = redis.Redis.from_url(
     settings.redis_url,
     decode_responses=True,
+    socket_connect_timeout=2,
+    socket_timeout=2,
+    retry_on_timeout=False,
 )
 
 
 def redis_safe(default=None):
-    """Redis 容错装饰器：操作失败时记录告警并返回 default（降级），不向外抛异常。
-
-    三层结构（带参数的装饰器都是这个形状）：
-      第 1 层 redis_safe(default=...)  —— 接收装饰器参数，返回真正的装饰器
-      第 2 层 decorator(func)          —— 接收被装饰函数，返回替身
-      第 3 层 wrapper(*args, **kwargs) —— 真正执行：try 包住原函数，失败返回 default
-    """
+    """Optional cache only: a Redis failure becomes an explicit cache miss."""
 
     def decorator(func):
-        @functools.wraps(
-            func
-        )  # 保留原函数的 __name__/__doc__，否则日志里全是 "wrapper"
+        @functools.wraps(func)
         def wrapper(*args, **kwargs):
             try:
                 return func(*args, **kwargs)
-            except RedisError as e:
-                logger.warning("Redis 操作降级 %s: %s", func.__name__, e)
+            except RedisError as exc:
+                logger.warning(
+                    "cache_unavailable operation=%s type=%s",
+                    func.__name__,
+                    type(exc).__name__,
+                )
                 return default
 
         return wrapper
 
     return decorator
+
+
+def redis_required(func):
+    """Security facts must be available before authentication can succeed."""
+
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except RedisError as exc:
+            logger.warning(
+                "auth_dependency_unavailable operation=%s type=%s",
+                func.__name__,
+                type(exc).__name__,
+            )
+            raise AuthDependencyUnavailable() from None
+
+    return wrapper

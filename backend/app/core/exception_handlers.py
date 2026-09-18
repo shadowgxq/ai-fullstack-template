@@ -34,6 +34,7 @@ async def business_exception_handler(
 
     return JSONResponse(
         status_code=exc.status_code,
+        headers={"WWW-Authenticate": "Bearer"} if exc.status_code == 401 else None,
         content={
             "code": exc.code,
             "message": exc.message,
@@ -47,13 +48,16 @@ async def validation_exception_handler(
     exc: RequestValidationError,
 ) -> JSONResponse:
     request_id = get_request_id(request)
+    issues = [
+        {key: error[key] for key in ("loc", "type", "msg")} for error in exc.errors()
+    ]
 
     error_logger.warning(
         "validation_error request_id=%s method=%s path=%s errors=%s",
         request_id,
         request.method,
         request.url.path,
-        exc.errors(),
+        issues,
     )
 
     return JSONResponse(
@@ -61,7 +65,7 @@ async def validation_exception_handler(
         content={
             "code": 42200,
             "message": "Validation error",
-            "data": exc.errors(),
+            "data": issues,
         },
     )
 
@@ -83,6 +87,7 @@ async def http_exception_handler(
 
     return JSONResponse(
         status_code=exc.status_code,
+        headers=exc.headers,
         content={
             "code": exc.status_code * 100,
             "message": exc.detail,
@@ -98,12 +103,11 @@ async def unhandled_exception_handler(
     request_id = get_request_id(request)
 
     error_logger.error(
-        "unhandled_exception request_id=%s method=%s path=%s error=%s",
+        "unhandled_exception request_id=%s method=%s path=%s type=%s",
         request_id,
         request.method,
         request.url.path,
-        str(exc),
-        exc_info=True,
+        type(exc).__name__,
     )
 
     return JSONResponse(

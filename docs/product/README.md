@@ -1,9 +1,9 @@
 # 产品需求入口
 
-当前唯一交付范围是 [全栈初始化](bootstrap.md)，不是公司研究或记账产品。新需求以稳定 REQ-ID、场景、范围、验收、依赖描述；技术设计引用架构与契约，不复制正文。
+| 需求 | 用途 |
+|---|---|
+| [工程初始化](bootstrap.md) | 已建立的模板验收基线；不是具体业务产品 |
+| [模板清理与架构修正](template-maintenance.md) | 本次维护范围与验收 |
+| [团队小站](team-site.md) | `REQ-TEAM-TEST-001`，待产品与技术评审；不自动进入执行计划 |
 
-执行状态只在 [Manager](../../manager/plan.yaml) 和关联 change tasks；历史业务材料见 [examples](../../examples/README.md)，不自动进入当前执行计划。
-
-## 待评审需求
-
-- [团队小站产品需求](team-site.md)：`REQ-TEAM-TEST-001`，需求类型为测试需求，当前状态为待产品与技术评审，暂不纳入 `manager/plan.yaml`。
+需求正文只维护于此；新需求声明稳定 REQ-ID、场景、范围、非目标和验收。执行索引见 [Manager](../../manager/plan.yaml)，细项完成与证据见关联 change。历史业务材料从工作树删除，需要追溯时使用 Git 历史，不再搬到另一个活动目录。

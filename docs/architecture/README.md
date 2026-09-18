@@ -1,31 +1,33 @@
-# 全栈架构与落地边界
+# 全栈架构
 
-## 来源与职责
+## 项目关系
 
-| 原目录 | 当前目录 | 职责 |
+| 边界 | 拥有的能力 | 不承担 |
 |---|---|---|
-| frontend-agent-template | `frontend/` | UI、路由、状态、HTTP 消费者 |
-| backend-agent-template | `backend/` | 用户/认证、业务 API、事务与授权 |
-| ai-server（主分支此前替换 Company Lens） | `ai-service/` | Run 生命周期与 Agent 执行 |
+| `frontend/` | 页面、路由、主题/i18n、状态与 HTTP 消费 | 服务密钥、数据库操作、Agent 执行 |
+| `backend/` | 用户认证、业务资源、授权、事务与公开 API | 图执行、直接访问 AI 库 |
+| `ai-service/` | Run 命令、快照、持久执行与图恢复 | 业务用户账户、前端页面、业务产品定义 |
 
-模板能力是主题、i18n、认证、工程约束、运行协议；业务工作流、实体、提示词、页面与评估属于具体产品。历史记账 PRD 仅保留在 examples，不混入当前初始化。Company Lens 不重新恢复。
+三端是同一仓库的独立应用，不是三份独立项目模板。共用 Git、规范、产品需求、契约与交付流程，保留独立依赖锁和运行环境。只有一个 JS 应用，不引入额外 workspace/构建平台；两个 Python 服务不互相导入源码。
 
-## 运行与数据边界
+主题、认证、Run 协议属于模板；具体实体、页面、工作流、提示词、评估属于业务。只做 CRUD 的业务仅启动前后端；需要长任务才接 AI。待评审的团队小站不依赖 AI，也不应为了接入模板而增加 Agent。
 
-目标业务链路：浏览器 → backend（用户授权、业务资源）→ ai-service API → PostgreSQL 命令 → 独立 Worker → LangGraph → 正式结果。
+## 数据流与所有权
 
-**当前实际链路**：前端模板与后端认证可启动；smoke 客户端直接验证受信 AI API→Worker→结果。尚未实现业务 Run 页面或后端到 AI 的鉴权转发，不宣称完整产品业务闭环。
+目标业务链路：浏览器 → backend（用户/资源授权）→ AI API（受信服务身份）→ PostgreSQL 命令 → Worker → LangGraph → 结果。
 
-backend 与 ai-service 同机分库、分角色；不直接读写对方数据。Redis 仅支持既有后端认证/缓存，不是 AI 队列。PostgreSQL 应用表管理命令/Run/事件，LangGraph 表管理图位置。两类迁移分别维护，显式执行。
+当前实际：前端基座代理后端认证；AI 由 smoke 客户端直接调用。尚无业务 Run 页面和 backend→AI 用户授权转发，不把服务都启动等同于业务贯通。
 
-monorepo 共用 Git、文档、任务、Compose/CI；各端保留独立 pnpm/uv 锁与环境。当前只有一个 JS 应用，不额外引入 workspace/Turborepo；两个 Python 服务不合并虚拟环境，不依赖隐式跨包导入。
+后端为同步 FastAPI → service → repository → model；API 装配鉴权依赖，service 拥有事务，repository 只 flush/query。core 只提供业务无关基础设施。Redis 缓存故障可回源，认证限流/撤销检查故障拒绝请求。
 
-## 当前落地
+AI API 装配 `RunService(RunStore)`；application 依赖 core Protocol，不依赖 PostgreSQL 实现。Worker 是组合入口，连接 Store、工作流和 saver。API 不执行图。Run/命令同事务提交，事件与状态同事务提交；图 checkpoint 独立提交，但与 Worker 排他锁、应用写入共享会话，连接丢失后停止推进。当前是单 Worker，不支持多 Worker 横向扩容。
 
-AI 的配置校验、Bearer 服务认证、可信 scope、Pydantic DTO、幂等创建/冲突、持久命令/事件、单 Worker 会话锁、实际 LangGraph checkpoint、崩溃后恢复、不可覆写终态、健康/就绪、Docker/测试已加入初始化代码。只注册无外部调用的 echo.v1。
+PostgreSQL 同机分库分角色；应用表与 LangGraph 表分别迁移。Redis 不是 AI 队列。所有迁移显式执行，不在请求或应用启动中建表。
 
-## 保留为目标
+## 当前与目标
 
-[通用 Runtime 架构](ai-service/agent-runtime-architecture.md) 与其中 ADR 是扩展基线，不是完成清单。预算/外部调用台账/unknown、人工回答、取消、修订、SSE、Artifact Store、实时模型、生产多租户、多 Worker fencing 仍待实现。远端请求与 checkpoint 不构成原子事务，不承诺远端 exactly-once。
+当前支持 `echo.v1`、配置校验、Bearer 服务认证、受信 scope、幂等冲突、持久命令/JSON 事件、真实 checkpoint 恢复、终态不可覆写、存活/就绪和启动验证。依赖版本以各端 lockfile 为准。
 
-根 Compose 使用开发凭证且仅监听 loopback；公网部署必须重新完成认证、授权、限流、日志脱敏、TLS、备份和依赖故障策略评审。
+[Runtime 扩展设计](ai-service/agent-runtime-architecture.md) 和其中 ADR 是目标，不是完成清单。外部调用台账/预算/unknown、人工审批、取消、SSE、Artifact、真实模型、生产多租户及多 Worker fencing 尚未实现；不能直接把 echo 节点替换为付费调用。
+
+Compose 仅本地使用开发凭证和 loopback 端口。公网部署另需 TLS、逐资源授权、配额、备份、观测与安全验收。启动命令只维护于 [根 README](../../README.md) 和各端 README。

@@ -1,11 +1,11 @@
 """Application commands use normalized inputs and never execute a graph."""
 
 from ai_service.agent_core.contracts import ResultPending, request_hash
-from ai_service.infrastructure.store import Store
+from ai_service.agent_core.ports import RunStore
 
 
 class RunService:
-    def __init__(self, store: Store, scope: str):
+    def __init__(self, store: RunStore, scope: str):
         self.store = store
         self.scope = scope
 

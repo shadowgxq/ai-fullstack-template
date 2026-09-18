@@ -22,6 +22,6 @@ make upgrade
 
 环境变量：`DATABASE_URL`、`SECRET_KEY` 必填，`REDIS_URL` 默认本地；示例与根 Compose 的 backend 数据库一致。禁止使用 AI 数据库凭证。容器启动不执行迁移；根 Compose 单独运行 backend-migrate。
 
-现有单测使用 SQLite/FakeRedis，不代表真实基础设施验证；根 `make up && make smoke` 验证 PostgreSQL 迁移、注册/登录、Redis token 撤销。模板 Redis 故障降级策略生产前需复核，不将开发基座视为完整生产安全方案。
+现有单测使用 SQLite/FakeRedis，不代表真实基础设施验证；根 `make up && make smoke` 验证 PostgreSQL 迁移、注册/登录、Redis token 撤销。可选缓存故障可回源；认证/限流/撤销依赖故障返回 503，不能伪报登出成功。开发基座仍不等于完整生产安全方案。
 
 细则见 [专项导航](../docs/engineering/backend/README.md)，业务与跨端契约统一在根 docs。

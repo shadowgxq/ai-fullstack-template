@@ -1,11 +1,11 @@
 # Layer Definition
 
-各层（api / core.deps / services / repositories / models / schemas / core）的职责、函数签名约定和数据边界。适用范围：`app/`（FastAPI + SQLAlchemy 2.0 同步 + Pydantic v2）。
+各层（api（含 dependencies） / services / repositories / models / schemas / core）的职责、函数签名约定和数据边界。适用范围：`app/`（FastAPI + SQLAlchemy 2.0 同步 + Pydantic v2）。
 新代码放哪一层、模块怎么命名看 [file-organization.md](./file-organization.md)；横切基础设施（config/session/redis/security/中间件）细则看 [infrastructure.md](./infrastructure.md)；技术基线与依赖方向看 [../architecture/technology-baseline.md](../architecture/technology-baseline.md)。
 
 ## 分层总则
 
-- 依赖只向下、不反向、不跨级：`api → services → repositories → models`；`schemas`/`core` 为横切。
+- 业务调用依赖只向下：`api → services → repositories → models`；`schemas`/`core` 为横切。API 的 composition/认证依赖可装配仓储和服务；业务路由不直接查询 ORM。
 - 每层只做本层职责，不替下层或上层做事；跨层只通过明确的函数签名 / 构造参数传递，不靠隐式全局状态。
 - 业务规则只在 `services`；`api` 不写规则、`repositories` 不含规则。
 
@@ -30,9 +30,9 @@ def login(payload: LoginRequest, service: AuthService = Depends(get_auth_service
     return success_response({"access_token": access_token, "token_type": "bearer"})
 ```
 
-## core/deps.py（依赖注入）
+## api/dependencies.py（依赖注入）
 
-- 放可复用的 FastAPI 依赖（`get_current_user`、`oauth2_scheme`）；鉴权 / 取当前用户在此收口，失败抛 `HTTPException(401)` 或 `BusinessException` 子类（如 `TokenRevokedException`），不在每个路由里重复解析 token。
+- 放可复用的 FastAPI 依赖（`get_current_user`、`get_access_token`）；鉴权 / 取当前用户在此收口，失败抛 `HTTPException(401)` 或 `BusinessException` 子类（如 `TokenRevokedException`），不在每个路由里重复解析 token。
 - 依赖可组合下层能力（解 JWT、查黑名单、读用户缓存、回源查库），但不写具体业务规则。
 
 ## services（业务编排层）
@@ -46,7 +46,7 @@ def login(payload: LoginRequest, service: AuthService = Depends(get_auth_service
 
 - 只封装对 ORM 的查询 / 写入的**类**（`class UserRepository: def __init__(self, db: Session)`），方法返回 ORM 对象或标量；**不含业务规则、不依赖 `schemas`/`services`**。
 - 查询用 `self.db.query(Model).filter(...)`（沿用现有风格）；条件按入参组合。
-- 写方法可执行 `add`/`commit`/`refresh`（沿用现有 `UserRepository.create`），或把提交边界交给上层 `transaction(db)`；同一调用链保持单一 commit 点，不与上层事务边界冲突。
+- 写方法可执行 `add`/`flush`/`refresh`，禁止 `commit`/`rollback`；事务提交或回滚只由 service 的 `transaction(db)` 收口。
 
 ## models（ORM 层）
 
@@ -71,5 +71,5 @@ def login(payload: LoginRequest, service: AuthService = Depends(get_auth_service
 
 - 路由里写业务规则 / 直接 ORM 查询 / 手拼错误响应 / 写 `async def`（本模板同步）。
 - service 依赖 `api`、读 HTTP 上下文、返回裸 ORM 对象给路由做序列化。
-- repository 写业务规则、依赖 `schemas`/`services`、自决与上层冲突的事务提交策略。
+- repository 写业务规则、依赖 `schemas`/`services`、执行 commit/rollback。
 - 任意层绕过 `schemas` 直接把 ORM 对象序列化给前端，或绕过 `core/config` 散读环境变量、绕过 `core/redis_client` 直连 Redis。

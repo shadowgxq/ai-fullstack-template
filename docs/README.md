@@ -16,4 +16,4 @@
 | [OpenSpec 配置](../openspec/config.yaml) | 各 change 的设计、任务与增量规格 |
 | [修复队列](../repairs/README.md) | 小修复；不同时建立另一份执行状态 |
 
-`examples/` 仅为历史业务样例，不是当前需求。Company Lens 已在基线提交移除，不从旧记忆恢复业务约束。命令只在服务 README 与 Makefile 维护；schema 由提供方生成；版本以各端 lockfile 为准。
+历史业务从工作树删除，以 Git 历史追溯。已合并 change 进入 `openspec/changes/archive/`，生效规格在 `openspec/specs/`；两者不作为默认任务上下文。命令在服务 README 与 Makefile 维护；schema 由提供方生成；版本以各端 lockfile 为准。

@@ -32,8 +32,9 @@ def main():
     parser.add_argument("--frontend", default="http://127.0.0.1:8080")
     parser.add_argument("--backend", default="http://127.0.0.1:8000")
     parser.add_argument("--ai", default="http://127.0.0.1:8001")
+    parser.add_argument("--skip-ai", action="store_true", help="Verify frontend/backend only; do not contact AI service")
     args = parser.parse_args()
-    for base in (args.frontend, args.backend, args.ai):
+    for base in (args.frontend, args.backend) + (() if args.skip_ai else (args.ai,)):
         if not re.fullmatch(r"http://(?:127\.0\.0\.1|localhost):[0-9]+", base):
             raise ValueError("Smoke tests create data; only loopback development URLs are allowed")
     html = request(args.frontend, "/")
@@ -43,7 +44,7 @@ def main():
     for asset in assets:
         request(args.frontend, asset)
     print("PASS frontend HTML and bundled assets")
-    for base in (args.backend, args.ai):
+    for base in (args.backend,) + (() if args.skip_ai else (args.ai,)):
         assert request(base, "/health")["status"] == "ok"
         assert request(base, "/ready")["status"] == "ready"
     print("PASS API process and dependency readiness")
@@ -55,6 +56,15 @@ def main():
     request(args.frontend, "/api/v1/auth/logout", method="POST", headers=auth)
     request(args.frontend, "/api/v1/auth/me", headers=auth, expected=401)
     print("PASS frontend proxy, backend auth, Redis token revocation")
+    # Exercise the real Redis MULTI failure counter and lockout, not just the fake.
+    for attempt in range(5):
+        wrong = {**credentials, "password": "wrong-password"}
+        request(args.frontend, "/api/v1/auth/login", method="POST", payload=wrong,
+                expected=429 if attempt == 4 else 401)
+    request(args.frontend, "/api/v1/auth/login", method="POST", payload=credentials, expected=429)
+    print("PASS real Redis login failure counter and lockout")
+    if args.skip_ai:
+        return
     token = os.environ.get("AI_API_KEY")
     if not token:
         from pathlib import Path
