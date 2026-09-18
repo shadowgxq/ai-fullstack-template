@@ -1,0 +1,53 @@
+name: Prepare cleanup branch
+on:
+  push:
+    branches: [refactor/cleanup-architecture-review]
+    paths: ['.review/**', '.github/workflows/prepare-cleanup.yml']
+permissions:
+  contents: read
+jobs:
+  prepare:
+    if: github.ref == 'refs/heads/refactor/cleanup-architecture-review'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: '3.12'
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: frontend/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Apply reviewed changes with original-file checks
+        run: python3 .review/apply.py
+      - name: Resolve only changed dependencies and format
+        run: |
+          (cd backend && uv lock && uv sync --locked && make format)
+          (cd ai-service && uv sync --locked && make format)
+          pnpm --dir frontend install --frozen-lockfile
+          (cd frontend && pnpm exec prettier src/shared/api/api-error.ts src/shared/api/api-error.test.ts --write)
+      - name: Regenerate contracts and validate documentation and boundaries
+        run: make contracts docs architecture
+      - name: Commit reviewed code without workflows or force pushes
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A -- . ':!.github/workflows' ':!.review'
+          if ! git diff --cached --quiet; then
+            git commit -m 'refactor: remove legacy projects and enforce architecture boundaries'
+            git push origin HEAD:refs/heads/refactor/cleanup-architecture-review
+          fi
+      - name: Export prepared source
+        run: git archive --format=tar.gz HEAD -o /tmp/prepared-cleanup.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: prepared-cleanup
+          path: /tmp/prepared-cleanup.tar.gz
+          retention-days: 1
