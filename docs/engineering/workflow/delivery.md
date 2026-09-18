@@ -4,9 +4,11 @@
 
 `REQ-ID + 验收 → 架构/ADR → 提供方 schema/契约 → OpenSpec change → tasks → 测试证据 → PR`。
 
-需求正文只在 `docs/product/`；设计和任务在 `openspec/changes/<change>/`；批次、依赖与当前进度在根 `manager/plan.yaml`。不为同一能力按三端各建一份产品需求。小修复走根 `repairs/`，不重复记账。
+需求正文只在 `docs/product/`；设计和任务在 `openspec/changes/<change>/`；批次、依赖与 change 阶段在根 `manager/plan.yaml`；细项进度只记 tasks，不在计划里复制任务勾选。不为同一能力按三端各建一份产品需求。不改变需求/契约的小修复可显式使用根 `repairs/`，否则使用 OpenSpec；同一工作不进入两条队列。
 
 保留 Manager 的 `updated_at/current/requirements/openspec/batches` 结构。requirement 引用 source；change 引用需求 ID、架构、契约、任务路径。任务明确 owner、读写范围、依赖、验收命令及证据；只有实际完成才能勾选。
+
+工具发现与归档规则见 [工具入口](tooling.md)。
 
 ## 最小上下文包
 

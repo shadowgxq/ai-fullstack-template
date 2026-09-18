@@ -1,8 +1,9 @@
 from datetime import datetime, timedelta, timezone
 from uuid import uuid4
+import math
 
 import bcrypt
-from jose import jwt
+from jose import JWTError, jwt
 
 from app.core.config import settings
 
@@ -29,7 +30,19 @@ def create_access_token(subject: str) -> str:
 
 
 def decode_access_token(token: str) -> dict:
-    return jwt.decode(token, settings.secret_key, algorithms=[settings.algorithm])
+    payload = jwt.decode(token, settings.secret_key, algorithms=[settings.algorithm])
+    if not isinstance(payload.get("sub"), str) or not payload["sub"]:
+        raise JWTError("Missing subject")
+    if not isinstance(payload.get("jti"), str) or not 1 <= len(payload["jti"]) <= 128:
+        raise JWTError("Missing token identity")
+    exp = payload.get("exp")
+    if (
+        isinstance(exp, bool)
+        or not isinstance(exp, (int, float))
+        or not math.isfinite(exp)
+    ):
+        raise JWTError("Missing expiration")
+    return payload
 
 
 def get_token_ttl_seconds(payload: dict) -> int:
@@ -38,4 +51,4 @@ def get_token_ttl_seconds(payload: dict) -> int:
     if exp is None:
         return 0
     now = datetime.now(timezone.utc).timestamp()
-    return max(int(exp - now), 0)
+    return max(math.ceil(exp - now), 0)

@@ -12,7 +12,7 @@
 
 ## 统一响应
 
-所有接口返回统一信封，客户端只解析这一种结构：
+业务 API 返回统一信封；`/health`、`/ready` 与 OpenAPI 为运维/协议例外：
 
 ```json
 { "code": 0, "message": "success", "data": { } }
@@ -35,21 +35,22 @@
 | `LoginLockedException` | 42901 | 429 | 登录失败过多，暂时锁定 |
 | `RequestValidationError` | 42200 | 422 | 入参校验失败（FastAPI 抛，统一兜底）|
 | `StarletteHTTPException` | status×100 | 原状态码 | HTTP 异常兜底 |
+| `AuthDependencyUnavailable` | 50301 | 503 | 安全依赖不可用，不能放行或宣称登出成功 |
 | 未捕获 `Exception` | 50000 | 500 | 兜底，不泄露堆栈 |
 
 - **不在路由 / service / repository 里裸抛 `HTTPException` 或返回错误字典**；统一走 `BusinessException`，新增错误类型补到 `core/exceptions`（分配一个业务 `code`）。
-  - 例外：`core/deps` 的鉴权依赖沿用现有 `HTTPException(401)` 表达凭证无效，属框架依赖层惯例；业务层一律用 `BusinessException`。
+  - 例外：`api/dependencies` 的鉴权依赖沿用现有 `HTTPException(401)` 表达凭证无效，属框架依赖层惯例；业务层一律用 `BusinessException`。
 - 错误 `message` 面向用户可读，不暴露内部细节、堆栈、SQL；全局 handler 会带上 `request_id` 记日志（见 [infrastructure.md](./infrastructure.md)）。
 
 ## 状态码与数据约定
 
-- 用合适 HTTP 状态码（200/400/401/404/422/429/500）配合业务 `code`，不全用 200 裹错误。
+- 用合适 HTTP 状态码（200/400/401/404/422/429/503/500）配合业务 `code`，不全用 200 裹错误。
 - 时间用 ISO 8601 字符串；数量 / 时长用数字不用字符串；布尔就用布尔。
 - 入参约束就近声明：`Query(20, ge=1, le=50)`、Path 类型、Body schema 校验，不在函数体里手写 if 校验。
 
 ## 鉴权
 
-- 需登录的接口标注 `current_user = Depends(get_current_user)`（`core/deps`），从 `Authorization: Bearer <token>` 解析；失败抛 401 / `TokenRevokedException`。
+- 需登录的接口标注 `current_user = Depends(get_current_user)`（`api/dependencies`），从 `Authorization: Bearer <token>` 解析；失败抛 401 / `TokenRevokedException`。
 - 登录签发 JWT（带 `jti`）；登出把 `jti` 加入 Redis 黑名单，`get_current_user` 校验黑名单。JWT 配置（`secret_key`/`algorithm`/有效期）只走 `settings`；token 不记日志、不入库。
 - 登录失败限流、黑名单等细则见 [infrastructure.md](./infrastructure.md)。
 
@@ -57,3 +58,7 @@
 
 - 接口出入参变更同步更新对应 `schemas/`，并保证 `response_model` 与实际返回一致；`/docs` 是对外事实源。
 - 新增接口后确认已在 `main.py`（或 `api/v1/__init__.py`）注册，接口实际可达。
+
+422 的 `data` 是字段错误数组，每项只有 `loc/type/msg`，不得包含输入原文、密码或异常 ctx；前端错误归一化将该数组放入 `details`。
+
+登录接受 JSON 凭证，OpenAPI 使用 HTTP Bearer，而非 OAuth2 password form。用户名 1–50 字符且不能全为空白，保留已有账号名称的空格身份；密码非空且不超过 72 UTF-8 字节，不截断。401 保留 `WWW-Authenticate: Bearer`。安全 Redis 故障返回 503，不能降级为未撤销/未限流。

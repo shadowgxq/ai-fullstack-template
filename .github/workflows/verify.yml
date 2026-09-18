@@ -2,7 +2,7 @@ name: Verify monorepo
 on:
   pull_request:
   push:
-    branches: [main, refactor/fullstack-vibe-monorepo]
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
@@ -16,7 +16,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: {persist-credentials: false}
-      - run: make docs
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: '3.12'
+      - run: make docs architecture
   frontend:
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -92,6 +95,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: {persist-credentials: false}
+      - name: Start web without AI and verify its independent lifecycle
+        run: |
+          make up-web
+          if docker compose ps --services --status running | grep -E '^(ai-service|ai-worker|worker)$'; then exit 1; fi
+          make smoke-web
       - name: Build and start all services
         run: docker compose up --build -d --wait --wait-timeout 180
       - name: Verify HTTP and Worker lifecycle

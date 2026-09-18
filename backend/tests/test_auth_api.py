@@ -1,12 +1,4 @@
-"""
-端到端 API 测试：用 TestClient 走完整 HTTP 流程。
-重点验证 conftest 里的 dependency_overrides 真的把数据写进了测试 SQLite 库——
-注册的用户，随后能登录、能用 token 访问 /me，全程同一个内存库。
-
-说明：登录会用到 Redis（失败计数/黑名单）。本机若没起 Redis，redis_safe 会
-自动降级（计数当 0、不锁定），所以 happy path 照常通过。"用 mock 主动制造
-Redis 故障来验证降级"放在下一组测试里专门讲。
-"""
+"""Authentication API integration against isolated SQLite and a Redis command fake."""
 
 REGISTER = "/api/v1/auth/register"
 LOGIN = "/api/v1/auth/login"

@@ -18,3 +18,9 @@ def success_response(data: T | None = None, message: str = "success") -> dict:
         "message": message,
         "data": data,
     }
+
+
+class ValidationIssue(BaseModel):
+    loc: list[str | int]
+    type: str
+    msg: str

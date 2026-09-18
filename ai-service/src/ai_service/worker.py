@@ -25,8 +25,8 @@ def worker_connection(store: Store):
         ).fetchone()
         if not acquired["acquired"]:
             raise WorkerAlreadyRunning("Only one Worker may advance this database")
-        # The lock and all application writes share one session. A lost lock
-        # connection cannot publish a stale application result.
+        # The lock, checkpoints and application writes share one session.
+        # Losing that session prevents all stale writes, not just publication.
         yield connection
 
 
@@ -38,8 +38,10 @@ def process_next(settings: Settings, store: Store, connection) -> bool:
     try:
         if job["workflow"] != "echo.v1":
             raise ValueError("Unsupported frozen workflow version")
-        with PostgresSaver.from_conn_string(settings.database_url) as saver:
-            output = execute_echo(run_id, job["input"]["text"], saver)
+        # Checkpoint writes must lose authority together with the Worker lock.
+        # Using a second connection would allow stale graph writes after lock loss.
+        saver = PostgresSaver(connection)
+        output = execute_echo(run_id, job["input"]["text"], saver)
     except psycopg.Error:
         # Leave the command for restart. No external/paid work exists in this sample.
         raise

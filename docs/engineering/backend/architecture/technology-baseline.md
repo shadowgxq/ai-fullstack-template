@@ -6,7 +6,7 @@
 
 | 领域 | 选型与边界 |
 |---|---|
-| Python | 本地默认、Docker 与 CI 使用 3.12；包元数据保留原有 ≥3.10 兼容声明，未据此宣称验证了所有版本 |
+| Python | Python ≥3.12；本地默认、Docker 与 CI 使用 3.12 |
 | 框架 | FastAPI，同步 `def` 路由；Pydantic v2 DTO，OpenAPI 由提供方代码生成 |
 | 数据访问 | SQLAlchemy 2.0 同步 Session + psycopg2；Alembic 版本化迁移 |
 | 数据库 | PostgreSQL；与 AI 服务分库分角色，禁止跨服务直接查询 |
@@ -14,7 +14,7 @@
 | 包管理 | uv + 独立 uv.lock，冻结依赖安装，不混用 pip/poetry |
 | 检查 | `make check` 只读检查和测试；`make format` 才修复代码；`make lint` 不自动修复 |
 
-不引入重型 DI、额外查询构建器或未经评估的依赖。异步数据库改造必须整体评审，不因已有 asyncpg 依赖就混用 AsyncSession 与同步 Session。
+不引入重型 DI、额外查询构建器或未经评估的依赖。异步数据库改造必须整体评审，当前只安装同步驱动，不预装未使用的 asyncpg 或 passlib。
 
 ## 依赖与数据流
 
@@ -28,6 +28,6 @@ HTTP → api/v1 → services → repositories → models / DB
 
 应用启动不自动改表。Alembic 升级是独立部署步骤；请求事务使用 `transaction(db)`。业务异常通过统一 handler 转 `{code,message,data}`。
 
-Redis 容错沿用模板，生产前必须评审登录限流和撤销 token 在故障时是否应拒绝请求；初始化测试通过不代表生产安全验收。
+Redis 可选缓存允许降级回源；认证、登录限流与 token 撤销不可用时返回 503。初始化测试不代表生产安全验收。
 
 细则按需读 [分层](../standards/layer-definition.md)、[目录](../standards/file-organization.md)、[Python](../standards/python-development.md)、[基础设施](../standards/infrastructure.md)。跨端规范以 [公共约束](../../common/README.md) 为准。

@@ -24,7 +24,7 @@ Read first:
 - `repairs/list.yaml`
 - `repairs/queue/`
 - `repairs/archive/`
-- `package.json`
+- `Makefile` and the affected service README
 - `scripts/repairs/validate_repairs.py` if present
 
 Read each selected repair file before claiming it. Inspect code only as needed

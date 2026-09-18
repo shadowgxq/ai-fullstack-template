@@ -1,3 +1,6 @@
+from sqlalchemy.exc import IntegrityError
+from app.core.session import transaction
+
 from app.core.security import create_access_token, hash_password, verify_password
 from app.models.user import User
 from app.repositories.user_repository import UserRepository
@@ -16,12 +19,20 @@ class AuthService:
         self.repo = repo
 
     def register(self, username: str, password: str) -> User:
-        existing = self.repo.get_by_username(username)
-        if existing:
-            raise UsernameAlreadyExistsException()
-        return self.repo.create(
-            username=username, password_hash=hash_password(password)
-        )
+        try:
+            with transaction(self.repo.db):
+                if self.repo.get_by_username(username):
+                    raise UsernameAlreadyExistsException()
+                user = self.repo.create(
+                    username=username, password_hash=hash_password(password)
+                )
+            return user
+        except IntegrityError:
+            # A competing registration can win after the initial read. The
+            # transaction context has rolled back before querying the winner.
+            if self.repo.get_by_username(username) is not None:
+                raise UsernameAlreadyExistsException() from None
+            raise
 
     def login(self, username: str, password: str) -> str:
         # 1. 已锁定直接拒绝

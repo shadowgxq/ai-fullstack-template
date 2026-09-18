@@ -1,46 +1,76 @@
-updated_at: '2026-09-17'
+updated_at: '2026-09-18'
 current:
-  title: 全栈初始化已验证，进入 PR 评审
-  batch: batch-foundation
-  wave: wave-foundation
-  next: 审查 PR 与验证证据；合并需人工决定，后续业务或生产能力另立需求。
+  title: 清理与架构修正已验证，进入 PR 评审
+  batch: batch-cleanup
+  wave: wave-cleanup
+  next: '审查 PR #2 与本次验证证据；合并需人工决定，团队小站尚未进入执行。'
 requirements:
-  - id: REQ-MONO-001
-    title: 三端 monorepo 与统一启动验证
-    source: docs/product/bootstrap.md
-  - id: REQ-DOC-001
-    title: 精简入口与文档单源
-    source: docs/product/bootstrap.md
-  - id: REQ-AI-001
-    title: AI 服务初始化
-    source: docs/product/bootstrap.md
+- id: REQ-MONO-001
+  title: 三端 monorepo 与统一启动验证
+  source: docs/product/bootstrap.md
+- id: REQ-DOC-001
+  title: 精简入口与文档单源
+  source: docs/product/bootstrap.md
+- id: REQ-AI-001
+  title: AI 服务初始化
+  source: docs/product/bootstrap.md
+- id: REQ-CLEAN-001
+  title: 模板清理与架构修正
+  source: docs/product/template-maintenance.md
 openspec:
-  - id: fullstack-foundation
-    title: 全栈工程基座
-    phase: verify
-    state: ready_for_review
-    requirements:
-      - REQ-MONO-001
-      - REQ-DOC-001
-      - REQ-AI-001
-    inputs:
-      - id: architecture
-        source: docs/architecture/README.md
-        required: true
-      - id: contracts
-        source: docs/contracts/README.md
-        required: true
-      - id: verification
-        source: openspec/changes/fullstack-foundation/verification.md
-        required: true
-    path: openspec/changes/fullstack-foundation
-    tasks: openspec/changes/fullstack-foundation/tasks.md
-    depends_on: []
+- id: fullstack-foundation
+  title: 全栈工程基座
+  phase: archive
+  state: archived
+  requirements:
+  - REQ-MONO-001
+  - REQ-DOC-001
+  - REQ-AI-001
+  inputs:
+  - id: architecture
+    source: docs/architecture/README.md
+    required: true
+  - id: contracts
+    source: docs/contracts/README.md
+    required: true
+  - id: verification
+    source: openspec/changes/archive/2026-09-17-fullstack-foundation/verification.md
+    required: true
+  path: openspec/changes/archive/2026-09-17-fullstack-foundation
+  tasks: openspec/changes/archive/2026-09-17-fullstack-foundation/tasks.md
+  depends_on: []
+- id: cleanup-architecture
+  title: 历史清理与架构复审
+  phase: verify
+  state: ready_for_review
+  requirements:
+  - REQ-CLEAN-001
+  inputs:
+  - id: architecture
+    source: docs/architecture/README.md
+    required: true
+  - id: contracts
+    source: docs/contracts/README.md
+    required: true
+  - id: review
+    source: openspec/changes/cleanup-architecture/review.md
+    required: true
+  path: openspec/changes/cleanup-architecture
+  tasks: openspec/changes/cleanup-architecture/tasks.md
+  depends_on:
+  - fullstack-foundation
 batches:
-  - id: batch-foundation
-    goal: 三端可运行、契约可验证、文档无平行事实源
-    waves:
-      - id: wave-foundation
-        parallel: false
-        openspec:
-          - fullstack-foundation
+- id: batch-foundation
+  goal: 三端可运行、契约可验证、文档无平行事实源
+  waves:
+  - id: wave-foundation
+    parallel: false
+    openspec:
+    - fullstack-foundation
+- id: batch-cleanup
+  goal: 无历史执行残留、规则与实现一致、三端和可选 AI 均可验证
+  waves:
+  - id: wave-cleanup
+    parallel: false
+    openspec:
+    - cleanup-architecture

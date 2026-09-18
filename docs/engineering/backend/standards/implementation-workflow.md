@@ -11,6 +11,6 @@
 | 5. 路由装配 | 使用依赖装配 service，在 main 注册；接口在 OpenAPI 可见且实际可达 |
 | 6. 验证与同步 | 本端 `make check`；根 `make contracts` 与消费者回归；同步 tasks 证据 |
 
-已有 users 初始迁移，首次安装只 upgrade，不重复生成。新增模型须检查 Alembic/test metadata 注册；业务错误复用 BusinessException，不能在 service 中绕过统一异常契约。Redis 故障策略要按安全边界评审，不能机械对所有新增认证操作 fail-open。
+已有 users 初始迁移，首次安装只 upgrade，不重复生成。新增模型须检查 Alembic/test metadata 注册；业务错误复用 BusinessException，不能在 service 中绕过统一异常契约。认证依赖 Redis 不可用时返回 503；仅非安全缓存使用可选降级。
 
 细则见 [分层](layer-definition.md)、[目录](file-organization.md)、[契约](api-and-error-contract.md)、[基础设施](infrastructure.md)、[Python](python-development.md)。

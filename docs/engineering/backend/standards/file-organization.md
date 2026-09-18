@@ -1,6 +1,6 @@
 # File Organization
 
-模块 / 文件命名和放置规则。适用范围：`app/`（FastAPI + SQLAlchemy 2.0 同步，Python ≥ 3.10）。
+模块 / 文件命名和放置规则。适用范围：`app/`（FastAPI + SQLAlchemy 2.0 同步，Python ≥ 3.12）。
 各层怎么写、数据边界看 [layer-definition.md](./layer-definition.md)；依赖方向看 [../architecture/technology-baseline.md](../architecture/technology-baseline.md)。
 
 ## 文件 / 标识符命名
@@ -26,7 +26,8 @@
 | ORM 表模型 | `app/models/<域>.py` | `models/user.py` |
 | 出入参 schema | `app/schemas/<域>.py` | `schemas/auth.py` |
 | 通用 schema（响应） | `app/schemas/response.py` | `ApiResponse`、`success_response` |
-| 配置 / 会话 / 安全 / 依赖 / Redis / 异常 / 日志 / 中间件 | `app/core/<关注点>.py` | `core/config.py`、`core/deps.py`、`core/redis_client.py` |
+| HTTP 鉴权与依赖装配 | `app/api/dependencies.py` | `get_current_user`、`get_access_token` |
+| 配置 / 会话 / 安全 / Redis / 异常 / 日志 / 中间件 | `app/core/<关注点>.py` | `core/config.py`、`core/redis_client.py` |
 | 数据库迁移 | `alembic/versions/` | 由 `alembic revision --autogenerate` 生成 |
 | 测试 | `tests/test_<目标>.py` | `tests/test_auth_api.py` |
 
@@ -40,5 +41,5 @@
 ## 放置判断
 
 - 先问「这段代码属于哪一层职责」（收请求 / 编排规则 / 访问数据 / 表结构 / 契约 / 横切），再放对应目录，不按「文件看起来该在哪」随手放。
-- 业务规则只进 `services`；纯 ORM 查询进 `repositories`；可跨路由复用的依赖（如 `get_current_user`）进 `core/deps`；与具体域无关的横切能力（配置、Redis、异常、日志、中间件）进 `core`。
+- 业务规则只进 `services`；纯 ORM 查询进 `repositories`；可跨路由复用的依赖（如 `get_current_user`）进 `api/dependencies`；与具体域无关的横切能力（配置、Redis、异常、日志、中间件）进 `core`。
 - 同一逻辑被多个域复用且无业务语义（纯工具）时，再考虑提取到 `core`，不为一次性复用提前抽象。

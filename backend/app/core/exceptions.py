@@ -58,3 +58,14 @@ class TokenRevokedException(BusinessException):
             message="Token has been revoked",
             status_code=401,
         )
+
+
+class AuthDependencyUnavailable(BusinessException):
+    """Authentication or revocation could not be checked/persisted."""
+
+    def __init__(self):
+        super().__init__(
+            code=50301,
+            message="Authentication temporarily unavailable",
+            status_code=503,
+        )

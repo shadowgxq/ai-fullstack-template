@@ -12,3 +12,7 @@ AI 创建要求 `Idempotency-Key`（1–128 位非空白可打印 ASCII）与 `{
 快照：run_id/workflow/status/input/output/error_code/last_sequence/created_at。状态 queued→running→completed 或 failed；未完成结果 409，跨 scope/不存在 404。正式结果不可覆写。`GET /api/v1/runs/{id}/events?after=0` 最多 100 条持久事件，以最后 sequence 续读、快照校准；**当前是 JSON 轮询，不是 SSE**。
 
 AI 错误使用 FastAPI `{detail:...}`；验证 422、未授权 401、数据库不可用 503。客户端不读取 LangGraph State、数据库行或供应商原始输出。未来用户身份接入须定义受信 scope 映射，不能相信浏览器自报 tenant_id。
+
+## 认证与字段错误
+
+后端 JSON 登录使用 HTTP Bearer。401 返回 Bearer challenge；Redis 限流/撤销读写失败返回 HTTP 503、业务码 50301。缓存不可用仍可回源，不能复用缓存降级策略绕过鉴权。用户名与密码限制见生成 schema；密码另按 UTF-8 最多 72 字节校验。422 信封的 `data` 为 `loc/type/msg` 列表，不含 input/ctx；前端归一化保留为 `ApiError.details`。

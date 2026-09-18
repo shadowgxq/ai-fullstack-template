@@ -38,7 +38,7 @@ export function normalizeApiError(error: unknown): ApiError {
       message,
       status: error.response?.status,
       code,
-      details: data?.details,
+      details: data?.data ?? data?.details,
     };
   }
 

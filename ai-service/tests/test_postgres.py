@@ -93,8 +93,7 @@ def test_post_checkpoint_pre_publish_crash_recovery(environment):
     with worker_connection(store) as connection:
         job = store.claim_next(connection)
         assert str(job["run_id"]) == run_id
-        with PostgresSaver.from_conn_string(config.database_url) as saver:
-            execute_echo(run_id, "resume", saver)
+        execute_echo(run_id, "resume", PostgresSaver(connection))
     with worker_connection(store) as connection:
         assert process_next(config, store, connection)
     assert client.get(f"/api/v1/runs/{run_id}/result").json() == {"text": "resume"}
@@ -118,3 +117,35 @@ def test_concurrent_duplicate_creates_one_run(environment):
     with worker_connection(store) as connection:
         assert process_next(config, store, connection)
         assert not process_next(config, store, connection)
+
+
+def test_lost_worker_session_cannot_write_checkpoints(environment, monkeypatch):
+    import psycopg
+
+    import ai_service.worker as worker
+    from ai_service.workflows.echo import build_graph
+
+    config, client, store = environment
+    run_id = create(client, text="lock-loss").json()["run_id"]
+    original = worker.execute_echo
+    with worker_connection(store) as connection:
+
+        def disconnect_before_graph(run_id, text, saver):
+            assert saver.conn is connection
+            with store.connect() as killer:
+                killer.execute(
+                    "SELECT pg_terminate_backend(%s)", (connection.info.backend_pid,)
+                )
+            return original(run_id, text, saver)
+
+        with monkeypatch.context() as patch:
+            patch.setattr(worker, "execute_echo", disconnect_before_graph)
+            with pytest.raises(psycopg.Error):
+                process_next(config, store, connection)
+    with worker_connection(store) as connection:
+        snapshot = build_graph(PostgresSaver(connection)).get_state(
+            {"configurable": {"thread_id": run_id}}
+        )
+        assert not snapshot.values
+        assert process_next(config, store, connection)
+    assert client.get(f"/api/v1/runs/{run_id}/result").json() == {"text": "lock-loss"}
