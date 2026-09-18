@@ -1,0 +1,20 @@
+name: Review source snapshot
+on:
+  push:
+    branches: [refactor/cleanup-architecture-review]
+permissions:
+  contents: read
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - run: git archive --format=tar.gz HEAD -o /tmp/review-source.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: review-source
+          path: /tmp/review-source.tar.gz
+          retention-days: 1
