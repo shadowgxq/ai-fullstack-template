@@ -66,3 +66,13 @@ class DocumentationChecks(unittest.TestCase):
             p = root / "README.md"
             p.write_text("[escape](../outside.md)")
             self.assertTrue(any("escapes" in e for e in module.link_errors(root, p)))
+
+    def test_archived_change_cannot_remain_active(self):
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name)
+            (root / "openspec/changes/archive/2026-09-17-bootstrap").mkdir(parents=True)
+            active = root / "openspec/changes/bootstrap"
+            active.mkdir()
+            self.assertTrue(any("archived change still present" in e for e in module.hygiene_errors(root)))
+            active.rmdir()
+            self.assertFalse(module.hygiene_errors(root))

@@ -50,6 +50,12 @@ def hygiene_errors(root):
     for name in legacy:
         if (root / name).exists():
             errors.append(f"legacy or duplicate root reintroduced: {name}")
+    changes = root / "openspec/changes"
+    for archived in (changes / "archive").glob("*"):
+        if archived.is_dir():
+            change_id = re.sub(r"^\d{4}-\d{2}-\d{2}-", "", archived.name)
+            if (changes / change_id).exists():
+                errors.append(f"archived change still present in active directory: {change_id}")
     skills = {}
     for folder in (".agents/skills", ".codex/skills", ".claude/skills"):
         for skill in (root / folder).glob("*/SKILL.md"):

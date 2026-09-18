@@ -1,9 +1,9 @@
 updated_at: '2026-09-18'
 current:
-  title: 清理历史项目并修正架构边界
+  title: 清理与架构修正已验证，进入 PR 评审
   batch: batch-cleanup
   wave: wave-cleanup
-  next: 完成针对性回归与全栈启动复验后提交 PR；团队小站尚未进入执行。
+  next: '审查 PR #2 与本次验证证据；合并需人工决定，团队小站尚未进入执行。'
 requirements:
 - id: REQ-MONO-001
   title: 三端 monorepo 与统一启动验证
@@ -41,8 +41,8 @@ openspec:
   depends_on: []
 - id: cleanup-architecture
   title: 历史清理与架构复审
-  phase: apply
-  state: in_progress
+  phase: verify
+  state: ready_for_review
   requirements:
   - REQ-CLEAN-001
   inputs:
