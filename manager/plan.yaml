@@ -1,29 +1,9 @@
-updated_at: '2026-09-20'
+updated_at: null
 current:
-  title: AI Service 工程初始化与规范同步
-  batch: ai-bootstrap-sync
-  wave: implementation
-  next: 评审原 PR 5；合并后按交付流程处理归档
-requirements:
-  - id: REQ-AI-001
-    source: docs/product/bootstrap.md
-openspec:
-  - id: complete-ai-service-bootstrap
-    path: openspec/changes/complete-ai-service-bootstrap
-    tasks: openspec/changes/complete-ai-service-bootstrap/tasks.md
-    requirements: [REQ-AI-001]
-    state: ready_for_review
-    phase: verify
-    depends_on: []
-    inputs:
-      - id: architecture
-        source: docs/architecture/README.md
-      - id: engineering
-        source: docs/engineering/ai-service/README.md
-      - id: contract
-        source: docs/contracts/README.md
-batches:
-  - id: ai-bootstrap-sync
-    waves:
-      - id: implementation
-        openspec: [complete-ai-service-bootstrap]
+  title: ''
+  batch: null
+  wave: null
+  next: ''
+requirements: []
+openspec: []
+batches: []

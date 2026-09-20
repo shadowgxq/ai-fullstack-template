@@ -84,7 +84,13 @@ def validate_plan(path: Path) -> list[str]:
     requirements = index(plan.get("requirements"), "requirements")
     changes = index(plan.get("openspec"), "openspec")
     batches = index(plan.get("batches"), "batches")
-    if not plan.get("updated_at"):
+    # An untouched template has no update date or task state to inherit.
+    pristine = (
+        all(plan.get(key) == [] for key in ("requirements", "openspec", "batches"))
+        and plan.get("current") == {"title": "", "batch": None, "wave": None, "next": ""}
+        and "updated_at" in plan
+    )
+    if not plan.get("updated_at") and not pristine:
         errors.append("missing updated_at")
     for rid, req in requirements.items():
         source = reference(req.get("source"), rid)
