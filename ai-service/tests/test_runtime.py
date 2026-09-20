@@ -17,9 +17,7 @@ class RuntimeTests(unittest.TestCase):
         source = {"fixed.v1": execute}
         runner = WorkflowRunner(source)
         source["fixed.v2"] = execute
-        self.assertEqual(
-            runner.run("fixed.v1", "run-1", {"value": 1}), {"ok": True}
-        )
+        self.assertEqual(runner.run("fixed.v1", "run-1", {"value": 1}), {"ok": True})
         with self.assertRaises(UnsupportedWorkflow):
             runner.run("fixed.v2", "run-2", {})
         self.assertEqual(calls, [("run-1", {"value": 1})])
