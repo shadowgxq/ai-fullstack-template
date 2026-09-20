@@ -1,6 +1,6 @@
 # 前端专项导航
 
-本文 `src/` 指 `frontend/src/`。公共约束见 [common](../common/README.md)，交付见 [workflow](../workflow/delivery.md)。
+本文 `src/` 指 `frontend/src/`。公共约束继承 [根 AGENTS.md](../../../AGENTS.md)；配置、运行环境与验证范围按需查 [公共工程细则](../common/README.md)，跨端协作查 [交付流程](../workflow/delivery.md)。
 
 | 任务 | 按需读取 |
 |---|---|
@@ -12,4 +12,4 @@
 | 主题、多语言 | [theme / i18n](guides/theming-and-i18n.md) |
 | 代理、构建、配置 | [Vite 配置](guides/runtime-config-and-vite.md) |
 
-保留 React/Vite、主题、国际化与错误边界。产品与接口只维护根 docs，不再建立端内副本。
+保留 React/Vite、主题、国际化与错误边界。
