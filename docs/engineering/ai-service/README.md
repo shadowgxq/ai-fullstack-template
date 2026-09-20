@@ -1,6 +1,6 @@
 # AI 服务专项规则
 
-先读 [已实现与目标边界](../../architecture/README.md)，涉及恢复再读 [目标架构](../../architecture/ai-service/agent-runtime-architecture.md)。
+公共约束继承 [根 AGENTS.md](../../../AGENTS.md)。先读 [已实现与目标边界](../../architecture/README.md)，涉及恢复再读 [目标架构](../../architecture/ai-service/agent-runtime-architecture.md)；数据库、配置与验证范围按需查 [公共工程细则](../common/README.md)。
 
 `api → application → agent_core`；workflows 组合业务步骤，infrastructure 提供数据库等适配。core 不依赖模型 SDK 或业务模块。application 仅依赖 core 的 RunStore Protocol；API 组合根注入 PostgreSQL Store，单元测试可注入内存替身。
 

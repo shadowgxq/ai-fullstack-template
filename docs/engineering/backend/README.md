@@ -1,6 +1,6 @@
 # 后端专项导航
 
-本文 `app/` 指 `backend/app/`。公共约束见 [common](../common/README.md)。
+本文 `app/` 指 `backend/app/`。公共约束继承 [根 AGENTS.md](../../../AGENTS.md)；数据库、缓存、配置与验证范围按需查 [公共工程细则](../common/README.md)。
 
 | 任务 | 按需读取 |
 |---|---|

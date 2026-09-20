@@ -13,4 +13,4 @@
 | [api-and-error-contract.md](./api-and-error-contract.md) | 路由、统一响应、异常、状态码、鉴权（API 契约 owner） |
 | [infrastructure.md](./infrastructure.md) | 配置、DB 会话/事务、Redis 缓存与容错、JWT/安全、请求日志中间件（横切基础设施 owner） |
 
-新增、删除或改名 standards 文件时，同步更新 [docs/README.md](../README.md) 的文档地图。
+新增、删除或改名 standards 文件时，同步更新 [后端专项导航](../README.md)；涉及文档职责变化时同步 [文档地图](../../../README.md)。

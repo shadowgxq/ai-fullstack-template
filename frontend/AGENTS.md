@@ -1,8 +1,8 @@
 # frontend 协作入口
 
-先读 [根规则](../AGENTS.md)，此处只补充导航。
+公共约束继承 [根 AGENTS.md](../AGENTS.md)，此处只维护本端任务导航。
 
-- 实现前按 [专项规范](../docs/engineering/frontend/README.md) 选择必要文档。
-- 跨端变更先读 [契约](../docs/contracts/README.md) 与 [当前计划](../manager/plan.yaml)。
-- 安装、启动和检查命令只维护在 [README.md](README.md)。
-- 不新建端内 PRD、接口副本或独立任务台账。
+- 修改本端代码或对应工程文档前，按 [专项规范](../docs/engineering/frontend/README.md) 选择必要文档。前端实现至少读取 [编码规范](../docs/engineering/frontend/standards/frontend-development.md)。
+- 涉及 API 或跨端数据流时，先读 [跨端契约](../docs/contracts/README.md)；涉及需求拆分或协作进度时，再读 [交付流程](../docs/engineering/workflow/delivery.md)。
+- 数据库、缓存、配置、运行环境或跨端验证涉及公共细节时，按需读取 [公共工程细则](../docs/engineering/common/README.md)。
+- 安装、启动和检查命令见 [README.md](README.md)。
