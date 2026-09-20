@@ -1,4 +1,6 @@
 import importlib.util
+from contextlib import redirect_stdout
+from io import StringIO
 from pathlib import Path
 import unittest
 from unittest.mock import patch
@@ -23,7 +25,12 @@ class SmokeChecks(unittest.TestCase):
             if path.endswith("me"):
                 return {"data": {"username": self.username}}
             return {}
-        with patch.object(module, "request", side_effect=request), patch("sys.argv", ["smoke.py", "--skip-ai"]):
+        # Mocked protocol tests must not emit real-infrastructure PASS messages.
+        with (
+            patch.object(module, "request", side_effect=request),
+            patch("sys.argv", ["smoke.py", "--skip-ai"]),
+            redirect_stdout(StringIO()),
+        ):
             module.main()
 
     def test_non_loopback_target_rejected_before_writes(self):

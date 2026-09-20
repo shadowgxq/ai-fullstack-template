@@ -1,6 +1,6 @@
 # 分层与文件组织
 
-适用于 AI 服务代码与模块调整。公共跨服务约束见 [根规则](../../../../AGENTS.md)；本页只定义 `ai-service` 内部职责。
+适用于 AI 服务代码与模块调整。跨服务边界见 [全栈架构](../../../architecture/README.md)；本页只定义 `ai-service` 内部职责。
 
 ## 模块职责
 
@@ -23,7 +23,9 @@
 
 常规依赖是 `api → application → agent_core`；workflow 使用 core 契约，infrastructure 实现这些契约。`worker.py` 与 API 工厂负责连接具体实现。Worker 将绑定当前 Saver 的执行函数交给 `bootstrap.create_runner`；Runner 不持有数据库类型、不运行第二份业务循环。
 
-[现有架构检查](../../../../scripts/check_architecture.py) 明确禁止 `agent_core`、`application` import LangGraph、FastAPI、psycopg 和外围模块。`WorkflowRunner` 只使用标准库 Callable/Mapping；框架调用仍在 workflow/Worker，不能把 `CompiledStateGraph` 类型引入 core。
+[架构检查](../../../../scripts/check_architecture.py) 校验静态内部依赖：`agent_core` 只依赖自身，`application` 可依赖 core；两者不引用配置或 composition root，也不 import LangGraph、FastAPI、psycopg。`workflows` 只组合本层与 core；`infrastructure` 只依赖本层、core 与配置。API 的具体 Store/配置装配例外仅在 `api/app.py`，其他 API 模块通过 application/core 契约协作；API 不 import workflow。
+
+`bootstrap.py`、`worker.py`、CLI 与诊断入口处于外围；新增内部层需同步依赖规则及回归。`WorkflowRunner` 只使用标准库 Callable/Mapping，框架调用仍在 workflow/Worker。此检查覆盖静态 import（包括相对 import），不代替动态调用、副作用或授权评审。
 
 依赖接口按当前使用者定义，不预建万能 BaseAgent、BaseService、插件平台或 service locator。静态注册只接受服务端已知 ID。新增公开 workflow 时同步输入 schema 与注册表；自检会核对两者，不得仅新增分派项便声称接口已开放。
 

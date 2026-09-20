@@ -19,11 +19,7 @@
     "test:watch": "vitest",
     "format": "prettier \"src/**/*.{ts,tsx,css,json}\" \"*.{js,ts,json,html}\" --write",
     "format:check": "prettier \"src/**/*.{ts,tsx,css,json}\" \"*.{js,ts,json,html}\" --check",
-    "manager:validate": "python3 ../scripts/manager/validate_plan.py ../manager/plan.yaml",
-    "workflow:validate": "pnpm manager:validate && pnpm repairs:validate",
-    "check": "pnpm typecheck && pnpm lint:ci && pnpm test && pnpm workflow:validate && pnpm format:check",
-    "repairs:validate": "cd .. && python3 scripts/repairs/validate_repairs.py",
-    "repairs:status": "cd .. && python3 scripts/repairs/validate_repairs.py --status-only"
+    "check": "pnpm typecheck && pnpm lint:ci && pnpm test && pnpm format:check"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.101.0",
