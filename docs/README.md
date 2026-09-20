@@ -8,7 +8,7 @@
 | [交付流程](engineering/workflow/delivery.md) | Manager；需求、联调、多 Agent 协作 |
 | [前端规范](engineering/frontend/README.md) | 前端负责人；UI、状态、路由、工具链 |
 | [后端规范](engineering/backend/README.md) | 后端负责人；认证、CRUD、迁移、Redis |
-| [AI 服务规范](engineering/ai-service/README.md) | AI 负责人；图、Worker、checkpoint |
+| [AI 服务规范](engineering/ai-service/README.md) | AI 负责人；LangGraph workflow、Worker、Checkpoint |
 | [产品需求](product/README.md) | 产品负责人；需求 ID 与验收 |
 | [架构与 ADR](architecture/README.md) | 架构负责人；边界、数据流、决策 |
 | [跨端契约](contracts/README.md) | 提供方负责人；DTO、状态、错误与生成 schema |

@@ -1,4 +1,4 @@
-# ADR-0003：公开 DTO、快照与持久事件
+# ADR-0003：公开 DTO、快照与持久化事件
 
 > 日期：2026-09-16｜状态：proposed
 > 实施/验证证据：尚无。
@@ -9,15 +9,15 @@
 
 ## 决定
 
-FastAPI 输出专用公开 DTO；公共 schema 导出 OpenAPI。关键应用事件持久化，按 Run 事务性序号续读；快照包含一致高水位，SSE 只通知状态。
+FastAPI 输出专用公开 DTO；公共 schema 导出 OpenAPI。关键应用事件持久化，按 Run 事务性 sequence 续读；快照记录一致的 High-Water Mark，SSE 只通知状态变化。
 
 ## 后果
 
-需要ReadModel与schema检查；投影可能短暂滞后但可解释。客户端需处理重复、过期游标与状态校准；不能把流结束当业务完成。
+需要 Read Model 与 schema 检查；Read Model 更新可能短暂滞后但可解释。客户端需处理重复、过期游标与状态校准；不能把流结束当业务完成。
 
 ## 未采用的替代方案
 
-客户端手写多套 DTO；直接返回 Saver 对象；内存序号从 0 重置；用固定 timer 生成进度。
+客户端手写多套 DTO；直接返回 Checkpointer 内部对象；内存序号从 0 重置；用固定 timer 生成进度。
 
 ## 复议触发条件
 

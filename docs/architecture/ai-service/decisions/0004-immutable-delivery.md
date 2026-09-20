@@ -1,15 +1,15 @@
-# ADR-0004：不可变产物和绑定 hash 的发布门禁
+# ADR-0004：不可变产物和绑定 hash 的 Release Gate
 
 > 日期：2026-09-16｜状态：proposed
 > 实施/验证证据：尚无。
 
 ## 背景
 
-一个经过审计的结果若继续覆写正文、引用或结构化数据，审计结论就不再对应调用方看到的内容；通用 Artifact 下载也可能绕过发布门禁。
+一个经过审计的结果若继续覆写正文、引用或结构化数据，审计结论就不再对应调用方看到的内容；通用 Artifact 下载也可能绕过 Release Gate。
 
 ## 决定
 
-Candidate、Audit、Delivery 分别不可变，Audit 绑定准确的 `result_hash` 与 `policy_hash`；发布事务检查取消、权限和当前输入，登记唯一正式指针。只有合法发布的产物可供调用方读取。
+Candidate、Audit、Delivery 分别不可变，Audit 绑定准确的 `result_hash` 与 `policy_hash`；Release Gate 在发布事务中检查取消、权限和当前输入，并登记唯一正式 Delivery 引用。只有合法发布的产物可供调用方读取。
 
 ## 后果
 

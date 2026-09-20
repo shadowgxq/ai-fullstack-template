@@ -18,8 +18,8 @@ AI Server 为不同产品提供可复用的 Agent Runtime，负责运行生命�
 ai-service/
   src/ai_service/
     api/               HTTP、认证、公开 DTO、SSE
-    application/       Run 命令、事务、状态投影
-    agent_core/        Runner、台账、预算、恢复、公共端口
+    application/       Run 命令、事务、Read Model
+    agent_core/        Runner、Operation Ledger、预算、恢复、公共端口
     workflows/         业务工作流注册与装配
     infrastructure/    数据库、模型、工具、存储、观测适配
     resources/         版本化提示词、policy 与 workflow 配置
@@ -40,11 +40,11 @@ ai-service/
 创建 Run
   → 冻结输入、workflow/schema/policy 版本与预算
   → 同事务写入 Run 和待执行命令
-  → Worker 领取命令并取得 Run 排他锁
-  → Runner 从 checkpoint 开始或恢复
+  → Worker 从 Command Queue claim 命令并取得 Run 排他锁
+  → Runner 从 LangGraph Checkpoint 开始或恢复
   → Workflow 节点通过统一调用边界使用模型和工具
   → 保存原始响应、产物引用、预算与应用事件
-  → 完成门禁决定 completed / partial / blocked / failed
+  → Completion Gate 决定 completed / partial / blocked / failed
   → 发布不可变结果并更新公开快照
 ```
 
@@ -56,7 +56,7 @@ ai-service/
 |---|---|
 | `RunManifest` | scope、规范化输入、workflow/schema/policy 版本、能力和预算快照 |
 | `TaskAttempt` | task、attempt、依赖、状态、输入与输出引用 |
-| `Operation` | 稳定操作身份、payload hash、外部交换和正式响应引用 |
+| `Operation` | 稳定 operation identity、payload hash、外部调用状态和正式 `response_ref` |
 | `Artifact` | kind、schema version、content hash、scope、输入引用和存储位置 |
 | `RunEvent` | run 内单调 sequence、公开事件类型和安全 payload |
 | `CompletionResult` | 执行终态、业务结果质量、正式结果引用和未决问题 |
@@ -67,11 +67,11 @@ ai-service/
 
 运行事实分为三类：
 
-- LangGraph Checkpointer 保存图位置、节点状态和人工中断。
-- 应用数据库保存 Run、命令、操作台账、预算、事件、回答和产物元数据。
+- LangGraph Checkpointer 将 graph state 持久化为 Checkpoint，用于恢复执行、人工中断和故障恢复。
+- 应用数据库保存 Run、Command Queue、Operation Ledger、预算、事件、回答和 Artifact metadata。
 - Artifact Store 保存大型原始响应与不可变产物正文。
 
-外部请求按以下顺序处理：冻结交换并 checkpoint，登记 attempt 与预算预留，提交后调用供应商，先保存完整响应和已知用量，再把 `response_ref` 返回工作流。
+外部请求按以下顺序处理：先冻结 Operation 并写入 Checkpoint，登记 attempt 与预算预留，再调用供应商；完整响应和已知 usage 必须先持久化，再把 `response_ref` 返回 workflow。
 
 节点重放时优先复用已保存响应。请求可能已发送但响应未保存时标记 `unknown`，保留预算，不自动重发。Checkpointer 与远端调用不构成同一事务，系统不承诺远端副作用或费用 exactly-once。
 
@@ -85,11 +85,11 @@ ai-service/
 - `ToolRegistry` 只暴露显式注册并通过权限检查的工具。
 - `ContextAssembler` 按任务选择必要上下文，保留来源和裁剪记录。
 - `BudgetPolicy` 在请求发出前预留请求数、token、时间和可验证费用。
-- `OperationLedger` 保存每次外部交换、响应、重试和未知消费。
+- `OperationLedger` 保存每次外部调用、响应、重试和未知消费。
 
-模型不能扩大 scope、注册工具、修改预算或绕过完成门禁。网页、文件、工具结果、历史记忆和模型输出都按不可信数据处理，其中的指令不获得系统权限。
+模型不能扩大 scope、注册工具、修改预算或绕过 Completion Gate。网页、文件、工具结果、历史记忆和模型输出都按不可信数据处理，其中的指令不获得系统权限。
 
-Planner、MCP、RAG、模型路由、缓存、长期记忆和多 Agent 团队均为按需扩展。启用后仍复用既有授权、版本、台账、预算、产物和评估边界。
+Planner、MCP、RAG、模型路由、缓存、长期记忆和多 Agent 团队均为按需扩展。启用后仍复用既有授权、版本、Operation Ledger、预算、产物和评估边界。
 
 ## 7. HTTP 与事件
 
@@ -115,18 +115,18 @@ Planner、MCP、RAG、模型路由、缓存、长期记忆和多 Agent 团队均
 
 公开服务至少具备认证、逐资源授权、并发与预算限制、日志脱敏、产物访问控制、数据库备份和恢复演练。通用 Runtime 不默认开放 shell、任意代码执行或浏览器控制。
 
-首期可以使用 PostgreSQL 命令箱和单 Worker，不把 Redis、Celery、消息总线或 Kubernetes 作为前置条件。部署需要分机或弹性扩容时，再替换命令投递和 Artifact Store 实现，运行事实仍由应用数据库和 checkpoint 共同持有。
+首期可以使用 PostgreSQL-backed Command Queue 和单 Worker，不把 Redis、Celery、消息总线或 Kubernetes 作为前置条件。部署需要分机或弹性扩容时，再替换 Command Queue 和 Artifact Store 实现；运行状态仍由应用数据库与 LangGraph Checkpoint 共同持久化。
 
 ## 9. 验收基线
 
 实现后至少验证以下场景：
 
 - 同 scope、同请求幂等；不同内容复用请求键时明确冲突。
-- 在首个 checkpoint 前、响应保存后、发布前和发布后崩溃时正确恢复。
+- 在首个 LangGraph Checkpoint 前、响应保存后、发布前和发布后崩溃时正确恢复。
 - 请求发送事实不明时进入 `unknown`，不会未经授权自动重复付费。
 - 重复 Worker 投递只产生一次有效推进和一次预算预留。
 - 人工回答幂等消费，过期回答不会恢复错误节点。
-- 取消后的迟到响应只进入台账，不覆盖正式结果。
+- 取消后的迟到响应只记录到 Operation Ledger，不覆盖正式结果。
 - schema、权限、预算、工具参数或版本不兼容时明确阻断。
 - 观测服务不可用时业务事实仍正确，降级状态可见。
 - prompt injection 不会扩大权限、泄露秘密或写入未经授权的长期记忆。
