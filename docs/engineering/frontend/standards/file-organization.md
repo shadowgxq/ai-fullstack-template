@@ -19,11 +19,11 @@
 ```text
 ComponentName/
   ComponentName.tsx
-  ComponentName.module.css
+  ComponentName.module.css  # 仅需要局部 CSS 时创建
   index.ts
 ```
 
-- 组件实现入口必须是 `<ComponentName>.tsx`。
+- 自建组合组件实现入口为 `<ComponentName>.tsx`。shadcn primitive 保留 `shared/ui/button.tsx` 这类小写平铺文件，直接按文件导入；不要为适配目录规则再包一层组件。
 - `index.ts` 只做公开出口，不写组件、hook、工具函数或类型实现。
 - 禁止用 `index.tsx` 作为组件实现文件。
 - 简单 JSX 且只有一个调用点时不要提前抽组件；已经抽成命名组件就按目录放置。
@@ -40,7 +40,7 @@ ComponentName/
 
 ## Module API
 
-- 跨模块 import 走模块公开出口 `index.ts`。
+- 自建组合组件和 feature/widget 跨模块 import 走公开出口 `index.ts`；shadcn primitive 走 `@/shared/ui/<name>`，不从 `shared/ui/index.ts` 聚合整套组件。
 - 同模块内部可用相对路径访问内部文件。
 - `index.ts` 默认 named export，避免无选择地 `export *`。
 - 同模块内部不要从自己的 `index.ts` 回流 import。
@@ -65,7 +65,10 @@ ComponentName/
 shared/
   api/       # request client、error normalization、query client base config
   config/    # 环境配置和项目级常量
-  hooks/     # 无业务通用 hook
+  hooks/     # 按需新增的无业务通用 hook
+  motion/    # 通用页面入场，遵循 reduced-motion
+  theme/     # 主题状态
+  i18n/      # 语言资源与状态
   icons/     # 图标资产、wrapper、名称约束
   styles/    # reset、global、token、theme
   testing/   # render helper、mock helper、测试工具

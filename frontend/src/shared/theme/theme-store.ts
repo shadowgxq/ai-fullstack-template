@@ -2,13 +2,17 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 export type ThemeMode = 'light' | 'dark';
+export const THEME_PRESETS = ['signal', 'neutral'] as const;
+export type ThemePreset = (typeof THEME_PRESETS)[number];
 
 /** localStorage key（与 index.html 防闪烁脚本保持一致）。 */
 export const THEME_STORAGE_KEY = 'ui-theme';
 
 type ThemeState = {
   mode: ThemeMode;
+  preset: ThemePreset;
   setMode: (mode: ThemeMode) => void;
+  setPreset: (preset: ThemePreset) => void;
 };
 
 function isThemeMode(value: unknown): value is ThemeMode {
@@ -27,6 +31,8 @@ export const useThemeStore = create<ThemeState>()(
   persist(
     (set) => ({
       mode: getPreferredThemeMode(),
+      preset: 'signal',
+      setPreset: (preset) => set({ preset }),
       setMode: (mode) => set({ mode }),
     }),
     {
@@ -37,9 +43,19 @@ export const useThemeStore = create<ThemeState>()(
             ? persistedState.mode
             : undefined;
 
+        const persistedPreset =
+          typeof persistedState === 'object' &&
+          persistedState !== null &&
+          'preset' in persistedState
+            ? persistedState.preset
+            : undefined;
         return {
           ...currentState,
           mode: isThemeMode(persistedMode) ? persistedMode : currentState.mode,
+          preset:
+            persistedPreset === 'signal' || persistedPreset === 'neutral'
+              ? persistedPreset
+              : currentState.preset,
         };
       },
     },

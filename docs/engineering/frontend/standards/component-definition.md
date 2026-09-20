@@ -9,7 +9,7 @@
 - Component 用 `PascalCase`；Props 类型用 `ComponentNameProps`；默认 function component。
 - Props 必须显式类型，不用 `any`；可复用组件支持 `className` 透传到 root。
 - 事件 props 用 `onXxx`；内部 handler 用 `handleXxx`。
-- Boolean props 用 `is`、`has`、`can`、`should`；集合 props 用复数。
+- 自定义 Boolean props 按 [编码规范](frontend-development.md) 命名；继承 DOM、Radix、DayPicker API 时保留 `disabled`、`open`、`checked` 等原名，不为命名规则包装一套同义 props。
 - 多变体组件用 `variant`、`size`、`tone` 等枚举 props，避免多个互斥 Boolean。
 - 枚举 props 使用命名 union type；可选值、label、样式映射从同一 typed source 派生。
 - 复杂内容优先用 `children`、具名子组件或 render prop，不用大量 string props 拼 UI。
@@ -41,7 +41,7 @@
 
 ## 样式
 
-- 组件样式使用 CSS Modules 或项目确认的样式体系。
+- 样式入口和 token 约定见 [主题指南](../guides/theming-and-i18n.md)。
 - class 从结构语义命名，例如 `.root`、`.header`、`.content`、`.footer`、`.action`。
 - 颜色、间距、圆角、字体优先 token；状态样式优先基于 `data-state`、`aria-invalid`、`disabled`。
 - root element 不承担外部间距；外部布局由调用方或布局容器控制。

@@ -29,7 +29,7 @@ VITE_API_TIMEOUT_MS=10000
 
 ```text
 DEV_PROXY_PREFIX=/api
-DEV_PROXY_TARGET=http://localhost:3000
+DEV_PROXY_TARGET=http://localhost:8000
 DEV_PROXY_SECURE=true
 ```
 
@@ -38,6 +38,10 @@ DEV_PROXY_SECURE=true
 - `DEV_PROXY_SECURE=false` 只用于本地自签名 HTTPS，不作为共享默认值。
 - 代理不做默认 path rewrite；前后端路径不一致时在具体项目中显式增加 rewrite。
 - 生产环境由网关、反向代理或部署平台转发，不能依赖 Vite dev proxy。
+
+## 源码与样式解析
+
+`@/*` 同时在 `tsconfig.json` 和 `vite.config.ts` 映射到 `src/*`；Vite 接入 `@tailwindcss/vite`，样式入口见 [主题指南](theming-and-i18n.md)。组件库和主题页按路由懒加载，海报 rasterizer 在捕获时动态加载。
 
 ## 拆包规则
 

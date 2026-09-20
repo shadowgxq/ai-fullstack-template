@@ -31,7 +31,7 @@
 
 ## Import 和 Bundle
 
-- 跨模块 import 走公开出口 `index.ts`；同模块内部可以用相对路径。
+- 跨模块 import 走公开出口；shadcn primitive 的直接文件入口与组合组件的 `index.ts` 规则见 [文件组织](file-organization.md)。
 - `shared` 不能 import 业务层；同层 slice 默认不互相 import。
 - 跨 slice 不读对方内部文件；需要组合时上移到 `widgets` 或 `pages`。
 - 大型第三方库避免宽泛 import；只在用户触发后才需要的大模块用动态 `import()`。
@@ -62,11 +62,8 @@
 
 当前模板默认启用 theme 和 i18n；保留这些能力时，下面的主题和文案规则属于项目硬规则。使用方项目如需 opt-out，必须按 `guides/theming-and-i18n.md` 完整移除并同步更新项目规则，不能只删除局部接线。
 
-- 样式优先用项目 token、CSS Modules 和 `src/shared/styles/tokens.css` 的 `--color-*`。
-- 重复颜色、间距、z-index、圆角沉淀为 token；条件 className 用 `clsx`。
-- token 分类：颜色 `--color-*`、间距 `--space-1..8`、圆角 `--radius-*`、排版 `--font-size-*`/`--leading-*`/`--font-weight-*`、层级 `--z-*`、阴影 `--shadow-*`。
-- 语义色随主题变化：`:root` 为 light，`[data-theme='dark']` 覆盖；样式只引用语义色 token，不在业务代码里按主题写分支。换肤与多语言细则见 `guides/theming-and-i18n.md`。
-- 响应式断点约定为常量（不落 token）：sm 480px / md 720px / lg 1024px / xl 1280px，避免魔法数值散落。
+- 默认样式体系为 Tailwind CSS 4 + CSS Variables；复杂局部样式可用 CSS Modules。token 单一来源、主题接线与 `cn()` 用法见 [主题指南](../guides/theming-and-i18n.md)，不维护并行的颜色/尺寸常量。
+- Tailwind 默认响应式前缀按框架配置使用；需要 720px 等内容断点时用明确的 arbitrary variant 或媒体查询，不把 `sm/md` 误当成另一套像素值。
 - 用户可见文案走现有 i18n 接线：React 组件使用 `useTranslation()` 的 `t()`，非组件边界使用项目导出的 i18n instance；不在 JSX 里硬编码。
 - 文本在移动端和桌面端都不能溢出容器。
 - 运行时配置集中在 `src/shared/config/`；客户端只读取 `VITE_*`，并在 config 边界完成类型转换和默认值处理。

@@ -1,8 +1,8 @@
-import * as React from 'react'
+import * as React from 'react';
 
-import { cn } from '@/shared/utils/cn'
+import { cn } from '@/shared/utils/cn';
 
-type SkeletonProps = React.ComponentProps<'span'>
+type SkeletonProps = React.ComponentProps<'span'>;
 
 const Skeleton = React.forwardRef<HTMLSpanElement, SkeletonProps>(function Skeleton(
   { className, 'aria-hidden': ariaHidden = true, ...props },
@@ -19,9 +19,9 @@ const Skeleton = React.forwardRef<HTMLSpanElement, SkeletonProps>(function Skele
       )}
       {...props}
     />
-  )
-})
+  );
+});
 
-Skeleton.displayName = 'Skeleton'
+Skeleton.displayName = 'Skeleton';
 
-export { Skeleton }
+export { Skeleton };
