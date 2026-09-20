@@ -4,25 +4,34 @@
 
 ## 规则归属
 
-根 `AGENTS.md` 维护简短、强制的公共约束；各端 `AGENTS.md` 只维护任务导航；`docs/engineering/common/` 保留按需工程细则；各端工程文档维护实现规范。本页只负责目录职责与流转，不复制规则正文。
+根 `AGENTS.md` 维护简短、强制的公共约束；各端 `AGENTS.md` 只维护任务导航；`docs/engineering/common/` 保留按需工程细则；各端工程文档维护实现规范。本页负责目录职责与文档维护，不复制专项规则正文。
 
 | 唯一事实源 | 维护者 / 按需场景 |
 |---|---|
 | [根 AGENTS.md](../AGENTS.md) | 所有 Agent；沟通、改动范围、安全边界、验证原则与文档路由 |
 | [公共工程细则](engineering/common/README.md) | 涉及数据库、缓存、配置、运行环境或验证范围时读取 |
 | [交付流程](engineering/workflow/delivery.md) | Manager；需求、联调、多 Agent 协作 |
-| [前端规范](engineering/frontend/README.md) | 前端负责人；UI、状态、路由、工具链；入口为 [frontend/AGENTS.md](../frontend/AGENTS.md) |
-| [后端规范](engineering/backend/README.md) | 后端负责人；认证、CRUD、迁移、Redis；入口为 [backend/AGENTS.md](../backend/AGENTS.md) |
-| [AI 服务规范](engineering/ai-service/README.md) | AI 负责人；技术基线、分层、Workflow/State、恢复、模型/工具、API/产物与 Evals；入口为 [ai-service/AGENTS.md](../ai-service/AGENTS.md) |
-| [产品需求](product/README.md) | 产品负责人；需求 ID 与验收 |
-| [架构与 ADR](architecture/README.md) | 架构负责人；边界、数据流、决策 |
-| [跨端契约](contracts/README.md) | 提供方负责人；DTO、状态、错误与生成 schema |
-| [当前计划](../manager/plan.yaml) | Manager；跨端批次与唯一进度 |
-| [OpenSpec 配置](../openspec/config.yaml) | 各 change 的设计、任务与增量规格 |
-| [修复队列](../repairs/README.md) | 小修复；不同时建立另一份执行状态 |
+| [前端规范](engineering/frontend/README.md) | UI、状态、路由、工具链；入口为 [frontend/AGENTS.md](../frontend/AGENTS.md) |
+| [后端规范](engineering/backend/README.md) | 认证、CRUD、迁移、Redis；入口为 [backend/AGENTS.md](../backend/AGENTS.md) |
+| [AI 服务规范](engineering/ai-service/README.md) | 技术基线、分层、Workflow/State、恢复、模型/工具、API/产物与 Evals；入口为 [ai-service/AGENTS.md](../ai-service/AGENTS.md) |
+| [产品需求](product/README.md) | 使用方的真实产品范围与验收；模板不预装业务 PRD |
+| [架构与 ADR](architecture/README.md) | 系统边界、数据流、设计取舍及有效性条件 |
+| [跨端契约](contracts/README.md) | DTO、状态、错误语义；生成 schema 的事实源在提供方代码 |
+| [当前计划](../manager/plan.yaml) | 已登记需求、批次与 change 阶段；模板初始为空 |
+| [OpenSpec 配置](../openspec/config.yaml) | change 的设计、任务与增量规格 |
+| [修复队列](../repairs/README.md) | 小范围修复；不同时建立另一份执行状态 |
+
+## 文档维护规则
+
+- 长期文档描述当前系统、明确的目标能力或可复用规则，写清适用范围、事实源和限制；不复制用户原话、AI 回复、临时执行提示词或单次交付总结。
+- 产品需求只记录使用方真实业务。模板自身的初始化、迁移、清理和验证记录放在 PR/对应 change，不包装成产品 PRD；纯模板维护可以直接在 PR 记录范围与证据。
+- 当前能力、未实现边界和重要 ADR 必须保留。决策依据与必要来源链接不是对话残留；生成契约仍由代码导出，不因文档清理手工改写。
+- AGENTS 与 SKILL 可以包含职责范围内的执行指令；版本化运行时 prompt 放在对应资源目录。文档中的调用示例应明确标为示例并使用代码块，不作为真实任务或进度。
+- 同一规则只在一个事实源维护，其他位置链接引用。语义重复优先合并，不通过新增总结、清理报告或规则副本制造更多长期文档。
+- 模板发布保留入口、工具配置和空任务索引，不携带模板维护任务、旧业务 PRD 或历史验收报告。已有使用方项目仍按审计要求归档业务 change，不据此清空进行中的任务或业务规格。
 
 ## 维护与流转
 
-新增或调整规则时，先确定唯一维护位置，再更新导航；根规则变更不在 common 或各端复制一份。工程细则按主题放入 common 或相应端文档，避免持续堆入 `AGENTS.md`。
+新增、删除或移动文档时同步导航、相对链接、REQ-ID 和任务索引引用。命令在服务 README 与 Makefile 维护；schema 由提供方生成；版本以各端 lockfile 为准。
 
-历史业务从工作树删除，以 Git 历史追溯。已合并 change 进入 `openspec/changes/archive/`，生效规格在 `openspec/specs/`；两者不作为默认任务上下文。命令在服务 README 与 Makefile 维护；schema 由提供方生成；版本以各端 lockfile 为准。
+使用方项目的已合并 change 同步生效规格到 `openspec/specs/`，再进入 `openspec/changes/archive/`；历史记录不作为默认任务上下文。模板自身的维护来源与验证记录通过 Git/PR 历史追溯，删除工作树副本不改写历史。

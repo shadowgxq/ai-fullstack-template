@@ -38,6 +38,38 @@ def plan_errors(root):
     return validate_plan(root / "manager/plan.yaml")
 
 
+def prose_errors(root, path):
+    """Detect obvious chat residue in long-lived docs, not legitimate prompts."""
+    rel = path.relative_to(root)
+    if path.name in {"AGENTS.md", "CLAUDE.md", "SKILL.md"}:
+        return []
+    if "templates" in rel.parts or "archive" in rel.parts:
+        return []
+    if rel.parts[0] != "docs" and not (
+        path.name == "README.md" and len(rel.parts) <= 2
+    ):
+        return []
+    residue = re.compile(
+        r"(?:我(?:会|将|已经|建议|帮你)|你(?:刚才|之前|提供的|指出的)"
+        r"|按(?:照)?[你您]的(?:要求|反馈)|本轮(?:仅参考|修改|清理|补充)"
+        r"|本次维护(?:范围|记录)|上一(?:版|轮)\s*PR"
+        r"|(?:cite|filecite|memcite)|^\s*(?:User|Assistant|用户|助手)\s*[:：])"
+    )
+    errors, fence = [], None
+    for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        marker = re.match(r"^\s*(`{3,}|~{3,})(.*)$", line)
+        if marker:
+            marks, rest = marker.groups()
+            if fence is None:
+                fence = marks
+            elif marks[0] == fence[0] and len(marks) >= len(fence) and not rest.strip():
+                fence = None
+            continue
+        if fence is None and residue.search(line):
+            errors.append(f"{rel}:{number}: conversation residue in long-lived documentation")
+    return errors
+
+
 def hygiene_errors(root):
     errors = []
     legacy = (
@@ -77,6 +109,7 @@ def validate(root):
     errors = []
     for path in active_files(root):
         errors.extend(link_errors(root, path))
+        errors.extend(prose_errors(root, path))
     for name in ("AGENTS.md", "frontend/AGENTS.md", "backend/AGENTS.md", "ai-service/AGENTS.md"):
         path = root / name
         if not path.exists():
@@ -93,7 +126,7 @@ def main():
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
-    print(f"Documentation navigation and traceability OK ({len(active_files(ROOT))} active Markdown files)")
+    print(f"Documentation navigation, prose and traceability OK ({len(active_files(ROOT))} active Markdown files)")
     return 0
 
 

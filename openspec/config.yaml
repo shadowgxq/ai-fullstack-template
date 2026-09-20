@@ -2,10 +2,11 @@ schema: spec-driven
 context: |
   全栈 monorepo：frontend / backend / ai-service。
   所有入口先读根 AGENTS.md 与 docs/README.md，按任务补读端专项规范。
-  产品在 docs/product，架构在 docs/architecture，契约在 docs/contracts。
+  使用方产品需求在 docs/product，架构在 docs/architecture，契约在 docs/contracts。
   根 manager/plan.yaml 索引批次与 change 阶段；细项进度只在 tasks.md。
-  已合并变更归档至 openspec/changes/archive，生效要求在 openspec/specs；不读取历史业务工作树。
-  默认中文；不调用付费模型或部署生产；当前 AI 是确定性 echo 初始化。
+  使用方的已合并 change 归档至 openspec/changes/archive，生效要求在 openspec/specs。
+  模板维护不预装业务需求或历史任务；记录归属遵循 docs/README.md。
+  当前能力与限制以 docs/architecture/README.md 和实际代码为准。
 rules:
   proposal:
     - 引用 REQ-ID、范围、非目标与直接消费者。
