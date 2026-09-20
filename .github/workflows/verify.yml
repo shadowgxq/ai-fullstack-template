@@ -88,6 +88,17 @@ jobs:
       - run: make -C ai-service check
       - run: uv build
         working-directory: ai-service
+      - name: Verify installed AI wheel outside the source tree
+        working-directory: ai-service
+        run: |
+          uv pip install --python .venv/bin/python --no-deps --reinstall dist/*.whl
+          package_python="$PWD/.venv/bin/python"
+          package_cli="$PWD/.venv/bin/ai-service"
+          cd "$(mktemp -d)"
+          unset PYTHONPATH
+          "$package_python" -c 'from pathlib import Path; import sys, ai_service; assert Path(ai_service.__file__).resolve().is_relative_to(Path(sys.prefix).resolve())'
+          "$package_python" -m ai_service check
+          "$package_cli" check
       - run: python3 scripts/export_contracts.py --service ai-service --check
   stack:
     runs-on: ubuntu-latest

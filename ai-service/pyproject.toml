@@ -13,6 +13,9 @@ dependencies = [
   "langgraph-checkpoint-postgres>=3,<4",
 ]
 
+[project.scripts]
+ai-service = "ai_service.cli:main"
+
 [dependency-groups]
 dev = ["pytest>=9.0.3,<10", "httpx>=0.28.1,<1", "ruff>=0.15.14,<1"]
 

@@ -1,4 +1,4 @@
-.PHONY: install dev worker migrate test check format
+.PHONY: install dev worker migrate test check check-offline format
 install:
 	uv sync --locked
 dev:
@@ -13,6 +13,8 @@ check:
 	uv run --locked ruff check .
 	uv run --locked ruff format --check .
 	uv run --locked pytest
+check-offline:
+	uv run --locked ai-service check
 format:
 	uv run --locked ruff check --fix .
 	uv run --locked ruff format .

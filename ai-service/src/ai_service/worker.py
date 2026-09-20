@@ -4,13 +4,17 @@ import argparse
 import logging
 import signal
 import threading
+from collections.abc import Sequence
 from contextlib import contextmanager
+from functools import partial
 
 import psycopg
 from langgraph.checkpoint.postgres import PostgresSaver
 
 from ai_service.agent_core.contracts import WorkerAlreadyRunning
+from ai_service.bootstrap import create_runner
 from ai_service.config import Settings
+from ai_service.infrastructure.logging import configure_logging
 from ai_service.infrastructure.store import WORKER_LOCK, Store
 from ai_service.workflows.echo import execute_echo
 
@@ -36,17 +40,23 @@ def process_next(settings: Settings, store: Store, connection) -> bool:
         return False
     run_id = str(job["run_id"])
     try:
-        if job["workflow"] != "echo.v1":
-            raise ValueError("Unsupported frozen workflow version")
         # Checkpoint writes must lose authority together with the Worker lock.
         # Using a second connection would allow stale graph writes after lock loss.
         saver = PostgresSaver(connection)
-        output = execute_echo(run_id, job["input"]["text"], saver)
+        runner = create_runner(partial(execute_echo, checkpointer=saver))
+        output = runner.run(job["workflow"], run_id, job["input"])
     except psycopg.Error:
         # Leave the command for restart. No external/paid work exists in this sample.
         raise
     except Exception as exc:
-        logger.error("Workflow failed: %s", type(exc).__name__)
+        logger.error(
+            "Workflow failed",
+            extra={
+                "run_id": run_id,
+                "error_type": type(exc).__name__,
+                "error_code": "execution_failed",
+            },
+        )
         store.finish(connection, run_id, None, error_code="execution_failed")
     else:
         store.finish(connection, run_id, output)
@@ -59,13 +69,13 @@ def run_once(settings: Settings) -> bool:
         return process_next(settings, store, connection)
 
 
-def main() -> None:
+def main(argv: Sequence[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--once", action="store_true", help="Process at most one command, then exit"
     )
-    args = parser.parse_args()
-    logging.basicConfig(level=logging.INFO)
+    args = parser.parse_args(argv)
+    configure_logging()
     settings = Settings()
     store = Store(settings.database_url)
     stop = threading.Event()
