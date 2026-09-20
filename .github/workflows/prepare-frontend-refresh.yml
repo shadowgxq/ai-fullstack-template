@@ -1,0 +1,31 @@
+name: Prepare frontend refresh branch
+on:
+  push:
+    branches: [feat/refresh-frontend-template-20260920]
+permissions:
+  contents: write
+jobs:
+  lockfile:
+    if: github.event.head_commit.message == 'chore: prepare frontend template dependencies'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/refresh-frontend-template-20260920
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: frontend/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: pnpm install --lockfile-only --no-frozen-lockfile
+        working-directory: frontend
+      - name: Commit generated lockfile on migration branch only
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add frontend/pnpm-lock.yaml
+          git diff --cached --quiet && exit 0
+          git commit -m 'chore(frontend): regenerate template dependency lockfile'
+          git push origin HEAD:feat/refresh-frontend-template-20260920
