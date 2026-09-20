@@ -3,35 +3,23 @@
     "title": "前端 Agent 模板"
   },
   "home": {
-    "status": "模板就绪",
-    "eyebrow": "Vite · React 18 · TypeScript",
-    "title": "为 Agent 打造的考究前端基线。",
-    "description": "交付可迁移、可执行、可维护的前端。协作规则、分层文档与 token 驱动的运行时均已接线，让 Agent 专注构建，而非搭架子。",
-    "cta": "查看模板结构",
-    "sections": {
-      "appShell": {
-        "title": "应用装配层",
-        "text": "应用级 providers、路由、全局样式与 error boundary 都在 src/app。"
+    "title": "前端开发基线，而不是一个业务产品。",
+    "description": "公共组件、统一交互状态、双主题预设与清晰的服务接入边界已经就绪。具体功能由项目需求驱动。",
+    "components": "查看组件",
+    "theme": "预览主题",
+    "cards": {
+      "components": {
+        "title": "可复用 UI",
+        "text": "基础控件、浮层、日历、查询输入与分享组件。交互示例使用本地演示数据。"
       },
-      "layeredSource": {
-        "title": "分层源码",
-        "text": "以单向 import，用 widgets、features、entities 与 shared 组合页面。"
+      "integration": {
+        "title": "全栈接入边界",
+        "text": "保留已有 API 客户端、版本化后端契约和同源代理，不引入特定产品接口。"
       },
-      "projectDocs": {
-        "title": "项目文档",
-        "text": "把业务 PRD、接口契约与验收标准迁入目标项目的文档目录。"
+      "docs": {
+        "title": "统一文档入口",
+        "text": "前端规范集中在 docs/engineering/frontend；业务需求与跨端契约仍由仓库根目录统一管理。"
       }
-    },
-    "footer": "生而业务中性 —— 迁入你自己的业务域即可。"
-  },
-  "demo": {
-    "theme": {
-      "label": "主题",
-      "light": "浅色",
-      "dark": "深色"
-    },
-    "language": {
-      "label": "语言"
     }
   },
   "errors": {
@@ -53,6 +41,106 @@
     "actions": {
       "reload": "重新加载",
       "home": "返回首页"
+    }
+  },
+  "meta": {
+    "title": "全栈前端模板",
+    "description": "不绑定具体业务的公共组件、主题与全栈接入基础。"
+  },
+  "nav": {
+    "skip": "跳转到正文",
+    "label": "主导航",
+    "components": "组件库",
+    "theme": "主题",
+    "settings": "外观与语言",
+    "language": "语言"
+  },
+  "theme": {
+    "title": "主题预览",
+    "description": "Signal Teal 与 Neutral 在明暗模式下共用尺寸、字体与交互状态。",
+    "mode": "外观",
+    "preset": "配色预设",
+    "light": "浅色",
+    "dark": "深色",
+    "signal": "Signal Teal",
+    "neutral": "Neutral",
+    "persistence": "外观与语言偏好保存在当前浏览器中。"
+  },
+  "gallery": {
+    "title": "公共组件库",
+    "description": "不绑定业务的模板组件示例。搜索使用本地数据；分享仅在明确操作后打开公开示例地址。",
+    "primary": "主要操作",
+    "secondary": "次要操作",
+    "disabled": "已禁用",
+    "loading": "加载中",
+    "inputLabel": "名称",
+    "placeholder": "请输入内容",
+    "notes": "备注",
+    "choose": "选择一项",
+    "first": "第一项",
+    "second": "第二项",
+    "enable": "启用选项",
+    "tabs": "示例标签页",
+    "firstContent": "第一个标签页的内容。",
+    "secondContent": "第二个标签页的内容。",
+    "openDialog": "打开弹窗",
+    "close": "关闭",
+    "dialogTitle": "通用弹窗示例",
+    "dialogDescription": "这是一个可复用的弹窗，不会提交任何数据。",
+    "openMenu": "打开菜单",
+    "openPopover": "打开浮层",
+    "popoverTitle": "补充说明",
+    "popoverDescription": "浮层与页面使用同一套主题 token。",
+    "hover": "悬停或聚焦",
+    "tooltip": "键盘聚焦也会显示此提示。",
+    "posterTitle": "可复用公共组件",
+    "posterSlogan": "全栈模板",
+    "posterResult": "这是由调用页面提供的中性海报示例。",
+    "queryLabel": "查找组件或输入查询",
+    "queryDescription": "使用本地演示数据，并非后端搜索服务。",
+    "queryPlaceholder": "尝试 Dialog，或输入自定义查询",
+    "useQuery": "使用“{{query}}”",
+    "clear": "清空输入",
+    "suggestions": "候选列表",
+    "searching": "搜索中…",
+    "empty": "没有匹配结果",
+    "searchError": "搜索失败",
+    "retry": "重试",
+    "committed": "已选择：{{value}}",
+    "shareDescription": "支持分享文字、链接与生成的图片。实际可用操作取决于浏览器能力。",
+    "openShare": "打开分享预览"
+  },
+  "share": {
+    "title": "分享预览",
+    "description": "确认内容后选择分享方式。",
+    "close": "关闭分享预览",
+    "open": "分享",
+    "copy": "复制",
+    "native": "系统分享",
+    "x": "X",
+    "reddit": "Reddit",
+    "telegram": "Telegram",
+    "copyText": "复制文字",
+    "copyLink": "复制链接",
+    "copyImage": "复制图片",
+    "downloadImage": "下载图片",
+    "shareOptionsLabel": "分享方式",
+    "copyOptionsLabel": "复制选项",
+    "actionsLabel": "分享操作",
+    "preparingImage": "正在生成图片…",
+    "imageUnavailable": "图片生成失败，仍可分享文字与链接。",
+    "noActions": "当前浏览器暂无可用的分享方式。",
+    "errors": {
+      "unsupported": "当前浏览器不支持此操作。",
+      "blocked": "浏览器阻止了分享窗口。",
+      "cancelled": "已取消分享。",
+      "failed": "分享失败，请重试。"
+    },
+    "feedback": {
+      "shared": "已分享",
+      "opened": "已打开分享窗口",
+      "downloaded": "已开始下载",
+      "copied": "已复制"
     }
   }
 }

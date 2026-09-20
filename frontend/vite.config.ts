@@ -1,3 +1,5 @@
+import { fileURLToPath } from 'node:url';
+import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import { loadEnv, type ProxyOptions } from 'vite';
@@ -20,7 +22,7 @@ const vendorChunkGroups = [
   },
   {
     name: 'ui',
-    packages: ['@radix-ui/', 'lucide-react'],
+    packages: ['@radix-ui/', 'radix-ui', 'lucide-react'],
   },
   {
     name: 'i18n',
@@ -96,9 +98,10 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
-    plugins: [react()],
+    plugins: [react(), tailwindcss()],
     resolve: {
       dedupe: ['react', 'react-dom'],
+      alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
     },
     server: {
       port: readPositiveInteger(env.DEV_SERVER_PORT, DEFAULT_DEV_SERVER_PORT),

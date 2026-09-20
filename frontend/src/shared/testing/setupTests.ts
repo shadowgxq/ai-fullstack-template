@@ -1,3 +1,5 @@
+import { cleanup } from '@testing-library/react';
+import { afterEach } from 'vitest';
 import '@testing-library/jest-dom/vitest';
 
 // jsdom 不实现 matchMedia；为 shared/theme 提供最小 mock。
@@ -14,3 +16,5 @@ if (typeof window !== 'undefined' && typeof window.matchMedia !== 'function') {
       dispatchEvent: () => false,
     }) as unknown as MediaQueryList;
 }
+
+afterEach(cleanup);

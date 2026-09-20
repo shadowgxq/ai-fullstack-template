@@ -12,4 +12,4 @@
 | 主题、多语言 | [theme / i18n](guides/theming-and-i18n.md) |
 | 代理、构建、配置 | [Vite 配置](guides/runtime-config-and-vite.md) |
 
-保留 React/Vite、主题、国际化与错误边界。
+当前可用组件及调用边界只维护在 [组件清单](components/component-inventory.md)。安装与检查命令见 [前端 README](../../../frontend/README.md)。

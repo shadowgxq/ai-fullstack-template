@@ -1,49 +1,37 @@
 # 换肤与 i18n（theming & i18n）
 
-模板默认预装并启用两项基座能力：**换肤**（light / dark）和 **i18n**（多语言）。
-Agent 默认沿用现有接线。使用方项目可以显式替换或移除，但应把它作为项目基线变更，一次性同步源码、调用方、依赖、测试、模板骨架和规则文档。
+默认启用 Signal Teal / Neutral 两种配色，每种都有 light / dark。尺寸、字体和间距共用，不为主题建立不同组件。
 
-## 换肤（无需额外主题框架）
+## 样式事实源
 
-基于 CSS 变量 + `<html data-theme>`，复用模板已有的 zustand 做状态持久化，不额外引入主题框架。
+`src/shared/styles/global.css` 集中维护 Tailwind CSS 4 入口、固定 token、语义色、四组主题覆盖、`@theme inline` 映射与 base reset，不另建第二套 token 文件。
 
-- token：`src/shared/styles/tokens.css` 的语义色在 `:root`（light）与 `[data-theme='dark']` 两套之间切换。
-- 状态：`src/shared/theme/theme-store.ts`，zustand + `persist`，state `{ mode: 'light' | 'dark' }`，localStorage key `ui-theme`。
-- 初始值：没有有效持久化值时读取一次 `prefers-color-scheme`，之后只保留用户显式选择的 light/dark。
-- 生效：`src/app/providers/ThemeInitializer.tsx` 订阅 store，把当前 mode 写入 `document.documentElement.dataset.theme`。
-- 防闪烁：`index.html` 内联脚本在首帧前读取持久化主题并预设 `data-theme`。
-- 消费：组件用 `useTheme()`（`{ mode, setMode, toggle }`）读取和切换。
+- 原始语义变量例如 `--foreground`、`--primary`；Tailwind 对应 `text-foreground`、`bg-primary`。CSS Modules 也引用这些变量。
+- 尺寸使用 `--space-*`、`--radius-*`、`--control-*`，排版使用 `--font-size-*` / `--line-height-*`，阴影使用 `--elevation-*`。具体值以 CSS 为准，文档不复制色板和尺寸表。
+- reset 必须位于 `@layer base`，避免未分层样式覆盖 Tailwind utilities。
+- 条件类使用 `shared/utils/cn`；shadcn CLI 的别名与样式入口由 `frontend/components.json` 配置。不要生成另一套 `components/ui` 或 `lib/utils`。
+- 字体只保留系统 sans / mono 角色，不默认请求外部字体服务。动画尊重 `prefers-reduced-motion`。
 
-样式只需引用语义色 token（`var(--color-*)`），深浅两套自动生效，**不要在业务代码里按主题写分支**。
+## 主题接线
 
-### 新增一个主题 token
+| 环节 | 入口及约定 |
+|---|---|
+| 状态 | `shared/theme/theme-store.ts`：`mode` 与 `preset`；Zustand persist key 为 `ui-theme` |
+| 默认值 | mode 首次读取系统偏好，preset 为 `signal`；兼容旧的仅 mode 存档，非法值回退 |
+| 生效 | `ThemeInitializer` 写入 `<html data-theme data-theme-preset>` |
+| 首帧 | `index.html` 在 React 加载前设置相同属性；存储不可读或损坏时仍可启动 |
+| 调用 | `useTheme()` 提供 mode、preset、setMode、setPreset、toggle |
 
-在 `tokens.css` 的 `:root` 加默认值，并在 `[data-theme='dark']` 加对应覆盖值；随主题变化的放语义色区，固定值（间距/圆角/排版）放 primitive 区、无需在 dark 覆盖。
+新增语义 token 时补齐需要变化的四种主题值和 Tailwind 映射；固定几何只定义一次。业务组件不得按主题分支硬编码颜色。
 
-## i18n（react-i18next）
+## 国际化接线
 
-- 实例：`src/shared/i18n/instance.ts`，`i18next.createInstance()` + `initReactI18next`，`fallbackLng: 'en'`，初始语言从持久化读取。
-- 资源：`src/shared/i18n/locales/{en,zh}.json`。
-- 状态：`src/shared/i18n/locale-store.ts`，zustand + `persist`（key `ui-locale`），`setLocale` 内同步调用 `i18n.changeLanguage`。
-- 装配：`src/app/providers/AppProviders.tsx` 用 `<I18nextProvider>` 包裹。
-- 消费：组件文案用 `useTranslation()` 的 `t('key')`；切换语言用 `useLocale()`（`{ locale, setLocale, available }`）。
+资源集中在 `shared/i18n/locales/{en,zh}.json`。`instance.ts` 初始化 i18next；`locale-store.ts` 以 `ui-locale` 保存偏好，`setLocale` 同步实例。`AppProviders` 装配 Provider，`LocaleInitializer` 同步文档语言、标题和描述。
 
-与换肤统一采用「zustand persist」一个模式，便于对齐。
+React 文案使用 `useTranslation().t()`，切换语言使用 `useLocale()`；组件名、技术标识符以及调用方提供的内容不强制翻译。新增文案补齐所有语言同名 key，不再维护第二套映射。
 
-### 新增一种语言
+新增语言时同步资源、`SUPPORTED_LOCALES`、locale 边界校验、AppShell 语言选项和 `LocaleInitializer` 的 HTML lang 映射，并补测试。
 
-1. 新增 `src/shared/i18n/locales/<lang>.json`（键与现有语言对齐）。
-2. 在 `instance.ts` 的 `resources` 与 `SUPPORTED_LOCALES` 加入该语言。
+## 移除或替换
 
-### 新增文案
-
-在各 `locales/*.json` 补同名 key，组件用 `t('新增.key')` 引用；不要在 JSX 里硬编码可见文案。
-
-## opt-out（项目基线变更）
-
-不要把 opt-out 当成删除单个目录的局部修改。执行前先搜索全部 import、provider、测试和演示调用；修改后至少运行 typecheck 和相关测试。
-
-- **移除换肤**：先删除或改写 `DemoControls` 等主题调用方，再删除 `src/shared/theme/`、`src/app/providers/ThemeInitializer.tsx` 和 `index.html` 内联脚本；从 `AppProviders` 去掉 `<ThemeInitializer/>`，清理主题测试和 dark token，仅保留确定使用的一套语义 token。
-- **移除 i18n**：先把 `HomePage`、`DemoControls`、`src/app/error/` 等调用方改为项目确认的文案方案，再删除 `src/shared/i18n/` 和相关测试；从 `AppProviders` 去掉 `<I18nextProvider>`，最后卸载 `i18next`、`react-i18next`。
-- **移除演示控件**：删除 `src/pages/home/components/DemoControls.*` 并从 `HomePage` 去掉引用；只移除 theme 或 i18n 时，也必须先处理该组件对两项能力的联合依赖。
-- **同步项目规则**：更新 `AGENTS.md`、`README.md`、`docs/engineering/frontend/standards/frontend-development.md`、本指南和依赖清单，避免 Agent 继续按已移除的基线实现。
+只能在明确的项目基线变更中执行：先清点 AppShell、主题页、组件示例及错误页的消费者，再处理 store、Provider、首帧脚本、资源、依赖和测试。仅删除演示页面不能顺带删除公共组件或主题基座。对应规则和 README 同步更新，不另留一套旧接线说明。

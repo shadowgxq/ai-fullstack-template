@@ -3,35 +3,23 @@
     "title": "Fullstack Template"
   },
   "home": {
-    "status": "Template ready",
-    "eyebrow": "Vite · React 18 · TypeScript",
-    "title": "The considered baseline for agent-built frontends.",
-    "description": "Ship migratable, executable, maintainable frontends. Collaboration rules, layered docs, and a token-driven runtime — already wired, so agents can build instead of scaffold.",
-    "cta": "Explore the structure",
-    "sections": {
-      "appShell": {
-        "title": "App Shell",
-        "text": "App-level providers, routing, global styles, and error boundaries live in src/app."
+    "title": "A frontend baseline, not a finished product.",
+    "description": "Start with reusable components, consistent interaction states, two theme presets, and a clean integration boundary. Bring your own product requirements.",
+    "components": "Explore components",
+    "theme": "Preview themes",
+    "cards": {
+      "components": {
+        "title": "Reusable UI",
+        "text": "Accessible controls, overlays, calendar, query input, and sharing. Interactive examples use local fixtures."
       },
-      "layeredSource": {
-        "title": "Layered Source",
-        "text": "Compose pages from widgets, features, entities, and shared modules with one import direction."
+      "integration": {
+        "title": "Fullstack boundary",
+        "text": "The existing API client, versioned backend contract, and same-origin proxy remain unchanged."
       },
-      "projectDocs": {
-        "title": "Project Docs",
-        "text": "Move business PRD, API contracts, and acceptance criteria into the target project docs."
+      "docs": {
+        "title": "One documentation home",
+        "text": "Frontend standards live in docs/engineering/frontend. Product requirements and cross-service contracts stay at the repository root."
       }
-    },
-    "footer": "Business-neutral by design — bring your own domain."
-  },
-  "demo": {
-    "theme": {
-      "label": "Theme",
-      "light": "Light",
-      "dark": "Dark"
-    },
-    "language": {
-      "label": "Language"
     }
   },
   "errors": {
@@ -53,6 +41,106 @@
     "actions": {
       "reload": "Reload page",
       "home": "Return home"
+    }
+  },
+  "meta": {
+    "title": "Fullstack Frontend Template",
+    "description": "Reusable components, themes, and fullstack integration without product-specific features."
+  },
+  "nav": {
+    "skip": "Skip to content",
+    "label": "Main navigation",
+    "components": "Components",
+    "theme": "Theme",
+    "settings": "Appearance and language",
+    "language": "Language"
+  },
+  "theme": {
+    "title": "Theme preview",
+    "description": "Signal Teal and Neutral share geometry, typography, and interaction states in light and dark modes.",
+    "mode": "Appearance",
+    "preset": "Color preset",
+    "light": "Light",
+    "dark": "Dark",
+    "signal": "Signal Teal",
+    "neutral": "Neutral",
+    "persistence": "Appearance and language are saved in this browser."
+  },
+  "gallery": {
+    "title": "Component library",
+    "description": "Business-neutral examples of the shared template components. Search uses a local fixture; sharing opens a public example URL only after an explicit action.",
+    "primary": "Primary action",
+    "secondary": "Secondary action",
+    "disabled": "Disabled",
+    "loading": "Loading",
+    "inputLabel": "Name",
+    "placeholder": "Enter a value",
+    "notes": "Notes",
+    "choose": "Choose an option",
+    "first": "First option",
+    "second": "Second option",
+    "enable": "Enable option",
+    "tabs": "Example tabs",
+    "firstContent": "Content for the first tab.",
+    "secondContent": "Content for the second tab.",
+    "openDialog": "Open dialog",
+    "close": "Close",
+    "dialogTitle": "Example dialog",
+    "dialogDescription": "This is a reusable dialog. No data will be submitted.",
+    "openMenu": "Open menu",
+    "openPopover": "Open popover",
+    "popoverTitle": "Additional information",
+    "popoverDescription": "A popover uses the same theme tokens as the rest of the page.",
+    "hover": "Hover or focus",
+    "tooltip": "Keyboard focus also reveals this tooltip.",
+    "posterTitle": "Reusable components",
+    "posterSlogan": "Fullstack Template",
+    "posterResult": "A neutral poster example supplied by the calling page.",
+    "queryLabel": "Find a component or enter a query",
+    "queryDescription": "Local example data; not a backend search service.",
+    "queryPlaceholder": "Try Dialog or type a free-form query",
+    "useQuery": "Use “{{query}}”",
+    "clear": "Clear input",
+    "suggestions": "Suggestions",
+    "searching": "Searching…",
+    "empty": "No matches",
+    "searchError": "Search failed",
+    "retry": "Retry",
+    "committed": "Selected: {{value}}",
+    "shareDescription": "Share text, links, or a generated image. Browser capabilities determine the available actions.",
+    "openShare": "Open share preview"
+  },
+  "share": {
+    "title": "Share preview",
+    "description": "Review the content before choosing a sharing action.",
+    "close": "Close share preview",
+    "open": "Share",
+    "copy": "Copy",
+    "native": "System share",
+    "x": "X",
+    "reddit": "Reddit",
+    "telegram": "Telegram",
+    "copyText": "Copy text",
+    "copyLink": "Copy link",
+    "copyImage": "Copy image",
+    "downloadImage": "Download image",
+    "shareOptionsLabel": "Sharing options",
+    "copyOptionsLabel": "Copy options",
+    "actionsLabel": "Share actions",
+    "preparingImage": "Preparing image…",
+    "imageUnavailable": "Image unavailable. Text and link actions are still available.",
+    "noActions": "No supported sharing actions are available in this browser.",
+    "errors": {
+      "unsupported": "This action is not supported in this browser.",
+      "blocked": "The browser blocked the share window.",
+      "cancelled": "Sharing was cancelled.",
+      "failed": "Sharing failed. Please try again."
+    },
+    "feedback": {
+      "shared": "Shared",
+      "opened": "Share window opened",
+      "downloaded": "Download started",
+      "copied": "Copied"
     }
   }
 }
