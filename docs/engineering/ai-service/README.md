@@ -1,13 +1,27 @@
-# AI 服务专项规则
+# AI 服务工程规范
 
-公共约束继承 [根 AGENTS.md](../../../AGENTS.md)。先读 [已实现与目标边界](../../architecture/README.md)，涉及恢复再读 [目标架构](../../architecture/ai-service/agent-runtime-architecture.md)；数据库、配置与验证范围按需查 [公共工程细则](../common/README.md)。
+公共约束继承 [根 AGENTS.md](../../../AGENTS.md)，不在本目录复制。本文只做导航；技术基线、实现规则和验证要求分别由下列文件维护。
 
-`api → application → agent_core`；workflows 组合业务步骤，infrastructure 提供数据库等适配。core 不依赖模型 SDK 或业务模块。application 仅依赖 core 的 RunStore Protocol；API 组合根注入 PostgreSQL Store，单元测试可注入内存替身。
+## 使用边界
 
-API 只收命令与读快照；Worker 执行 LangGraph workflow。Run 与待执行命令同事务写入，事件先持久化再读取；LangGraph Checkpoint 不替代应用状态。持有 PostgreSQL 会话级排他锁的同一连接完成 Checkpoint 与应用状态写入；连接丢失必须终止旧执行者，不能另开 Checkpointer 连接继续写。当前只能一个 Worker。
+先核对 [当前实现与目标](../../architecture/README.md)。本目录规定如何实现现有架构，不新增产品需求，也不把目标能力标为已完成。
 
-同 scope/key 的输入 hash 必须稳定；不同请求复用键返回冲突。已完成结果不可覆盖。输入/输出与 Checkpoint 版本变化必须考虑历史运行恢复。
+“当前基线”适用于已有代码；“扩展时”表示只有相应能力进入任务范围后才适用，不要求为遵守规范预先创建空模块、安装 SDK 或实现整套 Runtime。能力状态统一见 [技术基线](architecture/technology-baseline.md)。
 
-本次只有确定性 echo，无外部副作用。不要直接把节点换成付费模型：应先实现预算预留、OperationLedger、unknown 响应、授权和 replay 评估。人工中断、取消、SSE、产物发布均不得伪装为已支持。
+## 按任务读取
 
-测试区分 unit / PostgreSQL integration / 独立进程 smoke。未配置测试库导致 skipped 不是验证成功；真实模型测试必须另行授权。
+| 任务 | 必要规范 |
+|---|---|
+| 任意 AI 服务实现 | [Python 开发](standards/python-development.md)；首次接入或改变依赖时补读 [技术基线](architecture/technology-baseline.md) |
+| 新模块、依赖注入、目录调整 | [分层与文件组织](standards/layer-and-file-organization.md) |
+| Workflow、Node、State、routing、并行 | [Workflow 与 State](standards/workflow-and-state.md) |
+| Worker、事务、迁移、恢复、interrupt、幂等 | [Checkpoint 与副作用](standards/checkpoint-and-effects.md) |
+| 模型、工具、prompt、MCP、RAG 等扩展 | [模型与工具](standards/model-and-tools.md) |
+| HTTP、DTO、事件、产物、错误和观测 | [API、事件与产物](standards/api-events-and-artifacts.md) |
+| 回归、故障注入、recorded replay、Evals | [测试与 Evals](testing/testing-and-evals.md) |
+
+## 关联事实源
+
+系统职责与设计取舍见 [Runtime 架构及 ADR](../../architecture/ai-service/agent-runtime-architecture.md)；字段、状态和错误语义见 [跨端契约](../../contracts/README.md)。公共配置与验证范围查 [公共工程细则](../common/README.md)，跨端任务沿用 [现有交付流程](../workflow/delivery.md)。
+
+安装、启动和检查命令仍由 [AI README](../../../ai-service/README.md)、[AI Makefile](../../../ai-service/Makefile) 与 [根 Makefile](../../../Makefile) 维护。新增或改名规范时同步本页；职责变化再同步 [文档地图](../../README.md)。
