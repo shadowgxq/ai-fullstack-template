@@ -26,10 +26,12 @@ def execute_echo(run_id: str, text: str, checkpointer) -> dict[str, str]:
     graph = build_graph(checkpointer)
     config = {"configurable": {"thread_id": run_id}, "recursion_limit": 10}
     snapshot = graph.get_state(config)
+    if snapshot.values and snapshot.values.get("text") != text:
+        raise ValueError("Checkpoint input differs from the frozen Run input")
     if not snapshot.values:
-        values = graph.invoke({"text": text}, config)
+        values = graph.invoke({"text": text}, config, durability="sync")
     elif snapshot.next:
-        values = graph.invoke(None, config)
+        values = graph.invoke(None, config, durability="sync")
     else:
         values = snapshot.values
     if values.get("result") != {"text": text}:
