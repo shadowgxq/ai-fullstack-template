@@ -9,7 +9,7 @@ Agent Run 必须脱离客户端连接持续执行；首期需要缩小分布式�
 
 ## 决定
 
-同一 `ai-service` Python 包构建 API 和 Worker 入口。首期采用单机、单 Worker、PostgreSQL 命令箱和共享 Artifact Store；API 只读正式产物，Worker 负责写入。
+同一 `ai-service` Python 包构建 API 和 Worker 入口。首期采用单机、单 Worker、PostgreSQL-backed Command Queue 和共享 Artifact Store；API 只读正式产物，Worker 负责写入。
 
 ## 后果
 

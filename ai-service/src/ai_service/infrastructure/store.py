@@ -1,4 +1,4 @@
-"""PostgreSQL Run, command-box and event persistence with short transactions."""
+"""PostgreSQL Run, command queue, and event persistence with short transactions."""
 
 from uuid import uuid4
 

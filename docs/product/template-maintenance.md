@@ -10,7 +10,7 @@
 - 根/端 AGENTS 仅公共规则与导航，专项规范按需读取；当前计划不再指向已合并工作的待评审阶段。
 - Repository 不提交事务；业务鉴权不反向放入 core；AI application 只依赖 core 端口。
 - Redis 缓存可降级，认证/撤销依赖故障返回 503，不能放行已撤销 token 或伪报登出成功。验证错误不回显或记录密码，认证挑战头不丢失。
-- Worker 的锁、checkpoint 与应用写入使用同一 PostgreSQL 会话；失锁后旧执行者不能继续写 checkpoint 或结果。
+- Worker 的锁、LangGraph Checkpoint 与应用写入使用同一 PostgreSQL 会话；失锁后旧执行者不能继续写 Checkpoint 或结果。
 - 文档/技能入口、计划依赖、架构边界有负向回归；契约快照与代码一致；三端及独立 Worker 在真实依赖中可启动。
 - 无 AI 的前后端启动和完整三端启动均可复现；不依赖付费模型或本机专属配置。
 

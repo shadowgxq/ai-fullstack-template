@@ -16,6 +16,6 @@
 
 依照当前架构落地 Python/FastAPI、LangGraph、PostgreSQL、单 API/单 Worker。默认不联网调用模型，包含确定性工作流与公开 DTO。
 
-验收：受信认证、scope 隔离、输入校验；同键同内容幂等、不同内容 409；API 不执行图；Worker 从持久命令执行并存 checkpoint；checkpoint 后发布前崩溃可恢复；第二 Worker 被阻止；结果不可覆写；迁移可重复执行；真实 PostgreSQL 集成测试及独立进程 smoke 通过。
+验收：受信认证、scope 隔离、输入校验；同键同内容幂等、不同内容 409；API 不执行 LangGraph workflow；Worker 从 PostgreSQL-backed Command Queue 取任务并持久化 LangGraph Checkpoint；Checkpoint 后发布前崩溃可恢复；第二 Worker 被阻止；结果不可覆写；迁移可重复执行；真实 PostgreSQL 集成测试及独立进程 smoke 通过。
 
-非目标：完整业务页面、生产多租户、真实模型、外部调用台账、预算、SSE、人工审批、取消、产物存储及多 Worker 扩容。
+非目标：完整业务页面、生产多租户、真实模型、Operation Ledger、预算、SSE、人工审批、取消、产物存储及多 Worker 扩容。
