@@ -6,7 +6,6 @@ import signal
 import threading
 from collections.abc import Sequence
 from contextlib import contextmanager
-from functools import partial
 
 import psycopg
 from langgraph.checkpoint.postgres import PostgresSaver
@@ -43,7 +42,7 @@ def process_next(settings: Settings, store: Store, connection) -> bool:
         # Checkpoint writes must lose authority together with the Worker lock.
         # Using a second connection would allow stale graph writes after lock loss.
         saver = PostgresSaver(connection)
-        runner = create_runner(partial(execute_echo, checkpointer=saver))
+        runner = create_runner(lambda run_id, text: execute_echo(run_id, text, saver))
         output = runner.run(job["workflow"], run_id, job["input"])
     except psycopg.Error:
         # Leave the command for restart. No external/paid work exists in this sample.
