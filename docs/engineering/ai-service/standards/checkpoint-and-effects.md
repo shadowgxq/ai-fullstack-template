@@ -10,7 +10,7 @@
 - 连接丢失后旧执行者必须停止推进；不得自动换一条 Saver 连接继续写。释放 Worker 锁前完成当前图调用的写入收尾。
 - 应用结果只按合法状态迁移发布，已完成结果不可覆盖。重启先查同一 Run 的 Checkpoint，不新建 thread 来伪装恢复。
 
-现有 echo 使用 `thread_id = run_id`，没有状态则开始、有待执行节点则恢复、已完成则读已保存结果；这套简化判断只覆盖当前确定性链路。接入 interrupt 或新错误状态时，必须检查等待/错误语义，不能仅凭 `snapshot.next` 就自动继续。
+现有 echo 使用 `thread_id = run_id`，开始与恢复均显式设置 `durability="sync"`。已有 Checkpoint 的输入必须先与冻结输入比较，不匹配时拒绝推进；没有状态则开始、有待执行节点则恢复、已完成则读取已保存结果。这只覆盖确定性链路，不能因为有 `snapshot.next` 就自动恢复未来的人工等待或新错误状态。
 
 ## 迁移与兼容
 
@@ -31,7 +31,7 @@
   → 将 response_ref 返回 workflow
 ```
 
-不能把 SDK 调用放在 prepare Node 返回之前，或把 `state.update()` 当作 Checkpoint 已提交。需要下一步开始前完成持久化的路径，应在锁定版本验证并显式选择 `durability="sync"`；当前 echo 未显式设置该参数，不把新要求描述为现有配置。模式语义见 [官方 Checkpointers](https://docs.langchain.com/oss/python/langgraph/checkpointers)。
+不能把 SDK 调用放在 prepare Node 返回之前，或把 `state.update()` 当作 Checkpoint 已提交。需要下一步开始前完成持久化的路径，继续保持并验证显式 `durability="sync"`；它只控制 Checkpoint 写入时机，不提供供应商事务或费用幂等。模式语义见 [官方 Checkpointers](https://docs.langchain.com/oss/python/langgraph/checkpointers)。
 
 Operation 身份区分逻辑操作、输入版本与 attempt；重放复用同一逻辑操作，不每次随机生成新身份。公共请求 `Idempotency-Key` 不能代替每次供应商请求的副作用记录。
 

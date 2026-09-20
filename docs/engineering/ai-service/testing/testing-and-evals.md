@@ -4,11 +4,22 @@
 
 ## 现有测试与命令
 
-当前有 [test_unit.py](../../../../ai-service/tests/test_unit.py)、[test_postgres.py](../../../../ai-service/tests/test_postgres.py) 和仓库级 [smoke.py](../../../../scripts/smoke.py)。replay/evals 目录、真实模型 fixtures 和专门 CLI 尚未提供；以下扩展规则不是已经存在的脚本。
+当前测试入口：
 
-工作目录和命令必须明确。AI 本地检查见 [AI Makefile](../../../../ai-service/Makefile)：`make -C ai-service check` 执行 Ruff 检查、格式检查与 pytest，不包含 build 或类型检查器。目标用例可在 `ai-service/` 下用 `uv run --locked pytest tests/test_unit.py` 或 `-k` 选择真实存在的测试。
+| 范围 | 实际文件 |
+|---|---|
+| DTO、配置、认证、真实内存 LangGraph | [test_unit.py](../../../../ai-service/tests/test_unit.py) |
+| 注册表、输入隔离、执行失败传播 | [test_runtime.py](../../../../ai-service/tests/test_runtime.py) |
+| 离线自检、CLI、sync durability、输入不匹配、日志 | [test_bootstrap.py](../../../../ai-service/tests/test_bootstrap.py) |
+| PostgreSQL、创建幂等、失锁、Checkpoint 恢复 | [test_postgres.py](../../../../ai-service/tests/test_postgres.py) |
+| PostgreSQL 下独立 CLI Worker、未注册版本拒绝 | [test_postgres_bootstrap.py](../../../../ai-service/tests/test_postgres_bootstrap.py) |
+| 全栈独立进程与 HTTP | [smoke.py](../../../../scripts/smoke.py) |
+
+工作目录和命令见 [AI README](../../../../ai-service/README.md) 与 [AI Makefile](../../../../ai-service/Makefile)。`check-offline` 只验证包内资源、公开 schema 和实际内存 workflow，不读取真实凭证或连接数据库；不代替 integration。`make -C ai-service check` 执行 Ruff 与 pytest，不包含 build 或类型检查器。
 
 PostgreSQL 用例只使用显式 `AI_TEST_DATABASE_URL`，库名必须以 `_test` 结尾；未配置会 skipped，不算恢复验证通过。隔离 scope/Run 和 fixture，不清空共享库。`make smoke` 需要已启动的真实服务，不隐式授权启动、部署或付费请求。
+
+CI 除既有检查外，在 `uv build` 后安装生成的 wheel，不重新解析或升级依赖；切换到源码目录外、移除 PYTHONPATH，再执行 module 和 console 自检。这样验证实际安装包、入口与 SQL 资源，不以 editable import 代替包验证。
 
 ## 按变化选择验证
 
@@ -20,7 +31,7 @@ PostgreSQL 用例只使用显式 `AI_TEST_DATABASE_URL`，库名必须以 `_test
 | 公共 DTO / API | schema 导出与漂移检查、真实 HTTP 契约和直接消费者回归 |
 | Store / Worker / 迁移 / Checkpoint | 专用 PostgreSQL integration；必要时独立进程重启 smoke，不能用 SQLite/内存替代 |
 | 模型 adapter、prompt、工具 | deterministic/recorded 回归；质量结论另附范围匹配的 Evals |
-| 依赖、初始化或跨端实现 | 根 `make check`；相关服务启动后按范围执行 smoke |
+| 依赖、初始化或跨端实现 | 根 `make check`；相关服务启动后按范围执行 smoke；包入口/资源变化追加安装包验证 |
 
 对新增或修改的 Python 文件执行配置中的 Ruff 检查。普通局部修改不无条件全量测试或 build；共享协议、恢复或工具链影响无法收窄时扩大到直接相关检查。不要为测试覆盖率新增只断言常量或第三方初始化的用例。
 
@@ -32,10 +43,12 @@ PostgreSQL 用例只使用显式 `AI_TEST_DATABASE_URL`，库名必须以 `_test
 
 **Live / Evals（扩展时）** 只在明确供应商与预算授权下运行。记录 case ID、数据/fixture 版本、模型/配置、时间、用量、失败及局限；judge/rubric 有版本，模型自评不是唯一正确性证据。阈值与金标来自具体任务，不在模板规定“所有业务 95 分”。
 
+目前没有真实模型 fixture、recorded replay/Evals CLI 或业务金标；不创建空目录来宣称这些能力完成。
+
 ## 按新增风险补故障用例
 
-现有 PostgreSQL 测试已覆盖同键冲突、scope 隔离、重复创建、第二 Worker 拒绝、Checkpoint 后发布前恢复、终态防覆盖和失锁后不能写入。修改这些路径时保留对应回归；执行证据以实际测试结果为准。
+保留同键冲突、scope 隔离、重复创建、第二 Worker 拒绝、Checkpoint 后发布前恢复、终态防覆盖和失锁保护；新增初始化用例不能代替这些回归。测试名称和存在性不构成通过证据。
 
-启用相应扩展时，至少覆盖它新增的窗口：请求发送前/后、响应已保存但 Node 尚未返回、发布前/后、重复或过期回答、取消与迟到响应、观测失败、State/Saver 升级恢复。故障注入应核对持久化结果与外部调用次数，不只断言进程没有抛异常。
+启用扩展时覆盖新增窗口：请求发送前/后、响应保存后、发布前/后、重复或过期回答、取消与迟到响应、观测失败、State/Saver 升级恢复。故障注入核对持久化结果与外部调用次数，不只断言进程没有抛异常。
 
-测试失败保留证据；不得删金标、屏蔽失败项或切回 echo 后宣称扩展能力通过。交付报告写实际命令、运行环境、passed/failed/skipped/not run 及原因；静态链接检查不证明架构语义或运行正确性。
+测试失败保留证据；不得删金标、屏蔽失败项或切回 echo 后宣称扩展能力通过。交付记录实际命令、环境、passed/failed/skipped/not run 及原因；静态链接检查不证明架构语义或运行正确性。

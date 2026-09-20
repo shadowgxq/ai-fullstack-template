@@ -20,13 +20,13 @@
 
 后端为同步 FastAPI → service → repository → model；API 装配鉴权依赖，service 拥有事务，repository 只 flush/query。core 只提供业务无关基础设施。Redis 缓存故障可回源，认证限流/撤销检查故障拒绝请求。
 
-AI API 装配 `RunService(RunStore)`；application 依赖 core Protocol，不依赖 PostgreSQL 实现。Worker 是组合入口，连接 Store、workflow 和 LangGraph Checkpointer。API 不执行 LangGraph workflow。Run/命令同事务提交，事件与状态同事务提交；LangGraph Checkpoint 独立提交，但与 Worker 排他锁、应用写入共享会话，连接丢失后停止推进。当前是单 Worker，不支持多 Worker 横向扩容。
+AI API 装配 `RunService(RunStore)`；application 依赖 core Protocol，不依赖 PostgreSQL 实现。Worker 通过 `bootstrap.create_runner` 注册并注入绑定 Saver 的 workflow；core 的 `WorkflowRunner` 仅分派注册 ID，不 import LangGraph。API 不执行 workflow。Run/命令同事务提交，事件与状态同事务提交；Checkpoint 独立提交，但与 Worker 排他锁、应用写入共享会话，连接丢失后停止推进。当前是单 Worker，不支持多 Worker 横向扩容。
 
 PostgreSQL 同机分库分角色；应用表与 LangGraph 表分别迁移。Redis 不是 AI 队列。所有迁移显式执行，不在请求或应用启动中建表。
 
 ## 当前与目标
 
-当前支持 `echo.v1`、配置校验、Bearer 服务认证、受信 scope、幂等冲突、持久命令/JSON 事件、LangGraph Checkpoint 恢复、终态不可覆写、存活/就绪和启动验证。依赖版本以各端 lockfile 为准。
+当前支持 `echo.v1`、静态注册与执行注入、配置校验、Bearer 服务认证、受信 scope、幂等冲突、持久命令/JSON 事件、显式 sync Checkpoint 与输入一致性保护、终态不可覆写、Worker JSON 日志、存活/就绪和包内离线自检。包入口、实现位置与验证命令见 [AI README](../../ai-service/README.md)，依赖版本以各端 lockfile 为准。离线自检不证明 PostgreSQL 或生产环境就绪。
 
 [Runtime 扩展设计](ai-service/agent-runtime-architecture.md) 和其中 ADR 是目标，不是完成清单。Operation Ledger/预算/unknown、人工审批、取消、SSE、Artifact、真实模型、生产多租户及多 Worker fencing 尚未实现；不能直接把 echo 节点替换为付费调用。
 

@@ -24,7 +24,7 @@ SSE 需要处理断线、慢消费者、有界缓冲、心跳和连接清理，�
 
 按 [ADR-0004](../../../architecture/ai-service/decisions/0004-immutable-delivery.md) 实现不可变 Candidate、Audit、Delivery：正文、hash、schema version、scope 和引用要能核对；修订生成新版本，不覆盖已审核正文。
 
-同机方案由 Worker 原子写入持久存储，再登记有效引用；API 授权后只读。文件写入与数据库提交不是同一事务，需要明确孤立文件清理和重试策略，不发布指向未完成正文的引用。不能把容器临时目录作为唯一存储，也不能接受任意路径下载。
+同机方案由 Worker 原子写入持久存储，再登记有效引用；API 授权后只读。同机文件写入与数据库提交不是同一事务，需要明确孤立文件清理和重试策略，不发布指向未完成正文的引用。不能把容器临时目录作为唯一存储，也不能接受任意路径下载。
 
 Audit 绑定实际 result/policy hash；Release Gate 在正式引用提交时检查取消、权限与输入版本。Artifact 同 scope 不代表可以下载草稿或绕过发布限制。分机前先更换共享存储方案，不能让 API/Worker 各读自己的本地目录。
 
@@ -38,6 +38,6 @@ Audit 绑定实际 result/policy hash；Release Gate 在正式引用提交时检
 | `unknown`（扩展时） | 保留不确定性与预算，不盲重发 |
 | interrupt / 取消控制信号（扩展时） | 映射为明确控制状态，不当普通异常吞掉 |
 
-日志按可用信息关联 run_id、operation_id/attempt、节点和安全错误码；原始响应按受控存储规则保存，不直接写公开日志。基线已有日志，结构化日志、metrics 或 Langfuse 接入需单独实现，不能写成现有能力。
+Worker 入口已启用 [JSON 日志](../../../../ai-service/src/ai_service/infrastructure/logging.py)，失败记录关联 run_id、安全错误码和异常类型。formatter 只序列化允许的上下文字段，不输出任意 extras 或异常正文；消息本身仍由调用者保持安全，不宣称 formatter 能识别所有秘密。API 日志沿用 Uvicorn；metrics、Langfuse 和远端 tracing 尚未接入。
 
-观测 adapter 可以 Noop，必须脱敏、有界并能降级；trace 丢失不应导致重复执行或破坏持久事实。应用事件与 Operation Ledger 不能因为远端观测不可用而跳过写入；不得用 trace 判断操作是否已经完成。
+扩展时按可用信息追加 operation_id/attempt 与节点；原始响应进入受控存储，不直接写公开日志。观测 adapter 可以 Noop，必须脱敏、有界并能降级；trace 丢失不应导致重复执行或破坏持久事实。应用事件与 Operation Ledger 不能因为远端观测不可用而跳过写入；不得用 trace 判断操作是否已经完成。
