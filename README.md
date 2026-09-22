@@ -49,7 +49,7 @@ Vite 位于 5173，通过代理访问后端。AI 凭证不进入 VITE 变量。�
 
 ## 交付与验证
 
-先读 [AGENTS.md](AGENTS.md) → 当前需求/架构/契约 → 涉及端规则。一个跨端需求在同一 OpenSpec change 维护任务，不各建台账。
+先读 [AGENTS.md](AGENTS.md) 与 [工具兼容边界](docs/engineering/workflow/tooling.md)，再按 [交付流程](docs/engineering/workflow/delivery.md) 进行工作分级、技术方案批准、近期垂直 change 和实际验收。同一端到端意图跨端交付，不按端各建台账；当前模板未接入 Manager v2 自动控制，不把文档更新当成运行工具升级。
 
 ```bash
 make docs             # 文档导航、内容卫生、任务引用、校验器回归
