@@ -2,12 +2,11 @@
 
 单个组件的 API、行为、数据边界和 shared primitive 契约。
 
-是否抽组件、放哪一层、何时进 `shared/ui`、是否登记组件清单，看 `docs/engineering/frontend/components/components.md`。
+复用、层级和清单见 [组件治理](../components/components.md)；React 状态、Effect、请求缓存与防重复 action 的唯一细则见 [React 规则](react-patterns.md)。
 
 ## 组件 API
 
-- Component 用 `PascalCase`；Props 类型用 `ComponentNameProps`；默认 function component。
-- Props 必须显式类型，不用 `any`；可复用组件支持 `className` 透传到 root。
+- 命名与类型遵循 [前端编码](frontend-development.md)；Props 类型用 `ComponentNameProps`，默认 function component。可复用组件支持 `className` 透传到 root。
 - 事件 props 用 `onXxx`；内部 handler 用 `handleXxx`。
 - 自定义 Boolean props 按 [编码规范](frontend-development.md) 命名；继承 DOM、Radix、DayPicker API 时保留 `disabled`、`open`、`checked` 等原名，不为命名规则包装一套同义 props。
 - 多变体组件用 `variant`、`size`、`tone` 等枚举 props，避免多个互斥 Boolean。
@@ -21,16 +20,12 @@
 - root element 优先语义化 HTML；交互元素用 `button`、`a` 或原生控件，不用 `div` 模拟。
 - Button-like 组件必须支持 `disabled`，按需支持 `isPending`/`loading`，并保证 pending 时不重复触发。
 - 接收 `onSubmit`、`onConfirm`、`onSave` 的组件，由调用方持有 mutation 状态，组件负责展示和阻止重复交互。
-- 不在 render 内定义子组件、静态 options 或静态 mapping；提升到模块作用域或就近常量文件。
-- 组件内部不缓存 props 副本，除非是明确的可编辑草稿或一次性初始化状态。
+- render、派生状态与草稿重置遵循 [React 规则](react-patterns.md#状态与-effect)，不在本页重复定义。
 
 ## 数据边界
 
-- 组件不创建 request client，不散落接口请求细节。
-- 请求进入 query hook、mutation hook 或对应 feature/entity 的 model 层。
-- query hook 负责 loading、error、cache、retry；组件只消费 UI-ready 状态。
-- mutation hook 或 feature action 负责 invalidation、cache update、toast、导航等后续动作。
-- DTO 和 domain type 分开；请求参数、query key、DTO 转换逻辑就近维护。
+- 组件接收 UI-ready 数据与事件，query/mutation 的状态归属按 [请求与缓存](react-patterns.md#请求与缓存) 执行。
+- feature action 可编排 toast/导航；shared UI 只报告事件，不能假设产品成功文案或目标路由。
 
 ## UI Primitive
 
