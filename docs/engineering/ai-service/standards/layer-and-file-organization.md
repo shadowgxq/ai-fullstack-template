@@ -46,4 +46,4 @@ resources/<workflow_name>/  # 使用版本化资源时才创建
 
 当前测试仍平铺于 `tests/`，包括 unit、runtime、bootstrap 和 PostgreSQL 用例；不为目录对称创建空 replay/evals 文件夹。随实际用例增长再按测试边界拆目录。迁移仍在 `infrastructure/migrations/`。
 
-命名使用 `snake_case.py`、`PascalCase` 类型，测试 `test_*.py`；避免含义不明的 `utils.py` 汇集层。新增 public interface 时同步直接调用者和 [相关测试](../testing/testing-and-evals.md)，不借目录调整改行为。
+命名与通用类型写法见 [公共 Python](../../common/python.md)；本端包根为 `ai_service`，测试采用 `test_*.py`。新增 public interface 时同步直接调用者和 [相关测试](../testing/testing-and-evals.md)，不借目录调整改行为。
