@@ -4,12 +4,22 @@
 
 ## 规则归属
 
-根 `AGENTS.md` 维护简短、强制的公共约束；各端 `AGENTS.md` 只维护任务导航；`docs/engineering/common/` 保留按需工程细则；各端工程文档维护实现规范。本页负责目录职责与文档维护，不复制专项规则正文。
+工程规范采用“公共原则 + 语言共性 + 各端差异”，不是把三端实现规则统一成一个框架：
+
+```text
+AGENTS.md                         公共协作约束与任务路由
+  → engineering/common/           代码质量；按需 Python、数据与运行细节
+  → engineering/<端>/README.md    选择本端编码、分层、组件或恢复细则
+```
+
+根与各端 `AGENTS.md` 保持短入口；正文只维护在对应规范文件。代码任务读取短公共基线和受影响端，不默认加载所有规范；文档任务只读目标及引用。已读规则不重复加载，读取入口继续使用下表，不要求逐级遍历目录。
+
+跨端必须一致的命名语义、注释、复用和正确性放 common；React props、SQLAlchemy 事务、LangGraph 恢复保留各端。两 Python 服务共享语言规则，不共享 ORM/响应信封。安全约束与公开契约不能被专项规则放宽；格式以本端配置为准，技术用法以锁定版本和真实实现核对，冲突修正唯一事实源，不复制另一套规则。
 
 | 唯一事实源 | 维护者 / 按需场景 |
 |---|---|
 | [根 AGENTS.md](../AGENTS.md) | 所有 Agent；沟通、改动范围、命令授权与文档路由 |
-| [公共工程细则](engineering/common/README.md) | 涉及数据库、缓存、配置、运行环境或验证范围时读取 |
+| [公共工程细则](engineering/common/README.md) | [代码质量](engineering/common/code-quality.md) 覆盖变量/注释/复用/准确性；[Python](engineering/common/python.md) 与数据/运行/验证按需补读 |
 | [交付流程](engineering/workflow/delivery.md) | Manager；需求、联调、多 Agent 协作 |
 | [前端规范](engineering/frontend/README.md) | UI、状态、路由、工具链；入口为 [frontend/AGENTS.md](../frontend/AGENTS.md) |
 | [后端规范](engineering/backend/README.md) | 认证、CRUD、迁移、Redis；入口为 [backend/AGENTS.md](../backend/AGENTS.md) |
@@ -33,5 +43,7 @@
 ## 维护与流转
 
 新增、删除或移动文档时同步导航、相对链接、REQ-ID 和任务索引引用。命令在服务 README 与 Makefile 维护；schema 由提供方生成；版本以各端 lockfile 为准。
+
+外部参考只提炼适用规则，在其规则拥有者处注明来源与适用边界；不复制完整社区 skill 或自动安装新工具。入口与细则分离借鉴 [Agent Skills 渐进加载](https://agentskills.io/specification#progressive-disclosure)，但工程文档仍由本仓库导航，不宣称新增或激活某个 skill。
 
 使用方项目的已合并 change 同步生效规格到 `openspec/specs/`，再进入 `openspec/changes/archive/`；历史记录不作为默认任务上下文。模板自身的维护来源与验证记录通过 Git/PR 历史追溯，删除工作树副本不改写历史。
