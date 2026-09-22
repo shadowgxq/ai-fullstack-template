@@ -12,6 +12,8 @@
 - 测试：`*.test.ts` 或 `*.test.tsx`。
 - 枚举值、typed options、label/tone/icon mapping 放拥有该语义的 `*.constants.ts`；对应 union type 放 `*.types.ts` 或就近导出。
 
+文件类别是落点约定，不要求每个功能都创建 `types/constants/utils/model` 全套文件；少量私有类型与逻辑可就近保留，出现独立职责后再拆分。
+
 ## 组件目录
 
 命名 UI 组件默认使用目录包裹：

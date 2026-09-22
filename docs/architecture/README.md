@@ -12,6 +12,12 @@
 
 主题、认证、Run 协议属于模板；具体实体、页面、工作流、提示词、评估属于业务。只做 CRUD 的业务仅启动前后端；需要持久化任务执行时再接入 AI 服务。
 
+## 工程规范的总分边界
+
+规范组织与运行时架构分开：[公共代码质量](../engineering/common/code-quality.md) 定义命名、注释、复用与准确性；[公共 Python](../engineering/common/python.md) 只覆盖两服务的语言共性；[前端](../engineering/frontend/README.md)、[后端](../engineering/backend/README.md)、[AI](../engineering/ai-service/README.md) 分别拥有组件/状态、业务事务、持久执行的专项规则。
+
+该划分不新增共享运行时包，不要求每个项目安装全部技术或实现所有目标能力。规则归属和冲突处理见 [文档地图](../README.md#规则归属)；各端公开类型、组件清单与当前能力仍以对应代码和事实源核对。
+
 ## 数据流与所有权
 
 目标业务链路：浏览器 → backend（用户/资源授权）→ AI API（受信服务身份）→ PostgreSQL-backed Command Queue → Worker → LangGraph → 结果。

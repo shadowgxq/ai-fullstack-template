@@ -7,7 +7,7 @@
 | 文件 | 什么时候看 |
 |---|---|
 | [implementation-workflow.md](./implementation-workflow.md) | 新增资源域 / 新增接口时：实现步骤顺序、每步产出物与完成判据（步骤 owner） |
-| [python-development.md](./python-development.md) | 日常后端实现入口：命名、类型注解、Pydantic/SQLAlchemy、异常、日志、import、配置、验证 |
+| [python-development.md](./python-development.md) | 日常后端实现入口：引用公共代码/Python 规则，补充同步 SQLAlchemy、事务、错误与验证差异 |
 | [file-organization.md](./file-organization.md) | 文件/模块命名、新代码放哪一层、放置规则（放置 owner） |
 | [layer-definition.md](./layer-definition.md) | 已决定写某层后：该层职责、函数签名、数据边界、跨层依赖（分层 owner） |
 | [api-and-error-contract.md](./api-and-error-contract.md) | 路由、统一响应、异常、状态码、鉴权（API 契约 owner） |

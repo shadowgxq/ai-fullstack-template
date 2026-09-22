@@ -1,32 +1,14 @@
-# Frontend Standards
+# 前端编码规则索引
 
-`standards/` 保存前端实现硬规则。这里只做编码、组件 API、文件组织、UI 状态和可访问性约束。
+完整任务路由见 [前端专项导航](../README.md)。本目录只补前端差异，不复制公共命名、注释或跨端规则。
 
-不在这里写：
+| 需要解决的问题 | 唯一规则 |
+|---|---|
+| 变量、注释、抽象、代码准确性 | [公共代码质量](../../common/code-quality.md) |
+| TypeScript 与本端实现入口 | [前端编码](frontend-development.md) |
+| React 状态、Effect、异步与性能 | [React 规则](react-patterns.md) |
+| props、受控状态、primitive 行为 | [组件定义](component-definition.md) |
+| 文件命名、层级和 public import | [文件组织](file-organization.md) |
+| loading、empty、error、键盘/焦点 | [UI 状态](accessibility-and-ui-states.md) |
 
-- 组件是否抽取、放哪一层、是否登记清单：看 `docs/engineering/frontend/components/components.md`。
-- 拆分案例和反例：看 `docs/engineering/frontend/components/component-splitting.md`。
-- 已落地组件事实：看 `docs/engineering/frontend/components/component-inventory.md`。
-- 技术选型、依赖方向、`src/` 架构边界：看 `docs/engineering/frontend/architecture/technology-options.md`。
-
-## 文件索引
-
-| 文件                             | 什么时候看                                                                          |
-| -------------------------------- | ----------------------------------------------------------------------------------- |
-| `frontend-development.md`        | 日常前端实现入口：命名、类型、枚举、React、import、状态、交互防重、样式、配置和验证 |
-| `component-definition.md`        | 已决定要写组件后，查看 props、可控/非可控、行为、数据边界和 shared primitive API    |
-| `file-organization.md`           | 判断文件命名、组件目录、module API、hook/model/test/config 放置                     |
-| `accessibility-and-ui-states.md` | 处理 loading、empty、error、disabled、pending、表单、浮层、键盘和响应式文本         |
-
-## 读取顺序
-
-1. 前端实现任务先看 `frontend-development.md`。
-2. 涉及组件 API 或 shared primitive 时看 `component-definition.md`。
-3. 涉及放置路径或文件命名时看 `file-organization.md`。
-4. 涉及交互状态、表单、浮层、键盘或响应式文本时看 `accessibility-and-ui-states.md`。
-
-## 维护原则
-
-- 每个具体规则只放一个文件，其他文件只引用，不复制。
-- `README.md` 只做入口索引和边界说明，不承载细则。
-- 新增、删除或改名 standards 文件时，同步更新本文件、`docs/engineering/frontend/README.md` 和 `docs/README.md`。
+组件复用先读 [清单与治理](../components/components.md)。仅补读当前任务涉及的文件；新增或改名规则时同步本索引及专项导航。
