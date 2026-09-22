@@ -107,10 +107,10 @@ Suggested triage output to include in `Notes`:
 6. Add the new file path to `repairs/list.yaml` `selected.files`, preserving
    any existing selected files unless the user explicitly asks to replace them.
 7. Update `repairs/list.yaml` `updated_at`.
-8. Run:
+8. Run from the repository root:
 
 ```bash
-pnpm repairs:validate -- <new-repair-file>
+python3 scripts/repairs/validate_repairs.py <new-repair-file>
 ```
 
 If validation fails, fix the repair file or list and rerun validation.

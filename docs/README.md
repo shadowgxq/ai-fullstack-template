@@ -8,7 +8,7 @@
 
 | 唯一事实源 | 维护者 / 按需场景 |
 |---|---|
-| [根 AGENTS.md](../AGENTS.md) | 所有 Agent；沟通、改动范围、安全边界、验证原则与文档路由 |
+| [根 AGENTS.md](../AGENTS.md) | 所有 Agent；沟通、改动范围、命令授权与文档路由 |
 | [公共工程细则](engineering/common/README.md) | 涉及数据库、缓存、配置、运行环境或验证范围时读取 |
 | [交付流程](engineering/workflow/delivery.md) | Manager；需求、联调、多 Agent 协作 |
 | [前端规范](engineering/frontend/README.md) | UI、状态、路由、工具链；入口为 [frontend/AGENTS.md](../frontend/AGENTS.md) |
