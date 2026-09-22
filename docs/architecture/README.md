@@ -18,6 +18,8 @@
 
 该划分不新增共享运行时包，不要求每个项目安装全部技术或实现所有目标能力。规则归属和冲突处理见 [文档地图](../README.md#规则归属)；各端公开类型、组件清单与当前能力仍以对应代码和事实源核对。
 
+业务技术方案沿用本目录，按需维护 `<area>/overview.md`，复杂功能再补 `features/<feature>.md`；不预建空方案或复制系统基线。方案覆盖核心流程与适用的失败/重试/回滚路径，获批后由 change design 引用；具体分级与批准流程见 [交付流程](../engineering/workflow/delivery.md)。
+
 ## 数据流与所有权
 
 目标业务链路：浏览器 → backend（用户/资源授权）→ AI API（受信服务身份）→ PostgreSQL-backed Command Queue → Worker → LangGraph → 结果。
