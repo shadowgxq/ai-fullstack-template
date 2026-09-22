@@ -1,6 +1,6 @@
 # AI 服务工程规范
 
-公共约束继承 [根 AGENTS.md](../../../AGENTS.md)，不在本目录复制。本文只做导航；技术基线、实现规则和验证要求分别由下列文件维护。
+公共协作约束继承 [根 AGENTS.md](../../../AGENTS.md)；命名、注释、复用和 Python 写法引用公共文档。本端只补 Runtime、Node、恢复、模型/工具与 Evals 的差异，本文只做导航。
 
 ## 使用边界
 
@@ -12,13 +12,16 @@
 
 | 任务 | 必要规范 |
 |---|---|
-| 任意 AI 服务实现 | [Python 开发](standards/python-development.md)；首次接入或改变依赖时补读 [技术基线](architecture/technology-baseline.md) |
+| 新增或修改 AI 代码 | [公共代码质量](../common/code-quality.md) + [Python 公共写法](../common/python.md) + [本端入口](standards/python-development.md)；首次接入或改变依赖时补读 [技术基线](architecture/technology-baseline.md) |
 | 新模块、依赖注入、目录调整 | [分层与文件组织](standards/layer-and-file-organization.md) |
 | Workflow、Node、State、routing、并行 | [Workflow 与 State](standards/workflow-and-state.md) |
 | Worker、事务、迁移、恢复、interrupt、幂等 | [Checkpoint 与副作用](standards/checkpoint-and-effects.md) |
 | 模型、工具、prompt、MCP、RAG 等扩展 | [模型与工具](standards/model-and-tools.md) |
 | HTTP、DTO、事件、产物、错误和观测 | [API、事件与产物](standards/api-events-and-artifacts.md) |
 | 回归、故障注入、recorded replay、Evals | [测试与 Evals](testing/testing-and-evals.md) |
+| 仅 AI 工程文档 | 目标文档及其直接引用；[文档检查范围](../common/README.md#验证范围) |
+
+同一任务已读公共规范不重复加载；未涉及模型、MCP/RAG 或人工审批时不加载相应扩展细则。
 
 ## 关联事实源
 
