@@ -1,75 +1,50 @@
-# Layer Definition
+# 后端分层与复用边界
 
-各层（api（含 dependencies） / services / repositories / models / schemas / core）的职责、函数签名约定和数据边界。适用范围：`app/`（FastAPI + SQLAlchemy 2.0 同步 + Pydantic v2）。
-新代码放哪一层、模块怎么命名看 [file-organization.md](./file-organization.md)；横切基础设施（config/session/redis/security/中间件）细则看 [infrastructure.md](./infrastructure.md)；技术基线与依赖方向看 [../architecture/technology-baseline.md](../architecture/technology-baseline.md)。
+适用于 `backend/app/` 的同步 FastAPI + SQLAlchemy 实现。通用命名/注释与抽象见 [公共代码质量](../../common/code-quality.md)，文件落点见 [目录](file-organization.md)。以下分层是本仓库约定，不是 FastAPI 强制所有项目采用的目录结构。
 
-## 分层总则
+## 依赖方向
 
-- 业务调用依赖只向下：`api → services → repositories → models`；`schemas`/`core` 为横切。API 的 composition/认证依赖可装配仓储和服务；业务路由不直接查询 ORM。
-- 每层只做本层职责，不替下层或上层做事；跨层只通过明确的函数签名 / 构造参数传递，不靠隐式全局状态。
-- 业务规则只在 `services`；`api` 不写规则、`repositories` 不含规则。
-
-## api/v1（路由层）
-
-- 只做：声明路由与入参（`Query`/`Path`/Body schema）、调用 service、用 `ApiResponse` / `success_response` 包返回。
-- 路由为**同步 `def`**；每个路由标 `response_model=ApiResponse[...]`；入参约束就近用 `Query(1, ge=1, le=50)`，不在函数体里手写校验。
-- **不写业务规则、不直接查 ORM、不碰 `Session` 之外的 DB 细节**；service 经工厂依赖装配（如 `get_auth_service` 里 `AuthService(UserRepository(db))`），`db` 由 `Depends(get_db)` 注入。
-- 路由按资源域分模块，各自 `APIRouter(prefix=..., tags=...)`，在 `main.py` 用 `include_router(prefix="/api/v1")` 注册。
-
-```python
-router = APIRouter(prefix="/auth", tags=["auth"])
-
-
-def get_auth_service(db=Depends(get_db)) -> AuthService:
-    return AuthService(UserRepository(db))
-
-
-@router.post("/login", response_model=ApiResponse[TokenResponse])
-def login(payload: LoginRequest, service: AuthService = Depends(get_auth_service)):
-    access_token = service.login(payload.username, payload.password)
-    return success_response({"access_token": access_token, "token_type": "bearer"})
+```text
+HTTP → api/v1 → services → repositories → models
+         │          │             │
+         └── schemas / api dependencies
+                    └── core（配置、会话、安全、错误等）
 ```
 
-## api/dependencies.py（依赖注入）
+调用只向下；API composition 可以装配仓储/服务，业务路由不能借此直接查询 ORM。`schemas` 和 `core` 不反向依赖业务；配置/事务等横切细节由 [基础设施](infrastructure.md) 维护。
 
-- 放可复用的 FastAPI 依赖（`get_current_user`、`get_access_token`）；鉴权 / 取当前用户在此收口，失败抛 `HTTPException(401)` 或 `BusinessException` 子类（如 `TokenRevokedException`），不在每个路由里重复解析 token。
-- 依赖可组合下层能力（解 JWT、查黑名单、读用户缓存、回源查库），但不写具体业务规则。
+## 各层职责
 
-## services（业务编排层）
+| 层 | 负责 | 不负责 |
+|---|---|---|
+| `api/v1` | 路由、参数 schema、调用 service、显式映射 response model | 业务计算、ORM 查询、手写事务 |
+| `api/dependencies.py` | 解析身份、认证、组合共享依赖；资源授权上下文注入 | 复制每个领域的业务规则 |
+| `services` | 用例编排、资源权限与业务不变量、事务及结果 | Request/Response、HTTP 上下文、直接 ORM 查询 |
+| `repositories` | 参数化查询、add/flush/refresh；返回内部实体或标量 | 业务决策、HTTP schema、commit/rollback |
+| `models` | 表、字段、约束与 ORM 映射 | 调用服务、HTTP 序列化 |
+| `schemas` | 请求/响应形状、约束、公开字段 | ORM 持久化、权限判断、重复状态事实 |
+| `core` | 与业务无关的配置、连接、安全原语、错误与日志 | 用户资源、repository、service 或 API import |
 
-- 放业务规则与编排：取数（调 `repositories`）+ 规则计算（如登录失败限流）+ 拼装 / 返回领域值。
-- 采用**类 + 构造注入仓储**的风格（`class AuthService: def __init__(self, repo: UserRepository)`）；业务方法为同步 `def`，入参用业务参数，返回领域值或已足够拼装出参的数据，不把裸 ORM 直接交给路由做序列化。
-- 不 import `api`、不碰 `Request`/`Response`/HTTP 状态码；错误用 `BusinessException` 子类表达（如 `LoginFailedException()`）。
-- 写操作用 `with transaction(db):` 收口事务（见 [infrastructure.md](./infrastructure.md)）。
+`/health`、`/ready` 和 OpenAPI 是运维/协议例外；尤其 `/ready` 只检查依赖，不按业务接口强加 Service/Repository 全套，也不执行迁移。
 
-## repositories（数据访问层）
+## 事务与正确性
 
-- 只封装对 ORM 的查询 / 写入的**类**（`class UserRepository: def __init__(self, db: Session)`），方法返回 ORM 对象或标量；**不含业务规则、不依赖 `schemas`/`services`**。
-- 查询用 `self.db.query(Model).filter(...)`（沿用现有风格）；条件按入参组合。
-- 写方法可执行 `add`/`flush`/`refresh`，禁止 `commit`/`rollback`；事务提交或回滚只由 service 的 `transaction(db)` 收口。
+- 路由继续同步 `def`，service 构造注入已有 repository；Session 从请求依赖获得，不在每层各建连接。service 管理一个用例的提交/回滚，repository 只写入事务。
+- 输入格式用 Pydantic/Query/Path 校验；跨字段业务规则与资源权限在 service 的实际操作边界检查。认证通过不等于有权访问任意资源，不能只依赖前端隐藏按钮。
+- 预查询“不存在”不能防并发重复；数据库唯一约束兜底，Service 在 rollback 后区分真实唯一冲突与其他数据库错误。不把所有 IntegrityError 一律改成“已存在”。
+- DTO 不要求逐字段等同 ORM。当前 AuthService 可在进程内返回 User，由路由显式选择 `id/username` 并通过 response model；禁止把裸 ORM、密码字段或数据库行直接作为公开响应。复杂用例再引入内部结果类型，不预建一套重复领域模型。
+- 新查询在 repository 内使用现有查询风格和绑定参数；列表有上限、稳定排序及必要分页，不在返回后任意截断来掩盖无界查库。索引根据真实筛选/排序与唯一性需要设计，不给每个可筛字段机械加索引。
+- 数据库事务不能回滚已完成的 Redis 或远端调用；跨系统写入进入范围时明确失败顺序、重试/补偿或消息边界，不先返回业务成功再假定后续步骤一定完成。
 
-## models（ORM 层）
+## 复用先找现有落点
 
-- SQLAlchemy 2.0 声明式：继承 `core/base.Base`，字段用 `Mapped[...]` + `mapped_column(...)`，可空标 `| None`。
-- 唯一 / 可筛字段加 `unique=True` / `index=True`。
-- 最底层，不反向 import 上层；表结构变更必须生成 Alembic 迁移，并在 `alembic/env.py` 保证该模型被 import（注册到 `Base.metadata`）。
+| 新代码需要 | 优先复用 |
+|---|---|
+| 当前用户或认证依赖 | `api/dependencies.py`，不在每条路由解析 JWT |
+| 相同领域查询与约束 | 对应 repository / service，不复制到另一个域 |
+| HTTP 信封与业务错误 | `schemas/response.py`、`core/exceptions.py` 与已注册 handler |
+| 事务、Redis、安全原语 | `core/session.py`、`core/redis_client.py`、`core/security.py` |
 
-## schemas（出入参契约层）
+纯计算可以是就近函数，跨模块替换边界才需要小接口；不为每个简单接口预建 BaseRepository、通用 CRUD 引擎或大量透传 class。新增资源按 [实现顺序](implementation-workflow.md) 选择必要层，而非生成所有空文件。
 
-- 出入参用 Pydantic v2 `BaseModel`，字段 `snake_case`；按用途分型（`Request`/`Response`），不复用一个模型既当入参又当出参。
-- 通用响应结构（`ApiResponse[T]`、`success_response`）集中在 `schemas/response.py`，不在各域重复定义。
-- 字段类型即契约：与 ORM 列对齐；不在 service/repository 内另造平行 schema。
-
-## core（横切基础设施）
-
-> 各模块职责与写法以 [infrastructure.md](./infrastructure.md) 为 owner，这里只列边界。
-
-- `config`（settings）/ `session`（engine + `get_db` + `transaction`）/ `security`（JWT + bcrypt）/ `redis_client`（`redis_safe`）/ `exceptions`（`BusinessException`）/ `exception_handlers` / `logging` / `middlewares`：被各层依赖，自身不依赖业务层。
-- 唯一的 engine / session 来源在 `core/session`，业务层不自建连接；唯一的 Redis 客户端在 `core/redis_client`。
-
-## 跨层禁止项
-
-- 路由里写业务规则 / 直接 ORM 查询 / 手拼错误响应 / 写 `async def`（本模板同步）。
-- service 依赖 `api`、读 HTTP 上下文、返回裸 ORM 对象给路由做序列化。
-- repository 写业务规则、依赖 `schemas`/`services`、执行 commit/rollback。
-- 任意层绕过 `schemas` 直接把 ORM 对象序列化给前端，或绕过 `core/config` 散读环境变量、绕过 `core/redis_client` 直连 Redis。
+参考 [FastAPI 多文件应用](https://fastapi.tiangolo.com/tutorial/bigger-applications/) 的 APIRouter/依赖装配、[SQLAlchemy Session](https://docs.sqlalchemy.org/en/20/orm/session_basics.html) 的事务生命周期；本仓库在此基础上固定 Service 事务所有权。静态 [架构检查](../../../../scripts/check_architecture.py) 只能覆盖部分 import/事务规则，资源权限、查询效率和业务语义仍需 review 与测试。
