@@ -38,6 +38,25 @@ describe('normalizeApiError', () => {
     });
   });
 
+  it('reads the backend field errors from its data envelope', () => {
+    const fields = [{ loc: ['body', 'username'], type: 'string_too_long', msg: 'Too long' }];
+    const response: AxiosResponse = {
+      config: { headers: new AxiosHeaders() },
+      data: { code: 42200, message: 'Validation failed', data: fields },
+      headers: {},
+      status: 422,
+      statusText: 'Unprocessable Entity',
+    };
+    const error = AxiosError.from(
+      new Error('Invalid input'),
+      undefined,
+      undefined,
+      undefined,
+      response,
+    );
+    expect(normalizeApiError(error).details).toEqual(fields);
+  });
+
   it('marks normalized errors', () => {
     const apiError = normalizeApiError(new Error('Forbidden'));
 

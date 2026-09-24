@@ -32,5 +32,5 @@ export type EmailCodeLoginInput = { email: string; code: string };
 export type PasswordLoginInput = { username: string; password: string };
 export type RegisterInput = { username: string; email: string; password: string; code: string };
 export type ResetPasswordInput = { email: string; code: string; newPassword: string };
-/** Google GIS 支持授权码与 ID token；真实登录使用授权码，mock 仍使用 credential。 */
+/** Retained template extension shape; the current backend does not expose Google login. */
 export type GoogleLoginInput = { credential: string } | { code: string };

@@ -33,23 +33,24 @@ export function createRequest(client: AxiosInstance) {
   };
 }
 
-type AuthTaggedConfig = { __authInjected?: boolean };
+type AuthTaggedConfig = { __authToken?: string };
 
-function markAuthInjected(config: InternalAxiosRequestConfig): void {
-  (config as InternalAxiosRequestConfig & AuthTaggedConfig).__authInjected = true;
+function markAuthInjected(config: InternalAxiosRequestConfig, token: string): void {
+  (config as InternalAxiosRequestConfig & AuthTaggedConfig).__authToken = token;
 }
 
-function isAuthInjected(config: AxiosRequestConfig | undefined): boolean {
-  return (config as (AxiosRequestConfig & AuthTaggedConfig) | undefined)?.__authInjected === true;
+function isCurrentAuthRequest(config: AxiosRequestConfig | undefined): boolean {
+  const token = (config as (AxiosRequestConfig & AuthTaggedConfig) | undefined)?.__authToken;
+  return typeof token === 'string' && token === getAuthToken();
 }
 
-/** Attach the current Bearer token and clear the session only for authenticated 401 responses. */
+/** A late 401 from an old request must not clear a newly established session. */
 export function attachAuthInterceptors(client: AxiosInstance): AxiosInstance {
   client.interceptors.request.use((config) => {
     const token = getAuthToken();
     if (token && !config.headers.has('Authorization')) {
       config.headers.set('Authorization', `Bearer ${token}`);
-      markAuthInjected(config);
+      markAuthInjected(config, token);
     }
     return config;
   });
@@ -60,7 +61,7 @@ export function attachAuthInterceptors(client: AxiosInstance): AxiosInstance {
       if (
         axios.isAxiosError(error) &&
         error.response?.status === 401 &&
-        isAuthInjected(error.config)
+        isCurrentAuthRequest(error.config)
       ) {
         notifyUnauthorized();
       }

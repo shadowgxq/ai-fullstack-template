@@ -1,7 +1,7 @@
 import type { AuthErrorCode } from './auth.gateway';
 
 export const EMAIL_CODE_LENGTH = 6;
-export const PASSWORD_MIN_LENGTH = 8;
+export const PASSWORD_MIN_LENGTH = 1;
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const EMAIL_CODE_PATTERN = /^\d{6}$/;
@@ -15,7 +15,7 @@ export function validateEmailCode(code: string): AuthErrorCode | null {
 }
 
 export function validatePassword(password: string): AuthErrorCode | null {
-  return password.length > 0 && new TextEncoder().encode(password).length <= 72
+  return password.length >= PASSWORD_MIN_LENGTH && new TextEncoder().encode(password).length <= 72
     ? null
     : 'INVALID_CREDENTIALS';
 }

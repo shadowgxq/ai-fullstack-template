@@ -6,6 +6,7 @@ export const AUTH_DATA_SOURCES = ['api', 'mock'] as const;
 export type AuthDataSource = (typeof AUTH_DATA_SOURCES)[number];
 
 type RuntimeEnv = {
+  DEV?: boolean;
   VITE_API_BASE_URL?: string;
   VITE_API_TIMEOUT_MS?: string;
   VITE_TRANSLATION_API_BASE_URL?: string;
@@ -74,7 +75,7 @@ export function createRuntimeConfig(env: RuntimeEnv): RuntimeConfig {
       ),
     }),
     auth: Object.freeze({
-      dataSource: readAuthDataSource(env.VITE_AUTH_DATA_SOURCE),
+      dataSource: env.DEV === true ? readAuthDataSource(env.VITE_AUTH_DATA_SOURCE) : 'api',
       googleClientId: readOptionalString(env.VITE_GOOGLE_CLIENT_ID),
     }),
     analytics: Object.freeze({

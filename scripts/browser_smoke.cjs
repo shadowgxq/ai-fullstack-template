@@ -14,15 +14,26 @@ const results = [];
   async function check(name, run, viewport = { width: 1440, height: 900 }) {
     const context = await browser.newContext({ viewport, colorScheme: 'light', reducedMotion: 'reduce' });
     const page = await context.newPage();
-    const errors = [], external = [];
+    const errors = [], external = [], fontAssets = new Set();
     page.on('pageerror', error => errors.push(error.message));
-    page.on('request', req => { if (/^https?:/.test(req.url()) && !req.url().startsWith(base+'/')) external.push(req.url().split('?')[0]); });
+    page.on('request', req => {
+      if (!/^https?:/.test(req.url()) || req.url().startsWith(base+'/')) return;
+      const url = new URL(req.url());
+      // These public font assets are explicitly declared by the standard index.html.
+      // Keep them; do not redesign the font foundation to satisfy a zero-network assumption.
+      const declaredFont = req.method() === 'GET' && (
+        (req.resourceType() === 'stylesheet' && url.origin === 'https://fonts.googleapis.com' && url.pathname === '/css2') ||
+        (req.resourceType() === 'font' && url.origin === 'https://fonts.gstatic.com' && url.pathname.startsWith('/s/'))
+      );
+      if (declaredFont) fontAssets.add(url.origin);
+      else external.push(url.origin+url.pathname);
+    });
     try {
       await run(page);
       assert.deepEqual(errors, [], 'uncaught browser errors');
       assert.deepEqual(external, [], 'unexpected external request');
       await page.screenshot({ path: path.join(output, name+'.png'), fullPage: true });
-      results.push({ name, status: 'passed' });
+      results.push({ name, status: 'passed', declaredFontOrigins: [...fontAssets] });
     } catch (error) {
       results.push({ name, status: 'failed', message: error.message });
       await page.screenshot({ path: path.join(output, name+'-failed.png'), fullPage: true }).catch(() => {});
@@ -44,7 +55,7 @@ const results = [];
     await page.getByRole('button', { name: 'Settings', exact: true }).click();
     await page.getByRole('switch').click(); await page.keyboard.press('Escape');
     await page.waitForFunction(() => document.documentElement.dataset.theme === 'dark');
-    await page.reload(); await page.getByRole('navigation').waitFor();
+    await page.reload(); await page.getByRole('navigation', { name: 'Primary navigation' }).waitFor();
     assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
     assert.equal(await page.locator('html').getAttribute('data-theme-preset'), 'neutral'); await noOverflow(page);
   });
@@ -56,7 +67,7 @@ const results = [];
     await noOverflow(page);
   });
   await check('components-button', async page => {
-    await page.goto(base+'/components/button'); await page.getByRole('heading', { name: 'Button', exact: true }).waitFor();
+    await page.goto(base+'/components/button'); await page.getByRole('heading', { name: 'Button', exact: true, level: 1 }).waitFor();
     assert(await page.locator('button:disabled').count() >= 1, 'disabled control example missing');
     assert(await page.locator('button[aria-busy="true"]').count() >= 1, 'loading control missing'); await noOverflow(page);
   });
@@ -71,9 +82,9 @@ const results = [];
     await noOverflow(page);
   });
   await check('components-navigation', async page => {
-    for (const slug of ['input','tabs','switch','calendar','popover','query-composer','skeleton']) {
+    for (const [slug, name] of [['input','Input'],['tabs','Tabs'],['switch','Switch'],['calendar','Calendar'],['popover','Popover'],['query-composer','QueryComposer'],['skeleton','Skeleton']]) {
       const response = await page.goto(base+'/components/'+slug); assert.equal(response.status(),200);
-      await page.locator('main h1').first().waitFor();
+      await page.getByRole('heading', { name, exact: true, level: 1 }).waitFor();
       await noOverflow(page);
     }
   });

@@ -5,6 +5,4 @@ import { mockAuthGateway } from './auth.mock';
 
 /** Single composition point; components never branch on the selected data source. */
 export const authGateway: AuthGateway =
-  import.meta.env.DEV && runtimeConfig.auth.dataSource === 'mock'
-    ? mockAuthGateway
-    : apiAuthGateway;
+  runtimeConfig.auth.dataSource === 'mock' ? mockAuthGateway : apiAuthGateway;

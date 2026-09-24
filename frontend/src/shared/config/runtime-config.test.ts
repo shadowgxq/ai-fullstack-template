@@ -75,6 +75,7 @@ describe('createRuntimeConfig', () => {
   it('enables isolated auth mock and normalizes the public Google client id', () => {
     expect(
       createRuntimeConfig({
+        DEV: true,
         VITE_AUTH_DATA_SOURCE: ' MOCK ',
         VITE_GOOGLE_CLIENT_ID: ' client-id ',
       }),
@@ -84,6 +85,10 @@ describe('createRuntimeConfig', () => {
         googleClientId: 'client-id',
       },
     });
+  });
+
+  it.each([undefined, false])('disables mock outside development (%s)', (DEV) => {
+    expect(createRuntimeConfig({ DEV, VITE_AUTH_DATA_SOURCE: 'mock' }).auth.dataSource).toBe('api');
   });
 
   it('埋点两个变量都配齐才开启', () => {
