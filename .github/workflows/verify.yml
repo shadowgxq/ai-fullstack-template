@@ -20,6 +20,21 @@ jobs:
         with:
           python-version: '3.12'
       - run: make docs architecture
+  manager:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: astral-sh/setup-uv@v6
+        with: {python-version: '3.12'}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: npm install --global @fission-ai/openspec@1.13.1
+      - run: make manager-live
+        env:
+          OPENSPEC_TELEMETRY: '0'
+          CI: 'true'
   frontend:
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -115,6 +130,22 @@ jobs:
         run: docker compose up --build -d --wait --wait-timeout 180
       - name: Verify HTTP and Worker lifecycle
         run: python3 scripts/smoke.py
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Install isolated browser tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/browser-tools" --no-save playwright@1.63.0
+          "$RUNNER_TEMP/browser-tools/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Verify rendered frontend, theme, components and real authentication
+        env:
+          BROWSER_ARTIFACTS: /tmp/browser-artifacts
+        run: NODE_PATH="$RUNNER_TEMP/browser-tools/node_modules" node scripts/browser_smoke.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-evidence
+          path: /tmp/browser-artifacts
+          retention-days: 7
       - name: Capture logs
         if: always()
         run: |

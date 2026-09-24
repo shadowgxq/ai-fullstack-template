@@ -1,0 +1,88 @@
+name: Prepare standard frontend sync
+on:
+  push:
+    branches: [refactor/sync-standard-frontend-manager]
+    paths: [.github/workflows/prepare-standard-sync.yml]
+permissions:
+  contents: write
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refactor/sync-standard-frontend-manager
+          fetch-depth: 0
+      - name: Transfer only the selected source files authorized for this PR
+        env:
+          FRONTEND_EXPORT: 'https://sdmntprsoutheastus3.oaiusercontent.com/files/00000000-1e70-820c-8b22-6e60900c7133/raw?se=2026-09-24T04%3A08%3A12Z&sp=r&sv=2026-02-06&sr=b&scid=8f0fb145-1104-5c68-aa0a-34ff56b9de73&skoid=1a0ef048-201c-43e0-8950-52d58956a71a&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-23T11%3A50%3A24Z&ske=2026-09-24T11%3A50%3A24Z&sks=b&skv=2026-02-06&sig=GSev%2BtTkbOrLZAzAhisJuBfiRKTD%2BYXL/ONAX/C34Q4%3D'
+          MANAGER_EXPORT: 'https://sdmntprwestus3.oaiusercontent.com/files/00000000-6b64-81fd-882d-64841a872491/raw?se=2026-09-24T04%3A08%3A27Z&sp=r&sv=2026-02-06&sr=b&scid=e9d3463f-9b66-5b2d-aa09-546aef6e73de&skoid=1a0ef048-201c-43e0-8950-52d58956a71a&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-23T23%3A12%3A34Z&ske=2026-09-24T23%3A12%3A34Z&sks=b&skv=2026-02-06&sig=65bESckyeRI5ubtzG8Mi2z4s826xw/k5CS2aQG3833s%3D'
+        run: |
+          test "$GITHUB_REF" = refs/heads/refactor/sync-standard-frontend-manager
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          curl -fsSL --connect-timeout 20 --max-time 60 "$FRONTEND_EXPORT" -o /tmp/frontend-selected.zip
+          curl -fsSL --connect-timeout 20 --max-time 60 "$MANAGER_EXPORT" -o /tmp/manager-selected.zip
+          echo '282046eb916d8d8abf967e24d1aed1bd5348c4edc8f81f7d5559d10fd33f4218  /tmp/frontend-selected.zip' | sha256sum -c
+          echo '7dc8625aa8e162551b2b6f704df4f6e392cf36f2b2376082f8a376d384ff170d  /tmp/manager-selected.zip' | sha256sum -c
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - uses: astral-sh/setup-uv@v6
+        with: {python-version: '3.12'}
+      - name: Generate actual pinned OpenSpec skills in isolation
+        env:
+          OPENSPEC_TELEMETRY: '0'
+          CI: 'true'
+        run: |
+          npm install --prefix "$RUNNER_TEMP/sync-tools" --no-save @fission-ai/openspec@1.13.1 pnpm@10.33.0
+          echo "$RUNNER_TEMP/sync-tools/node_modules/.bin" >> "$GITHUB_PATH"
+          mkdir -p /tmp/openspec-generated
+          cd /tmp/openspec-generated
+          HOME="$(mktemp -d)" "$RUNNER_TEMP/sync-tools/node_modules/.bin/openspec" init --tools agents --profile core --no-animation
+      - name: Mirror sources and apply reviewed integration edits
+        run: |
+          python3 .sync/apply.py /tmp/frontend-selected.zip /tmp/manager-selected.zip /tmp/openspec-generated
+          python3 scripts/check_sources.py --frontend
+          git add -A -- . ':!.sync' ':!.github/workflows'
+          git diff --cached --check
+          make docs architecture
+      - name: Save major implementation checkpoint before full verification
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          test "$(git ls-remote origin refs/heads/refactor/sync-standard-frontend-manager | cut -f1)" = "$GITHUB_SHA"
+          git commit -m 'refactor: mirror standard frontend and integrate current Manager runtime'
+          git push origin HEAD:refs/heads/refactor/sync-standard-frontend-manager
+      - name: Format integrated frontend with its own standard configuration
+        run: |
+          pnpm --dir frontend install --frozen-lockfile
+          pnpm --dir frontend format
+          python3 - <<'PY'
+          import json,hashlib,pathlib
+          p=pathlib.Path('scripts/frontend-source.json'); data=json.loads(p.read_text())
+          for name, original in data['files'].items():
+              current=hashlib.sha256((pathlib.Path('frontend')/name).read_bytes()).hexdigest()
+              previous=data['integration_overrides'].get(name,{}).get('sha256',original)
+              if current != previous:
+                  row=data['integration_overrides'].setdefault(name,{'reason':'Standard project formatter only; no semantic source rewrite.'})
+                  row['sha256']=current
+          p.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
+          PY
+          python3 scripts/check_sources.py --frontend
+          git add -A -- frontend scripts/frontend-source.json
+          git diff --cached --check
+          if ! git diff --cached --quiet; then
+            git commit -m 'style: apply standard frontend formatter to integration changes'
+            git push origin HEAD:refs/heads/refactor/sync-standard-frontend-manager
+          fi
+      - name: Export prepared source without transfer plumbing
+        if: always()
+        run: |
+          git archive --format=tar.gz HEAD -o /tmp/prepared-standard-sync.tar.gz -- . ':!.sync' ':!.github/workflows/prepare-standard-sync.yml' ':!.github/workflows/sync-source-review.yml'
+          git log -3 --oneline
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: prepared-standard-sync
+          path: /tmp/prepared-standard-sync.tar.gz
+          retention-days: 1
