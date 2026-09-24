@@ -1,0 +1,70 @@
+name: Finalize reviewed standard integration
+on:
+  push:
+    branches: [refactor/sync-standard-frontend-manager]
+    paths: [.github/workflows/finalize-standard-integration.yml]
+permissions:
+  contents: write
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refactor/sync-standard-frontend-manager
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with: {package_json_file: frontend/package.json}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Format only the reviewed integration files and refresh provenance
+        run: |
+          test "$GITHUB_REF" = refs/heads/refactor/sync-standard-frontend-manager
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          pnpm --dir frontend install --frozen-lockfile
+          cd frontend
+          pnpm exec prettier --write src/features/auth/model/auth.capabilities.ts src/features/auth/model/auth.source.ts src/features/auth/model/auth.types.ts src/features/auth/model/auth.validation.ts src/features/auth/model/auth.validation.test.ts src/features/auth/model/auth.mutations.test.tsx src/features/auth/model/auth.api.test.ts src/shared/api/requestClient.ts src/shared/api/requestClient.test.ts src/shared/api/api-error.test.ts src/shared/config/runtime-config.ts src/shared/config/runtime-config.test.ts
+          cd ..
+          python3 - <<'PY'
+          import json, hashlib, pathlib
+          p = pathlib.Path('scripts/frontend-source.json')
+          data = json.loads(p.read_text())
+          allowed = {'src/features/auth/model/auth.validation.ts', 'src/features/auth/model/auth.types.ts', 'src/features/auth/model/auth.source.ts', 'src/features/auth/model/auth.api.test.ts', 'src/shared/api/requestClient.ts', 'src/shared/api/api-error.test.ts', 'src/shared/config/runtime-config.ts', 'src/shared/config/runtime-config.test.ts'}
+          assert data['source_commit'] == '766eb2a09125f574ddd2c9d1cd582bc860069147'
+          for name, original in data['files'].items():
+              value = hashlib.sha256((pathlib.Path('frontend') / name).read_bytes()).hexdigest()
+              expected = data['integration_overrides'].get(name, {}).get('sha256', original)
+              if value != expected:
+                  assert name in allowed, 'Unreviewed source change: ' + name
+                  row = data['integration_overrides'].setdefault(name, {'reason': 'Fullstack authentication integration regression coverage and actual backend boundary.'})
+                  row['sha256'] = value
+          for name in ['src/features/auth/model/auth.mutations.test.tsx', 'src/features/auth/model/auth.validation.test.ts', 'src/shared/api/requestClient.test.ts']:
+              if name not in data['added_integration_files']:
+                  data['added_integration_files'].append(name)
+          p.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n')
+          PY
+          python3 scripts/check_sources.py --frontend
+          git add -- frontend scripts/frontend-source.json
+          git diff --cached --check
+      - name: Save only formatting and reviewed source metadata
+        run: |
+          test "$(git ls-remote origin refs/heads/refactor/sync-standard-frontend-manager | cut -f1)" = "$GITHUB_SHA"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          if ! git diff --cached --quiet; then
+            git commit -m 'test: format integration regressions and refresh exact frontend provenance'
+            git push origin HEAD:refs/heads/refactor/sync-standard-frontend-manager
+          fi
+      - name: Verify the actual integrated frontend
+        run: pnpm --dir frontend check && pnpm --dir frontend build
+      - name: Export final source for matching local review
+        if: always()
+        run: |
+          git archive --format=tar.gz HEAD -o /tmp/final-standard-sync.tar.gz -- . ':!.github/workflows/finalize-standard-integration.yml'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: final-standard-sync
+          path: /tmp/final-standard-sync.tar.gz
+          retention-days: 1

@@ -8,7 +8,9 @@ const { apiAuthGateway } = await import('./auth.api');
 const input = { username: 'alice_9f2c', password: 'Passw0rd!' };
 const success = (data: unknown) => ({ code: 0, message: 'success', data });
 describe('actual fullstack auth contract', () => {
-  beforeEach(() => requestMock.mockReset());
+  beforeEach(() => {
+    requestMock.mockReset();
+  });
   it('logs in then maps the actual user without guessing roles or token lifetime', async () => {
     requestMock
       .mockResolvedValueOnce(success({ access_token: 'token', token_type: 'bearer' }))
