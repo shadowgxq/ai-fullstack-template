@@ -1,0 +1,57 @@
+name: Refresh final Manager source
+on:
+  push:
+    branches: [refactor/sync-standard-frontend-manager]
+    paths: [.github/workflows/refresh-final-manager.yml]
+permissions:
+  contents: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refactor/sync-standard-frontend-manager
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v6
+        with: {python-version: '3.12'}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Fetch only the approved selected mechanism archive
+        env:
+          SOURCE_URL: 'https://sdmntprwestus3.oaiusercontent.com/files/00000000-9b4c-81fd-baea-e2c0313074fe/raw?se=2026-09-24T04%3A44%3A52Z&sp=r&sv=2026-02-06&sr=b&scid=ce5bac73-77ed-5336-b50e-70440b4621de&skoid=1a0ef048-201c-43e0-8950-52d58956a71a&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-24T04%3A07%3A22Z&ske=2026-09-25T04%3A07%3A22Z&sks=b&skv=2026-02-06&sig=KXUk8V/N2WhKPy9gnBj6gRq5w34vLBiHlUs5K655g1g%3D'
+        run: |
+          test "$GITHUB_REF" = refs/heads/refactor/sync-standard-frontend-manager
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          curl -fsSL --connect-timeout 20 --max-time 60 "$SOURCE_URL" -o /tmp/manager-final-selected.zip
+          echo 'fb34aa19d2c3a6c92e003a31052470cfc43877513be054be9e1c640ffaa65bbf  /tmp/manager-final-selected.zip' | sha256sum -c
+          python3 - <<'PY'
+          import zipfile, tarfile, io, pathlib
+          with zipfile.ZipFile('/tmp/manager-final-selected.zip') as z:
+              assert z.namelist() == ['manager-final-selected.tar.gz']
+              raw = z.read('manager-final-selected.tar.gz')
+          with tarfile.open(fileobj=io.BytesIO(raw),mode='r:gz') as t:
+              for p in t.getmembers():
+                  assert p.isfile() and not pathlib.PurePosixPath(p.name).is_absolute() and '..' not in pathlib.PurePosixPath(p.name).parts
+              t.extractall('/tmp/manager-final-source',filter='data')
+          PY
+          python3 .sync/refresh_manager.py /tmp/manager-final-source
+          python3 scripts/check_sources.py --frontend
+          make docs architecture
+      - name: Save reviewed final Manager synchronization to the same PR branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A -- .agents/skills .codex manager scripts/manager/upstream.json docs/engineering/workflow
+          git diff --cached --check
+          test "$(git ls-remote origin refs/heads/refactor/sync-standard-frontend-manager | cut -f1)" = "$GITHUB_SHA"
+          git commit -m 'fix: sync finalized Manager 2.0 role and workflow contract'
+          git push origin HEAD:refs/heads/refactor/sync-standard-frontend-manager
+      - name: Validate latest controller and real OpenSpec lifecycle
+        env:
+          OPENSPEC_TELEMETRY: '0'
+          CI: 'true'
+        run: |
+          npm install --global @fission-ai/openspec@1.13.1
+          make manager-live
