@@ -14,10 +14,17 @@ function errorCode(code: string | number | undefined, status?: number): AuthErro
   return 'generic';
 }
 
-async function call<T>(method: 'GET' | 'POST', url: string, data?: unknown, token?: string): Promise<T> {
+async function call<T>(
+  method: 'GET' | 'POST',
+  url: string,
+  data?: unknown,
+  token?: string,
+): Promise<T> {
   try {
     const result = await request<Envelope<T>>({
-      method, url, data,
+      method,
+      url,
+      data,
       ...(token ? { headers: { Authorization: `Bearer ${token}` } } : {}),
     });
     if (result?.code !== 0) {
@@ -27,8 +34,11 @@ async function call<T>(method: 'GET' | 'POST', url: string, data?: unknown, toke
   } catch (error) {
     if (isAuthError(error)) throw error;
     if (isApiError(error)) {
-      throw new AuthError(errorCode(error.code, error.status),
-        error.messageFromServer ? error.message : undefined, error.code);
+      throw new AuthError(
+        errorCode(error.code, error.status),
+        error.messageFromServer ? error.message : undefined,
+        error.code,
+      );
     }
     throw new AuthError('generic');
   }
@@ -39,8 +49,15 @@ function mapUser(dto: UserDto): AuthUser {
     throw new AuthError('generic');
   }
   // Roles are not returned by this backend; never infer admin from a username.
-  return { userId: String(dto.id), username: dto.username, nickname: dto.username,
-    email: null, avatar: null, role: 'user', admin: false };
+  return {
+    userId: String(dto.id),
+    username: dto.username,
+    nickname: dto.username,
+    email: null,
+    avatar: null,
+    role: 'user',
+    admin: false,
+  };
 }
 
 async function passwordLogin(input: PasswordLoginInput): Promise<AuthSession> {
@@ -59,10 +76,14 @@ export const apiAuthGateway: AuthGateway = {
   passwordLogin,
   async register({ username, password }) {
     await call<UserDto>('POST', `${AUTH_PATH}/register`, { username, password });
-    return { ...await passwordLogin({ username, password }), newUser: true };
+    return { ...(await passwordLogin({ username, password })), newUser: true };
   },
-  async getMe() { return mapUser(await call<UserDto>('GET', `${AUTH_PATH}/me`)); },
-  async logout() { await call<null>('POST', `${AUTH_PATH}/logout`); },
+  async getMe() {
+    return mapUser(await call<UserDto>('GET', `${AUTH_PATH}/me`));
+  },
+  async logout() {
+    await call<null>('POST', `${AUTH_PATH}/logout`);
+  },
   sendEmailCode: unsupported,
   emailCodeLogin: unsupported,
   resetPassword: unsupported,

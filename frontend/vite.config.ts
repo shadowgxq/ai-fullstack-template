@@ -35,7 +35,6 @@ const DEFAULT_DEV_SERVER_PORT = 5173;
 const DEFAULT_PROXY_PREFIX = '/api';
 const DEFAULT_TRANSLATION_PROXY_PREFIX = '/translation-api';
 
-
 function matchesPackage(id: string, packageName: string) {
   const packagePath = `/node_modules/${packageName}`;
 

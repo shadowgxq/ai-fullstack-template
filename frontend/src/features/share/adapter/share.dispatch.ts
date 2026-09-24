@@ -46,7 +46,10 @@ function truncateSingleLine(text: string, maxLength: number): string {
   const characters = Array.from(normalized);
   return characters.length <= maxLength
     ? normalized
-    : `${characters.slice(0, maxLength - 1).join('').trimEnd()}…`;
+    : `${characters
+        .slice(0, maxLength - 1)
+        .join('')
+        .trimEnd()}…`;
 }
 
 function rawPlatformUrl(platform: SharePlatform, text: string, landingUrl: string): string {

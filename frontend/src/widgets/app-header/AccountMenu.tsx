@@ -69,22 +69,21 @@ export function AccountMenu({
               </span>
             ) : null}
           </span>
-          <span
-            className="text-foreground block truncate text-sm font-medium"
-            title={displayName}
-          >
+          <span className="text-foreground block truncate text-sm font-medium" title={displayName}>
             {displayName}
           </span>
         </DropdownMenuLabel>
 
         <div className="grid gap-0.5 pt-1.5">
-          {authCapabilities.changePassword ? <DropdownMenuItem
-            className="min-h-[38px] w-full cursor-pointer gap-[9px] rounded-sm px-2 py-0 text-left text-sm hover:bg-accent focus:bg-accent"
-            onSelect={openChangePassword}
-          >
-            <KeyRound size={16} aria-hidden="true" />
-            <span>{t('header.changePassword')}</span>
-          </DropdownMenuItem> : null}
+          {authCapabilities.changePassword ? (
+            <DropdownMenuItem
+              className="min-h-[38px] w-full cursor-pointer gap-[9px] rounded-sm px-2 py-0 text-left text-sm hover:bg-accent focus:bg-accent"
+              onSelect={openChangePassword}
+            >
+              <KeyRound size={16} aria-hidden="true" />
+              <span>{t('header.changePassword')}</span>
+            </DropdownMenuItem>
+          ) : null}
 
           <DropdownMenuSeparator className="mx-1 my-1 bg-border/50" />
 

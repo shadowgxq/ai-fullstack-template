@@ -84,14 +84,10 @@ export function getShareActionDescriptors(
     capabilities.surface === 'h5' && capabilities.canWebShare ? 'more' : 'primary';
 
   if (capabilities.canWebShare) {
-    actions.push(
-      describeAction('native', capabilities.surface === 'h5' ? 'primary' : 'more'),
-    );
+    actions.push(describeAction('native', capabilities.surface === 'h5' ? 'primary' : 'more'));
   }
   if (hasLandingUrl && capabilities.canOpenPlatform) {
-    SHARE_PLATFORMS.forEach((action) =>
-      actions.push(describeAction(action, platformPlacement)),
-    );
+    SHARE_PLATFORMS.forEach((action) => actions.push(describeAction(action, platformPlacement)));
   }
   if (capabilities.canCopyText) {
     actions.push(describeAction('copy-text', 'secondary'));

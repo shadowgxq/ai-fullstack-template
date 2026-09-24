@@ -43,7 +43,8 @@ type Mode = 'code' | 'password' | 'register' | 'forgot';
 type ErrorField = 'username' | 'email' | 'code' | 'password' | 'confirm';
 
 const LOGIN_MODES: ReadonlyArray<'code' | 'password'> = authCapabilities.emailCode
-  ? ['code', 'password'] : ['password'];
+  ? ['code', 'password']
+  : ['password'];
 const DEFAULT_MODE = LOGIN_MODES[0];
 
 /**
@@ -594,7 +595,10 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
             type="submit"
             loading={register.isPending}
             disabled={
-              !username.trim() || (authCapabilities.emailCode && (!email.trim() || !code.trim())) || !password || !confirmPassword
+              !username.trim() ||
+              (authCapabilities.emailCode && (!email.trim() || !code.trim())) ||
+              !password ||
+              !confirmPassword
             }
           >
             {t('auth.register.submit')}

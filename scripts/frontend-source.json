@@ -178,7 +178,7 @@
   "integration_overrides": {
     "vite.config.ts": {
       "reason": "Monorepo integration: proxy, error envelope, metadata or container",
-      "sha256": "f68af0e6cf0d2124dfc0a4c2980df610e84d285de58eeeb8ea63483059ec99cf"
+      "sha256": "bec973a3dec75d37a8751e4da20dff83c6d09b989a85a78677509c9a5bd9aa74"
     },
     "package.json": {
       "reason": "Monorepo integration: proxy, error envelope, metadata or container",
@@ -198,11 +198,11 @@
     },
     "src/features/auth/model/auth.api.ts": {
       "reason": "Backend auth contract/capabilities and regression",
-      "sha256": "47fbc665f01259a36c0724d89c614fd4a975dc475b69f65089353b18da348a0d"
+      "sha256": "8ec4e065c2a7e9a3a500235b54d31f57526dc1f4187e883f45eb84c7b302c07f"
     },
     "src/features/auth/model/auth.validation.ts": {
       "reason": "Backend auth contract/capabilities and regression",
-      "sha256": "9a80dfb2c54703568fa03340d97dee35d7e989f185cdebe7e478a4def2a56ce0"
+      "sha256": "e38bc89d4d623cce314d439f548bc724f54be6a68adad5a10d06241645065959"
     },
     "src/features/auth/model/auth.mutations.ts": {
       "reason": "Backend auth contract/capabilities and regression",
@@ -210,7 +210,7 @@
     },
     "src/features/auth/model/auth.api.test.ts": {
       "reason": "Backend auth contract/capabilities and regression",
-      "sha256": "42683a78ab00c67bc2be36be862fa7f0d73dfdb64291397193fdac8e861472df"
+      "sha256": "5d4710a801b4ad42d263f1b9aa4fd8a0a5d6aaf8850b8b2415541086f002ed02"
     },
     "src/features/auth/model/auth.types.ts": {
       "reason": "Backend auth contract/capabilities and regression",
@@ -218,11 +218,11 @@
     },
     "src/features/auth/model/auth.source.ts": {
       "reason": "Backend auth contract/capabilities and regression",
-      "sha256": "680131f69f9cf699746cd5a66cc6eef3cd60534cbf0ee5e97cd406e357d130e6"
+      "sha256": "ff24b9de26a809fef3dea917cd016f9d1b1e3bd35938792442cdfabf86d82813"
     },
     "src/features/auth/ui/AuthForm/AuthForm.tsx": {
       "reason": "Backend auth contract/capabilities and regression",
-      "sha256": "a1505000d84d419bc8232b72c558306210ca09376f1773fc09990e85035742ee"
+      "sha256": "bd764be89fda866361cbb8c7a2f82f026a118ec8d118771ac12f593178aaad2f"
     },
     "src/shared/api/requestClient.ts": {
       "reason": "Monorepo integration: proxy, error envelope, metadata or container",
@@ -242,11 +242,11 @@
     },
     "src/widgets/app-header/AppHeader.tsx": {
       "reason": "Backend auth contract/capabilities and regression",
-      "sha256": "0eaec7afaa7d162a5021b04c33adaca4b555e91423baf1e379615a87282f4034"
+      "sha256": "58808f0324f9b6ead9c8b8b7bfb10e0dc16080d8e9a53cb752dbb7ba93f042c8"
     },
     "src/widgets/app-header/AccountMenu.tsx": {
       "reason": "Backend auth contract/capabilities and regression",
-      "sha256": "ffd3763f47e132f4f94fa09e53582e89b5be51755dea54ec5838a656fad134f3"
+      "sha256": "3a84d7bd623eabd7d6529bc2275c70b0a2b48011bfa69d895017092680b0ce89"
     },
     "src/widgets/app-header/AccountMenu.test.tsx": {
       "reason": "Backend auth contract/capabilities and regression",
@@ -267,6 +267,22 @@
     "src/pages/login/index.ts": {
       "reason": "Remove extra empty EOF line only; original export and implementation unchanged.",
       "sha256": "69ec133bcc8b5e52dcc82b6bbf3b75af0ee9e0cef840a991ddcdabdd4a3a79dc"
+    },
+    "src/features/share/model/useShareActions.ts": {
+      "reason": "Standard project formatter only; no semantic source rewrite.",
+      "sha256": "2fe0928f4dcdd623401a2750ae30f0d0256e11886e8ea8684f62fc997629657f"
+    },
+    "src/features/share/model/share-copy.ts": {
+      "reason": "Standard project formatter only; no semantic source rewrite.",
+      "sha256": "6d03ba8851fe7e1cfef7f4b734e8c45112980c0d64e9a7447b3e741363ecff4b"
+    },
+    "src/features/share/adapter/share.capabilities.ts": {
+      "reason": "Standard project formatter only; no semantic source rewrite.",
+      "sha256": "1e819f1943082da8a3e5b5e7b44391b4b2d28b99e53faa4e82cfb5305d4cd7ab"
+    },
+    "src/features/share/adapter/share.dispatch.ts": {
+      "reason": "Standard project formatter only; no semantic source rewrite.",
+      "sha256": "ebc881ccd50315d1b9b2e926d8b3241e574276b69cd7f26e9213d1827e1e8d4d"
     }
   },
   "added_integration_files": [

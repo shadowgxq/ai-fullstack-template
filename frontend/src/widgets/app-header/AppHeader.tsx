@@ -103,7 +103,11 @@ export function AppHeader() {
           )}
         </div>
       </div>
-      {logout.isError ? <p role="alert" className="text-destructive text-sm">{t('auth.errors.generic')}</p> : null}
+      {logout.isError ? (
+        <p role="alert" className="text-destructive text-sm">
+          {t('auth.errors.generic')}
+        </p>
+      ) : null}
     </header>
   );
 }

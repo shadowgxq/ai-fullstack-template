@@ -6,15 +6,28 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { i18n } from '@/shared/i18n';
 import { useAuthStore } from '../../model/auth.store';
 import { AuthForm } from './AuthForm';
-const { passwordLogin, register } = vi.hoisted(() => ({ passwordLogin: vi.fn(), register: vi.fn() }));
+const { passwordLogin, register } = vi.hoisted(() => ({
+  passwordLogin: vi.fn(),
+  register: vi.fn(),
+}));
 vi.mock('../../model/auth.source', () => ({ authGateway: { passwordLogin, register } }));
 function mount() {
-  return render(<I18nextProvider i18n={i18n}><QueryClientProvider client={new QueryClient({ defaultOptions: { mutations: { retry: false } } })}>
-    <AuthForm onAuthenticated={() => {}} />
-  </QueryClientProvider></I18nextProvider>);
+  return render(
+    <I18nextProvider i18n={i18n}>
+      <QueryClientProvider
+        client={new QueryClient({ defaultOptions: { mutations: { retry: false } } })}
+      >
+        <AuthForm onAuthenticated={() => {}} />
+      </QueryClientProvider>
+    </I18nextProvider>,
+  );
 }
 describe('standard form with fullstack capabilities', () => {
-  beforeEach(async () => { vi.clearAllMocks(); useAuthStore.getState().clear(); await i18n.changeLanguage('en'); });
+  beforeEach(async () => {
+    vi.clearAllMocks();
+    useAuthStore.getState().clear();
+    await i18n.changeLanguage('en');
+  });
   it('starts with username/password and hides unsupported remote flows', () => {
     mount();
     expect(screen.getByLabelText('Username')).toBeInTheDocument();
@@ -28,7 +41,9 @@ describe('standard form with fullstack capabilities', () => {
     await userEvent.type(screen.getByLabelText('Username'), 'alice_9f2c');
     await userEvent.type(screen.getByLabelText('Password', { exact: true }), 'Passw0rd!');
     fireEvent.submit(screen.getByLabelText('Username').closest('form')!);
-    await waitFor(() => expect(passwordLogin).toHaveBeenCalledWith({ username: 'alice_9f2c', password: 'Passw0rd!' }));
+    await waitFor(() =>
+      expect(passwordLogin).toHaveBeenCalledWith({ username: 'alice_9f2c', password: 'Passw0rd!' }),
+    );
     expect(await screen.findByRole('alert')).toBeInTheDocument();
     expect(screen.getByLabelText('Username')).toHaveValue('alice_9f2c');
   });

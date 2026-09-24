@@ -62,10 +62,7 @@ export function useShareActions(content: ShareContent, options: UseShareActionsO
   const [status, setStatus] = useState<ShareStatus>({ scope: contentKey });
   const feedback = status.scope === contentKey ? status.feedback : undefined;
   const error = status.scope === contentKey ? status.error : undefined;
-  const normalizedContent = useMemo(
-    () => ({ ...content, landingUrl }),
-    [content, landingUrl],
-  );
+  const normalizedContent = useMemo(() => ({ ...content, landingUrl }), [content, landingUrl]);
   const capabilities = useMemo(
     () => detectShareCapabilities({ surface: options.surface, posterFile: content.posterFile }),
     [content.posterFile, options.surface],

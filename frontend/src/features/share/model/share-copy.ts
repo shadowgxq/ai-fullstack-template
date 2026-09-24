@@ -18,7 +18,10 @@ function truncate(value: string, maxLength: number): string {
   const characters = Array.from(value);
   if (characters.length <= maxLength) return value;
   if (maxLength <= 1) return '…'.slice(0, maxLength);
-  return `${characters.slice(0, maxLength - 1).join('').trimEnd()}…`;
+  return `${characters
+    .slice(0, maxLength - 1)
+    .join('')
+    .trimEnd()}…`;
 }
 
 function uniqueParts(parts: readonly (string | undefined)[]): string[] {
