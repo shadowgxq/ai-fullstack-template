@@ -202,7 +202,7 @@
     },
     "src/features/auth/model/auth.validation.ts": {
       "reason": "Backend auth contract/capabilities and regression",
-      "sha256": "e38bc89d4d623cce314d439f548bc724f54be6a68adad5a10d06241645065959"
+      "sha256": "2ef1de6eba212fff9ff80b4ae05f54ef684ba823216384aa484697325ef9c498"
     },
     "src/features/auth/model/auth.mutations.ts": {
       "reason": "Backend auth contract/capabilities and regression",
@@ -210,15 +210,15 @@
     },
     "src/features/auth/model/auth.api.test.ts": {
       "reason": "Backend auth contract/capabilities and regression",
-      "sha256": "5d4710a801b4ad42d263f1b9aa4fd8a0a5d6aaf8850b8b2415541086f002ed02"
+      "sha256": "c9c2b83d4fc342e51b6884179486461efe40aad5a345d5b1ff77c24b38ca5bb8"
     },
     "src/features/auth/model/auth.types.ts": {
       "reason": "Backend auth contract/capabilities and regression",
-      "sha256": "173671eb4f6c35bb69ee89c0e5622f5b9a259de8dd3537ab98e863f788eda3d9"
+      "sha256": "c3ebc43f9af8dd4fc1ab0d15658e568af31d8f50e9e15c0778dcb1cee86b4bce"
     },
     "src/features/auth/model/auth.source.ts": {
       "reason": "Backend auth contract/capabilities and regression",
-      "sha256": "ff24b9de26a809fef3dea917cd016f9d1b1e3bd35938792442cdfabf86d82813"
+      "sha256": "b74cedf2ee37efd390c7bc02fe1e2801da9cf08bcb9cc570ffa86c6f3cb93d2e"
     },
     "src/features/auth/ui/AuthForm/AuthForm.tsx": {
       "reason": "Backend auth contract/capabilities and regression",
@@ -226,7 +226,7 @@
     },
     "src/shared/api/requestClient.ts": {
       "reason": "Monorepo integration: proxy, error envelope, metadata or container",
-      "sha256": "8de237922651fbbc727de0f187c0d8098d2ef05287dd21b975d92fd078f17e3c"
+      "sha256": "a20ed5285a7d57118b9753a1ca6c35f60ff0595d288e82b6d89003a99c2a2a4b"
     },
     "src/shared/api/api-error.ts": {
       "reason": "Monorepo integration: proxy, error envelope, metadata or container",
@@ -283,6 +283,18 @@
     "src/features/share/adapter/share.dispatch.ts": {
       "reason": "Standard project formatter only; no semantic source rewrite.",
       "sha256": "ebc881ccd50315d1b9b2e926d8b3241e574276b69cd7f26e9213d1827e1e8d4d"
+    },
+    "src/shared/config/runtime-config.test.ts": {
+      "reason": "Fullstack authentication integration regression coverage and actual backend boundary.",
+      "sha256": "40c7592156a9ad03fca7d8a99754402e76353710937dc7b197e216e38e5b3beb"
+    },
+    "src/shared/config/runtime-config.ts": {
+      "reason": "Fullstack authentication integration regression coverage and actual backend boundary.",
+      "sha256": "af4447d41283975c92644d351541132d1765459a39793c2d3b86a187728cecf6"
+    },
+    "src/shared/api/api-error.test.ts": {
+      "reason": "Fullstack authentication integration regression coverage and actual backend boundary.",
+      "sha256": "82cdd05dd730d5518f3cb873fda2c7937ca8eea6f19bf8c8b8329f7dbb957789"
     }
   },
   "added_integration_files": [
@@ -291,6 +303,9 @@
     "Dockerfile",
     "nginx.conf",
     "src/features/auth/model/auth.capabilities.ts",
-    "src/features/auth/ui/AuthForm/AuthForm.test.tsx"
+    "src/features/auth/ui/AuthForm/AuthForm.test.tsx",
+    "src/features/auth/model/auth.mutations.test.tsx",
+    "src/features/auth/model/auth.validation.test.ts",
+    "src/shared/api/requestClient.test.ts"
   ]
 }
