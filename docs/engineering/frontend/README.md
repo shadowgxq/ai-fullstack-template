@@ -9,6 +9,7 @@
 | 复用或新增 UI | 先查 [组件清单](components/component-inventory.md)，再读 [治理](components/components.md) 与 [组件 API](standards/component-definition.md) |
 | 拆分、移动、建立公开出口 | [拆分](components/component-splitting.md)、[目录](standards/file-organization.md) |
 | 加载、错误、表单、键盘、可访问性 | [UI 状态](standards/accessibility-and-ui-states.md) |
+| Provider、Router、账户/模板边界 | [真实技术基线](architecture/technology-options.md)、[组件清单](components/component-inventory.md) |
 | 主题、多语言 | [theme / i18n](guides/theming-and-i18n.md) |
 | 代理、构建、配置 | [Vite 配置](guides/runtime-config-and-vite.md)，公共细节查 [运行约束](../common/README.md) |
 | 架构、选型、分层 | [技术基线](architecture/technology-options.md) |

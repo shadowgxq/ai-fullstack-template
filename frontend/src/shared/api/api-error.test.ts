@@ -12,6 +12,7 @@ describe('normalizeApiError', () => {
       data: {
         msg: 'Invalid input',
         code: 'VALIDATION_FAILED',
+        errorCode: 'EMAIL_INVALID',
         details: { field: 'name' },
       },
       headers: {},
@@ -29,8 +30,10 @@ describe('normalizeApiError', () => {
     expect(normalizeApiError(error)).toEqual({
       __apiError: true,
       message: 'Invalid input',
+      messageFromServer: true,
       status: 422,
       code: 'VALIDATION_FAILED',
+      errorCode: 'EMAIL_INVALID',
       details: { field: 'name' },
     });
   });
@@ -40,15 +43,45 @@ describe('normalizeApiError', () => {
 
     expect(isApiError(apiError)).toBe(true);
     expect(apiError.message).toBe('Forbidden');
+    expect(apiError.messageFromServer).toBe(false);
   });
-});
 
-it('preserves backend field errors from the data envelope', () => {
-  const details = [{ loc: ['body', 'username'], type: 'string_too_long', msg: 'Too long' }];
-  const result = normalizeApiError({
-    isAxiosError: true,
-    response: { status: 422, data: { code: 42200, message: 'Validation error', data: details } },
+  // 响应体没有 message/msg 时（后端未部署、网关直出 HTML、断网），
+  // axios 会给出 "Request failed with status code 404" 这类英文串。
+  // 它必须被标记为非服务端来源，否则会原样漏进本地化界面。
+  it('响应体没有文案时不把 axios 的传输层信息当作服务端文案', () => {
+    const response: AxiosResponse = {
+      config: { headers: new AxiosHeaders() },
+      data: '<!doctype html><title>404</title>',
+      headers: {},
+      status: 404,
+      statusText: 'Not Found',
+    };
+    const error = AxiosError.from(
+      new Error('Request failed with status code 404'),
+      undefined,
+      undefined,
+      undefined,
+      response,
+    );
+
+    const apiError = normalizeApiError(error);
+
+    expect(apiError.messageFromServer).toBe(false);
+    expect(apiError.message).toBe('Request failed with status code 404');
+    expect(apiError.status).toBe(404);
   });
-  expect(result.details).toEqual(details);
-  expect(result.message).toBe('Validation error');
+
+  it('忽略响应体里的空白文案', () => {
+    const response: AxiosResponse = {
+      config: { headers: new AxiosHeaders() },
+      data: { message: '   ' },
+      headers: {},
+      status: 500,
+      statusText: 'Internal Server Error',
+    };
+    const error = AxiosError.from(new Error('boom'), undefined, undefined, undefined, response);
+
+    expect(normalizeApiError(error).messageFromServer).toBe(false);
+  });
 });

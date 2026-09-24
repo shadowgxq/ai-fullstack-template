@@ -1,27 +1,41 @@
-import { describe, expect, it, vi } from 'vitest';
-import { toBlob } from 'html-to-image';
-import { captureSharePoster } from './share-poster.capture';
-vi.mock('html-to-image', () => ({ toBlob: vi.fn() }));
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-describe('poster capture', () => {
-  it('uses settled element dimensions and propagates the PNG blob', async () => {
-    const element = document.createElement('div');
-    vi.spyOn(element, 'getBoundingClientRect').mockReturnValue({
-      width: 320,
-      height: 160,
-    } as DOMRect);
-    const blob = new Blob(['png'], { type: 'image/png' });
-    vi.mocked(toBlob).mockResolvedValueOnce(blob);
-    expect(await captureSharePoster(element)).toBe(blob);
-    expect(toBlob).toHaveBeenCalledWith(
-      element,
-      expect.objectContaining({ width: 320, height: 160, pixelRatio: 2 }),
-    );
+const toBlobMock = vi.hoisted(() => vi.fn());
+
+vi.mock('html-to-image', () => ({ toBlob: toBlobMock }));
+
+import { captureSharePoster } from './share-poster.capture';
+
+describe('captureSharePoster', () => {
+  beforeEach(() => {
+    toBlobMock.mockReset();
   });
-  it('reports empty rasterization results instead of returning a false success', async () => {
-    vi.mocked(toBlob).mockResolvedValueOnce(null);
-    await expect(captureSharePoster(document.createElement('div'))).rejects.toThrow(
-      'Poster PNG could not be created',
+
+  it('captures the rendered poster element and preserves its source layout', async () => {
+    const poster = document.createElement('article');
+    const output = new Blob(['poster'], { type: 'image/png' });
+    Object.defineProperty(poster, 'getBoundingClientRect', {
+      configurable: true,
+      value: () => ({ width: 320, height: 180 }),
+    });
+    document.body.append(poster);
+    toBlobMock.mockResolvedValue(output);
+
+    await expect(captureSharePoster(poster)).resolves.toBe(output);
+    expect(toBlobMock).toHaveBeenCalledWith(
+      poster,
+      expect.objectContaining({ height: 180, pixelRatio: 2, width: 320 }),
     );
+    poster.remove();
+  });
+
+  it('returns a capture failure when the renderer returns no blob', async () => {
+    const poster = document.createElement('article');
+    toBlobMock.mockResolvedValue(null);
+
+    await expect(captureSharePoster(poster)).rejects.toMatchObject({
+      code: 'failed',
+      message: 'Poster PNG could not be created.',
+    });
   });
 });

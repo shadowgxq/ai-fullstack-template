@@ -1,125 +1,45 @@
-# Technology Options
+# 前端技术基线
 
-## 文档定位
+代码基线来自标准 frontend 的整体同步，来源与集成例外见 [源码清单](../../../../scripts/frontend-source.json)。项目规则只维护在本仓库 `docs/engineering/frontend`；参考仓库不是第二份项目需求/规范。版本以 [package.json](../../../../frontend/package.json) 和 lockfile 为准。
 
-本文档记录通用前端项目的技术基线、架构边界、目录分层和依赖方向。它是模板规范，不绑定具体业务域。
+## 技术选型
 
-## 默认技术基线
+| 职责 | 当前实现 |
+|---|---|
+| 应用 | React 18、TypeScript 5、Vite 6；pnpm；Node ≥20.19，CI/Docker Node 22 |
+| Router | React Router 6，`app/router/routes.tsx` 同步导入页面，createBrowserRouter；不宣称路由已经懒加载 |
+| Provider | AppProviders → I18nextProvider / QueryClientProvider；ThemeInitializer、LocaleInitializer、AnalyticsProvider；启动时校验已有认证会话 |
+| 状态与请求 | TanStack Query 5、Zustand、Axios；共享 client，认证 gateway 适配本项目 code=0 信封 |
+| 样式与基础 UI | Tailwind 4 + CSS Variables，shadcn/radix-ui；cva 与 cn（clsx + tailwind-merge）；global.css 单一 token 来源 |
+| 主题与文案 | Signal/Neutral × light/dark；i18next/react-i18next 的 en/zh 内置资源 |
+| 图标与动画 | Lucide/shared icons；GSAP page motion，尊重 reduced motion |
+| 日历与分享 | React DayPicker + date-fns；html-to-image 按分享操作加载 |
+| 测试 | Vitest、Testing Library、jsdom；shared/testing/setupTests.ts |
+| 可选扩展 | shared/analytics、shared/translation、shared/identity；未配置不代表后端具有相应能力 |
 
-模板默认适用于：
-
-- `React`
-- `TypeScript`
-- `Vite`
-- `pnpm`
-
-默认工程文件采用兼容优先的稳定基线：`React 18`、`Vite 6`、`TypeScript 5`、`Node >=20.19`。
-
-## 默认预装但不强制的工程选项
-
-以下依赖是当前全栈模板的默认初始化选型，会进入模板 `package.json` 和最小源码骨架。它们不是业务项目的强制约束；使用方项目可以按团队约定删除、替换或扩展，但应保持集中配置和分层边界清晰。
-
-| 领域            | 默认选型                                   | 模板入口                          | 说明                                                                   |
-| --------------- | ------------------------------------------ | --------------------------------- | ---------------------------------------------------------------------- |
-| Routing         | `react-router-dom`                         | `src/app/router/`                 | 使用集中 route config，避免页面内散落路由定义。                        |
-| Server state    | `@tanstack/react-query`                    | `src/app/providers/`              | 管理请求、缓存、loading、error、retry、invalidation。                  |
-| Client UI state | `zustand`                                  | 按需创建 store                    | 只管理跨组件但不属于服务端的数据。                                     |
-| HTTP request    | `axios`                                    | `src/shared/api/requestClient.ts` | 页面和组件不直接散落请求细节。                                         |
-| Styling         | Tailwind CSS 4 + CSS Variables                | `src/shared/styles/`              | 全局 token 单一来源；CSS Modules 仅用于局部复杂样式。                                                |
-| UI primitive    | shadcn / `radix-ui`                            | `src/shared/ui/`                  | 业务层不直接散用底层 primitive API，应先封装 project-owned shared UI。 |
-| Icons           | `lucide-react`                             | `src/shared/icons/`               | 提供基础图标出口，并预留业务自定义图标库导入位置。                     |
-| className       | `clsx` + `tailwind-merge`                  | `src/shared/utils/cn.ts`                          | `cn()` 统一合并条件类和 Tailwind 冲突类。                                              |
-| Animation       | `gsap`                                     | 按需使用                          | 用于复杂编排和运行时可控动画，并尊重 `prefers-reduced-motion`。        |
-| Theming         | CSS Variables + data attributes               | `src/shared/theme/`               | Signal / Neutral × light / dark，具体接线见主题指南。                              |
-| i18n            | `i18next` + `react-i18next`                | `src/shared/i18n/`                | 默认启用并提供 en/zh 资源和语言持久化。                                |
-| Testing         | `vitest` + React Testing Library + `jsdom` | `src/shared/testing/`             | 提供默认单测和组件测试基线。                                           |
-
-精确依赖版本以 `frontend/package.json` 与 `frontend/pnpm-lock.yaml` 为准；日历与海报导出分别由 React DayPicker 和按需加载的 html-to-image 支持。
-
-## 业务边界
-
-模板只定义通用前端工程边界，不定义具体业务域。
-
-以下内容不应写入通用模板：
-
-- 具体产品、行业或业务对象。
-- 具体页面需求、用户路径和验收标准。
-- 具体后端接口契约、错误码和联调记录。
-- 具体权限、计费、角色、审批、工作流等业务规则。
-
-使用模板初始化项目后，上述内容应进入使用方项目自己的 `docs/product/`、`docs/contracts/`、`openspec/specs/` 或对应业务文档目录。
-
-## `src/` 目录分层
-
-推荐建立以下工程化 `src/` 结构：
+## 当前目录与职责
 
 ```text
 src/
   main.tsx
-  app/
-    providers/
-    router/
-  pages/
-  widgets/
-  features/
-  entities/
-  shared/
-    api/
-    config/
-    hooks/
-    icons/
-    styles/
-    testing/
-    ui/
-    utils/
+  app/                  # App、providers、router、error
+  pages/                # home、theme、components/componentCatalog.ts、login
+  widgets/              # app-header、app-shell
+  features/             # auth（本项目 gateway）、share
+  shared/               # api/config/theme/i18n/icons/styles/testing/ui/utils
+                        # analytics/identity/translation/motion
 ```
 
-| 路径                  | 作用                                                              | 模板默认状态                     |
-| --------------------- | ----------------------------------------------------------------- | -------------------------------- |
-| `src/main.tsx`        | 应用启动入口，挂载 React root，引入全局样式                       | 已提供                           |
-| `src/app/`            | 应用装配层，放 root、providers、router 和全局错误边界             | 已提供                           |
-| `src/app/providers/`  | 全局 Provider 聚合，例如 query、theme、auth、i18n                 | 已接入 query、theme 和 i18n      |
-| `src/app/router/`     | 集中路由配置和 route-level 装配                                   | 已接入 `react-router-dom` 根路由 |
-| `src/pages/`          | 页面入口层，只做 route-level composition                          | 已提供 home / components / theme               |
-| `src/widgets/`        | 页面级复合区块，例如 navigation panel、header bar、action toolbar | 已提供 AppShell                  |
-| `src/features/`       | 用户动作和业务流程                                                | 已提供通用 share feature                         |
-| `src/entities/`       | 领域对象、领域类型、领域展示和领域级 hook                         | 按需使用                         |
-| `src/shared/`         | 无业务通用能力集合                                                | 部分提供                         |
-| `src/shared/api/`     | request client、API error normalization、query client base config | 已提供 `requestClient`           |
-| `src/shared/config/`  | typed runtime config、环境变量转换和项目级常量                    | 已提供 API runtime config        |
-| `src/shared/hooks/`   | 与业务无关的通用 hook                                             | 按需使用                         |
-| `src/shared/icons/`   | 图标资产、图标 wrapper 和图标名称约束                             | 已提供基础图标出口               |
-| `src/shared/styles/`  | reset、global、CSS Variables 和 theme tokens                      | 统一在 `global.css`   |
-| `src/shared/testing/` | 测试工具、render helper 和 mock helper                            | 已提供测试 setup                 |
-| `src/shared/ui/`      | 无业务基础 UI 组件                                                | 见组件清单                         |
-| `src/shared/utils/`   | 与业务无关的通用工具函数                                          | 已提供 `cn`                         |
+`entities` 只在真实业务需要时新增，不生成空的业务层。公共复用先查 [组件清单](../components/component-inventory.md) 和源码导出。AppHeader 拥有全局导航、设置和账户菜单，AppShell 装配页脚和认证弹窗；shared UI 不读取业务账户或路由。
 
 ## 依赖方向
 
-```text
-app -> pages -> widgets -> features -> entities -> shared
-```
+`app → pages → widgets → features → entities（按需）→ shared`，允许上层调用更低层；同层 slice 通过明确组合而非循环 import。Router 由 app 组装，shared 不反向依赖 feature，跨服务不 import Python 源码。
 
-分层规则：
+API 事实、错误和授权由 backend 决定；客户端泛型不是运行时校验。AuthUser 是 UI model，不照搬 ORM；后端没有 admin 字段时不从用户名推断权限。具体 [认证与跨端契约](../../../contracts/README.md) 不在本页复制字段。
 
-- `app` 可以 import 其他层，但只做应用装配。
-- `pages` 可以 import `widgets`、`features`、`entities`、`shared`。
-- `widgets` 可以 import `features`、`entities`、`shared`。
-- `features` 可以 import `entities`、`shared`。
-- `entities` 只能 import `shared`。
-- `shared` 不能 import `app`、`pages`、`widgets`、`features`、`entities`。
+## 模板与业务边界
 
-## 数据流边界
+基础/主题/组件展示页、通用账号 UI 和分享能力属于模板。参考库 PricePilot、独立业务 HTML、独立文档/Agent 配置未纳入。具体实体、业务导航、报告与 Agent workflow 进入使用方需求，不通过同步模板自动新增。
 
-推荐数据流：
-
-```text
-UI event
-  -> feature action
-  -> query/mutation hook
-  -> API module
-  -> shared request client
-  -> backend
-```
-
-组件不直接创建 request client，不直接散落接口请求细节。server state 不放入 client UI store。
+当前前后端认证可以联调；AI Runtime 仍单独提供确定性工作流，不把三端启动等同于真实 AI 产品交付。部署约束见 [全栈架构](../../../architecture/README.md)，命令见 [frontend README](../../../../frontend/README.md)。

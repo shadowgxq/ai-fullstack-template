@@ -5,8 +5,16 @@ const DEFAULT_API_ERROR_MESSAGE = 'Request failed';
 export type ApiError = {
   __apiError: true;
   message: string;
+  /**
+   * `message` 是否取自响应体。为 false 时它来自传输层（如 axios 的
+   * "Request failed with status code 404"），是面向开发者的英文串，
+   * 不能直接展示给用户——调用方应改用自己的本地化兜底文案。
+   */
+  messageFromServer: boolean;
   status?: number;
   code?: string | number;
+  /** Business error code returned by modules such as account authentication. */
+  errorCode?: string;
   details?: unknown;
 };
 
@@ -25,25 +33,29 @@ export function normalizeApiError(error: unknown): ApiError {
 
   if (axios.isAxiosError(error)) {
     const data = isRecord(error.response?.data) ? error.response.data : undefined;
-    const message =
-      (typeof data?.message === 'string' && data.message) ||
-      (typeof data?.msg === 'string' && data.msg) ||
-      error.message ||
-      DEFAULT_API_ERROR_MESSAGE;
+    // 只有响应体里的 message/msg 才算「服务端说的人话」；axios 自己的
+    // error.message 属于传输层，仅作为最后兜底且标记为非服务端来源。
+    const serverMessage =
+      (typeof data?.message === 'string' && data.message.trim()) ||
+      (typeof data?.msg === 'string' && data.msg.trim()) ||
+      undefined;
     const code =
       typeof data?.code === 'string' || typeof data?.code === 'number' ? data.code : error.code;
 
     return {
       __apiError: true,
-      message,
+      message: serverMessage || error.message || DEFAULT_API_ERROR_MESSAGE,
+      messageFromServer: Boolean(serverMessage),
       status: error.response?.status,
       code,
-      details: data?.data ?? data?.details,
+      errorCode: typeof data?.errorCode === 'string' ? data.errorCode : undefined,
+      details: data?.details ?? data?.data,
     };
   }
 
   return {
     __apiError: true,
     message: error instanceof Error ? error.message : DEFAULT_API_ERROR_MESSAGE,
+    messageFromServer: false,
   };
 }

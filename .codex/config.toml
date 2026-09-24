@@ -1,0 +1,140 @@
+# Manager v2 · verified against official Codex docs on 2026-09-24.
+# Project file: <project>/.codex/config.toml (NOT /.codex/config.toml).
+# Merge existing MCP/provider settings; do not overwrite ~/.codex/config.toml.
+# Two-tier native model policy: Sol/xhigh is the primary default; only bounded light roles override to Luna/max.
+model = "gpt-6-sol"
+model_reasoning_effort = "xhigh"
+approval_policy = "on-request"
+default_permissions = "manager-normal"
+
+[agents]
+enabled = true
+max_concurrent_threads_per_session = 4
+default_subagent_model = "gpt-6-sol"
+default_subagent_reasoning_effort = "xhigh"
+interrupt_message = true
+
+# Codex custom roles must be explicitly registered. Role config files inherit
+# the Sol/xhigh subagent default unless they declare a light-model override.
+[agents.architect]
+description = "Design overall and complex-feature technical plans before implementation."
+config_file = "agents/architect.toml"
+
+[agents.backend-dev]
+description = "Implement assigned backend task IDs and regression tests."
+config_file = "agents/backend-dev.toml"
+
+[agents.explorer]
+description = "Read-only, bounded code and dependency investigation."
+config_file = "agents/explorer.toml"
+
+[agents.frontend-dev]
+description = "Implement assigned frontend tasks against approved visual and interaction baselines."
+config_file = "agents/frontend-dev.toml"
+
+[agents.product-manager]
+description = "Clarify product behavior, acceptance ownership and requirement changes."
+config_file = "agents/product-manager.toml"
+
+[agents.qa]
+description = "Independent behavior and integration verifier."
+config_file = "agents/qa.toml"
+
+[agents.reviewer]
+description = "Independent high-risk architecture, security and cross-change code review."
+config_file = "agents/reviewer.toml"
+
+[agents.test-worker]
+description = "Write bounded tests from acceptance independently of implementation assumptions."
+config_file = "agents/test-worker.toml"
+
+[agents.ui-ux-reviewer]
+description = "Verify actual rendered UI against the approved baseline and core user journey."
+config_file = "agents/ui-ux-reviewer.toml"
+
+# Local app/browser verification is allowed through the explicit loopback allowlist.
+# Package installation/external APIs require an operator-approved domain addition.
+[features]
+network_proxy = true
+
+[permissions.manager-normal]
+description = "Manager orchestration and active changes; immutable archives and policy."
+extends = ":workspace"
+
+[permissions.manager-normal.filesystem.":workspace_roots"]
+"frontend/.env" = "deny"
+"frontend/.env.local" = "deny"
+"frontend/.env.production" = "deny"
+"backend/.env" = "deny"
+"backend/.env.local" = "deny"
+"backend/.env.production" = "deny"
+"ai-service/.env" = "deny"
+"ai-service/.env.local" = "deny"
+"ai-service/.env.production" = "deny"
+"openspec/changes/archive" = "read"
+"manager/archive" = "read"
+"openspec/specs" = "read"
+"manager/policy.yaml" = "read"
+"manager/roles.yaml" = "read"
+"AGENTS.md" = "read"
+".env" = "deny"
+".env.local" = "deny"
+".env.production" = "deny"
+
+[permissions.manager-normal.network]
+enabled = true
+
+[permissions.manager-normal.network.domains]
+"localhost" = "allow"
+"127.0.0.1" = "allow"
+"::1" = "allow"
+
+[permissions.manager-worker]
+description = "Code worker; no planning, requirement or historical artifact writes."
+extends = "manager-normal"
+
+[permissions.manager-worker.filesystem.":workspace_roots"]
+"manager" = "read"
+"openspec" = "read"
+"docs/product" = "read"
+"docs/architecture" = "read"
+"docs/contracts" = "read"
+"docs/design/baselines" = "read"
+# Workers may write only evidence here; individual run directories are instruction scoped.
+"manager/runtime/evidence" = "write"
+
+[permissions.manager-review]
+description = "Source read-only; only evidence and temp outputs writable."
+extends = ":read-only"
+
+[permissions.manager-review.filesystem.":workspace_roots"]
+"frontend/.env" = "deny"
+"frontend/.env.local" = "deny"
+"frontend/.env.production" = "deny"
+"backend/.env" = "deny"
+"backend/.env.local" = "deny"
+"backend/.env.production" = "deny"
+"ai-service/.env" = "deny"
+"ai-service/.env.local" = "deny"
+"ai-service/.env.production" = "deny"
+"manager/runtime/evidence" = "write"
+".env" = "deny"
+".env.local" = "deny"
+".env.production" = "deny"
+
+[permissions.manager-review.filesystem]
+":tmpdir" = "write"
+":slash_tmp" = "write"
+
+[permissions.manager-review.network]
+enabled = true
+
+[permissions.manager-review.network.domains]
+"localhost" = "allow"
+"127.0.0.1" = "allow"
+"::1" = "allow"
+
+# No archive-writer profile here. Archive/prune are separate, explicit operator actions.
+# Do NOT mix this file with sandbox_mode / sandbox_workspace_write in ANY loaded layer.
+# Do NOT launch with --yolo or change parent permissions mid-run: live parent overrides
+# can be reapplied to children and defeat narrower agent defaults.

@@ -1,0 +1,319 @@
+# Minimized input reproducer; business requirements are intentionally not copied.
+# Source: shadowgxq/frontend-agent-template, chore/clean-and-add-team-site-prd, manager/plan.yaml
+# Source blob: f8c45a1b5df0c0e8f1d229cd04ea97aeac092962
+version: 2
+updated_at: '2026-09-22'
+current:
+  title: Example
+  batch: m1
+  wave: w1
+  next: execute
+requirements:
+- id: req-example
+  source: docs/prd/example.md
+  acceptance:
+  - Expected behavior
+openspec:
+- id: team-site-api-contract
+  phase: change
+  state: planned
+  requirements:
+  - req-example
+  inputs:
+  - id: team-site-technical-overview
+    kind: technical-design
+    source: docs/technical/team-site/overview.md
+    required: true
+  - id: team-site-persistence-design
+    kind: feature-design
+    source: docs/technical/team-site/features/shared-persistence.md
+    required: true
+  - id: api-directory-guidance
+    kind: documentation-guidance
+    source: docs/api/README.md
+    required: true
+  technical_design:
+  - docs/technical/team-site/overview.md
+  - docs/technical/team-site/features/shared-persistence.md
+- id: team-site-todos
+  phase: change
+  state: planned
+  requirements:
+  - req-example
+  inputs:
+  - id: team-site-technical-overview
+    kind: technical-design
+    source: docs/technical/team-site/overview.md
+    required: true
+  - id: team-site-persistence-design
+    kind: feature-design
+    source: docs/technical/team-site/features/shared-persistence.md
+    required: true
+  - id: team-site-formal-api-contract
+    kind: api-contract
+    source: docs/api/contracts.md
+    required: true
+  - id: app-router-foundation
+    kind: source-foundation
+    source: src/app/router/
+    required: true
+  - id: app-provider-foundation
+    kind: source-foundation
+    source: src/app/providers/AppProviders.tsx
+    required: true
+  - id: api-foundation
+    kind: source-foundation
+    source: src/shared/api/
+    required: true
+  - id: style-token-foundation
+    kind: design-tokens
+    source: src/shared/styles/
+    required: true
+  - id: runtime-config-template
+    kind: runtime-config
+    source: .env.example
+    required: true
+  - id: frontend-architecture
+    kind: architecture-guidance
+    source: docs/frontend/architecture/technology-options.md
+    required: true
+  - id: frontend-development
+    kind: frontend-standard
+    source: docs/frontend/standards/frontend-development.md
+    required: true
+  - id: component-governance
+    kind: component-guidance
+    source: docs/frontend/components/components.md
+    required: true
+  - id: component-splitting
+    kind: component-guidance
+    source: docs/frontend/components/component-splitting.md
+    required: true
+  - id: file-organization
+    kind: file-organization
+    source: docs/frontend/standards/file-organization.md
+    required: true
+  - id: ui-state-accessibility
+    kind: ui-state-guidance
+    source: docs/frontend/standards/accessibility-and-ui-states.md
+    required: true
+  technical_design:
+  - docs/technical/team-site/overview.md
+  - docs/technical/team-site/features/shared-persistence.md
+  depends_on:
+  - team-site-api-contract
+- id: team-site-announcements
+  phase: change
+  state: planned
+  requirements:
+  - req-example
+  inputs:
+  - id: team-site-technical-overview
+    kind: technical-design
+    source: docs/technical/team-site/overview.md
+    required: true
+  - id: team-site-persistence-design
+    kind: feature-design
+    source: docs/technical/team-site/features/shared-persistence.md
+    required: true
+  - id: team-site-formal-api-contract
+    kind: api-contract
+    source: docs/api/contracts.md
+    required: true
+  - id: app-router-foundation
+    kind: source-foundation
+    source: src/app/router/
+    required: true
+  - id: app-provider-foundation
+    kind: source-foundation
+    source: src/app/providers/AppProviders.tsx
+    required: true
+  - id: api-foundation
+    kind: source-foundation
+    source: src/shared/api/
+    required: true
+  - id: style-token-foundation
+    kind: design-tokens
+    source: src/shared/styles/
+    required: true
+  - id: runtime-config-template
+    kind: runtime-config
+    source: .env.example
+    required: true
+  - id: frontend-architecture
+    kind: architecture-guidance
+    source: docs/frontend/architecture/technology-options.md
+    required: true
+  - id: frontend-development
+    kind: frontend-standard
+    source: docs/frontend/standards/frontend-development.md
+    required: true
+  - id: component-governance
+    kind: component-guidance
+    source: docs/frontend/components/components.md
+    required: true
+  - id: component-splitting
+    kind: component-guidance
+    source: docs/frontend/components/component-splitting.md
+    required: true
+  - id: file-organization
+    kind: file-organization
+    source: docs/frontend/standards/file-organization.md
+    required: true
+  - id: ui-state-accessibility
+    kind: ui-state-guidance
+    source: docs/frontend/standards/accessibility-and-ui-states.md
+    required: true
+  technical_design:
+  - docs/technical/team-site/overview.md
+  - docs/technical/team-site/features/shared-persistence.md
+  depends_on:
+  - team-site-todos
+- id: team-site-resources
+  phase: change
+  state: planned
+  requirements:
+  - req-example
+  inputs:
+  - id: team-site-technical-overview
+    kind: technical-design
+    source: docs/technical/team-site/overview.md
+    required: true
+  - id: team-site-persistence-design
+    kind: feature-design
+    source: docs/technical/team-site/features/shared-persistence.md
+    required: true
+  - id: team-site-formal-api-contract
+    kind: api-contract
+    source: docs/api/contracts.md
+    required: true
+  - id: app-router-foundation
+    kind: source-foundation
+    source: src/app/router/
+    required: true
+  - id: app-provider-foundation
+    kind: source-foundation
+    source: src/app/providers/AppProviders.tsx
+    required: true
+  - id: api-foundation
+    kind: source-foundation
+    source: src/shared/api/
+    required: true
+  - id: style-token-foundation
+    kind: design-tokens
+    source: src/shared/styles/
+    required: true
+  - id: runtime-config-template
+    kind: runtime-config
+    source: .env.example
+    required: true
+  - id: frontend-architecture
+    kind: architecture-guidance
+    source: docs/frontend/architecture/technology-options.md
+    required: true
+  - id: frontend-development
+    kind: frontend-standard
+    source: docs/frontend/standards/frontend-development.md
+    required: true
+  - id: component-governance
+    kind: component-guidance
+    source: docs/frontend/components/components.md
+    required: true
+  - id: component-splitting
+    kind: component-guidance
+    source: docs/frontend/components/component-splitting.md
+    required: true
+  - id: file-organization
+    kind: file-organization
+    source: docs/frontend/standards/file-organization.md
+    required: true
+  - id: ui-state-accessibility
+    kind: ui-state-guidance
+    source: docs/frontend/standards/accessibility-and-ui-states.md
+    required: true
+  technical_design:
+  - docs/technical/team-site/overview.md
+  - docs/technical/team-site/features/shared-persistence.md
+  depends_on:
+  - team-site-todos
+- id: team-site-overview
+  phase: change
+  state: planned
+  requirements:
+  - req-example
+  inputs:
+  - id: team-site-technical-overview
+    kind: technical-design
+    source: docs/technical/team-site/overview.md
+    required: true
+  - id: team-site-persistence-design
+    kind: feature-design
+    source: docs/technical/team-site/features/shared-persistence.md
+    required: true
+  - id: team-site-formal-api-contract
+    kind: api-contract
+    source: docs/api/contracts.md
+    required: true
+  - id: app-router-foundation
+    kind: source-foundation
+    source: src/app/router/
+    required: true
+  - id: app-provider-foundation
+    kind: source-foundation
+    source: src/app/providers/AppProviders.tsx
+    required: true
+  - id: api-foundation
+    kind: source-foundation
+    source: src/shared/api/
+    required: true
+  - id: style-token-foundation
+    kind: design-tokens
+    source: src/shared/styles/
+    required: true
+  - id: runtime-config-template
+    kind: runtime-config
+    source: .env.example
+    required: true
+  - id: frontend-architecture
+    kind: architecture-guidance
+    source: docs/frontend/architecture/technology-options.md
+    required: true
+  - id: frontend-development
+    kind: frontend-standard
+    source: docs/frontend/standards/frontend-development.md
+    required: true
+  - id: component-governance
+    kind: component-guidance
+    source: docs/frontend/components/components.md
+    required: true
+  - id: component-splitting
+    kind: component-guidance
+    source: docs/frontend/components/component-splitting.md
+    required: true
+  - id: file-organization
+    kind: file-organization
+    source: docs/frontend/standards/file-organization.md
+    required: true
+  - id: ui-state-accessibility
+    kind: ui-state-guidance
+    source: docs/frontend/standards/accessibility-and-ui-states.md
+    required: true
+  technical_design:
+  - docs/technical/team-site/overview.md
+  - docs/technical/team-site/features/shared-persistence.md
+  depends_on:
+  - team-site-todos
+  - team-site-announcements
+  - team-site-resources
+batches:
+- id: m1
+  goal: Example
+  waves:
+  - id: w1
+    parallel: true
+    openspec:
+    - team-site-api-contract
+    - team-site-todos
+    - team-site-announcements
+    - team-site-resources
+    - team-site-overview

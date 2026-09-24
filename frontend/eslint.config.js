@@ -50,10 +50,7 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true, allowExportNames: ['buttonVariants'] },
-      ],
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     },
   },
   {
@@ -119,6 +116,17 @@ export default tseslint.config(
     languageOptions: {
       ecmaVersion: 2022,
       globals: globals.node,
+    },
+  },
+  {
+    // shadcn 组件是 CLI 拷进仓库的源码，按其约定会在同一文件里同时导出组件和
+    // cva variants（如 button.tsx 的 buttonVariants）。这与 react-refresh 的
+    // 单一导出要求天然冲突，而每次 `shadcn add` 更新都会重新引入该形态，
+    // 所以在此按目录关掉，而不是逐文件加 eslint-disable。
+    // 只匹配 shared/ui 下的扁平文件，不影响自建组件目录。
+    files: ['src/shared/ui/*.tsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
     },
   },
   prettierConfig,

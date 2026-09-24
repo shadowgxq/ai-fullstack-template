@@ -13,5 +13,11 @@
 *.pyc
 *.log
 .DS_Store
-.codex/config.toml
-manager/runtime/
+manager/runtime/control.lock
+manager/runtime/logs/
+manager/runtime/tmp/
+
+# Local browser tools and generated evidence (attach evidence to the PR).
+.tools/
+.browser-artifacts/
+manager/runtime/evidence/browser/

@@ -24,7 +24,7 @@
 
 目标业务链路：浏览器 → backend（用户/资源授权）→ AI API（受信服务身份）→ PostgreSQL-backed Command Queue → Worker → LangGraph → 结果。
 
-当前实际：前端基座代理后端认证；AI 由 smoke 客户端直接调用。尚无业务 Run 页面和 backend→AI 用户授权转发，不把服务都启动等同于业务贯通。
+当前实际：标准前端 AuthForm/LoginModal 通过 gateway 与代理接入 backend 用户名密码认证；AI 由 smoke 客户端直接调用。尚无业务 Run 页面和 backend→AI 用户授权转发，不把服务都启动等同于业务贯通。
 
 后端为同步 FastAPI → service → repository → model；API 装配鉴权依赖，service 拥有事务，repository 只 flush/query。core 只提供业务无关基础设施。Redis 缓存故障可回源，认证限流/撤销检查故障拒绝请求。
 
@@ -39,3 +39,5 @@ PostgreSQL 同机分库分角色；应用表与 LangGraph 表分别迁移。Redi
 [Runtime 扩展设计](ai-service/agent-runtime-architecture.md) 和其中 ADR 是目标，不是完成清单。Operation Ledger/预算/unknown、人工审批、取消、SSE、Artifact、真实模型、生产多租户及多 Worker fencing 尚未实现；不能直接把 echo 节点替换为付费调用。
 
 Compose 仅本地使用开发凭证和 loopback 端口。公网部署另需 TLS、逐资源授权、配额、备份、观测与安全验收。启动命令只维护于 [根 README](../../README.md) 和各端 README。
+
+开发工作流使用固定 Manager rc.3 与 OpenSpec 1.13.1，机制与配置见 [工具入口](../engineering/workflow/tooling.md)。开发控制器不是运行时 Agent 服务，两者状态/模型/数据隔离；不把开发角色配置当作 ai-service 模型调用实现。

@@ -2,8 +2,16 @@ node_modules
 dist
 coverage
 .git
+.codex
+.agents
 
 *.tsbuildinfo
 pnpm-lock.yaml
 
+openspec/changes
 **/*.incoming*
+
+# shadcn 组件是 CLI 拷进来的源码，保持其原始格式。
+# 按本项目 prettier 重排的话，每次 `shadcn add` 更新都会产生大片无谓 diff。
+# 只忽略 shared/ui 下的扁平文件，不影响业务组件目录。
+src/shared/ui/*.tsx

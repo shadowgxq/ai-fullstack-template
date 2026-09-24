@@ -30,6 +30,7 @@ ComponentName/
 - 禁止用 `index.tsx` 作为组件实现文件。
 - 简单 JSX 且只有一个调用点时不要提前抽组件；已经抽成命名组件就按目录放置。
 - `App`、providers、router、page route entry 保持在模块根目录，不算 UI 组件 inventory。
+- 标准模板已有 app-header 的 AppHeader/AccountMenu/SettingsMenu、app-shell 的 AppFooter 和 pages/components/componentCatalog.ts 平铺结构，按现有公开出口维护，不为目录对称重写。
 
 ## 放置规则
 
@@ -72,7 +73,7 @@ shared/
   theme/     # 主题状态
   i18n/      # 语言资源与状态
   icons/     # 图标资产、wrapper、名称约束
-  styles/    # reset、global、token、theme
+  styles/    # global.css 内集中 reset、token、theme
   testing/   # render helper、mock helper、测试工具
   ui/        # 无业务基础 UI
   utils/     # 无业务纯工具函数
@@ -89,3 +90,5 @@ shared/
 - 枚举转换、未知值 fallback、typed mapping、action guard 要就近测试。
 - shared testing 只放跨模块复用能力，不放业务 fixture。
 - 环境变量读取和转换集中在 `shared/config/`。
+
+标准新增能力目录：`shared/analytics`（显式启用）、`shared/identity`（本地设备标识）、`shared/translation`（可选独立服务）、`features/auth`（gateway/状态/界面）。这些不是项目独立文档或重复运行栈。

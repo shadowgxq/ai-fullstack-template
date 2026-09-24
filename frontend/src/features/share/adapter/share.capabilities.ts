@@ -8,23 +8,27 @@ import {
   type ShareContent,
   type ShareSurface,
 } from '../model/share.types';
+
 export type DetectShareCapabilitiesOptions = Readonly<{
   surface?: ShareSurface;
   posterFile?: File;
 }>;
+
 function detectSurface(): ShareSurface {
   if (typeof window === 'undefined') return 'desktop';
   const narrow = window.matchMedia?.('(max-width: 720px)').matches ?? false;
   const coarse = window.matchMedia?.('(pointer: coarse)').matches ?? false;
   return narrow || coarse ? 'h5' : 'desktop';
 }
+
 function describeAction(
   action: ShareActionName,
   placement: ShareActionPlacement,
 ): ShareActionDescriptor {
   return { action, labelKey: SHARE_ACTION_LABEL_KEYS[action], placement };
 }
-/** Screen size sets priority only. Actual capabilities are always API-detected. */
+
+/** Surface detection affects priority only; every real capability is checked through its API. */
 export function detectShareCapabilities(
   options: DetectShareCapabilitiesOptions = {},
 ): ShareCapabilities {
@@ -39,6 +43,7 @@ export function detectShareCapabilities(
       canOpenPlatform: false,
     };
   }
+
   const secure = window.isSecureContext === true;
   const canWebShare = secure && typeof navigator.share === 'function';
   let canWebShareFiles = false;
@@ -49,6 +54,7 @@ export function detectShareCapabilities(
       canWebShareFiles = false;
     }
   }
+
   return {
     surface: options.surface ?? detectSurface(),
     canWebShare,
@@ -66,6 +72,8 @@ export function detectShareCapabilities(
     canOpenPlatform: typeof window.open === 'function',
   };
 }
+
+/** H5 prioritizes native share when available; Desktop prioritizes explicit platform intents. */
 export function getShareActionDescriptors(
   content: ShareContent,
   capabilities: ShareCapabilities,
@@ -74,15 +82,26 @@ export function getShareActionDescriptors(
   const hasLandingUrl = Boolean(content.landingUrl);
   const platformPlacement =
     capabilities.surface === 'h5' && capabilities.canWebShare ? 'more' : 'primary';
-  if (capabilities.canWebShare)
-    actions.push(describeAction('native', capabilities.surface === 'h5' ? 'primary' : 'more'));
-  if (hasLandingUrl && capabilities.canOpenPlatform)
-    SHARE_PLATFORMS.forEach((action) => actions.push(describeAction(action, platformPlacement)));
+
+  if (capabilities.canWebShare) {
+    actions.push(
+      describeAction('native', capabilities.surface === 'h5' ? 'primary' : 'more'),
+    );
+  }
+  if (hasLandingUrl && capabilities.canOpenPlatform) {
+    SHARE_PLATFORMS.forEach((action) =>
+      actions.push(describeAction(action, platformPlacement)),
+    );
+  }
   if (capabilities.canCopyText) {
     actions.push(describeAction('copy-text', 'secondary'));
     if (hasLandingUrl) actions.push(describeAction('copy-link', 'secondary'));
   }
-  if (capabilities.canCopyImage) actions.push(describeAction('copy-image', 'secondary'));
-  if (capabilities.canDownload) actions.push(describeAction('download-image', 'secondary'));
+  if (capabilities.canCopyImage) {
+    actions.push(describeAction('copy-image', 'secondary'));
+  }
+  if (capabilities.canDownload) {
+    actions.push(describeAction('download-image', 'secondary'));
+  }
   return actions;
 }

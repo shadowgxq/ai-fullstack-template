@@ -30,8 +30,10 @@
 
 React 文案使用 `useTranslation().t()`，切换语言使用 `useLocale()`；组件名、技术标识符以及调用方提供的内容不强制翻译。新增文案补齐所有语言同名 key，不再维护第二套映射。
 
-新增语言时同步资源、`SUPPORTED_LOCALES`、locale 边界校验、AppShell 语言选项和 `LocaleInitializer` 的 HTML lang 映射，并补测试。
+新增语言时同步资源、`SUPPORTED_LOCALES`、locale 边界校验、AppHeader/SettingsMenu 语言选项和 `LocaleInitializer` 的 HTML lang 映射，并补测试。
 
 ## 移除或替换
 
 只能在明确的项目基线变更中执行：先清点 AppShell、主题页、组件示例及错误页的消费者，再处理 store、Provider、首帧脚本、资源、依赖和测试。仅删除演示页面不能顺带删除公共组件或主题基座。对应规则和 README 同步更新，不另留一套旧接线说明。
+
+当前默认语言为 `en`；预设选择在 ThemePage，明暗/语言在 SettingsMenu。内置 i18n 不调用远端翻译；shared/translation 是独立可选数据翻译 adapter。global.css 的 `--layout-max-width` 为 1336px，AppHeader 实际高度由自身 60px 类控制；不要将未使用 token 的数值误写成所有布局的尺寸。

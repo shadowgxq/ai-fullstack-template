@@ -1,23 +1,21 @@
 schema: spec-driven
 context: |
-  全栈 monorepo：frontend / backend / ai-service。
-  先读根 AGENTS.md 与 docs/README.md，按任务补读端专项规范。
-  工作分级、批准、修订与证据遵循 docs/engineering/workflow/delivery.md；工具与计划兼容见 docs/engineering/workflow/tooling.md。
-  产品需求在 docs/product，系统与业务技术总/专项方案在 docs/architecture，契约在 docs/contracts。
-  标准/高风险变更先确认对应技术方案与真实批准，再规划近期可独立验收的垂直 change；设计只写本次差异。
-  当前未接入 Manager v2 自动控制；禁止把上游 v2 阶段、紧凑 plan 或运行凭证直接当成本地校验器已支持。
-  根 manager/plan.yaml 是兼容索引；仅规划不生成假制品，实际 tasks 存在后再登记，细项进度由协调者维护。
-  归档、合并、发布分别授权；真实 OpenSpec archive 验证与同步主规格，禁止手动移动或改写历史归档。
-  旧 archive skill 的手动移动步骤不作为新任务归档路径；CLI/profile 与命令先预检，不存在的命令不模拟调用。
-  模板不预装业务需求、运行状态或历史任务；当前能力与限制以 docs/architecture/README.md 和代码为准。
+  全栈 monorepo：frontend / backend / ai-service；先读 AGENTS.md 与 docs/README.md 的任务路由。
+  项目规范唯一在 docs/engineering；产品 docs/product，技术总/专项 docs/architecture，跨端语义 docs/contracts。
+  frontend 标准源码整体同步，集成差异由 scripts/frontend-source.json 与前端专项文档记录；不引入第二套 UI/文档。
+  Manager 机制按 .agents/skills/MANAGER-WORKFLOW.md 和相应 Skill，控制入口 scripts/manager/plan_tool.py；生命周期不手工重建。
+  v2 plan 使用 requirements/inputs/openspec/batches；集中 inputs 加显式 input_refs，技术方案/UI 基线专用字段。
+  规划深度、制品生成与执行授权独立；依据稳定性选择 full/rolling，按已授权批次与 checkpoint/manual 边界执行。
+  原生派发、代码/契约、Gate 和 UI 证据须真实，不用静态检查冒充业务验收。
+  归档、合并、发布分别授权；历史只读。模板初始没有业务审批或历史运行记录。
 rules:
   proposal:
-    - 引用 REQ-ID、行为源位置、范围、非目标、风险与直接消费者；验收只依赖本 change 及显式依赖。
+    - 引用真实产品行为、验收归属、范围和非目标；单 change 的验收只依赖自身及显式依赖。
   specs:
-    - 保留行为限定、失败与数据保证；只描述本次增量，不为通过验证删改已批准目标。
+    - 仅写本次行为增量；保留失败、权限、恢复与持久性要求，不迁就实现删减批准目标。
   design:
-    - 引用对应批准技术方案与内容版本，写清本次差异、接口、配置、迁移及适用失败恢复；区分当前与目标。
-    - 新 UI 模式引用已确认代表性基线；方案/需求变化需影响分析和重新批准，不覆盖无关 change。
+    - 引用已批准总/专项技术方案与版本，说明本次差异、接口、迁移与适用失败路径。
+    - 新 UI 使用批准基线；代码问题用最小修复，需求/设计变更走影响分析及重新批准。
   tasks:
-    - 每项明确 owner、读写范围、依赖、必要运行资源、验收命令；保持一个制品/进度写入方。
-    - 实现与独立 review/必要浏览器验收使用同一集成版本；只有实际完成才勾选，未运行或过期证据不算通过。
+    - 明确 owner、读写路径、依赖、资源、验收与证据；Task DAG 不等于重复执行完整 apply。
+    - 单一协调者核对后更新 tasks；先保存代码 checkpoint，再验证与追加修复，未运行不标通过。

@@ -19,6 +19,10 @@ function isThemeMode(value: unknown): value is ThemeMode {
   return value === 'light' || value === 'dark';
 }
 
+function isThemePreset(value: unknown): value is ThemePreset {
+  return typeof value === 'string' && (THEME_PRESETS as readonly string[]).includes(value);
+}
+
 function getPreferredThemeMode(): ThemeMode {
   if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
     return 'light';
@@ -32,8 +36,8 @@ export const useThemeStore = create<ThemeState>()(
     (set) => ({
       mode: getPreferredThemeMode(),
       preset: 'signal',
-      setPreset: (preset) => set({ preset }),
       setMode: (mode) => set({ mode }),
+      setPreset: (preset) => set({ preset }),
     }),
     {
       name: THEME_STORAGE_KEY,
@@ -42,20 +46,17 @@ export const useThemeStore = create<ThemeState>()(
           typeof persistedState === 'object' && persistedState !== null && 'mode' in persistedState
             ? persistedState.mode
             : undefined;
-
         const persistedPreset =
           typeof persistedState === 'object' &&
           persistedState !== null &&
           'preset' in persistedState
             ? persistedState.preset
             : undefined;
+
         return {
           ...currentState,
           mode: isThemeMode(persistedMode) ? persistedMode : currentState.mode,
-          preset:
-            persistedPreset === 'signal' || persistedPreset === 'neutral'
-              ? persistedPreset
-              : currentState.preset,
+          preset: isThemePreset(persistedPreset) ? persistedPreset : currentState.preset,
         };
       },
     },

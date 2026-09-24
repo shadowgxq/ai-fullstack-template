@@ -1,27 +1,46 @@
 import type { RouteObject } from 'react-router-dom';
+
+import { LoginPage } from '../../pages/login';
+import { ComponentsPage } from '../../pages/components/ComponentsPage';
+import { ComponentDetailPage } from '../../pages/components/ComponentDetailPage';
 import { HomePage } from '../../pages/home/HomePage';
-import { AppShell } from '../../widgets/app-shell';
+import { ThemePage } from '../../pages/theme/ThemePage';
 import { NotFoundPage } from '../error/NotFoundPage';
 import { RouteErrorPage } from '../error/RouteErrorPage';
 
 export const appRoutes: RouteObject[] = [
   {
     path: '/',
-    element: <AppShell />,
+    element: <HomePage />,
     errorElement: <RouteErrorPage />,
-    children: [
-      { index: true, element: <HomePage /> },
-      {
-        path: 'components',
-        lazy: async () => ({
-          Component: (await import('../../pages/components/ComponentsPage')).ComponentsPage,
-        }),
-      },
-      {
-        path: 'theme',
-        lazy: async () => ({ Component: (await import('../../pages/theme/ThemePage')).ThemePage }),
-      },
-    ],
   },
-  { path: '*', element: <NotFoundPage /> },
+  {
+    path: '/foundation',
+    element: <HomePage />,
+    errorElement: <RouteErrorPage />,
+  },
+  {
+    path: '/theme',
+    element: <ThemePage />,
+    errorElement: <RouteErrorPage />,
+  },
+  {
+    path: '/components',
+    element: <ComponentsPage />,
+    errorElement: <RouteErrorPage />,
+  },
+  {
+    path: '/components/:componentName',
+    element: <ComponentDetailPage />,
+    errorElement: <RouteErrorPage />,
+  },
+  {
+    path: '/login',
+    element: <LoginPage />,
+    errorElement: <RouteErrorPage />,
+  },
+  {
+    path: '*',
+    element: <NotFoundPage />,
+  },
 ];

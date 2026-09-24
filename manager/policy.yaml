@@ -1,0 +1,11 @@
+version: 2
+planning: auto
+max_agents: 4
+max_writers: 2
+timeout_seconds: 900
+checks:
+  change:
+    - [make, docs, architecture]
+  apply:
+    - [make, check]
+    - [pnpm, --dir, frontend, build]

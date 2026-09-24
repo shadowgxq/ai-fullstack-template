@@ -1,9 +1,5 @@
-updated_at: null
-current:
-  title: ''
-  batch: null
-  wave: null
-  next: ''
+version: 2
 requirements: []
+inputs: []
 openspec: []
 batches: []

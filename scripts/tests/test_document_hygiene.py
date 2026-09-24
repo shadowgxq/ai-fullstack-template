@@ -50,20 +50,12 @@ class DocumentHygieneChecks(unittest.TestCase):
         return validate_plan(path)
 
     def empty_plan(self):
-        return {"updated_at": None, "current": {"title": "", "batch": None, "wave": None, "next": ""},
-                "requirements": [], "openspec": [], "batches": []}
+        return {"version": 2, "requirements": [], "inputs": [], "openspec": [], "batches": []}
 
     def test_empty_template_requires_no_fake_date(self):
         self.assertEqual(self.write_plan(self.empty_plan()), [])
 
-    def test_nonempty_or_malformed_plan_still_requires_update_date(self):
-        for key, value in (("current", {"title": "Work", "batch": None, "wave": None, "next": "review"}),
-                           ("requirements", [{"id": "REQ-TEST", "source": "missing.md"}]),
-                           ("batches", None)):
-            with self.subTest(key=key):
-                plan = self.empty_plan()
-                plan[key] = value
-                self.assertIn("missing updated_at", self.write_plan(plan))
-        plan = self.empty_plan()
-        del plan["updated_at"]
-        self.assertIn("missing updated_at", self.write_plan(plan))
+    def test_malformed_and_incomplete_plan_still_rejected(self):
+        for key, value in (("requirements", [{"id": "req-test", "source": "missing.md"}]), ("batches", None)):
+            plan = self.empty_plan(); plan[key] = value
+            self.assertTrue(self.write_plan(plan))

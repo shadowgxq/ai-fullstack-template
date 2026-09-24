@@ -5,26 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="A business-neutral frontend with reusable components, themes, and fullstack integration."
+      content="A production-ready React frontend baseline with theming, i18n, authentication, and sharing primitives."
     />
-    <title>Fullstack Frontend Template</title>
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Agent Template</title>
     <script>
-      // Keep the first frame consistent with shared/theme, including old saved preferences.
+      // No-FOUC: 渲染前根据持久化的主题预设 <html data-theme>，与 shared/theme 一致。
       (function () {
-        var mode =
-          typeof window.matchMedia === 'function' &&
-          window.matchMedia('(prefers-color-scheme: dark)').matches
-            ? 'dark'
-            : 'light';
+        var mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         var preset = 'signal';
         try {
           var raw = localStorage.getItem('ui-theme');
-          var state = raw ? JSON.parse(raw).state : null;
-          if (state && (state.mode === 'light' || state.mode === 'dark')) mode = state.mode;
-          if (state && (state.preset === 'signal' || state.preset === 'neutral'))
-            preset = state.preset;
-        } catch {
-          /* Storage is optional; retain defaults when unavailable. */
+          var storedState = raw ? JSON.parse(raw).state : null;
+          var storedMode = storedState ? storedState.mode : null;
+          var storedPreset = storedState ? storedState.preset : null;
+          mode = storedMode === 'light' || storedMode === 'dark' ? storedMode : mode;
+          preset = storedPreset === 'signal' || storedPreset === 'neutral' ? storedPreset : preset;
+        } catch (e) {
+          /* 忽略：localStorage 不可用时使用首次系统偏好 */
         }
         document.documentElement.dataset.theme = mode;
         document.documentElement.dataset.themePreset = preset;

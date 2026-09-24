@@ -1,0 +1,32 @@
+name: Manager runtime
+on:
+  pull_request:
+  push:
+    branches: [master]
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m pip install PyYAML==6.0.2
+      - run: npm install --global @fission-ai/openspec@1.13.1
+      - run: openspec --version
+      - run: python -m unittest discover -s tests -v
+        env:
+          MANAGER_LIVE_OPENSPEC: '1'
+          OPENSPEC_TELEMETRY: '0'
+          CI: 'true'
+      - run: python -m compileall -q manager-execute-current-batch/scripts scripts

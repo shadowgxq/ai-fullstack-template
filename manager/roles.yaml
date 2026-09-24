@@ -1,0 +1,12 @@
+version: 2
+routes:
+  product: {agent_type: product-manager}
+  design: {agent_type: architect}
+  exploration: {agent_type: explorer}
+  frontend: {agent_type: frontend-dev}
+  backend: {agent_type: backend-dev}
+  ai-service: {agent_type: backend-dev}
+  tests: {agent_type: test-worker}
+  verification: {agent_type: qa}
+  review: {agent_type: reviewer}
+  ui: {agent_type: ui-ux-reviewer}

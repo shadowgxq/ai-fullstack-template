@@ -2,15 +2,20 @@
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
 
+/* 让 shadcn 的 dark: 变体跟随项目既有的 data-theme 机制。 */
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
-/* Source-template tokens: geometry is shared by both palettes and both modes. */
 :root {
   color-scheme: light;
+
+  /* =========================================================
+   * 01. Typography — two family roles: UI sans + technical mono
+   * ======================================================= */
   --font-family-sans:
     -apple-system, BlinkMacSystemFont, 'Inter', 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei',
     'Segoe UI', sans-serif;
   --font-family-mono: 'SFMono-Regular', 'IBM Plex Mono', 'Cascadia Code', Consolas, monospace;
+
   --font-size-xs: 12px;
   --font-size-sm: 13px;
   --font-size-md: 14px;
@@ -20,6 +25,7 @@
   --font-size-2xl: 24px;
   --font-size-3xl: 32px;
   --font-size-4xl: 40px;
+
   --line-height-xs: 16px;
   --line-height-sm: 18px;
   --line-height-md: 20px;
@@ -29,10 +35,13 @@
   --line-height-2xl: 32px;
   --line-height-3xl: 40px;
   --line-height-4xl: 48px;
+
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
+
+  /* 推荐语义字号：组件库/文档页面统一使用 sans；技术信息使用 mono。 */
   --text-page-title-size: var(--font-size-2xl);
   --text-page-title-line: var(--line-height-2xl);
   --text-section-title-size: 20px;
@@ -43,6 +52,10 @@
   --text-body-line: var(--line-height-base);
   --text-caption-size: var(--font-size-xs);
   --text-caption-line: var(--line-height-sm);
+
+  /* =========================================================
+   * 02. Spacing — 4px base grid
+   * ======================================================= */
   --space-0: 0;
   --space-0-5: 2px;
   --space-1: 4px;
@@ -58,6 +71,8 @@
   --space-12: 48px;
   --space-16: 64px;
   --space-20: 80px;
+
+  /* 页面级节奏：1440 与 2K 共用同一组尺寸，不依赖大量媒体查询。 */
   --layout-max-width: 1336px;
   --layout-gutter: 32px;
   --header-height: 56px;
@@ -71,19 +86,29 @@
   --compact-gap: 8px;
   --toolbar-gap: 12px;
   --grid-gap: 16px;
+
+  /* Docs / Component Library */
   --docs-sidebar-width: 236px;
   --docs-sidebar-gap: 32px;
   --docs-content-max-width: 1040px;
   --docs-nav-item-height: 36px;
   --docs-nav-item-padding-x: 12px;
   --docs-nav-group-gap: 20px;
+
+  /* =========================================================
+   * 03. Radius
+   * ======================================================= */
   --radius: 0.5rem;
   --radius-control: 8px;
   --radius-card: 12px;
   --radius-panel: 12px;
   --radius-dialog: 12px;
   --radius-pill: 999px;
+
+  /* Component contract state primitives. */
   --control-border-width: 1px;
+  /* 2px keyboard ring preserves the visible focus affordance. Form controls
+   * add a 1.5px inner stroke to match the component reference sheets. */
   --focus-ring-width: 2px;
   --control-focus-stroke: 1.5px;
   --focus-ring-offset: 2px;
@@ -98,21 +123,29 @@
   --label-line-height: var(--line-height-sm);
   --helper-font-size: var(--font-size-xs);
   --helper-line-height: var(--line-height-sm);
+
+  /* =========================================================
+   * 04. Sizing / Controls
+   * ======================================================= */
   --control-height-xs: 28px;
   --control-height-sm: 32px;
   --control-height-md: 36px;
   --control-height-lg: 40px;
   --control-height-xl: 44px;
   --control-height-2xl: 48px;
+
   --control-padding-x-sm: 10px;
   --control-padding-x-md: 12px;
   --control-padding-x-lg: 16px;
+
   --icon-size-xs: 12px;
   --icon-size-sm: 14px;
   --icon-size-md: 16px;
   --icon-size-lg: 20px;
   --icon-size-xl: 24px;
   --icon-stroke-width: 1.75;
+
+  /* Button */
   --button-height-sm: var(--control-height-sm);
   --button-height-md: var(--control-height-lg);
   --button-height-lg: var(--control-height-2xl);
@@ -120,33 +153,47 @@
   --button-padding-x-md: 14px;
   --button-padding-x-lg: 16px;
   --button-gap: 8px;
+
+  /* Input / Select / Search */
   --input-height-sm: var(--control-height-md);
   --input-height-md: var(--control-height-lg);
   --input-height-lg: var(--control-height-xl);
   --input-padding-x: 12px;
   --input-icon-gap: 8px;
   --textarea-min-height: 96px;
+
+  /* Switch track stays below the 24px interaction-weight ceiling. */
   --switch-track-height: 24px;
   --switch-track-width: 44px;
   --switch-thumb-size: 20px;
   --switch-thumb-offset: 20px;
+
+  /* Tabs / Segmented control */
   --tabs-height: 36px;
   --tabs-trigger-height: 32px;
   --tabs-padding: 2px;
   --tabs-gap: 4px;
+
+  /* Badge / Chip */
   --badge-height: 22px;
   --badge-padding-x: 8px;
   --badge-gap: 5px;
   --badge-font-size: 12px;
+
+  /* Component gallery card */
   --component-card-min-height: 104px;
   --component-card-padding-x: 20px;
   --component-card-padding-y: 18px;
   --component-card-gap: 12px;
   --component-card-icon-box: 40px;
+
+  /* Generic panel / demo */
   --panel-padding-sm: 16px;
   --panel-padding-md: 20px;
   --panel-padding-lg: 24px;
   --demo-block-gap: 16px;
+
+  /* Overlay components */
   --tooltip-max-width: 280px;
   --tooltip-padding-x: 12px;
   --tooltip-padding-y: 8px;
@@ -168,52 +215,70 @@
   --dialog-padding: 24px;
   --calendar-width: 320px;
   --drawer-width: 420px;
+
+  /* Share action group — preserves the established desktop action rhythm. */
   --share-action-height: var(--control-height-xl);
   --share-action-primary-min-width: 152px;
   --share-action-secondary-min-width: 136px;
+
+  /* Table / Code */
   --table-row-height: 44px;
   --table-cell-padding-x: 12px;
   --code-font-size: 13px;
   --code-line-height: 20px;
   --code-padding: 18px;
+
+  /* =========================================================
+   * 05. Elevation / Motion
+   * ======================================================= */
   --elevation-xs: 0 1px 2px rgb(16 24 40 / 0.06);
   --elevation-sm: 0 1px 2px rgb(16 24 40 / 0.08);
   --elevation-md: 0 4px 12px rgb(16 24 40 / 0.12);
   --elevation-lg: 0 12px 32px rgb(16 24 40 / 0.16);
+
   --duration-fast: 150ms;
   --duration-normal: 200ms;
   --duration-slow: 240ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-emphasized: cubic-bezier(0.2, 0, 0, 1.2);
+
+  /* =========================================================
+   * 06. Semantic color — Signal Teal / Light
+   * ======================================================= */
   --background: #f8fafc;
   --foreground: #10213d;
   --card: #ffffff;
   --card-foreground: #10213d;
   --popover: #ffffff;
   --popover-foreground: #10213d;
+
   --header-bg: #ffffff;
   --hero-bg: #f2faf8;
   --page-bg: #f8fafc;
   --surface-bg: #ffffff;
   --surface-hover: #f4f8fa;
   --surface-selected: #eaf8f6;
+
   --border-subtle: #e3eaf1;
   --border: #d8e1ea;
   --border-strong: #b8c6d4;
   --header-border: #e3eaf1;
   --input: #d8e1ea;
+
   --primary: #00857c;
   --primary-hover: #007b73;
   --primary-active: #006f68;
   --primary-foreground: #ffffff;
   --primary-subtle: #eaf8f6;
   --primary-subtle-hover: #ddf3ef;
+
   --secondary: #f3f6f8;
   --secondary-foreground: #10213d;
   --muted: #eef2f6;
   --muted-foreground: #66758d;
   --accent: #f4f8fa;
   --accent-foreground: #10213d;
+
   --destructive: #c93645;
   --destructive-subtle: #fff0f2;
   --success: #16814f;
@@ -222,16 +287,20 @@
   --warning: #a76c07;
   --warning-subtle: #fff5df;
   --warning-foreground: #ffffff;
+
   --ring: #00958c;
   --overlay: rgb(16 33 61 / 0.44);
+
   --code-bg: #151b1f;
   --code-foreground: #e8eeec;
   --code-muted: #9aa6a1;
+
   --chart-1: #00857c;
   --chart-2: #16814f;
   --chart-3: #a76c07;
   --chart-4: #c93645;
   --chart-5: #66758d;
+
   --sidebar: #f8fafc;
   --sidebar-foreground: #10213d;
   --sidebar-primary: #00857c;
@@ -242,6 +311,10 @@
   --sidebar-ring: #00958c;
 }
 
+/* =========================================================
+ * 07. Neutral / Light
+ * 只切换语义色；几何、间距、字号、组件密度完全共用。
+ * ======================================================= */
 [data-theme-preset='neutral'] {
   --background: #f8f8f9;
   --foreground: oklch(0.145 0 0);
@@ -249,29 +322,34 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
+
   --header-bg: oklch(1 0 0);
   --hero-bg: #f7f7f8;
   --page-bg: #f8f8f9;
   --surface-bg: oklch(1 0 0);
   --surface-hover: oklch(0.97 0 0);
   --surface-selected: oklch(0.97 0 0);
+
   --border-subtle: oklch(0.922 0 0);
   --border: oklch(0.922 0 0);
   --border-strong: #d4d4d8;
   --header-border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
+
   --primary: oklch(0.205 0 0);
   --primary-hover: #27272a;
   --primary-active: #09090b;
   --primary-foreground: oklch(0.985 0 0);
   --primary-subtle: oklch(0.97 0 0);
   --primary-subtle-hover: #e9e9ec;
+
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
+
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-subtle: oklch(0.96 0.05 27);
   --control-invalid-border: var(--destructive);
@@ -281,16 +359,20 @@
   --warning: oklch(0.68 0.16 75);
   --warning-subtle: oklch(0.97 0.04 85);
   --warning-foreground: oklch(0.145 0 0);
+
   --ring: oklch(0.708 0 0);
   --overlay: rgb(9 9 11 / 0.42);
+
   --code-bg: #18181b;
   --code-foreground: #f4f4f5;
   --code-muted: #a1a1aa;
+
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
+
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -304,35 +386,41 @@
 @theme inline {
   --font-mono: var(--font-family-mono);
   --font-sans: var(--font-family-sans);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
+
   --color-header: var(--header-bg);
   --color-hero: var(--hero-bg);
   --color-page: var(--page-bg);
   --color-surface: var(--surface-bg);
   --color-surface-hover: var(--surface-hover);
   --color-surface-selected: var(--surface-selected);
+
   --color-border-subtle: var(--border-subtle);
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
   --color-header-border: var(--header-border);
   --color-input: var(--input);
+
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
   --color-primary-active: var(--primary-active);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-subtle: var(--primary-subtle);
   --color-primary-subtle-hover: var(--primary-subtle-hover);
+
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+
   --color-destructive: var(--destructive);
   --color-destructive-subtle: var(--destructive-subtle);
   --color-success: var(--success);
@@ -341,15 +429,18 @@
   --color-warning: var(--warning);
   --color-warning-subtle: var(--warning-subtle);
   --color-warning-foreground: var(--warning-foreground);
+
   --color-ring: var(--ring);
   --color-code: var(--code-bg);
   --color-code-foreground: var(--code-foreground);
   --color-code-muted: var(--code-muted);
+
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -358,46 +449,56 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: calc(var(--radius) * 1);
+  --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) * 1.4);
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* =========================================================
+ * 08. Signal Teal / Dark
+ * ======================================================= */
 [data-theme='dark'] {
   color-scheme: dark;
+
   --background: #0d1211;
   --foreground: #f2f5f4;
   --card: #151b19;
   --card-foreground: #f2f5f4;
   --popover: #1c2522;
   --popover-foreground: #f2f5f4;
+
   --header-bg: #151b19;
   --hero-bg: #111c18;
   --page-bg: #0d1211;
   --surface-bg: #151b19;
   --surface-hover: #1d2824;
   --surface-selected: #183a34;
+
   --border-subtle: #34413d;
   --border: #34413d;
   --border-strong: #405049;
   --header-border: #2b3834;
   --input: #52625c;
+
   --primary: #56cdbc;
   --primary-hover: #78dec9;
   --primary-active: #4dc5ad;
   --primary-foreground: #052d28;
   --primary-subtle: #183a34;
   --primary-subtle-hover: #1c493f;
+
   --secondary: #183a34;
   --secondary-foreground: #f2f5f4;
   --muted: #24302c;
   --muted-foreground: #9ca8a4;
   --accent: #1d2824;
   --accent-foreground: #f2f5f4;
+
   --destructive: #ff8179;
   --destructive-subtle: #44211f;
   --control-invalid-border: #ff8179;
@@ -407,16 +508,20 @@
   --warning: #e9b55c;
   --warning-subtle: #3f321a;
   --warning-foreground: #052d28;
+
   --ring: #56cdbc;
   --overlay: rgb(0 0 0 / 0.58);
+
   --code-bg: #090d0c;
   --code-foreground: #e8eeec;
   --code-muted: #8e9b96;
+
   --chart-1: #56cdbc;
   --chart-2: #6bd597;
   --chart-3: #e9b55c;
   --chart-4: #ff8179;
   --chart-5: #9ca8a4;
+
   --sidebar: #151b19;
   --sidebar-foreground: #f2f5f4;
   --sidebar-primary: #56cdbc;
@@ -425,12 +530,16 @@
   --sidebar-accent-foreground: #f2f5f4;
   --sidebar-border: #34413d;
   --sidebar-ring: #56cdbc;
+
   --elevation-xs: 0 1px 2px rgb(0 0 0 / 0.24);
   --elevation-sm: 0 1px 2px rgb(0 0 0 / 0.24), 0 4px 12px rgb(0 0 0 / 0.16);
   --elevation-md: 0 10px 28px rgb(0 0 0 / 0.28);
   --elevation-lg: 0 18px 48px rgb(0 0 0 / 0.36);
 }
 
+/* =========================================================
+ * 09. Neutral / Dark
+ * ======================================================= */
 [data-theme='dark'][data-theme-preset='neutral'] {
   --background: #111113;
   --foreground: oklch(0.985 0 0);
@@ -438,29 +547,34 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
+
   --header-bg: oklch(0.205 0 0);
   --hero-bg: #171719;
   --page-bg: #111113;
   --surface-bg: oklch(0.205 0 0);
   --surface-hover: oklch(0.269 0 0);
   --surface-selected: oklch(0.269 0 0);
+
   --border-subtle: oklch(1 0 0 / 10%);
   --border: oklch(1 0 0 / 10%);
   --border-strong: #45454d;
   --header-border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
+
   --primary: oklch(0.922 0 0);
   --primary-hover: #ffffff;
   --primary-active: #e4e4e7;
   --primary-foreground: oklch(0.205 0 0);
   --primary-subtle: oklch(0.269 0 0);
   --primary-subtle-hover: #303036;
+
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
+
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-subtle: oklch(0.3 0.08 25);
   --control-invalid-border: oklch(0.704 0.191 22.216);
@@ -470,16 +584,20 @@
   --warning: oklch(0.8 0.14 80);
   --warning-subtle: oklch(0.3 0.08 80);
   --warning-foreground: oklch(0.145 0 0);
+
   --ring: oklch(0.556 0 0);
   --overlay: rgb(0 0 0 / 0.62);
+
   --code-bg: #09090b;
   --code-foreground: #f4f4f5;
   --code-muted: #a1a1aa;
+
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
+
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
@@ -490,12 +608,19 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-/* Keep resets in base so they cannot override Tailwind component utilities. */
+/*
+ * 全部 reset 必须写在 @layer base 内。
+ *
+ * CSS 层叠规则里「无层样式」优先级高于所有分层样式，而 Tailwind 的工具类位于
+ * @layer utilities。因此像 `a { color: inherit }`、`button { color: inherit }`
+ * 这类写在层外的 reset 会静默压掉 text-primary-foreground 之类的工具类。
+ */
 @layer base {
   * {
     @apply border-border outline-ring/50;
     box-sizing: border-box;
   }
+
   html {
     min-width: 320px;
     background: var(--background);
@@ -506,17 +631,20 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
   @media (prefers-reduced-motion: no-preference) {
     html {
       scroll-behavior: smooth;
     }
   }
+
   body {
     @apply bg-background text-foreground;
     min-width: 320px;
     min-height: 100dvh;
     margin: 0;
   }
+
   button,
   input,
   textarea,
@@ -524,15 +652,19 @@
     font: inherit;
     color: inherit;
   }
+
   a {
     color: inherit;
   }
+
   button {
     cursor: pointer;
   }
+
   button:disabled {
     cursor: not-allowed;
   }
+
   h1,
   h2,
   h3,
@@ -541,6 +673,7 @@
   ol {
     margin: 0;
   }
+
   button:focus-visible,
   a:focus-visible {
     outline: var(--focus-ring-width) solid color-mix(in srgb, var(--ring) 28%, transparent);

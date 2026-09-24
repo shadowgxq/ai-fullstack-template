@@ -17,14 +17,13 @@
 ## Constraints
 
 - 开发阶段只做最小必要检查，不主动执行 `dev server`、`build`、`deploy`、`publish` 等高副作用命令。
-- 未经用户明确要求，不执行 `git add`、`git commit`、`git push`。
-- 不修改、回滚、覆盖或提交与当前任务无关的文件，尤其是 dirty worktree 中已有用户改动。
 
 ## 文档与任务路由
 
 - 先通过 [文档地图](docs/README.md) 确认事实源，再读受影响端入口；首次编辑前读完必要规范，任务范围扩大时补读。
 - 共享规则只在对应事实源维护；端内不复制公共规则、PRD、接口定义或任务状态，不放宽根安全规则和跨端契约。
 - 长期文档只保留可独立理解的事实与规则；对话、执行提示词和单次交付记录按 [文档维护规则](docs/README.md#文档维护规则) 分流，不直接粘贴进产品需求或工程规范。
+- Manager 状态只经项目控制入口修改；按 [工具入口](docs/engineering/workflow/tooling.md) 读取实际 Skill，不复制流程或伪造批准。
 - 不默认加载全部文档。`docs/engineering/common/README.md` 只在涉及下表中的公共工程细节时读取，不是每个任务的额外必读项。
 
 | 任务 | 入口 |

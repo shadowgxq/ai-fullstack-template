@@ -1,28 +1,779 @@
 {
+  "meta": {
+    "title": "Agent Template",
+    "description": "A production-ready React frontend baseline with theming, i18n, authentication, and sharing primitives."
+  },
   "app": {
-    "title": "Fullstack Template"
+    "title": "Agent Template",
+    "footer": {
+      "disclaimer": "Demo content is for reference only. Not professional advice."
+    }
+  },
+  "header": {
+    "homeLabel": "Agent Template home",
+    "navLabel": "Primary navigation",
+    "skipToContent": "Skip to main content",
+    "tabs": {
+      "overview": "Overview",
+      "foundation": "Foundation",
+      "components": "Components",
+      "theme": "Theme"
+    },
+    "settings": "Settings",
+    "language": "Language",
+    "adminRole": "Administrator",
+    "theme": {
+      "label": "Dark mode",
+      "light": "Switch to light mode",
+      "dark": "Switch to dark mode",
+      "presetLabel": "Visual style",
+      "presets": {
+        "signal": "Signal teal",
+        "neutral": "Neutral"
+      }
+    },
+    "locales": {
+      "en": "English",
+      "zh": "Chinese"
+    },
+    "languageSwitch": "Switch to {{language}}",
+    "accountLabel": "Account",
+    "changePassword": "Change password",
+    "login": "Log in"
+  },
+  "common": {
+    "translationLoading": "Translating content"
   },
   "home": {
-    "title": "A frontend baseline, not a finished product.",
-    "description": "Start with reusable components, consistent interaction states, two theme presets, and a clean integration boundary. Bring your own product requirements.",
-    "components": "Explore components",
-    "theme": "Preview themes",
-    "cards": {
-      "components": {
-        "title": "Reusable UI",
-        "text": "Accessible controls, overlays, calendar, query input, and sharing. Interactive examples use local fixtures."
-      },
-      "integration": {
-        "title": "Fullstack boundary",
-        "text": "The existing API client, versioned backend contract, and same-origin proxy remain unchanged."
-      },
-      "docs": {
-        "title": "One documentation home",
-        "text": "Frontend standards live in docs/engineering/frontend. Product requirements and cross-service contracts stay at the repository root."
+    "status": "Template ready",
+    "eyebrow": "Vite · React 18 · TypeScript",
+    "title": "A shippable frontend baseline for agents.",
+    "titleLead": "Build a shippable",
+    "titleAccent": "frontend baseline for agents.",
+    "description": "The app shell, public tokens, localization, authentication, and sharing are ready to help you build a migratable, executable, maintainable Agent app.",
+    "cta": "Explore the foundation",
+    "learnMore": "Learn more",
+    "overviewLabel": "Template capability overview",
+    "capabilities": {
+      "title": "Foundation capabilities",
+      "description": "Production-ready frontend primitives that keep your attention on the product.",
+      "ready": "Template ready",
+      "itemReady": "Ready",
+      "cta": "Start with the template",
+      "items": {
+        "appShell": {
+          "title": "App Shell",
+          "text": "Routing, layout, navigation, and global styles"
+        },
+        "authShare": {
+          "title": "Auth & Sharing",
+          "text": "Public tokens, sessions, and share capabilities"
+        },
+        "i18n": {
+          "title": "Localization",
+          "text": "Locale switching and local-first copy"
+        },
+        "tokens": {
+          "title": "Theme Tokens",
+          "text": "One design-token and theme configuration"
+        },
+        "layeredSource": {
+          "title": "Layered Source",
+          "text": "Clear source organization and domain boundaries"
+        }
       }
+    },
+    "sections": {
+      "appShell": {
+        "title": "App Shell",
+        "text": "App-level providers, navigation, routing, global styles, and error boundaries live in stable layers."
+      },
+      "layeredSource": {
+        "title": "Layered Source",
+        "text": "Compose pages from widgets, features, entities, and shared modules with one import direction."
+      },
+      "projectDocs": {
+        "title": "Public Contracts",
+        "text": "Shared tokens, authentication, and sharing expose documented contracts that business features can extend."
+      }
+    },
+    "foundation": {
+      "status": "Public foundation · connected",
+      "title": "Start from stable shared capabilities.",
+      "description": "This view exposes the reusable boundaries supplied by the template. They stay business-neutral so new pages, flows, and domain components can compose them directly.",
+      "back": "Back to overview",
+      "summaryLabel": "Reusable modules",
+      "summaryText": "Visuals, sessions, localization, and cross-device sharing are ready for business facts.",
+      "catalogEyebrow": "Module catalog",
+      "catalogTitle": "Foundation capabilities already in place",
+      "ready": "READY",
+      "modules": {
+        "tokens": {
+          "title": "Design Tokens",
+          "text": "Primitive, semantic, and component layers coordinate themes and component states."
+        },
+        "auth": {
+          "title": "Account & Session",
+          "text": "Email code, password, registration, reset, and the signed-in Header share one session truth."
+        },
+        "share": {
+          "title": "Cross-device Sharing",
+          "text": "Real H5 and Desktop capabilities determine platform, clipboard, and download actions."
+        },
+        "i18n": {
+          "title": "Localization",
+          "text": "Pages, Header, dialogs, and the browser tab stay aligned with the active locale."
+        }
+      },
+      "shareDemo": {
+        "title": "Cross-device sharing preview",
+        "description": "Available platform, copy, and download actions follow the current browser capabilities.",
+        "open": "View sharing preview"
+      },
+      "handoff": {
+        "eyebrow": "Integration order",
+        "title": "Move into a domain in three steps",
+        "description": "Placeholder content explains boundaries only; projects replace contracts instead of copying shared implementations.",
+        "steps": {
+          "contract": "Confirm the real API, state, and localized-field contract first.",
+          "compose": "Compose the page from the shared Header, forms, tokens, and hooks.",
+          "replace": "Replace business copy and data sources, then verify in the real environment."
+        }
+      },
+      "footer": "Shared capabilities stay stable while business change remains inside each domain."
+    },
+    "theme": {
+      "status": "Design tokens · choose a direction",
+      "title": "Choose the visual direction for your product.",
+      "description": "Light and dark modes stay independent from the visual preset. Choose the brand posture first, then build business pages on the same semantic token contract.",
+      "catalogEyebrow": "Visual presets",
+      "catalogTitle": "Choose a foundation",
+      "current": "Current: {{preset}}",
+      "presets": {
+        "signal": {
+          "description": "Paper-like surfaces, teal actions, and a deep green-black dark mode. A fit for finance, data workspaces, and trust-led products."
+        },
+        "neutral": {
+          "description": "The template's original neutral black-and-white voice. A fit for internal tools, engineering back offices, or projects adding their own brand layer later."
+        }
+      },
+      "modeEyebrow": "Light and dark",
+      "modeTitle": "Independent from the preset",
+      "modeDescription": "The appearance mode stays in the top-right settings menu. The selected preset supplies both its light and dark token sets.",
+      "modeLabel": "Current mode",
+      "footer": "A visual preset changes expression, not page structure, state, or business contracts."
+    }
+  },
+  "theme": {
+    "status": "Design tokens · choose a direction",
+    "title": "Choose the visual direction for your product.",
+    "description": "Light and dark modes stay independent from the visual preset. Choose the brand posture first, then build business pages on the same semantic token contract.",
+    "catalogEyebrow": "Visual presets",
+    "catalogTitle": "Choose a foundation",
+    "current": "Current: {{preset}}",
+    "presets": {
+      "signal": {
+        "description": "Paper-like surfaces, teal actions, and a deep green-black dark mode. A fit for finance, data workspaces, and trust-led products."
+      },
+      "neutral": {
+        "description": "The template's original neutral black-and-white voice. A fit for internal tools, engineering back offices, or projects adding their own brand layer later."
+      }
+    },
+    "modeEyebrow": "Light and dark",
+    "modeTitle": "Independent from the preset",
+    "modeDescription": "The appearance mode stays in the top-right settings menu. The selected preset supplies both its light and dark token sets.",
+    "modeLabel": "Current mode",
+    "footer": "A visual preset changes expression, not page structure, state, or business contracts."
+  },
+  "components": {
+    "status": "Component library",
+    "title": "Component library",
+    "description": "Browse components by category, preview the result, then explore usage and code.",
+    "summary": {
+      "number": "15",
+      "title": "Packaged components",
+      "description": "13 shared primitives and 2 advanced components.",
+      "stats": {
+        "total": "components",
+        "shared": "shared",
+        "advanced": "advanced"
+      }
+    },
+    "catalog": {
+      "eyebrow": "Component catalog",
+      "title": "Browse components",
+      "description": "Search, filter, and open a component detail page to inspect its states and usage.",
+      "searchLabel": "Search components",
+      "searchPlaceholder": "Search component names, keywords…",
+      "filterLabel": "Component categories",
+      "viewLabel": "Component view",
+      "gridView": "Grid view",
+      "listView": "List view",
+      "all": "All",
+      "resultCount": "Showing {{shown}} / {{total}} components",
+      "ready": "Packaged",
+      "preview": "View interaction",
+      "empty": "No matching component. Try another keyword.",
+      "items": {
+        "button": {
+          "description": "A button for triggering an action"
+        },
+        "input": {
+          "description": "A text input control"
+        },
+        "label": {
+          "description": "A form label control"
+        },
+        "select": {
+          "description": "A selection control"
+        },
+        "tabs": {
+          "description": "A tabbed navigation control"
+        },
+        "dialog": {
+          "description": "A modal dialog"
+        },
+        "dropdownMenu": {
+          "description": "A dropdown menu"
+        },
+        "popover": {
+          "description": "A contextual popover"
+        },
+        "tooltip": {
+          "description": "A lightweight hint bubble"
+        },
+        "switch": {
+          "description": "A boolean switch control"
+        },
+        "calendar": {
+          "description": "A date picker"
+        },
+        "textarea": {
+          "description": "A multiline text input control"
+        },
+        "skeleton": {
+          "description": "A loading placeholder for async content"
+        },
+        "queryComposer": {
+          "description": "Remote candidates and natural-language input"
+        },
+        "shareDialog": {
+          "description": "Cross-platform sharing and copy/download actions"
+        }
+      },
+      "categories": {
+        "shared": {
+          "label": "Shared primitives",
+          "count": "13",
+          "short": "shared/ui",
+          "description": "Business-neutral primitive UI controls."
+        },
+        "advanced": {
+          "label": "Advanced components",
+          "count": "2",
+          "short": "shared + features",
+          "description": "Cross-domain capabilities and complex business-input compositions."
+        }
+      }
+    },
+    "detail": {
+      "back": "Back to component library",
+      "ready": "Packaged",
+      "sidebarLabel": "Component directory",
+      "sidebarSearch": "Search component names…",
+      "tabs": {
+        "preview": "Preview",
+        "examples": "Code example",
+        "api": "API"
+      },
+      "copyCode": "Copy code",
+      "copied": "Copied",
+      "sharePreview": {
+        "status": "Component library",
+        "title": "Cross-device sharing preview",
+        "description": "Available platform, copy, and download actions follow the current browser capabilities."
+      },
+      "preview": {
+        "eyebrow": "Preview",
+        "title": "Preview",
+        "description": "Inspect the component in real interactive states.",
+        "button": {
+          "cardTitle": "Button",
+          "cardDescription": "Trigger actions, submit forms, or guide users through key decisions.",
+          "basicTitle": "Button styles",
+          "basicDescription": "Button styles for different scenarios.",
+          "primary": "Primary button",
+          "secondary": "Secondary button",
+          "text": "Ghost button",
+          "destructive": "Destructive button",
+          "startLoading": "Loading example",
+          "loading": "Loading",
+          "disabled": "Disabled state",
+          "variantsTitle": "Variants",
+          "variantsDescription": "Button variants for different visual hierarchies.",
+          "variantPrimary": "Primary",
+          "variantSecondary": "Secondary",
+          "variantGhost": "Ghost",
+          "variantDestructive": "Destructive",
+          "ghost": "Ghost button",
+          "sizesTitle": "Sizes",
+          "sizesDescription": "Use different sizes for different interface contexts.",
+          "small": "Small",
+          "defaultSize": "Default",
+          "large": "Large",
+          "statesTitle": "State examples",
+          "statesDescription": "Make the focus and pressed feedback visible in the contract.",
+          "focus": "Focus state",
+          "active": "Pressed state"
+        },
+        "input": {
+          "basicTitle": "Basic usage",
+          "label": "Name",
+          "placeholder": "Type something…",
+          "helper": "Supports letters, numbers, and spaces.",
+          "focus": "Focus state",
+          "focusValue": "Design system",
+          "disabled": "Disabled state",
+          "error": "Error state",
+          "errorMessage": "Enter a valid name."
+        },
+        "textarea": {
+          "basicTitle": "Basic usage",
+          "label": "Notes",
+          "placeholder": "Add a note…",
+          "helper": "Use up to 500 characters.",
+          "counter": "{{count}} / 500",
+          "focus": "Focus state",
+          "focusValue": "This is a multiline input\nfor longer descriptions.",
+          "disabled": "Disabled state",
+          "disabledValue": "This value cannot be edited",
+          "error": "Error state",
+          "errorMessage": "Add a little more context."
+        },
+        "label": {
+          "basicTitle": "Basic usage",
+          "label": "Email address",
+          "placeholder": "name@example.com",
+          "required": "Required field",
+          "optional": "Optional field",
+          "helper": "We only use it for notifications.",
+          "error": "Enter a valid email address."
+        },
+        "select": {
+          "basicTitle": "Basic usage",
+          "label": "Choose a component",
+          "placeholder": "Choose one",
+          "open": "Open state",
+          "disabled": "Disabled select",
+          "options": {
+            "one": "First item",
+            "two": "Second item",
+            "three": "Third item"
+          }
+        },
+        "tabs": {
+          "basicTitle": "Basic usage",
+          "preview": "Preview",
+          "code": "Code",
+          "features": "Features",
+          "history": "History",
+          "previewContent": "This is the preview content.",
+          "codeContent": "This is the code content.",
+          "featuresContent": "This is the feature content.",
+          "historyContent": "This is the version history content."
+        },
+        "dialog": {
+          "basicTitle": "Three confirmation types",
+          "open": "Open Dialog",
+          "title": "Component verification dialog",
+          "description": "Dialog owns the overlay, focus handling, and Escape behavior; the preview keeps only trigger buttons for three types and three sizes.",
+          "cancel": "Cancel",
+          "confirm": "Confirm",
+          "close": "Close dialog",
+          "sizes": {
+            "small": "Small · 440px",
+            "medium": "Medium · 480px",
+            "large": "Large · 720px"
+          },
+          "types": {
+            "default": {
+              "label": "Default confirmation",
+              "cardDescription": "For routine actions that need a second confirmation.",
+              "open": "Open default confirmation",
+              "title": "Publish this component?",
+              "description": "After publishing, this component will be visible to your team.",
+              "cancel": "Cancel",
+              "action": "Publish"
+            },
+            "warning": {
+              "label": "Warning prompt",
+              "cardDescription": "For leaving a page with unsaved work.",
+              "open": "Open warning prompt",
+              "title": "Leave this page?",
+              "description": "This page has unsaved changes that will be lost if you leave.",
+              "cancel": "Keep editing",
+              "action": "Leave"
+            },
+            "danger": {
+              "label": "Danger confirmation",
+              "cardDescription": "For destructive actions that cannot be undone.",
+              "open": "Open danger confirmation",
+              "title": "Delete this component?",
+              "description": "This cannot be undone; all configuration and data will be permanently deleted.",
+              "cancel": "Cancel",
+              "action": "Delete"
+            }
+          }
+        },
+        "dropdown": {
+          "basicTitle": "Basic usage",
+          "open": "Open menu",
+          "first": "First item",
+          "second": "Second item",
+          "group": "Common actions",
+          "edit": "Edit",
+          "duplicate": "Duplicate",
+          "delete": "Delete",
+          "shortcut": "⌘K"
+        },
+        "popover": {
+          "basicTitle": "Basic usage",
+          "open": "Open Popover",
+          "title": "Popover content",
+          "description": "Use it for a small contextual action group.",
+          "action": "Apply settings",
+          "close": "Close popover"
+        },
+        "tooltip": {
+          "basicTitle": "Basic usage",
+          "open": "Open Tooltip",
+          "content": "This is a Tooltip",
+          "top": "Top hint",
+          "bottom": "Bottom hint",
+          "right": "Right hint"
+        },
+        "switch": {
+          "basicTitle": "Basic usage",
+          "label": "Enable hints",
+          "interactive": "Interactive state: click to toggle",
+          "disabled": "Disabled state",
+          "states": {
+            "unchecked": "Off",
+            "checked": "On",
+            "disabledOff": "Disabled off",
+            "disabledOn": "Disabled on"
+          }
+        },
+        "calendar": {
+          "basicTitle": "Basic usage",
+          "trigger": "Default state",
+          "open": "Open state",
+          "selected": "Selected date",
+          "empty": "None",
+          "today": "Go to today"
+        },
+        "skeleton": {
+          "basicTitle": "Basic usage",
+          "basicDescription": "Compose placeholder blocks to match the loaded content layout.",
+          "loadingLabel": "Content loading"
+        },
+        "generic": {
+          "basicTitle": "Basic preview",
+          "description": "This component is connected to the template. Continue with Examples or Source to learn more."
+        }
+      },
+      "examples": {
+        "eyebrow": "Examples",
+        "title": "Common examples",
+        "description": "Start with the smallest usage, then compose it into a product page."
+      },
+      "code": {
+        "exampleTitle": "Code example",
+        "exampleDescription": "A basic usage example for the Button component."
+      },
+      "codeSamples": {
+        "button": {
+          "primary": "Save",
+          "secondary": "Do later",
+          "destructive": "Delete"
+        },
+        "input": {
+          "placeholder": "Type something…"
+        },
+        "label": {
+          "label": "Email"
+        },
+        "select": {
+          "placeholder": "Choose one"
+        },
+        "tabs": {
+          "preview": "Preview"
+        },
+        "dialog": {
+          "open": "Open",
+          "content": "Content"
+        }
+      },
+      "api": {
+        "eyebrow": "API",
+        "title": "Props",
+        "description": "These are the most common public parameters. Refer to the source for the complete type definition.",
+        "columns": {
+          "name": "Name",
+          "type": "Type",
+          "default": "Default",
+          "description": "Description"
+        },
+        "button": {
+          "variant": "Controls the visual variant of the button.",
+          "size": "Controls the button size.",
+          "disabled": "Disables the button and its interactions.",
+          "asChild": "Merges the button behavior onto its child element."
+        },
+        "dialog": {
+          "type": "The semantic dialog type for default, warning, and dangerous confirmation scenarios.",
+          "size": "Controls the dialog width; md is 480px by default.",
+          "variant": "Chooses the padded description layout or the flush layout for custom sections.",
+          "showCloseButton": "Whether to show the close button in the top-right corner.",
+          "closeLabel": "The accessible name for the close button."
+        },
+        "skeleton": {
+          "className": "Adjusts the placeholder block's size, shape, and layout.",
+          "ariaHidden": "Hidden from assistive technology by default; the parent status region provides the loading announcement."
+        },
+        "generic": {
+          "children": "Content rendered by the component.",
+          "className": "Additional styling classes."
+        }
+      },
+      "source": {
+        "eyebrow": "Source",
+        "title": "Source location",
+        "label": "Source: ",
+        "copyPath": "Copy path",
+        "viewCode": "View source"
+      }
+    },
+    "input": {
+      "eyebrow": "02 · Primary input",
+      "title": "Query Composer",
+      "description": "The packaged primary input supports remote candidates, natural language, and hybrid mode; pages provide only the search adapter, candidate rendering, and commit behavior.",
+      "label": "What do you want to follow?",
+      "helper": "Type a code to see candidates, or submit a natural-language sentence.",
+      "placeholder": "Apple, Bitcoin, or a natural-language query…",
+      "clearInput": "Clear input",
+      "suggestionsLabel": "Suggestions",
+      "searching": "Searching candidates…",
+      "empty": "No matching candidate. You can continue with natural language.",
+      "searchError": "Candidate search is temporarily unavailable.",
+      "retry": "Retry",
+      "candidateTypes": {
+        "stock": "Stock",
+        "crypto": "Crypto",
+        "commodity": "Commodity"
+      },
+      "freeformTitle": "Continue with natural language",
+      "freeformValue": "Submit “{{value}}” to the business resolver",
+      "commitLabel": "Current commit",
+      "committed": "Committed: {{value}}",
+      "commitEmpty": "Choose a candidate or commit a query",
+      "primaryAction": "Confirm input",
+      "contractTitle": "Component contract",
+      "contract": {
+        "search": "Debounce, cancellation, and stale-response isolation stay inside the component.",
+        "render": "The page injects the candidate row render function and keeps domain facts outside shared UI.",
+        "commit": "Enter commits input; the final business CTA remains owned by the page."
+      },
+      "selected": "Selected candidate: {{value}}"
+    },
+    "primitives": {
+      "eyebrow": "03 · Base controls",
+      "title": "From primitives to overlays",
+      "description": "Button, Input, Label, Select, Tabs, Switch, Calendar, and Dialog / Popover / Menu / Tooltip use the template's shared implementations directly.",
+      "actionsTitle": "Actions and states",
+      "actionsMeta": "Button · Switch",
+      "primary": "Primary",
+      "outline": "Outline",
+      "secondary": "Secondary",
+      "ghost": "Ghost",
+      "destructive": "Destructive",
+      "disabled": "Disabled",
+      "switchLabel": "Enable hints",
+      "fieldsTitle": "Field composition",
+      "fieldsMeta": "Input · Label · AuthField",
+      "basicLabel": "Basic Input",
+      "basicPlaceholder": "Type a short value…",
+      "passwordLabel": "AuthField password",
+      "passwordPlaceholder": "Enter a password",
+      "layersTitle": "Overlays and feedback",
+      "layersMeta": "DropdownMenu · Select · Popover · Tooltip",
+      "menuTrigger": "Open menu",
+      "menuLabel": "Component menu",
+      "menuItems": {
+        "one": "Choose the first item",
+        "two": "Choose the second item",
+        "three": "Choose the third item"
+      },
+      "menuSelected": "Selected: {{value}}",
+      "selectTrigger": "Choose a component menu item",
+      "selectPlaceholder": "Choose one",
+      "selectSelected": "Select value: {{value}}",
+      "popoverTrigger": "Open Popover",
+      "popoverTitle": "Overlay content",
+      "popoverDescription": "Popover is useful for a small contextual action group.",
+      "tooltipTrigger": "Copy",
+      "tooltipContent": "This is a Tooltip",
+      "calendarTitle": "Date selection",
+      "calendarMeta": "Calendar · controlled selected state",
+      "calendarSelected": "Selected date",
+      "calendarEmpty": "None"
+    },
+    "business": {
+      "eyebrow": "04 · Business composition",
+      "title": "Public capability entry points",
+      "description": "Business pages do not duplicate public state. They provide domain data, presentation, and action callbacks. The sharing preview below uses the template's existing capability.",
+      "shareTitle": "Cross-device sharing",
+      "shareMeta": "ShareDialog · useShareActions",
+      "shareDescription": "ShareDialog receives ShareContent and the business poster; platform, copy, and download actions come from the shared capability.",
+      "openShare": "Open share dialog"
+    },
+    "dialog": {
+      "eyebrow": "05 · Interaction check",
+      "title": "Overlay states should be testable too",
+      "description": "Open a real Dialog to check the overlay, focus trap, Escape handling, and button states.",
+      "open": "Open Dialog",
+      "modalTitle": "Component verification dialog",
+      "modalDescription": "A minimal interactive example powered by shared/ui/Dialog.",
+      "modalLabel": "Example field",
+      "modalPlaceholder": "Type something, then confirm…",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "meta": "Dialog · focus trap · Escape"
+    },
+    "share": {
+      "contentTitle": "Agent Template",
+      "contentSlogan": "Shared components are ready to verify",
+      "contentResult": "Platform, copy, and download actions follow real browser capabilities.",
+      "modalTitle": "Share component preview",
+      "modalDescription": "The business layer provides content and a poster; the shared layer owns actions, capability detection, and feedback.",
+      "posterEyebrow": "Shared capability · connected"
+    },
+    "footer": "This component page validates shared capabilities; it does not represent a business workflow."
+  },
+  "auth": {
+    "close": "Close",
+    "title": "Account access",
+    "login": "Log in",
+    "logout": "Log out",
+    "email": "Email",
+    "emailPlaceholder": "name@example.com",
+    "code": "Verification code",
+    "codePlaceholder": "6-digit code",
+    "sendCode": "Send code",
+    "resendCode": "Resend code",
+    "resendIn": "Resend in {{seconds}}s",
+    "codeSent": "We sent a code to {{email}}.",
+    "codeExpiresIn": "The code is valid for {{minutes}} minutes.",
+    "welcomeNew": "Welcome! Your account is ready.",
+    "remember": "Remember me",
+    "submitting": "Working…",
+    "password": "Password",
+    "passwordPlaceholder": "Password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "username": "Username",
+    "usernamePlaceholder": "Username",
+    "tabs": {
+      "code": "Email code",
+      "password": "Username & password"
+    },
+    "register": {
+      "entry": "No account? Create one",
+      "back": "Back to log in",
+      "submit": "Create account",
+      "usernamePlaceholder": "1–50 characters",
+      "passwordLabel": "Set a password",
+      "passwordPlaceholder": "1–72 UTF-8 bytes",
+      "confirmLabel": "Confirm password",
+      "confirmPlaceholder": "Type it again"
+    },
+    "forgot": {
+      "entry": "Forgot password?",
+      "back": "Back to log in",
+      "hint": "We'll send a code to the email registered with this account.",
+      "newPasswordLabel": "New password",
+      "submit": "Reset password",
+      "done": "Password reset. Log in with your new password."
+    },
+    "changePassword": {
+      "title": "Change password",
+      "description": "We'll send a code to the email bound to your account. Verify it to set a new password.",
+      "emailLabel": "Account email",
+      "submit": "Change password",
+      "done": "Password changed. Use the new one next time you log in.",
+      "sessionNotice": "Sessions already signed in on other devices stay signed in.",
+      "noEmail": "This account has no email bound, so the password cannot be changed by code. Bind an email first or contact an administrator.",
+      "authRequired": "Log in before changing your password."
+    },
+    "or": "or",
+    "google": "Continue with Google",
+    "googleErrors": {
+      "scriptFailed": "Failed to load Google sign-in. Check your network and retry.",
+      "emptyCode": "No Google authorization code was received. Please retry.",
+      "popupClosed": "The Google authorization window was closed. Please retry.",
+      "emptyCredential": "No Google credential was received. Please retry."
+    },
+    "errors": {
+      "INVALID_EMAIL": "Enter a valid email address.",
+      "INVALID_CODE": "That code is incorrect or has expired. Request a new one.",
+      "RATE_LIMITED": "Too many requests. Please try again later.",
+      "INVALID_CREDENTIALS": "Incorrect username or password.",
+      "USER_DISABLED": "This account has been disabled. Contact an administrator.",
+      "EMAIL_TAKEN": "That email is already registered. Log in or reset your password.",
+      "USERNAME_TAKEN": "That username is taken. Try another one.",
+      "USERNAME_INVALID": "Use a nonblank username of 1–50 characters.",
+      "PASSWORD_WEAK": "Password must contain 1–72 UTF-8 bytes.",
+      "PASSWORD_MISMATCH": "The two passwords don't match.",
+      "EMAIL_NOT_REGISTERED": "That email isn't registered yet. Create an account first.",
+      "GOOGLE_DISABLED": "Google sign-in is not available.",
+      "GOOGLE_CREDENTIAL_INVALID": "Google sign-in did not complete. Please try again.",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
+  "share": {
+    "title": "Share result",
+    "description": "Share today's result.",
+    "close": "Close share dialog",
+    "actionsLabel": "Share result actions",
+    "preparingImage": "Preparing the share image…",
+    "imageUnavailable": "The share image is unavailable right now.",
+    "noActions": "Sharing is not available in this browser.",
+    "open": "Share",
+    "copy": "Copy",
+    "shareOptionsLabel": "Share channels",
+    "copyOptionsLabel": "Copy content",
+    "native": "System share",
+    "x": "X",
+    "reddit": "Reddit",
+    "telegram": "Telegram",
+    "copyText": "Copy text",
+    "copyLink": "Copy link",
+    "copyImage": "Copy image",
+    "downloadImage": "Download image",
+    "feedback": {
+      "shared": "The content was handed off to the system share sheet.",
+      "opened": "The share composer opened. Publishing is completed on the destination platform.",
+      "copied": "Copied.",
+      "downloaded": "Image download started."
+    },
+    "errors": {
+      "unsupported": "This sharing option is not supported in the current browser.",
+      "blocked": "The share window was blocked. Allow pop-ups and try again.",
+      "failed": "Sharing failed. Please try another option."
     }
   },
   "errors": {
+    "system": "System error. Please try again later.",
     "global": {
       "eyebrow": "Application error",
       "title": "The application hit an unexpected error.",
@@ -41,106 +792,6 @@
     "actions": {
       "reload": "Reload page",
       "home": "Return home"
-    }
-  },
-  "meta": {
-    "title": "Fullstack Frontend Template",
-    "description": "Reusable components, themes, and fullstack integration without product-specific features."
-  },
-  "nav": {
-    "skip": "Skip to content",
-    "label": "Main navigation",
-    "components": "Components",
-    "theme": "Theme",
-    "settings": "Appearance and language",
-    "language": "Language"
-  },
-  "theme": {
-    "title": "Theme preview",
-    "description": "Signal Teal and Neutral share geometry, typography, and interaction states in light and dark modes.",
-    "mode": "Appearance",
-    "preset": "Color preset",
-    "light": "Light",
-    "dark": "Dark",
-    "signal": "Signal Teal",
-    "neutral": "Neutral",
-    "persistence": "Appearance and language are saved in this browser."
-  },
-  "gallery": {
-    "title": "Component library",
-    "description": "Business-neutral examples of the shared template components. Search uses a local fixture; sharing opens a public example URL only after an explicit action.",
-    "primary": "Primary action",
-    "secondary": "Secondary action",
-    "disabled": "Disabled",
-    "loading": "Loading",
-    "inputLabel": "Name",
-    "placeholder": "Enter a value",
-    "notes": "Notes",
-    "choose": "Choose an option",
-    "first": "First option",
-    "second": "Second option",
-    "enable": "Enable option",
-    "tabs": "Example tabs",
-    "firstContent": "Content for the first tab.",
-    "secondContent": "Content for the second tab.",
-    "openDialog": "Open dialog",
-    "close": "Close",
-    "dialogTitle": "Example dialog",
-    "dialogDescription": "This is a reusable dialog. No data will be submitted.",
-    "openMenu": "Open menu",
-    "openPopover": "Open popover",
-    "popoverTitle": "Additional information",
-    "popoverDescription": "A popover uses the same theme tokens as the rest of the page.",
-    "hover": "Hover or focus",
-    "tooltip": "Keyboard focus also reveals this tooltip.",
-    "posterTitle": "Reusable components",
-    "posterSlogan": "Fullstack Template",
-    "posterResult": "A neutral poster example supplied by the calling page.",
-    "queryLabel": "Find a component or enter a query",
-    "queryDescription": "Local example data; not a backend search service.",
-    "queryPlaceholder": "Try Dialog or type a free-form query",
-    "useQuery": "Use “{{query}}”",
-    "clear": "Clear input",
-    "suggestions": "Suggestions",
-    "searching": "Searching…",
-    "empty": "No matches",
-    "searchError": "Search failed",
-    "retry": "Retry",
-    "committed": "Selected: {{value}}",
-    "shareDescription": "Share text, links, or a generated image. Browser capabilities determine the available actions.",
-    "openShare": "Open share preview"
-  },
-  "share": {
-    "title": "Share preview",
-    "description": "Review the content before choosing a sharing action.",
-    "close": "Close share preview",
-    "open": "Share",
-    "copy": "Copy",
-    "native": "System share",
-    "x": "X",
-    "reddit": "Reddit",
-    "telegram": "Telegram",
-    "copyText": "Copy text",
-    "copyLink": "Copy link",
-    "copyImage": "Copy image",
-    "downloadImage": "Download image",
-    "shareOptionsLabel": "Sharing options",
-    "copyOptionsLabel": "Copy options",
-    "actionsLabel": "Share actions",
-    "preparingImage": "Preparing image…",
-    "imageUnavailable": "Image unavailable. Text and link actions are still available.",
-    "noActions": "No supported sharing actions are available in this browser.",
-    "errors": {
-      "unsupported": "This action is not supported in this browser.",
-      "blocked": "The browser blocked the share window.",
-      "cancelled": "Sharing was cancelled.",
-      "failed": "Sharing failed. Please try again."
-    },
-    "feedback": {
-      "shared": "Shared",
-      "opened": "Share window opened",
-      "downloaded": "Download started",
-      "copied": "Copied"
     }
   }
 }
