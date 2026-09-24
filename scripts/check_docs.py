@@ -5,12 +5,14 @@ import re
 import sys
 from urllib.parse import unquote, urlsplit
 
+from check_sources import managed_paths, manager_errors
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def active_files(root):
     files = set(root.glob("*.md"))
-    for folder in ("docs", "openspec/changes", "openspec/specs", "repairs", ".agents/skills", ".claude/skills", ".codex/skills"):
+    for folder in ("docs", "openspec/changes", "openspec/specs", "repairs", "manager", ".agents/skills", ".claude/skills", ".codex/skills"):
         files.update((root / folder).rglob("*.md"))
     for service in ("frontend", "backend", "ai-service"):
         files.update((root / service).glob("*.md"))
@@ -74,7 +76,7 @@ def hygiene_errors(root):
     errors = []
     legacy = (
         "frontend-agent-template", "backend-agent-template", "company-lens", "ai-server",
-        "examples/personal-bookkeeping", "scripts/ralph", "manager/roles.yaml",
+        "examples/personal-bookkeeping", "scripts/ralph",
         ".codex/skills", "frontend/.codex", "frontend/.claude",
         "frontend/docs", "backend/docs", "ai-service/docs",
         "frontend/manager", "frontend/openspec", "backend/openspec", "ai-service/openspec",
@@ -99,7 +101,7 @@ def hygiene_errors(root):
     for path in active_files(root):
         rel = path.relative_to(root)
         # Review records may intentionally name removed paths; execution guidance may not.
-        if path.name in {"AGENTS.md", "CLAUDE.md", "SKILL.md"} or str(rel).startswith("docs/engineering/"):
+        if str(rel) not in managed_paths(root) and (path.name in {"AGENTS.md", "CLAUDE.md", "SKILL.md"} or str(rel).startswith("docs/engineering/")):
             if stale.search(path.read_text()):
                 errors.append(f"{rel}: stale execution-guidance path")
     return errors
@@ -118,6 +120,7 @@ def validate(root):
             errors.append(f"{name}: routing entry exceeds 60 lines; move details into docs")
     errors.extend(hygiene_errors(root))
     errors.extend(plan_errors(root))
+    errors.extend(manager_errors(root))
     return errors
 
 

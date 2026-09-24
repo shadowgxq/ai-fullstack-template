@@ -1,0 +1,4 @@
+interface:
+  display_name: 'manager-archive-completed'
+  short_description: 'Archive completed Manager plan entries'
+  default_prompt: 'Use $manager-archive-completed to archive completed Manager plan entries.'

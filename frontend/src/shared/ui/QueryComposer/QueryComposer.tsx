@@ -10,8 +10,10 @@ import {
   type ReactElement,
   type RefAttributes,
 } from 'react';
+
 import { LoaderCircle, RefreshCw, Search, X } from '@/shared/icons';
 import { cn } from '@/shared/utils/cn';
+
 import type {
   QueryComposerInputElement,
   QueryComposerOptionState,
@@ -23,23 +25,28 @@ const DEFAULT_MAX_LINES = 4;
 const SUGGESTION_PANEL_MAX_HEIGHT = 448;
 const SUGGESTION_PANEL_VIEWPORT_MARGIN = 12;
 const SUGGESTION_PANEL_GAP = 8;
+
 type SuggestionPanelPlacement = 'bottom' | 'top';
 
 function getLineCount(value: string): number {
   return value.split('\n').length;
 }
+
 function limitLineCount(value: string, maxLines: number): string {
   const lines = value.split('\n');
   return lines.length > maxLines ? lines.slice(0, maxLines).join('\n') : value;
 }
+
 function wouldExceedLineLimit(input: HTMLTextAreaElement, maxLines: number): boolean {
   const selectionStart = input.selectionStart ?? input.value.length;
   const selectionEnd = input.selectionEnd ?? selectionStart;
   const nextValue = `${input.value.slice(0, selectionStart)}\n${input.value.slice(selectionEnd)}`;
   return getLineCount(nextValue) > maxLines;
 }
+
 function resizeTextarea(input: HTMLTextAreaElement | null, maxLines: number) {
   if (!input) return;
+
   const style = window.getComputedStyle(input);
   const lineHeight = Number.parseFloat(style.lineHeight) || 24;
   const verticalChrome =
@@ -48,10 +55,12 @@ function resizeTextarea(input: HTMLTextAreaElement | null, maxLines: number) {
     (Number.parseFloat(style.borderTopWidth) || 0) +
     (Number.parseFloat(style.borderBottomWidth) || 0);
   const maxHeight = lineHeight * maxLines + verticalChrome;
+
   input.style.height = 'auto';
   input.style.height = `${Math.min(input.scrollHeight, maxHeight)}px`;
   input.style.overflowY = input.scrollHeight > maxHeight ? 'auto' : 'hidden';
 }
+
 function setForwardedRef(
   ref: ForwardedRef<QueryComposerInputElement>,
   node: QueryComposerInputElement | null,
@@ -135,6 +144,7 @@ function QueryComposerInner<TItem>(
 
   useEffect(() => {
     if (!isOpen) return undefined;
+
     function handlePointerDown(event: PointerEvent) {
       const target = event.target;
       if (target instanceof Node && !rootRef.current?.contains(target)) {
@@ -142,22 +152,27 @@ function QueryComposerInner<TItem>(
         setActiveIndex(-1);
       }
     }
+
     document.addEventListener('pointerdown', handlePointerDown);
     return () => document.removeEventListener('pointerdown', handlePointerDown);
   }, [isOpen]);
+
   useLayoutEffect(() => {
     if (!isMultiline || !(inputRef.current instanceof HTMLTextAreaElement)) return;
     resizeTextarea(inputRef.current, maxLines);
   }, [isMultiline, maxLines, value]);
+
   useLayoutEffect(() => {
     if (!isPanelVisible || !inputRef.current) {
       setPanelPlacement('bottom');
       setPanelMaxHeight(null);
       return undefined;
     }
+
     function updatePanelLayout() {
       const input = inputRef.current;
       if (!input) return;
+
       const inputRect = input.getBoundingClientRect();
       const spaceAbove = Math.max(
         0,
@@ -172,14 +187,17 @@ function QueryComposerInner<TItem>(
       );
       const shouldPlaceAbove = spaceBelow < SUGGESTION_PANEL_MAX_HEIGHT && spaceAbove > spaceBelow;
       const availableHeight = shouldPlaceAbove ? spaceAbove : spaceBelow;
+
       setPanelPlacement(shouldPlaceAbove ? 'top' : 'bottom');
       setPanelMaxHeight(Math.max(1, Math.min(SUGGESTION_PANEL_MAX_HEIGHT, availableHeight)));
     }
+
     updatePanelLayout();
     window.addEventListener('resize', updatePanelLayout);
     window.addEventListener('scroll', updatePanelLayout, true);
     window.visualViewport?.addEventListener('resize', updatePanelLayout);
     window.visualViewport?.addEventListener('scroll', updatePanelLayout);
+
     return () => {
       window.removeEventListener('resize', updatePanelLayout);
       window.removeEventListener('scroll', updatePanelLayout, true);
@@ -187,20 +205,26 @@ function QueryComposerInner<TItem>(
       window.visualViewport?.removeEventListener('scroll', updatePanelLayout);
     };
   }, [isPanelVisible]);
+
   useEffect(() => {
     if (!isPanelVisible || activeIndex < 0) return;
+
     const activeOption = panelRef.current?.querySelector<HTMLElement>('[data-active="true"]');
-    if (typeof activeOption?.scrollIntoView === 'function')
+    if (typeof activeOption?.scrollIntoView === 'function') {
       activeOption.scrollIntoView({ block: 'nearest' });
+    }
   }, [activeIndex, isPanelVisible]);
+
   useEffect(() => {
     if (!isMultiline || !(inputRef.current instanceof HTMLTextAreaElement)) return undefined;
     const input = inputRef.current;
     const handleWidthChange = () => resizeTextarea(input, maxLines);
+
     if (typeof ResizeObserver === 'undefined') {
       window.addEventListener('resize', handleWidthChange);
       return () => window.removeEventListener('resize', handleWidthChange);
     }
+
     const observer = new ResizeObserver(handleWidthChange);
     observer.observe(input);
     return () => observer.disconnect();
@@ -209,8 +233,9 @@ function QueryComposerInner<TItem>(
   function isEntryDisabled(index: number) {
     if (index === items.length) return !isFreeformVisible;
     const item = items[index];
-    return item !== undefined ? Boolean(remoteProps?.isItemDisabled?.(item)) : true;
+    return item ? Boolean(remoteProps?.isItemDisabled?.(item)) : true;
   }
+
   function findNextEnabledIndex(startIndex: number, direction: 1 | -1) {
     if (entryCount === 0) return -1;
     for (let offset = 1; offset <= entryCount; offset += 1) {
@@ -219,26 +244,31 @@ function QueryComposerInner<TItem>(
     }
     return -1;
   }
+
   function commitItem(item: TItem) {
     remoteProps?.onCommitItem(item);
     setIsOpen(false);
     setActiveIndex(-1);
   }
+
   function commitQuery() {
     if (!normalizedQuery || props.mode === 'remote_only') return;
     props.onCommitQuery(normalizedQuery);
     setIsOpen(false);
     setActiveIndex(-1);
   }
+
   function commitActiveEntry() {
     if (activeIndex < 0 || isEntryDisabled(activeIndex)) return false;
     const item = items[activeIndex];
-    if (item !== undefined) commitItem(item);
+    if (item) commitItem(item);
     else commitQuery();
     return true;
   }
+
   function handleKeyDown(event: KeyboardEvent<QueryComposerInputElement>) {
     if (event.nativeEvent.isComposing) return;
+
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       if (props.mode === 'natural_language_only' || entryCount === 0) return;
       event.preventDefault();
@@ -252,27 +282,34 @@ function QueryComposerInner<TItem>(
       );
       return;
     }
+
     if (event.key === 'Escape') {
       event.preventDefault();
       if (isPanelVisible) {
         setIsOpen(false);
         setActiveIndex(-1);
-      } else inputRef.current?.blur();
+      } else {
+        inputRef.current?.blur();
+      }
       return;
     }
+
     if (event.key !== 'Enter') return;
     if (isMultiline && (!isSubmitOnEnter || (event.shiftKey && isShiftEnterNewline))) {
       if (
         event.currentTarget instanceof HTMLTextAreaElement &&
         wouldExceedLineLimit(event.currentTarget, maxLines)
-      )
+      ) {
         event.preventDefault();
+      }
       return;
     }
     if (!isSubmitOnEnter) return;
+
     event.preventDefault();
     if (!normalizedQuery || searchState.status === 'loading') return;
     if (commitActiveEntry()) return;
+
     if (props.mode !== 'natural_language_only' && searchState.isEligible) {
       const enabledItems = items.filter((item) => !remoteProps?.isItemDisabled?.(item));
       if (enabledItems.length === 1) {
@@ -284,8 +321,10 @@ function QueryComposerInner<TItem>(
         return;
       }
     }
+
     commitQuery();
   }
+
   const commonInputProps = {
     id: inputId,
     name,
@@ -310,13 +349,7 @@ function QueryComposerInner<TItem>(
     },
     onKeyDown: handleKeyDown,
   } as const;
-  const comboboxProps = {
-    role: props.mode === 'natural_language_only' ? undefined : 'combobox',
-    'aria-autocomplete': props.mode === 'natural_language_only' ? undefined : 'list',
-    'aria-expanded': props.mode === 'natural_language_only' ? undefined : isPanelVisible,
-    'aria-controls': isPanelVisible ? panelId : undefined,
-    'aria-activedescendant': activeDescendant,
-  } as const;
+
   return (
     <div ref={rootRef} className={cn('relative min-w-0', className)}>
       <label
@@ -330,6 +363,7 @@ function QueryComposerInner<TItem>(
           {description}
         </div>
       ) : null}
+
       <div className="relative">
         <Search
           className={cn(
@@ -342,13 +376,17 @@ function QueryComposerInner<TItem>(
         {isMultiline ? (
           <textarea
             {...commonInputProps}
-            {...comboboxProps}
             ref={(node) => {
               inputRef.current = node;
               setForwardedRef(forwardedRef, node);
             }}
             rows={1}
             wrap="soft"
+            role={props.mode === 'natural_language_only' ? undefined : 'combobox'}
+            aria-autocomplete={props.mode === 'natural_language_only' ? undefined : 'list'}
+            aria-expanded={props.mode === 'natural_language_only' ? undefined : isPanelVisible}
+            aria-controls={isPanelVisible ? panelId : undefined}
+            aria-activedescendant={activeDescendant}
             className={cn(
               'border-input bg-background text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring min-h-14 w-full resize-none rounded-xl border py-4 pr-14 pl-12 text-base leading-6 outline-none transition-[height,border-color,box-shadow] focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50',
               inputClassName,
@@ -357,12 +395,16 @@ function QueryComposerInner<TItem>(
         ) : (
           <input
             {...commonInputProps}
-            {...comboboxProps}
             ref={(node) => {
               inputRef.current = node;
               setForwardedRef(forwardedRef, node);
             }}
             type="text"
+            role={props.mode === 'natural_language_only' ? undefined : 'combobox'}
+            aria-autocomplete={props.mode === 'natural_language_only' ? undefined : 'list'}
+            aria-expanded={props.mode === 'natural_language_only' ? undefined : isPanelVisible}
+            aria-controls={isPanelVisible ? panelId : undefined}
+            aria-activedescendant={activeDescendant}
             className={cn(
               'border-input bg-background text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring min-h-14 w-full rounded-xl border py-3 pr-14 pl-12 text-base outline-none transition-[border-color,box-shadow] focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50',
               inputClassName,
@@ -390,6 +432,7 @@ function QueryComposerInner<TItem>(
             <X size={17} aria-hidden="true" />
           </button>
         ) : null}
+
         {isPanelVisible ? (
           <div
             ref={panelRef}
@@ -398,7 +441,9 @@ function QueryComposerInner<TItem>(
               'border-border bg-popover text-popover-foreground absolute right-0 left-0 z-50 max-h-[28rem] overflow-y-auto overscroll-contain rounded-xl border p-2 shadow-lg',
               panelPlacement === 'top' ? 'bottom-full mb-2' : 'top-full mt-2',
             )}
-            style={{ maxHeight: panelMaxHeight === null ? undefined : `${panelMaxHeight}px` }}
+            style={{
+              maxHeight: panelMaxHeight === null ? undefined : `${panelMaxHeight}px`,
+            }}
           >
             {searchState.status === 'loading' ? (
               <div
@@ -410,6 +455,7 @@ function QueryComposerInner<TItem>(
                 {messages.searching}
               </div>
             ) : null}
+
             {searchState.status === 'error' ? (
               <div
                 className="text-muted-foreground flex min-h-12 flex-wrap items-center gap-2 px-3 py-2 text-sm"
@@ -430,6 +476,7 @@ function QueryComposerInner<TItem>(
                 </button>
               </div>
             ) : null}
+
             {searchState.status === 'empty' ? (
               <div
                 className="text-muted-foreground min-h-11 px-3 py-2 text-sm"
@@ -439,6 +486,7 @@ function QueryComposerInner<TItem>(
                 {messages.empty}
               </div>
             ) : null}
+
             {entryCount > 0 ? (
               <ul
                 className="m-0 list-none p-0"
@@ -473,10 +521,7 @@ function QueryComposerInner<TItem>(
                   );
                 })}
                 {isFreeformVisible && props.mode === 'hybrid' ? (
-                  <li
-                    role="presentation"
-                    className={items.length > 0 ? 'border-border mt-1 border-t pt-1' : undefined}
-                  >
+                  <li className={items.length > 0 ? 'border-border mt-1 border-t pt-1' : undefined}>
                     <button
                       id={`${panelId}-freeform`}
                       type="button"
@@ -500,6 +545,7 @@ function QueryComposerInner<TItem>(
           </div>
         ) : null}
       </div>
+
       {validationMessage ? (
         <div id={validationId} className="text-destructive mt-2 text-sm" role="alert">
           {validationMessage}
@@ -508,6 +554,7 @@ function QueryComposerInner<TItem>(
     </div>
   );
 }
+
 export const QueryComposer = forwardRef(QueryComposerInner) as <TItem = never>(
   props: QueryComposerProps<TItem> & RefAttributes<QueryComposerInputElement>,
 ) => ReactElement;

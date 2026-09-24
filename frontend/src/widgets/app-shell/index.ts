@@ -1,1 +1,2 @@
-export { AppShell } from './ui/AppShell/AppShell';
+export { AppShell } from './AppShell';
+export { AppFooter } from './AppFooter';

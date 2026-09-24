@@ -1,10 +1,17 @@
 import type { ReactNode } from 'react';
 
 export const QUERY_COMPOSER_MODES = ['remote_only', 'natural_language_only', 'hybrid'] as const;
+
 export type QueryComposerMode = (typeof QUERY_COMPOSER_MODES)[number];
+
 export type QueryComposerInputElement = HTMLInputElement | HTMLTextAreaElement;
+
 export type QueryComposerSearchStatus = 'idle' | 'loading' | 'ready' | 'empty' | 'error';
-export type QueryComposerSearchContext = Readonly<{ signal: AbortSignal }>;
+
+export type QueryComposerSearchContext = Readonly<{
+  signal: AbortSignal;
+}>;
+
 export type QueryComposerRemoteSearch<TItem> = Readonly<{
   search: (
     query: string,
@@ -16,7 +23,12 @@ export type QueryComposerRemoteSearch<TItem> = Readonly<{
   shouldSearch?: (query: string) => boolean;
   onError?: (error: unknown, query: string) => void;
 }>;
-export type QueryComposerOptionState = Readonly<{ isActive: boolean; isDisabled: boolean }>;
+
+export type QueryComposerOptionState = Readonly<{
+  isActive: boolean;
+  isDisabled: boolean;
+}>;
+
 export type QueryComposerMessages = Readonly<{
   clearInput: string;
   suggestionsLabel: string;
@@ -25,6 +37,7 @@ export type QueryComposerMessages = Readonly<{
   searchError: string;
   retry: string;
 }>;
+
 type QueryComposerBaseProps = Readonly<{
   id?: string;
   name?: string;
@@ -48,6 +61,7 @@ type QueryComposerBaseProps = Readonly<{
   onValueChange: (value: string) => void;
   onClear?: () => void;
 }>;
+
 type QueryComposerRemoteProps<TItem> = Readonly<{
   remoteSearch: QueryComposerRemoteSearch<TItem>;
   getItemKey: (item: TItem) => string;
@@ -55,6 +69,7 @@ type QueryComposerRemoteProps<TItem> = Readonly<{
   onCommitItem: (item: TItem) => void;
   isItemDisabled?: (item: TItem) => boolean;
 }>;
+
 export type QueryComposerProps<TItem = never> = QueryComposerBaseProps &
   (
     | ({

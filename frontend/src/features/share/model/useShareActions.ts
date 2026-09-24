@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
+
 import { detectShareCapabilities, getShareActionDescriptors } from '../adapter/share.capabilities';
 import {
   buildPlatformShareUrl,
@@ -18,11 +19,19 @@ import type {
   SharePlatform,
   ShareSurface,
 } from './share.types';
+
 export type UseShareActionsOptions = Readonly<{ surface?: ShareSurface }>;
-type ShareStatus = Readonly<{ scope: string; feedback?: ShareFeedback; error?: ShareError }>;
+
+type ShareStatus = Readonly<{
+  scope: string;
+  feedback?: ShareFeedback;
+  error?: ShareError;
+}>;
+
 export function useShareActions(content: ShareContent, options: UseShareActionsOptions = {}) {
   const pendingRef = useRef<ShareActionName>();
   const [pendingAction, setPendingAction] = useState<ShareActionName>();
+
   const landingUrl = useMemo(
     () => buildShareLandingUrl({ baseUrl: content.landingUrl }),
     [content.landingUrl],
@@ -62,6 +71,7 @@ export function useShareActions(content: ShareContent, options: UseShareActionsO
     () => getShareActionDescriptors(normalizedContent, capabilities),
     [capabilities, normalizedContent],
   );
+
   const runAction = useCallback(
     async (action: ShareActionName, execute: () => Promise<void> | void) => {
       if (pendingRef.current) return;
@@ -73,8 +83,13 @@ export function useShareActions(content: ShareContent, options: UseShareActionsO
         setStatus({ scope: contentKey, feedback: { kind: 'success', action } });
       } catch (actionError) {
         const normalized = normalizeShareError(actionError);
-        if (normalized.code !== 'cancelled')
-          setStatus({ scope: contentKey, error: normalized, feedback: { kind: 'error', action } });
+        if (normalized.code !== 'cancelled') {
+          setStatus({
+            scope: contentKey,
+            error: normalized,
+            feedback: { kind: 'error', action },
+          });
+        }
       } finally {
         pendingRef.current = undefined;
         setPendingAction(undefined);
@@ -82,7 +97,11 @@ export function useShareActions(content: ShareContent, options: UseShareActionsO
     },
     [contentKey],
   );
-  const clearFeedback = useCallback(() => setStatus({ scope: contentKey }), [contentKey]);
+
+  const clearFeedback = useCallback(() => {
+    setStatus({ scope: contentKey });
+  }, [contentKey]);
+
   const copyText = useCallback(
     () =>
       runAction('copy-text', () =>
@@ -90,6 +109,7 @@ export function useShareActions(content: ShareContent, options: UseShareActionsO
       ),
     [content.fullText, content.imageUrl, landingUrl, runAction],
   );
+
   const copyLink = useCallback(
     () =>
       runAction('copy-link', () => {
@@ -98,6 +118,7 @@ export function useShareActions(content: ShareContent, options: UseShareActionsO
       }),
     [landingUrl, runAction],
   );
+
   const copyImage = useCallback(
     () =>
       runAction('copy-image', () => {
@@ -106,6 +127,7 @@ export function useShareActions(content: ShareContent, options: UseShareActionsO
       }),
     [content.posterFile, runAction],
   );
+
   const downloadImage = useCallback(
     () =>
       runAction('download-image', () => {
@@ -114,6 +136,7 @@ export function useShareActions(content: ShareContent, options: UseShareActionsO
       }),
     [content.posterFile, runAction],
   );
+
   const nativeShare = useCallback(
     () =>
       runAction('native', () =>
@@ -126,6 +149,7 @@ export function useShareActions(content: ShareContent, options: UseShareActionsO
       ),
     [content.posterFile, content.result, content.slogan, content.title, landingUrl, runAction],
   );
+
   const sharePlatform = useCallback(
     (platform: SharePlatform) =>
       runAction(platform, () => {
@@ -140,6 +164,7 @@ export function useShareActions(content: ShareContent, options: UseShareActionsO
       }),
     [content.result, content.slogan, landingUrl, runAction],
   );
+
   return {
     capabilities,
     actions,

@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
+
 import type { QueryComposerRemoteSearch, QueryComposerSearchStatus } from './query-composer.types';
 
 const DEFAULT_MIN_CHARS = 2;
 const DEFAULT_DEBOUNCE_MS = 300;
+
 type QueryComposerSearchState<TItem> = Readonly<{
   items: readonly TItem[];
   query: string;
@@ -10,6 +12,7 @@ type QueryComposerSearchState<TItem> = Readonly<{
   retryKey: number;
   status: QueryComposerSearchStatus;
 }>;
+
 const IDLE_SEARCH_STATE = {
   items: [],
   query: '',
@@ -43,12 +46,22 @@ export function useQueryComposerSearch<TItem>(
   useEffect(() => {
     const requestSequence = requestSequenceRef.current + 1;
     requestSequenceRef.current = requestSequence;
-    if (!search || !isEligible) return undefined;
+
+    if (!search || !isEligible) {
+      return undefined;
+    }
+
     const controller = new AbortController();
     let isActive = true;
     const timer = window.setTimeout(
       () => {
-        setState({ items: [], query: normalizedQuery, queryRevision, retryKey, status: 'loading' });
+        setState({
+          items: [],
+          query: normalizedQuery,
+          queryRevision,
+          retryKey,
+          status: 'loading',
+        });
         void Promise.resolve()
           .then(() => search(normalizedQuery, { signal: controller.signal }))
           .then(
@@ -79,6 +92,7 @@ export function useQueryComposerSearch<TItem>(
       },
       Math.max(0, debounceMs),
     );
+
     return () => {
       isActive = false;
       window.clearTimeout(timer);
@@ -99,6 +113,7 @@ export function useQueryComposerSearch<TItem>(
     state.query === normalizedQuery &&
     state.queryRevision === queryRevision &&
     state.retryKey === retryKey;
+
   return {
     items: isEligible && isCurrentQuery ? state.items : [],
     isEligible,

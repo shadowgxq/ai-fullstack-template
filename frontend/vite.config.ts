@@ -1,7 +1,8 @@
-import { fileURLToPath } from 'node:url';
-import tailwindcss from '@tailwindcss/vite';
+import { fileURLToPath, URL } from 'node:url';
+
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 import { loadEnv, type ProxyOptions } from 'vite';
 
 const vendorChunkGroups = [
@@ -22,7 +23,7 @@ const vendorChunkGroups = [
   },
   {
     name: 'ui',
-    packages: ['@radix-ui/', 'radix-ui', 'lucide-react'],
+    packages: ['@radix-ui/', 'radix-ui', 'lucide-react', 'react-day-picker', 'date-fns'],
   },
   {
     name: 'i18n',
@@ -32,6 +33,7 @@ const vendorChunkGroups = [
 
 const DEFAULT_DEV_SERVER_PORT = 5173;
 const DEFAULT_PROXY_PREFIX = '/api';
+const DEFAULT_TRANSLATION_PROXY_PREFIX = '/translation-api';
 
 function matchesPackage(id: string, packageName: string) {
   const packagePath = `/node_modules/${packageName}`;
@@ -62,23 +64,24 @@ function readPositiveInteger(value: string | undefined, fallback: number) {
   return Number.isInteger(parsedValue) && parsedValue > 0 ? parsedValue : fallback;
 }
 
-function createServerProxy(env: Record<string, string>): Record<string, ProxyOptions> | undefined {
-  const target = env.DEV_PROXY_TARGET?.trim();
-
-  if (!target) {
-    return undefined;
-  }
-
+function parseProxyTarget(target: string, variableName: string): URL {
   let proxyUrl: URL;
   try {
     proxyUrl = new URL(target);
   } catch {
-    throw new Error('DEV_PROXY_TARGET must be a valid absolute URL.');
+    throw new Error(`${variableName} must be a valid absolute URL.`);
   }
 
   if (!['http:', 'https:'].includes(proxyUrl.protocol)) {
-    throw new Error('DEV_PROXY_TARGET must use the http or https protocol.');
+    throw new Error(`${variableName} must use the http or https protocol.`);
   }
+  return proxyUrl;
+}
+
+function createServerProxy(env: Record<string, string>): Record<string, ProxyOptions> | undefined {
+  const target = env.DEV_PROXY_TARGET?.trim() || 'http://127.0.0.1:8000';
+
+  const proxyUrl = parseProxyTarget(target, 'DEV_PROXY_TARGET');
 
   const prefix = env.DEV_PROXY_PREFIX?.trim() || DEFAULT_PROXY_PREFIX;
   if (!prefix.startsWith('/')) {
@@ -94,18 +97,47 @@ function createServerProxy(env: Record<string, string>): Record<string, ProxyOpt
   };
 }
 
+function createTranslationProxy(env: Record<string, string>): Record<string, ProxyOptions> {
+  const target = env.DEV_TRANSLATION_PROXY_TARGET?.trim();
+  if (!target) return {};
+  const proxyUrl = parseProxyTarget(target, 'DEV_TRANSLATION_PROXY_TARGET');
+  const prefix = env.DEV_TRANSLATION_PROXY_PREFIX?.trim() || DEFAULT_TRANSLATION_PROXY_PREFIX;
+  if (!prefix.startsWith('/')) {
+    throw new Error('DEV_TRANSLATION_PROXY_PREFIX must start with /.');
+  }
+
+  return {
+    [prefix]: {
+      target: proxyUrl.toString().replace(/\/$/u, ''),
+      changeOrigin: true,
+      secure: env.DEV_TRANSLATION_PROXY_SECURE?.toLowerCase() !== 'false',
+      rewrite: (path) => (path.startsWith(prefix) ? path.slice(prefix.length) || '/' : path),
+    },
+  };
+}
+
+function createDevProxy(env: Record<string, string>): Record<string, ProxyOptions> | undefined {
+  const proxy = {
+    ...(createServerProxy(env) ?? {}),
+    ...createTranslationProxy(env),
+  };
+  return Object.keys(proxy).length > 0 ? proxy : undefined;
+}
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
     plugins: [react(), tailwindcss()],
     resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
       dedupe: ['react', 'react-dom'],
-      alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
     },
     server: {
       port: readPositiveInteger(env.DEV_SERVER_PORT, DEFAULT_DEV_SERVER_PORT),
-      proxy: createServerProxy(env),
+      proxy: createDevProxy(env),
     },
     build: {
       target: 'es2022',

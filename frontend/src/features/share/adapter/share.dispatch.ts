@@ -1,10 +1,12 @@
 import { ShareError } from '../model/share.errors';
 import type { SharePlatform } from '../model/share.types';
+
 export const SHARE_PLATFORM_LIMITS = {
   xTextWeight: 220,
   redditTitleLength: 160,
   telegramIntentUrlLength: 1800,
 } as const;
+
 const X_WIDE_CHARACTER_RANGES: readonly [number, number][] = [
   [0x1100, 0x11ff],
   [0x2e80, 0xa4cf],
@@ -13,6 +15,7 @@ const X_WIDE_CHARACTER_RANGES: readonly [number, number][] = [
   [0xfe10, 0xfe6f],
   [0xff00, 0xffef],
 ];
+
 function xWeight(character: string): number {
   const codePoint = character.codePointAt(0);
   if (codePoint === undefined) return 0;
@@ -21,6 +24,7 @@ function xWeight(character: string): number {
     ? 2
     : 1;
 }
+
 function truncateWeighted(text: string, maxWeight: number): string {
   const characters = Array.from(text);
   let weight = 0;
@@ -28,13 +32,15 @@ function truncateWeighted(text: string, maxWeight: number): string {
   for (const [index, character] of characters.entries()) {
     const nextWeight = xWeight(character);
     const needsSuffix = index < characters.length - 1;
-    if (weight + nextWeight + (needsSuffix ? xWeight('…') : 0) > maxWeight)
+    if (weight + nextWeight + (needsSuffix ? xWeight('…') : 0) > maxWeight) {
       return `${output.trimEnd()}…`;
+    }
     output += character;
     weight += nextWeight;
   }
   return output;
 }
+
 function truncateSingleLine(text: string, maxLength: number): string {
   const normalized = text.replace(/\s+/g, ' ').trim();
   const characters = Array.from(normalized);
@@ -45,6 +51,7 @@ function truncateSingleLine(text: string, maxLength: number): string {
         .join('')
         .trimEnd()}…`;
 }
+
 function rawPlatformUrl(platform: SharePlatform, text: string, landingUrl: string): string {
   const params = new URLSearchParams();
   switch (platform) {
@@ -62,12 +69,14 @@ function rawPlatformUrl(platform: SharePlatform, text: string, landingUrl: strin
       return `https://t.me/share/url?${params.toString()}`;
   }
 }
+
 function fitTelegramText(landingUrl: string, text: string): string {
   if (
     rawPlatformUrl('telegram', text, landingUrl).length <=
     SHARE_PLATFORM_LIMITS.telegramIntentUrlLength
-  )
+  ) {
     return text;
+  }
   const characters = Array.from(text);
   let low = 0;
   let high = characters.length;
@@ -81,10 +90,13 @@ function fitTelegramText(landingUrl: string, text: string): string {
     ) {
       best = candidate;
       low = middle + 1;
-    } else high = middle - 1;
+    } else {
+      high = middle - 1;
+    }
   }
   return best;
 }
+
 export function fitPlatformShareText(
   platform: SharePlatform,
   landingUrl: string,
@@ -99,6 +111,7 @@ export function fitPlatformShareText(
       return fitTelegramText(landingUrl, text);
   }
 }
+
 export function buildPlatformShareUrl(
   platform: SharePlatform,
   text: string,
@@ -106,31 +119,39 @@ export function buildPlatformShareUrl(
 ): string {
   return rawPlatformUrl(platform, fitPlatformShareText(platform, landingUrl, text), landingUrl);
 }
+
 export function openPlatformShareUrl(url: string): void {
-  if (typeof window === 'undefined')
+  if (typeof window === 'undefined') {
     throw new ShareError('unsupported', 'Platform sharing is unavailable.');
+  }
   const popup = window.open('', '_blank');
   if (!popup) throw new ShareError('blocked', 'The platform window was blocked.');
   popup.opener = null;
   popup.location.replace(url);
 }
+
 export async function copyShareText(value: string): Promise<void> {
-  if (typeof navigator === 'undefined' || typeof navigator.clipboard?.writeText !== 'function')
+  if (typeof navigator === 'undefined' || typeof navigator.clipboard?.writeText !== 'function') {
     throw new ShareError('unsupported', 'Text clipboard is unavailable.');
+  }
   await navigator.clipboard.writeText(value);
 }
+
 export async function copyShareImage(file: File): Promise<void> {
   if (
     typeof navigator === 'undefined' ||
     typeof navigator.clipboard?.write !== 'function' ||
     typeof ClipboardItem !== 'function'
-  )
+  ) {
     throw new ShareError('unsupported', 'Image clipboard is unavailable.');
+  }
   await navigator.clipboard.write([new ClipboardItem({ [file.type || 'image/png']: file })]);
 }
+
 export function downloadShareImage(file: File): void {
-  if (typeof document === 'undefined')
+  if (typeof document === 'undefined') {
     throw new ShareError('unsupported', 'Downloads are unavailable.');
+  }
   const objectUrl = URL.createObjectURL(file);
   const link = document.createElement('a');
   link.href = objectUrl;
@@ -141,14 +162,17 @@ export function downloadShareImage(file: File): void {
   link.remove();
   globalThis.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
 }
+
 export async function nativeShareContent(
   title: string,
   text: string,
   landingUrl?: string,
   posterFile?: File,
 ): Promise<void> {
-  if (typeof navigator === 'undefined' || typeof navigator.share !== 'function')
+  if (typeof navigator === 'undefined' || typeof navigator.share !== 'function') {
     throw new ShareError('unsupported', 'System sharing is unavailable.');
+  }
+
   const textData: ShareData = { title, text, ...(landingUrl ? { url: landingUrl } : {}) };
   const candidates: ShareData[] = posterFile
     ? [{ ...textData, files: [posterFile] }, { title, text, files: [posterFile] }, textData]

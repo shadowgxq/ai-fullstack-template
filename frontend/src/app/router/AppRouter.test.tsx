@@ -1,4 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { render, screen } from '@testing-library/react';
 import { I18nextProvider } from 'react-i18next';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -12,9 +13,13 @@ function BrokenRoute(): never {
 }
 
 function renderRouter(router: ReturnType<typeof createMemoryRouter>) {
+  const queryClient = new QueryClient();
+
   return render(
     <I18nextProvider i18n={i18n}>
-      <RouterProvider router={router} future={{ v7_startTransition: true }} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} future={{ v7_startTransition: true }} />
+      </QueryClientProvider>
     </I18nextProvider>,
   );
 }
@@ -22,6 +27,18 @@ function renderRouter(router: ReturnType<typeof createMemoryRouter>) {
 describe('AppRouter', () => {
   beforeEach(async () => {
     await i18n.changeLanguage('en');
+  });
+
+  it.each([
+    ['/', 'Build a shippable frontend baseline for agents.'],
+    ['/foundation', 'Start from stable shared capabilities.'],
+  ])('renders the home view at %s', (path, heading) => {
+    const router = createMemoryRouter(appRoutes, { initialEntries: [path] });
+
+    renderRouter(router);
+
+    expect(router.state.location.pathname).toBe(path);
+    expect(screen.getByRole('heading', { name: heading })).toBeInTheDocument();
   });
 
   it('renders the not-found page for an unknown path', () => {
@@ -32,23 +49,6 @@ describe('AppRouter', () => {
     expect(screen.getByRole('heading', { name: 'This page does not exist.' })).toBeInTheDocument();
   });
 
-  it('loads the component gallery through client-side navigation', async () => {
-    const router = createMemoryRouter(appRoutes, { initialEntries: ['/'] });
-    renderRouter(router);
-    fireEvent.click(screen.getByRole('link', { name: 'Explore components' }));
-    expect(
-      await screen.findByRole('heading', { name: 'Component library' }, { timeout: 5000 }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole('combobox', { name: 'Find a component or enter a query' }),
-    ).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Open share preview' })).toBeInTheDocument();
-  });
-  it('directly loads the theme route', async () => {
-    const router = createMemoryRouter(appRoutes, { initialEntries: ['/theme'] });
-    renderRouter(router);
-    expect(await screen.findByRole('heading', { name: 'Theme preview' })).toBeInTheDocument();
-  });
   it('renders the route error page when a route fails to render', () => {
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const router = createMemoryRouter(

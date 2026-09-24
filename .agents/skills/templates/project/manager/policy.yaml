@@ -1,0 +1,12 @@
+# Replace these argv lists with real existing project checks before approving a design.
+version: 2
+planning: auto # Optional default; an explicit invocation overrides without rewriting this file.
+max_agents: 4
+max_writers: 2
+timeout_seconds: 300
+checks:
+  change: []
+  apply:
+    - [pnpm, typecheck]
+    - [pnpm, lint:ci]
+    - [pnpm, test]

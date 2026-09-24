@@ -1,63 +1,18 @@
 # Runtime Config And Vite
 
-本文档定义客户端运行时配置、Vite 开发服务器代理和生产拆包的稳定边界。
+配置入口为 `shared/config/runtime-config.ts`；Vite 开发代理与拆包在 `vite.config.ts`。环境变量、示例与命令以 [frontend README](../../../../frontend/README.md) 和 `.env.example` 为准。
 
-## 配置职责
+| 配置 | 当前行为 |
+|---|---|
+| API | `VITE_API_BASE_URL=/api`，超时 20000ms；鉴权 bridge 不反向依赖 feature store |
+| Backend dev proxy | 默认 `http://127.0.0.1:8000`，`DEV_PROXY_TARGET` 可覆盖；prefix 默认 `/api`，不去除 `/api/v1` |
+| Translation | 浏览器 base `/translation-api`；仅显式配置 `DEV_TRANSLATION_PROXY_TARGET` 才建立代理，没有外部远端默认值 |
+| Auth | API 为默认；mock 只在显式开发演示模式使用，不在生产构建或错误时回退 |
+| Analytics | 同时提供 `VITE_UMAMI_SRC` 和 `VITE_UMAMI_WEBSITE_ID` 才启用；默认无脚本和上报 |
+| Build | target es2022；sourcemap 默认关；`@` 映射 src；React dedupe；Tailwind Vite 插件 |
 
-配置按运行位置分为两类：
+`VITE_*` 在构建时进入浏览器，不能放密钥，也不能当作容器运行时秘密配置。`DEV_*`/`BUILD_*` 只由 Vite 读取，URL 必须 http/https；关闭 TLS 证书校验不是共享默认值。
 
-| 类型                | 命名               | 读取位置             | 是否进入浏览器代码 |
-| ------------------- | ------------------ | -------------------- | ------------------ |
-| 客户端运行时配置    | `VITE_*`           | `src/shared/config/` | 是，禁止放密钥     |
-| Vite/开发服务器配置 | `DEV_*`、`BUILD_*` | `vite.config.ts`     | 否                 |
+vendor groups 为 framework、data、ui、i18n；未命中由 Rollup 决定。当前 Router **同步导入**页面，不能把 vendor 拆包写成路由懒加载。海报导出 adapter 保留来源的动态加载。
 
-- 业务源码不直接读取 `import.meta.env`，统一消费 `shared/config` 暴露的 typed config。
-- `shared/config` 负责 trim、类型转换、默认值和非法值 fallback。
-- 新增客户端变量时同步更新 `.env.example`、`src/vite-env.d.ts` 和 `shared/config`。
-- 密钥、内部 token、生产代理凭据不能使用 `VITE_*`，也不能进入前端仓库。
-
-默认客户端配置：
-
-```text
-VITE_API_BASE_URL=/api
-VITE_API_TIMEOUT_MS=10000
-```
-
-## 开发代理
-
-`vite.config.ts` 只在设置 `DEV_PROXY_TARGET` 时启用代理：
-
-```text
-DEV_PROXY_PREFIX=/api
-DEV_PROXY_TARGET=http://localhost:8000
-DEV_PROXY_SECURE=true
-```
-
-- `DEV_PROXY_PREFIX` 默认 `/api`，必须以 `/` 开头。
-- `DEV_PROXY_TARGET` 必须是 `http` 或 `https` URL。
-- `DEV_PROXY_SECURE=false` 只用于本地自签名 HTTPS，不作为共享默认值。
-- 代理不做默认 path rewrite；前后端路径不一致时在具体项目中显式增加 rewrite。
-- 生产环境由网关、反向代理或部署平台转发，不能依赖 Vite dev proxy。
-
-## 源码与样式解析
-
-`@/*` 同时在 `tsconfig.json` 和 `vite.config.ts` 映射到 `src/*`；Vite 接入 `@tailwindcss/vite`，样式入口见 [主题指南](theming-and-i18n.md)。组件库和主题页按路由懒加载，海报 rasterizer 在捕获时动态加载。
-
-## 拆包规则
-
-模板只维护少量稳定 vendor group：
-
-- `framework`：React、React DOM、React Router。
-- `data`：TanStack Query、Axios、Zustand。
-- `ui`：Radix UI、Lucide。
-- `i18n`：i18next、react-i18next。
-
-未命中的依赖交给 Rollup 自动决定，不建立无限增长的 catch-all vendor chunk。只有满足以下条件才新增或拆分 group：
-
-- 依赖体积明显，并且更新频率与业务代码不同。
-- 模块确实进入首屏，稳定 chunk 能提升长期缓存命中。
-- 通过 bundle report 证明拆分减少了重复下载或超大 chunk。
-
-仅在用户操作后使用的编辑器、图表、导出等重型功能，应优先在业务代码使用动态 `import()`，不能只依靠 `manualChunks`。
-
-生产 sourcemap 默认关闭；只有部署和错误监控策略允许时设置 `BUILD_SOURCEMAP=true`。
+生产由本仓库 `frontend/nginx.conf` 提供静态文件和 `/api/` 代理，监听 8080；Compose 对外只绑定 loopback。Vite preview 用于静态启动检查，不承担 API 代理。生产公网的 TLS、授权、备份不由这份本地配置保证。

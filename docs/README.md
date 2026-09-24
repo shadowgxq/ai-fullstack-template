@@ -27,7 +27,7 @@ AGENTS.md                         公共协作约束与任务路由
 | [产品需求](product/README.md) | 使用方的真实产品范围与验收；模板不预装业务 PRD |
 | [架构与 ADR](architecture/README.md) | 系统基线及按需业务总/专项技术方案；批准内容由 change 引用，不复制成另一份 design |
 | [跨端契约](contracts/README.md) | DTO、状态、错误语义；生成 schema 的事实源在提供方代码 |
-| [当前计划](../manager/plan.yaml) | 已登记需求、批次与 change 阶段；模板初始为空 |
+| [当前计划](../manager/plan.yaml) | 已登记需求、批次与 change 阶段；v2 模板初始为空 |
 | [OpenSpec 配置](../openspec/config.yaml) | change 的设计、任务与增量规格 |
 | [修复队列](../repairs/README.md) | 小范围修复；不同时建立另一份执行状态 |
 
@@ -44,6 +44,8 @@ AGENTS.md                         公共协作约束与任务路由
 
 新增、删除或移动文档时同步导航、相对链接、REQ-ID 和任务索引引用。命令在服务 README 与 Makefile 维护；schema 由提供方生成；版本以各端 lockfile 为准。
 
-外部参考只提炼适用规则，在其规则拥有者处注明来源与适用边界；不复制完整社区 skill 或自动安装新工具。入口与细则分离借鉴 [Agent Skills 渐进加载](https://agentskills.io/specification#progressive-disclosure)，但工程文档仍由本仓库导航，不宣称新增或激活某个 skill。
+外部参考只提炼适用规则，在其规则拥有者处注明来源与适用边界；项目文档不复制完整 Skill；已固定的工具机制与必要依赖在 `.agents/skills` 中按来源整包维护。入口与细则分离借鉴 [Agent Skills 渐进加载](https://agentskills.io/specification#progressive-disclosure)，但工程文档仍由本仓库导航，不宣称新增或激活某个 skill。
 
 使用方项目通过 [显式归档](engineering/workflow/tooling.md#显式归档与剪枝) 使用真实 OpenSpec 命令同步生效规格并封存 change；归档、合并和发布分别决定，不手工移动目录或改写旧归档。历史不作为默认任务上下文，剪枝前必须保留依赖可解析的完成证据。模板自身的维护来源与验证记录通过 Git/PR 历史追溯，删除工作树副本不改写历史。
+
+工作流工具版本、安装与受控更新见 [工具入口](engineering/workflow/tooling.md)；不存在旧控制器兼容模式。标准前端代码来源与本仓库文档归属见 [前端基线](engineering/frontend/architecture/technology-options.md)。

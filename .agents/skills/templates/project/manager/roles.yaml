@@ -1,0 +1,24 @@
+# Routing only. Codex TOML owns models, permissions and role instructions.
+version: 2
+routes:
+  prd_review:
+    agent_type: product-manager
+  tech_design:
+    agent_type: architect
+  change:
+    agent_type: architect
+  apply:
+    backend:
+      agent_type: backend-dev
+    frontend:
+      agent_type: frontend-dev
+    tests:
+      agent_type: test-worker
+  verify:
+    agent_type: reviewer
+  qa:
+    agent_type: qa
+  ui_review:
+    agent_type: ui-ux-reviewer
+  explore:
+    agent_type: explorer

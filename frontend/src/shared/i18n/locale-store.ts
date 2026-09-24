@@ -17,15 +17,6 @@ export const useLocaleStore = create<LocaleState>()(
         set({ locale });
       },
     }),
-    {
-      name: LOCALE_STORAGE_KEY,
-      merge: (persisted, current) => {
-        const locale =
-          typeof persisted === 'object' && persisted !== null && 'locale' in persisted
-            ? persisted.locale
-            : undefined;
-        return { ...current, locale: locale === 'en' || locale === 'zh' ? locale : current.locale };
-      },
-    },
+    { name: LOCALE_STORAGE_KEY },
   ),
 );

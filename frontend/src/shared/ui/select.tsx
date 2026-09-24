@@ -1,27 +1,27 @@
-import * as React from 'react';
-import { Select as SelectPrimitive } from 'radix-ui';
-import { Check, ChevronDown, ChevronUp } from '@/shared/icons';
+import * as React from 'react'
+import { Select as SelectPrimitive } from 'radix-ui'
+import { Check, ChevronDown, ChevronUp } from 'lucide-react'
 
-import { cn } from '@/shared/utils/cn';
+import { cn } from '@/shared/utils/cn'
 
-type SelectSize = 'sm' | 'md' | 'lg';
+type SelectSize = 'sm' | 'md' | 'lg'
 
 const SELECT_SIZE_CLASSES: Record<SelectSize, string> = {
   sm: 'h-[var(--input-height-sm)]',
   md: 'h-[var(--input-height-md)]',
   lg: 'h-[var(--input-height-lg)]',
-};
+}
 
-const Select = SelectPrimitive.Root;
-const SelectGroup = SelectPrimitive.Group;
-const SelectValue = SelectPrimitive.Value;
+const Select = SelectPrimitive.Root
+const SelectGroup = SelectPrimitive.Group
+const SelectValue = SelectPrimitive.Value
 
 type SelectTriggerProps = Omit<
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>,
   'size'
 > & {
-  size?: SelectSize;
-};
+  size?: SelectSize
+}
 
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
@@ -33,7 +33,7 @@ const SelectTrigger = React.forwardRef<
       data-slot="select-trigger"
       data-size={size}
       className={cn(
-        'flex w-full min-w-0 items-center justify-between gap-[var(--input-icon-gap)] rounded-[var(--radius-control)] border border-[var(--control-border-width)] border-input bg-background px-[var(--input-padding-x)] text-[length:var(--font-size-md)] leading-[var(--line-height-md)] text-foreground outline-none transition-[color,background-color,border-color,box-shadow] duration-[var(--duration-fast)] ease-[var(--ease-standard)] hover:border-border-strong focus-visible:[--tw-ring-width:var(--control-focus-stroke)] focus-visible:[--tw-ring-offset-width:var(--focus-ring-offset)] focus-visible:border-ring focus-visible:ring-ring focus-visible:ring-offset-background data-[state=open]:border-ring data-[state=open]:ring-ring disabled:cursor-not-allowed disabled:bg-muted disabled:opacity-[var(--disabled-opacity)] aria-invalid:border-[var(--control-invalid-border)] aria-invalid:[--tw-ring-width:var(--control-focus-stroke)] aria-invalid:ring-destructive/30 [&>span]:flex [&>span]:min-w-0 [&>span]:items-center [&>span]:gap-[var(--input-icon-gap)] [&>span]:truncate motion-reduce:transition-none',
+        'flex w-full min-w-0 items-center justify-between gap-[var(--input-icon-gap)] rounded-[var(--radius-control)] border border-[var(--control-border-width)] border-input bg-background px-[var(--input-padding-x)] text-[var(--font-size-md)] leading-[var(--line-height-md)] text-foreground outline-none transition-[color,background-color,border-color,box-shadow] duration-[var(--duration-fast)] ease-[var(--ease-standard)] hover:border-border-strong focus-visible:[--tw-ring-width:var(--control-focus-stroke)] focus-visible:[--tw-ring-offset-width:var(--focus-ring-offset)] focus-visible:border-ring focus-visible:ring-ring focus-visible:ring-offset-background data-[state=open]:border-ring data-[state=open]:ring-ring disabled:cursor-not-allowed disabled:bg-muted disabled:opacity-[var(--disabled-opacity)] aria-invalid:border-[var(--control-invalid-border)] aria-invalid:[--tw-ring-width:var(--control-focus-stroke)] aria-invalid:ring-destructive/30 [&>span]:flex [&>span]:min-w-0 [&>span]:items-center [&>span]:gap-[var(--input-icon-gap)] [&>span]:truncate motion-reduce:transition-none',
         SELECT_SIZE_CLASSES[size],
         className,
       )}
@@ -47,10 +47,10 @@ const SelectTrigger = React.forwardRef<
         />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
-  );
-});
+  )
+})
 
-SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
+SelectTrigger.displayName = SelectPrimitive.Trigger.displayName
 
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
@@ -83,10 +83,10 @@ const SelectContent = React.forwardRef<
         <SelectScrollDownButton />
       </SelectPrimitive.Content>
     </SelectPrimitive.Portal>
-  );
-});
+  )
+})
 
-SelectContent.displayName = SelectPrimitive.Content.displayName;
+SelectContent.displayName = SelectPrimitive.Content.displayName
 
 function SelectLabel({
   className,
@@ -96,12 +96,12 @@ function SelectLabel({
     <SelectPrimitive.Label
       data-slot="select-label"
       className={cn(
-        'px-[var(--dropdown-item-padding-x)] py-[var(--space-1)] text-[length:var(--font-size-xs)] leading-[var(--line-height-sm)] font-medium text-muted-foreground',
+        'px-[var(--dropdown-item-padding-x)] py-[var(--space-1)] text-[var(--font-size-xs)] leading-[var(--line-height-sm)] font-medium text-muted-foreground',
         className,
       )}
       {...props}
     />
-  );
+  )
 }
 
 const SelectItem = React.forwardRef<
@@ -113,7 +113,7 @@ const SelectItem = React.forwardRef<
       ref={ref}
       data-slot="select-item"
       className={cn(
-        'relative flex h-[var(--dropdown-item-height)] w-full cursor-default items-center rounded-[var(--radius-control)] px-[var(--dropdown-item-padding-x)] pr-[calc(var(--dropdown-item-padding-x)+var(--control-icon-size)+var(--control-icon-gap))] text-[length:var(--font-size-md)] leading-[var(--line-height-md)] outline-none select-none focus:bg-surface-hover focus:text-foreground data-[state=checked]:bg-surface-selected data-[state=checked]:text-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-[var(--disabled-opacity)]',
+        'relative flex h-[var(--dropdown-item-height)] w-full cursor-default items-center rounded-[var(--radius-control)] px-[var(--dropdown-item-padding-x)] pr-[calc(var(--dropdown-item-padding-x)+var(--control-icon-size)+var(--control-icon-gap))] text-[var(--font-size-md)] leading-[var(--line-height-md)] outline-none select-none focus:bg-surface-hover focus:text-foreground data-[state=checked]:bg-surface-selected data-[state=checked]:text-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-[var(--disabled-opacity)]',
         className,
       )}
       {...props}
@@ -125,10 +125,10 @@ const SelectItem = React.forwardRef<
       </span>
       <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
     </SelectPrimitive.Item>
-  );
-});
+  )
+})
 
-SelectItem.displayName = SelectPrimitive.Item.displayName;
+SelectItem.displayName = SelectPrimitive.Item.displayName
 
 function SelectSeparator({
   className,
@@ -137,13 +137,10 @@ function SelectSeparator({
   return (
     <SelectPrimitive.Separator
       data-slot="select-separator"
-      className={cn(
-        '-mx-[var(--space-1)] my-[var(--space-1)] h-[var(--control-border-width)] bg-border-subtle',
-        className,
-      )}
+      className={cn('-mx-[var(--space-1)] my-[var(--space-1)] h-[var(--control-border-width)] bg-border-subtle', className)}
       {...props}
     />
-  );
+  )
 }
 
 function SelectScrollUpButton({
@@ -153,15 +150,12 @@ function SelectScrollUpButton({
   return (
     <SelectPrimitive.ScrollUpButton
       data-slot="select-scroll-up-button"
-      className={cn(
-        'flex cursor-default items-center justify-center py-[var(--space-1)]',
-        className,
-      )}
+      className={cn('flex cursor-default items-center justify-center py-[var(--space-1)]', className)}
       {...props}
     >
       <ChevronUp className="size-[var(--icon-size-md)]" aria-hidden="true" />
     </SelectPrimitive.ScrollUpButton>
-  );
+  )
 }
 
 function SelectScrollDownButton({
@@ -171,15 +165,12 @@ function SelectScrollDownButton({
   return (
     <SelectPrimitive.ScrollDownButton
       data-slot="select-scroll-down-button"
-      className={cn(
-        'flex cursor-default items-center justify-center py-[var(--space-1)]',
-        className,
-      )}
+      className={cn('flex cursor-default items-center justify-center py-[var(--space-1)]', className)}
       {...props}
     >
       <ChevronDown className="size-[var(--icon-size-md)]" aria-hidden="true" />
     </SelectPrimitive.ScrollDownButton>
-  );
+  )
 }
 
 export {
@@ -193,4 +184,4 @@ export {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-};
+}
