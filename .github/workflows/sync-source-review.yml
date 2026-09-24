@@ -12,8 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: 02663b66ada5fe8b159ea54fc5250f9b8c1b7e89
           persist-credentials: false
-      - run: git archive --format=tar.gz 02663b66ada5fe8b159ea54fc5250f9b8c1b7e89 -o /tmp/sync-baseline.tar.gz
+      - run: git archive --format=tar.gz HEAD -o /tmp/sync-baseline.tar.gz
       - uses: actions/upload-artifact@v4
         with:
           name: sync-baseline
