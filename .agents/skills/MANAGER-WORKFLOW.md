@@ -1,6 +1,6 @@
 # OpenSpec Manager v2
 
-控制工具版本：2.0.0-rc.3。安装与旧项目接入见[迁移说明](MANAGER-V2-MIGRATION.md)。
+控制工具版本：2.0.0。安装与旧项目接入见[迁移说明](MANAGER-V2-MIGRATION.md)。
 
 ## 定位与主流程
 
@@ -54,14 +54,14 @@ Change 是显式依赖完成后可独立验收的一次行为变化，不是代�
 
 plan.yaml 保留 requirements/openspec/batches，phase 为 change→apply→archive→done；非 done 的 state 为 planned/ready/in-progress/blocked/cancelled。
 manager/runtime 保存批准、claims、gate、预算、session/checkpoints 与事务。计划正文不放日志。生命周期状态由 plan_tool.py 写。
-manager/roles.yaml 映射角色；.codex/agents/<name>.toml 定义真实角色；policy.yaml 配置检查、资源上限与可选规划默认值。
+manager/roles.yaml 映射角色；项目 .codex/agents/<name>.toml 定义原生角色；policy.yaml 配置真实检查、资源上限与规划默认值。全局 Skill 模板不会自动同步项目；init_manager_project.py 只创建缺失配置，已有定制文件保留，安装/更新后必须预检。
 命令以 --capabilities / --help 为准。resolve-planning 只读解析请求优先级，不推断需求、不生成计划或批准。
 validate 检查结构；start 另核对真实 required 来源、依赖、技术批准。旧 approved 字符串、planning=full、session 创建或重启都不能替代内容批准。
 
 ## 执行、并行和证据
 
-每轮只处理返回的 selection；先当前 wave 的制品，再实现，不先生成整个项目制品。full/legacy-all-change 执行 scope 不是规划模式，也不是额外授权。
-外层 Change 并行与内部 execution.yaml Task DAG 分开。任务依据 needs/reads/writes/resources 及并发上限选择；文件、契约、DB、端口和浏览器会话参与冲突检查。
+每轮只处理返回的 selection；优先当前 wave 的制品，再实现。同 wave 的消费者因缺上游实际产物等待时，可以先推进已批准且就绪的上游 apply；不跳过 wave、审批或真实阻塞，不先生成整个项目制品。full/legacy-all-change 执行 scope 不是规划模式，也不是额外授权。
+外层 Change 并行与内部 execution.yaml Task DAG 分开。只要派发原生写入 Worker，就要有最小任务图并在 change gate 前批准；仅 Manager 经授权直接串行实现时可省略。任务依据 needs/reads/writes/resources 及并发上限选择；文件、契约、DB、端口和浏览器会话参与冲突检查。
 先创建真实等待任务的线程，取得 ID 并 task-claim，再给写授权。Worker 不改 plan、不勾 tasks；Manager 核实后单写。原线程未停不得抢占，协作锁不是 ACL，严格隔离用 worktree/沙箱。
 gate-run 执行 OpenSpec strict validate 与项目检查，要求独立 Reviewer 和适用 UI 证据；advance 核对 code/contract 与证据，日志或报告被改写则拒绝。
 首次跨批检查当前集成快照；后续消费已记录的契约与证据，不因正常下游代码变化无限重验上游。当前 Change 与归档前仍需 fresh gate。证据格式见[协议](manager-execute-current-batch/references/evidence-contract.md)。
@@ -70,7 +70,7 @@ gate-run 执行 OpenSpec strict validate 与项目检查，要求独立 Reviewer
 
 要求对、代码错：聚焦允许路径，自动最多 2 次，预算跨重启保留。无进展、越界或 contract 改变则停止，不能迁就代码改规格。
 需求/设计变化先拿真实裁决、停止受影响线程，计算显式依赖闭包并核对共享要求/输入的消费者；只改受影响内容，旧批准与证据失效。Cancelled 不能当作完成依赖。
-session-open 固定批次及停点范围和轮数；每轮 round-begin/execute/round-finish。未收尾轮次先核对结果，不重复派发。
+session-open 固定批次、停点、Change 语义、验收及有效 Input 定义和轮数；每轮 round-begin/execute/round-finish。未收尾轮次先核对结果，不重复派发。
 正常进程中断可恢复 active session；STOP 后需明确新授权，不能自行重开。范围耗尽、人工裁决、规划边界、失败或预算均停，不把 no-work 当全产品完成。
 上下文保留目标、版本、决策和证据索引；Worker 仅获取任务必需资料，新轮次/压缩不保证假设隔离。
 
@@ -80,3 +80,10 @@ session-open 固定批次及停点范围和轮数；每轮 round-begin/execute/r
 旧历史先审计再 seal；scripts/archive_guard.py 用可信 Git 基线检查旧归档增删改。completion-import 不伪造旧 gate；正常证明存在后才 prune，Input 快照保留历史消费语义。
 legacy/ 只保存历史流程，不自动安装/切换，不与当前 runtime 混用。
 安装、结构/控制测试、真实 OpenSpec CLI、原生 Agent 与业务/UI 验收分别报告，不以其中一层通过代替全部生产验收。
+
+## 角色与审核边界
+
+开发、架构、需求与最终独立 Reviewer 使用 Sol；Luna 轻角色只负责窄范围调查、明确测试和证据采集，能力不足时显式升级，不降级主力开发。详见[角色协议](manager-execute-current-batch/references/role-contract.md)。原生角色的发现、实际模型和生效权限需在真实客户端核对；doctor/resolve-role 只做静态检查，不将配置或 Agent 自述当作运行证明。
+技术方案批准、计划/执行授权、制品批准与产品验收不是同一件事；已有批准确实覆盖当前不变范围时可引用，不需重复请求相同确认，但不得用重启、planning=full 或 auto checkpoint 伪造授权。
+
+单独授权下游批次不会绕过显式依赖的上游批次验收或 planning_boundary；控制器只读核对相关上游检查点，不扩大写入授权。不相关批次不因此阻塞。

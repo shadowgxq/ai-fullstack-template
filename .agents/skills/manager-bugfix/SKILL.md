@@ -1,7 +1,7 @@
 ---
 name: manager-bugfix
 description: Repair a reported deviation with minimal write scope, persistent budgets and exact artifact backwrite ownership; distinguish code defects from new requirements and archived history.
-version: 2.0.0-rc.1
+version: 2.0.0
 ---
 
 # Manager 修复
@@ -24,7 +24,7 @@ version: 2.0.0-rc.1
 
 1. 定位最小失败路径和正确验收，必要时先补会失败的回归测试。
 2. 对已 archive-ready 但尚未真正归档的 change，使用 `reopen --kind code --decision-ref <问题引用>`；blocked 也须受控 reopen，不用 start 直接解锁。
-3. 重新 start apply。自动修复在已 in-progress apply 内执行，不重复 reopen、不重置尝试次数。
+3. 重新 start apply。code reopen 会将受影响 claim 标为 superseded，并重置任务勾选；已有代码和证据不删除，正确实现可复用，但完成状态须通过新验证恢复。自动修复在已 in-progress apply 内执行，不重复 reopen、不重置尝试次数。
 4. `repair-begin --change <id> --finding <稳定问题ID> --allow <代码/测试路径>`。默认 code-only，禁止把 docs/spec/manager 设为允许区。
 5. 派对应 Worker 定向修复。超出范围必须暂停说明根因，不允许修复者任意修改需求、跳过测试、更新视觉基准。
 6. `repair-finish --key <返回key>` 检查真实修改范围和 contract 未变。违规后 block，保留工作供审查，不自动 reset 丢失用户修改。

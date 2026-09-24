@@ -203,7 +203,13 @@ class RuntimeTests(unittest.TestCase):
         with self.assertRaises(Invalid): tasks.release(s,r['run_id'],False,'test')
         tasks.release(s,r['run_id'],True,'test confirmed original stopped'); self.assertTrue(tasks.ready(s,s.entry('example'))['ready'])
     def test_claim_rejects_unknown_role(self):
-        self.p.graph([task(role='missing')]); s=self.p.apply_started()
+        # Missing roles are now rejected earlier, before any stage starts.
+        self.p.graph([task(role='missing')]); s=self.p.approved()
+        with self.assertRaisesRegex(Invalid,'missing native role'): flow.start(s,s.entry('example'))
+        self.assertEqual(s.entry('example')['state'],'planned')
+        # A role removed after start is still refused at the original claim boundary.
+        self.p.graph([task()]); s=self.p.apply_started()
+        (self.p.root/'.codex/agents/backend-dev.toml').unlink()
         with self.assertRaisesRegex(Invalid,'not ready'): tasks.claim(s,s.entry('example'),'T1','id')
     def test_task_completion_marks_only_assigned_checkbox(self):
         self.p.graph([task('A'),task('B',writes=['src/b'])]); s=self.p.apply_started(); r=tasks.claim(s,s.entry('example'),'A','a-test')

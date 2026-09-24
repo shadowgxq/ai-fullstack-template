@@ -2,7 +2,7 @@
 
 ## 安装与唯一机制
 
-Manager 固定为 `shadowgxq/skills@db8f983c7e4626e9e4025493dfaa95d1f220ad55`，控制器 rc.3。项目内八个 Manager Skill、8 个 runtime 模块、相关引用与测试作为同一版本安装于 `.agents/skills`；[摘要清单](../../../scripts/manager/upstream.json) 校验来源。完整机制只看 [Manager 工作流](../../../.agents/skills/MANAGER-WORKFLOW.md) 和 [安装/迁移](../../../.agents/skills/MANAGER-V2-MIGRATION.md)，本页不复制它们。
+Manager 固定为 `shadowgxq/skills@6625edca2397a4f67d6ca82dace0bd0a41c08243`，控制器 2.0.0。项目内八个 Manager Skill、9 个 runtime 模块、相关引用与测试作为同一版本安装于 `.agents/skills`；[摘要清单](../../../scripts/manager/upstream.json) 校验来源。完整机制只看 [Manager 工作流](../../../.agents/skills/MANAGER-WORKFLOW.md) 和 [安装/迁移](../../../.agents/skills/MANAGER-V2-MIGRATION.md)，本页不复制它们。
 
 OpenSpec 使用 `@fission-ai/openspec@1.13.1`，core profile 的 6 个 Skills 由真实 CLI 生成：propose、explore、update、apply、sync-specs、archive。`.agents/skills/.openspec-target` 保留官方标记；不要手工改生成 Skill，升级使用相同 CLI 的 init/update 并复验。自定义 Manager/repair 不放到 frontend 下。
 
@@ -21,7 +21,9 @@ uv run --no-project --with PyYAML==6.0.3 python scripts/manager/plan_tool.py doc
 - [plan](../../../manager/plan.yaml)：v2 空计划，planned change 可以尚无制品。validate 只结构校验；start/gate 再查真实来源、批准、执行和证据。
 - [policy](../../../manager/policy.yaml)：auto 规划默认、4 个角色线程/2 个写任务、900 秒检查上限；实际 apply checks 为 `make check`、前端 build。OpenSpec strict validate 仍由机制内置，不放 `true` 替代。
 - [roles](../../../manager/roles.yaml) 与 `.codex/agents`：业务路径引用本仓库 docs。主模型及四个轻量角色采用固定上游原生配置；安装、静态配置正确不证明账号可访问模型。操作者核对实际客户端后调整配置并同步审查，不虚构 observed model。
-- `.codex/config.toml`：项目级配置，默认保护计划/历史、仅允许 loopback 网络；包安装/外部 API 域名需显式授权。frontend/backend/ai-service 私有 env 禁止读；不覆盖个人全局配置。
+- `.codex/config.toml`：项目级配置，角色文件自动发现，默认保护计划/历史、仅允许 loopback 网络；包安装/外部 API 域名需显式授权。frontend/backend/ai-service 私有 env 禁止读；不覆盖个人全局配置。
+
+新增安装使用 `.agents/skills/scripts/init_manager_project.py <project>` 预览；明确授权后 `--write` 仅补缺失文件，已有项目配置需合并，不能整体覆盖。本项目的 `change/apply/verify` 路由分别对应方案、实现与最终独立 reviewer；QA 负责取证，不代替最终 reviewer。`resolve-role --role <name>` 只报告配置，不证明真实模型已运行。完整约束见 [角色协议](../../../.agents/skills/manager-execute-current-batch/references/role-contract.md)。
 
 运行状态/批准/claims/ticket/预算持久化及保密要求见 [Manager README](../../../manager/README.md)。计划正文保持紧凑，日志、大截图不塞进 YAML。
 

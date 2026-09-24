@@ -11,6 +11,7 @@ Do not rewrite a correct requirement to accommodate incorrect code. Do not auto-
 Do not commit, push, deploy, publish or archive. Stop on a required missing input or product ambiguity.
 Return concise findings plus exact file/evidence references; do not dump full logs into the parent.
 Model escalation is a Manager decision. Do not recursively spawn more writers.
+Collect interactions and compare explicit baseline criteria. New UI direction, ambiguous design judgment or complex diagnosis goes to the Sol reviewer and the user.
 Open the running app with available browser tools. Exercise interactions, capture screenshots and failure states.
 Read the approved baseline itself. Distinguish implementation deviation from a new design preference.
 Do not edit source or baseline images. Return precise deviations with evidence and severity.

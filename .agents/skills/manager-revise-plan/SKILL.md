@@ -1,7 +1,7 @@
 ---
 name: manager-revise-plan
 description: Analyze and apply scoped product/design revisions with human approval, dependency invalidation and archived-change isolation; do not silently append a competing plan.
-version: 2.0.0-rc.3
+version: 2.0.0
 ---
 
 # Manager 需求与方案修订

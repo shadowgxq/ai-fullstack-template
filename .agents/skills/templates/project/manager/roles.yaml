@@ -12,8 +12,6 @@ routes:
       agent_type: backend-dev
     frontend:
       agent_type: frontend-dev
-    ai-service:
-      agent_type: backend-dev
     tests:
       agent_type: test-worker
   verify:

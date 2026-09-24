@@ -14,8 +14,9 @@ import manager_archive as archive
 import manager_flow as flow
 import manager_gate as gate
 import manager_tasks as tasks
+from manager_roles import describe_role
 
-COMMANDS = ('resolve-planning','validate','next','start','advance','block','set-review','repoint-current','resolve-inputs','inputs','normalize-inputs','compact','doctor','approve-technical','snapshot','task-ready','task-claim','task-finish','task-release','gate-run','impact','reopen','cancel','repair-begin','repair-finish','session-open','round-begin','round-finish','approve-milestone','seal-archives','archive-prepare','archive-finalize','archive-abort','prune','recover','completion-import')
+COMMANDS = ('resolve-role','resolve-planning','validate','next','start','advance','block','set-review','repoint-current','resolve-inputs','inputs','normalize-inputs','compact','doctor','approve-technical','snapshot','task-ready','task-claim','task-finish','task-release','gate-run','impact','reopen','cancel','repair-begin','repair-finish','session-open','round-begin','round-finish','approve-milestone','seal-archives','archive-prepare','archive-finalize','archive-abort','prune','recover','completion-import')
 
 def parser():
     p=argparse.ArgumentParser(description=__doc__)
@@ -26,6 +27,7 @@ def parser():
         if change: s.add_argument('--change',required=True,nargs='+' if multiple else None)
         if decide: s.add_argument('--decision-ref',required=True)
         return s
+    s=add('resolve-role'); s.add_argument('--role',required=True)
     s=add('resolve-planning'); s.add_argument('--planning',choices=('auto','full','rolling'))
     s=add('validate'); s.add_argument('--strict-inputs',action='store_true')
     s=add('next'); s.add_argument('--scope',choices=SCOPES,default='auto'); s.add_argument('--batch')
@@ -137,7 +139,9 @@ def main(argv=None):
         print(json.dumps({'version':VERSION,'plan_versions':[1,2],'commands':list(COMMANDS)})); return 0
     if not a.command: parser().error('a command is required')
     try:
-        if a.command=='resolve-planning':
+        if a.command=='resolve-role':
+            result=describe_role(Store(a.plan,a.root),a.role)
+        elif a.command=='resolve-planning':
             result=flow.resolve_planning(Store(a.plan,a.root),a.planning)
         elif a.command in ('validate','resolve-inputs','inputs','normalize-inputs'):
             result=readonly(a)

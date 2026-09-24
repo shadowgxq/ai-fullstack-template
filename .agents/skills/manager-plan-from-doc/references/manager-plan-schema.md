@@ -81,7 +81,7 @@ behavior 不控制调度。next 的 scope 控制执行候选，不是 planning �
 resolve-inputs 只展开当前消费者，返回独立副本。normalize-inputs --output <新文件> 写候选，不删规范、不覆盖活动计划或重置证据。
 归档快照携带当时完整 Input；删除公共定义前确认没有剩余引用。
 
-## 可选 execution.yaml
+## execution.yaml 与执行方式
 
 复杂 Change 的任务图放活动目录，仅定义 id/role/needs/reads/writes/resources/acceptance，不放运行状态。串行小 Change 不强制增加文件。
 

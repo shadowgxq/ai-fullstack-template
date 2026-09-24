@@ -1,7 +1,7 @@
 ---
 name: manager-prd-review
 description: Review product behavior and acceptance before technical design or a scoped requirement revision; use only relevant read-only reviewers and require human rulings on product blockers.
-version: 2.0.0-rc.1
+version: 2.0.0
 ---
 
 # Manager 需求评审
@@ -10,7 +10,7 @@ version: 2.0.0-rc.1
 输入为具体 PRD 或受控修订范围；已有制品不意味着需求永远不能复审，需配合 manager-revise-plan 处理失效。
 
 1. 读取当前范围、明确非目标、主要角色、输入和可观察验收。
-2. 按实际影响选择 product-manager、QA，以及必要前端/后端/UI角色。只读工作可并行，不每次固定启动所有角色。
+2. 按 roles 路由选择 product-manager、architect/reviewer 做需求与可测试性判断；QA/UI 轻角色只采集已有事实和明确检查项。需要开发视角时只读调查，不给评审线程写权限，不每次固定启动所有角色。
 3. 合并重复问题。每个 BLOCKER 有位置、证据、影响、建议和需要用户裁决的具体问题。
 4. 用户对产品问题裁决后再回写 PRD。不要把实现者偏好直接上升为需求。
 5. 普通建议不阻塞小改动，除非影响实际验收或安全。只修有证据的问题，不无限扩大评审。

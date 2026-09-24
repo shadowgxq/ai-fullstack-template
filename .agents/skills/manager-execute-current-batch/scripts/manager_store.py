@@ -164,6 +164,11 @@ class Store:
                 result[key] = self.hash_file(p, normalize_tasks)
         return result
     def hash_file(self, path, normalize_tasks=False):
+        # Secret files are denied to native roles: never open them just to hash code.
+        # Metadata still detects common edits/deletions without exposing content.
+        if path.name == '.env' or path.name.startswith('.env.'):
+            info=path.stat()
+            return digest({'secret_metadata_only':True,'size':info.st_size,'mtime_ns':info.st_mtime_ns,'mode':info.st_mode})
         b = path.read_bytes()
         if normalize_tasks and path.name == 'tasks.md':
             b = re.sub(rb'(?m)^(\s*[-*]\s+)\[[xX ]\]', rb'\1[ ]', b)

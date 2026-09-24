@@ -39,9 +39,9 @@ findings 每项须含 severity（critical/blocker/warning/suggestion）与 descr
 截图存在性检查不能证明视觉正确；真实浏览器记录和人工方向验收仍由实际工具与人完成。禁止把空证据、模拟截图或模型自述冒充真实验收。
 归档就绪后若其他 Change 改变集成代码，允许重新 gate-run --stage apply 更新集成验收凭证；不能直接利用旧 gate 归档。
 
-## 可选任务 DAG
+## 原生 Worker 任务图
 
-活动目录 `execution.yaml` 使用 `tasks` 列表。每项 id/role/needs/reads/writes/resources/acceptance；都是静态定义，运行状态只在 runtime。
+使用原生写入 Worker 时，活动目录 `execution.yaml` 必须存在，即使串行也可只定义一项任务；Manager 获准直接串行实现时才可省略。任务图在 change gate 前与其他制品一起批准。文件使用 `tasks` 列表。每项 id/role/needs/reads/writes/resources/acceptance；都是静态定义，运行状态只在 runtime。
 needs 是同 change 任务 ID；reads/writes 为精确相对文件或目录，无隐式 glob；不确定读范围用 `.`。先契约后实现，真实资源隔离后才并行。
 
 ```bash
@@ -59,3 +59,7 @@ claim 是持久占用，不是租约：只有确认原线程停止才可 task-re
 
 记录以完整性摘要和事务 journal 保护，崩溃后 recover 可重放未完成写入，冲突不覆盖。日志、审批引用和证据不能跨任务/版本伪复用。
 requested 模型配置不等于 observed 模型。本 runtime 不调用模型服务，native_execution 保持 unverified；实际派发与模型日志核验由 Codex 适配步骤完成。
+
+Review evidence 与 UI interaction_evidence 必须是非空文件；文件存在和非空仍不证明结论正确。
+角色模型记录区分 configured/requested 与 observed：resolve-role 仅解析项目可见 TOML 默认/例外，不执行模型调用，不读取用户机器配置或假设 spawn 覆盖；原生运行元数据不可见时 observed_model 保持 null。
+代码快照对 .env / .env.* 仅记录文件大小、时间和权限等元数据，不打开被权限策略禁止的秘密内容；这不是对抗恶意篡改的内容证明，真实秘密保护依赖原生 sandbox/权限。

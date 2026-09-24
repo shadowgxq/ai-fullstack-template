@@ -4,6 +4,7 @@ from copy import deepcopy
 import re
 from manager_schema import Invalid, cycle_errors, parse, require, strings
 from manager_store import PROTECTED, beneath, digest, now, overlap, rel, uid
+from manager_roles import role_definition, describe_role
 
 TASK_ID = re.compile(r'^[A-Za-z0-9][A-Za-z0-9_.-]*$')
 
@@ -35,14 +36,6 @@ def conflicts(a,b):
     ar = a.get('reads',[]) + a.get('writes',[]); br = b.get('reads',[]) + b.get('writes',[])
     return any(overlap(x,y) for x in a.get('writes',[]) for y in br) or any(overlap(x,y) for x in b.get('writes',[]) for y in ar)
 
-def role_definition(store, name):
-    import tomllib
-    path = store.file(f'.codex/agents/{name}.toml')
-    require(path.exists(), f'missing native role config: {name}')
-    data = tomllib.loads(path.read_text())
-    require(data.get('name')==name and data.get('description') and data.get('developer_instructions'), f'invalid native role config: {name}')
-    return data
-
 def records(store,e):
     contract = store.contract(e)
     return [r for r in store.state['claims'].values() if r['change']==e['id'] and r['contract']==contract]
@@ -50,12 +43,16 @@ def records(store,e):
 def ready(store,e):
     require(e['phase']=='apply' and e['state']=='in-progress','start apply before task scheduling')
     tasks = execution(store,e); saved = records(store,e)
+    if not tasks:
+        return {'ready':[], 'held':[{'task':None,'reasons':['native Worker requires execution.yaml, even for one serial task']}], 'completed':[]}
     done = {r['task']['id'] for r in saved if r['status']=='completed'}
     running = store.running(); policy = store.policy(); selected=[]; held=[]
     require(not any(r['status']=='running' for r in store.state['repairs'].values()), 'repair owns workspace; finish it before task scheduling')
     for task in tasks:
         tid = task['id']
         if tid in done: continue
+        if any(r['task']['id']==tid and r['status']=='failed' for r in saved):
+            held.append({'task':tid,'reasons':['failed task requires explicit repair/reopen']}); continue
         reasons=[]
         if any(r['change']==e['id'] and r['task']['id']==tid for r in running): reasons.append('already claimed; no automatic lease stealing')
         if not set(task.get('needs',[]))<=done: reasons.append('task dependencies unfinished')
@@ -76,8 +73,8 @@ def claim(store,e,tid,agent_id):
     require(not any(r['agent_id']==agent_id for r in store.running()), 'agent already owns a running task')
     task=next((t for t in ready(store,e)['ready'] if t['id']==tid),None)
     require(task is not None, f'task not ready: {tid}')
-    key=uid(); definition=role_definition(store,task['role'])
-    store.state['claims'][key]={'id':key,'change':e['id'],'revision':e.get('revision',1),'contract':store.contract(e),'task':task,'agent_id':agent_id,'status':'running','started_at':now(),'before':store.workspace(),'tasks_text':store.file(f'openspec/changes/{e["id"]}/tasks.md').read_text(),'requested_model':definition.get('model'),'observed_model':None}
+    key=uid(); definition=describe_role(store,task['role'])
+    store.state['claims'][key]={'id':key,'change':e['id'],'revision':e.get('revision',1),'contract':store.contract(e),'task':task,'agent_id':agent_id,'status':'running','started_at':now(),'before':store.workspace(),'tasks_text':store.file(f'openspec/changes/{e["id"]}/tasks.md').read_text(),'requested_model':definition['configured_model'],'requested_reasoning_effort':definition['configured_reasoning_effort'],'model_source':definition['model_source'],'observed_model':None}
     store.commit()
     return {'run_id':key,'task':task,'contract':store.state['claims'][key]['contract'],'agent_id':agent_id,'observed_model':None}
 
@@ -117,7 +114,9 @@ def finish(store,key,result_path):
     require(strings(reported) and all(any(beneath(p,w) for w in owned) for p in reported),'result reports unowned paths')
     require(all(p in actual for p in reported),'reported changes not found in workspace')
     if result['status']=='failed':
-        rec.update(status='failed',result_hash=result_hash); store.commit(); return {'ok':False,'status':'failed'}
+        rec.update(status='failed',finished_at=now(),result_hash=result_hash)
+        e['state']='blocked'; e['blockers']=['native task failed; inspect evidence and use explicit repair/reopen']
+        store.commit(); return {'ok':False,'status':'failed'}
     checks=result.get('checks')
     require(isinstance(checks,list) and checks and all(isinstance(x,dict) and x.get('status')=='passed' and x.get('evidence') for x in checks),'task checks/evidence missing')
     evidence={x['evidence']:store.source({'source':x['evidence']}) for x in checks}

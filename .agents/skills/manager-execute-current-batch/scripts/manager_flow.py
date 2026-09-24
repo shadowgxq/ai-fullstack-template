@@ -3,10 +3,11 @@ from __future__ import annotations
 from copy import deepcopy
 import re
 import shutil
-import tomllib
 from manager_schema import VERSION, PHASES, Invalid, parse, require, select_next, validate
 from manager_store import PROTECTED, beneath, digest, now, overlap, rel, uid
-from manager_tasks import complete, diff, execution, role_definition
+from manager_tasks import complete, diff, execution
+from manager_roles import check_roles, route_roles, describe_role, native_config
+from plan_inputs import resolve_inputs
 from manager_gate import fresh
 
 
@@ -40,6 +41,7 @@ def deps(store,e,stage):
 
 def eligible(store,e):
     store.active(e['id']); store.no_ticket(); store.guard_history(); store.policy()
+    check_roles(store, [t['role'] for t in execution(store,e)])
     require(e['phase'] in ('change','apply'), 'only change/apply can start')
     require(e.get('state')!='blocked','blocked work needs explicit reopen')
     require(not deps(store,e,e['phase']),'; '.join(deps(store,e,e['phase'])))
@@ -51,14 +53,25 @@ def eligible(store,e):
 
 def next_work(store,scope='auto',batch=None):
     selected=select_next(store.plan,scope,batch)
-    if selected['selected']:
-        sel=selected['selected']; acceptable=[]
-        for row in sel['entries']:
-            try: eligible(store,store.entry(row['id'])); acceptable.append(row)
-            except Invalid as exc: selected['held'].append({'id':row['id'],'reason':str(exc)})
-        sel['entries']=acceptable; sel['parallel']=sel['parallel'] and len(acceptable)>1
-        if not acceptable: selected['selected']=None
+    def filter_candidates(result):
+        if result['selected']:
+            sel=result['selected']; acceptable=[]
+            for row in sel['entries']:
+                try: eligible(store,store.entry(row['id'])); acceptable.append(row)
+                except Invalid as exc: result['held'].append({'id':row['id'],'reason':str(exc)})
+            sel['entries']=acceptable; sel['parallel']=sel['parallel'] and len(acceptable)>1
+            if not acceptable: result['selected']=None
+        return result
+    initial=deepcopy(selected['selected'])
+    selected=filter_candidates(selected)
+    # Only try apply in the SAME wave; never skip a blocked wave or approval.
+    if scope=='auto' and initial and initial['stage']=='change' and not selected['selected']:
+        fallback=filter_candidates(select_next(store.plan,'apply-only',initial['batch'],initial['wave']))
+        if fallback['selected']:
+            fallback['held']=selected['held']+fallback['held']
+            return fallback
     return selected
+
 
 def start(store,e,agent_id='manager'):
     contract=eligible(store,e)
@@ -110,6 +123,9 @@ def reopen(store,ids,kind,reference):
         require(not (kind=='code' and cid in ids and e['phase']=='change'),'code reopen cannot skip change authoring')
     for bid,b in {b['id']:b for b in store.plan['batches']}.items():
         if any(cid in affected for w in b['waves'] for cid in w['openspec']): store.state['milestones'].pop(bid,None)
+    for record in store.state['claims'].values():
+        if record['change'] in affected and record['status'] != 'superseded':
+            record['previous_status']=record['status']; record['status']='superseded'
     for cid in affected:
         e=store.entry(cid)
         if kind!='code':
@@ -117,8 +133,15 @@ def reopen(store,ids,kind,reference):
         elif e['phase']!='change': e['phase']='apply'
         e['state']='planned'; e.pop('blockers',None)
         store.state['gates'].pop(cid,None); store.state['starts'].pop(cid,None)
+    resets={}
+    for cid in affected:
+        path=f'openspec/changes/{cid}/tasks.md'
+        if store.file(path).is_file():
+            text=store.file(path).read_text()
+            reset=re.sub(r'(?m)^(\s*[-*]\s+)\[[xX]\]',r'\1[ ]',text)
+            if reset!=text: resets[path]=reset.encode()
     store.state.setdefault('revisions',[]).append({'at':now(),'kind':kind,'changes':affected,'decision_ref':reference})
-    store.commit(); return {'affected':affected,'kind':kind}
+    store.commit(resets); return {'affected':affected,'kind':kind}
 
 def cancel(store,ids,reference):
     decision(reference); store.no_ticket()
@@ -175,17 +198,51 @@ def resolve_planning(store, requested=None):
     return {'requested':'auto','source':'auto'}
 
 
+def prerequisite_batches(store, batches):
+    """Read-only upstream batches; excluding one from a session cannot bypass its gate."""
+    memberships={cid:b['id'] for b in store.plan['batches'] for w in b['waves'] for cid in w['openspec']}
+    entries={e['id']:e for e in store.plan['openspec']}
+    pending=[cid for cid,bid in memberships.items() if bid in batches]
+    seen=set(); upstream=set()
+    while pending:
+        cid=pending.pop()
+        if cid in seen: continue
+        seen.add(cid)
+        for dependency in entries[cid].get('depends_on',[]):
+            if dependency not in entries: continue  # Pruned dependencies use completion proof.
+            pending.append(dependency)
+            owner=memberships.get(dependency)
+            if owner and owner not in batches: upstream.add(owner)
+    return [b for b in store.plan['batches'] if b['id'] in upstream]
+
+
+def scope_fingerprint(store, batches):
+    known={b['id']:b for b in store.plan['batches']}
+    require(all(b in known for b in batches),'session scope changed; batch missing')
+    ids={cid for b in batches for w in known[b]['waves'] for cid in w['openspec']}
+    entries=[]
+    mutable={'phase','state','review','blockers','path','tasks','artifacts'}
+    requirements=set()
+    for e in store.plan['openspec']:
+        if e['id'] not in ids: continue
+        entries.append({k:v for k,v in e.items() if k not in mutable and k not in ('inputs','input_refs')})
+        entries[-1]['inputs']=resolve_inputs(store.plan,e)
+        requirements.update(e.get('requirements',[]))
+    return digest({'batches':[known[b] for b in batches], 'prerequisite_batches':prerequisite_batches(store,batches), 'entries':entries,
+                   'requirements':[r for r in store.plan['requirements'] if r['id'] in requirements]})
+
+
 def session_open(store,batches,rounds,reference):
     decision(reference); store.no_ticket(); require(type(rounds) is int and rounds>0,'positive max-rounds required')
     known={b['id']:b for b in store.plan['batches']}
     require(batches and len(batches)==len(set(batches)) and set(batches)<=set(known),'unknown/empty/duplicate session batch scope')
-    key=uid(); store.state['sessions'][key]={'id':key,'batches':batches,'scope_hash':digest([known[x] for x in batches]),'max_rounds':rounds,'rounds':0,'open_round':None,'status':'active','decision_ref':reference,'checkpoints':{},'at':now()}
+    key=uid(); store.state['sessions'][key]={'id':key,'batches':batches,'scope_hash':scope_fingerprint(store,batches),'scope_version':2,'max_rounds':rounds,'rounds':0,'open_round':None,'status':'active','decision_ref':reference,'checkpoints':{},'at':now()}
     store.commit(); return {'session':key,'max_rounds':rounds,'batches':batches}
 
 
 def session_scope(store,session):
     known={b['id']:b for b in store.plan['batches']}
-    require(all(x in known for x in session['batches']) and digest([known[x] for x in session['batches']])==session['scope_hash'],'session scope changed; explicit new authorization needed')
+    require(session.get('scope_version')==2 and scope_fingerprint(store,session['batches'])==session['scope_hash'],'session scope changed or legacy session; explicit new authorization needed')
     return known
 
 
@@ -226,6 +283,16 @@ def checkpoint(store,session,batch,rows):
 
 def session_next(store,session,known):
     """Select only frozen, authorized batches; never plan, approve or archive."""
+    for batch in prerequisite_batches(store,session['batches']):
+        bid=batch['id']; rows=[store.entry(cid) for w in batch['waves'] for cid in w['openspec']]
+        if not rows or any(e['phase'] not in ('archive','done') or e.get('state') in ('blocked','cancelled') for e in rows):
+            return None,'held',[{'batch':bid,'reason':'upstream batch is not completed; excluding it does not bypass its boundary'}]
+        try: checkpoint(store,session,batch,rows)
+        except Invalid as exc:
+            reason='milestone' if str(exc)=='milestone product acceptance pending' else 'held'
+            return None,reason,[{'batch':bid,'reason':str(exc)}]
+        if batch.get('planning_boundary'):
+            return None,'planning-boundary',[{'batch':bid,'reason':batch['planning_boundary']}]
     for bid in session['batches']:
         batch=known[bid]
         rows=[store.entry(cid) for w in batch['waves'] for cid in w['openspec']]
@@ -289,30 +356,28 @@ def approve_milestone(store,batch,reference):
     store.state['milestones'][batch]={'snapshots':snapshots,'decision_ref':reference,'at':now()}; store.commit(); return {'approved_milestone':batch}
 
 def doctor(store):
-    errors=[]; warnings=[]; roles=[]
+    errors=[]; warnings=[]; roles=[]; additional=set(); descriptions=[]
     try: store.policy(); resolve_planning(store)
-    except Invalid as exc: errors.append(str(exc))
-    p=store.file('manager/roles.yaml')
-    if not p.exists(): errors.append('missing manager/roles.yaml')
-    else:
-        data=parse(p.read_text()); require(isinstance(data,dict) and isinstance(data.get('routes'),dict),'roles.routes must be a mapping')
-        def walk(node):
-            if isinstance(node,dict):
-                if 'agent_type' in node: roles.append(node['agent_type'])
-                if 'fallback' in node: roles.append(node['fallback'])
-                for value in node.values(): walk(value)
-            elif isinstance(node,list):
-                for value in node: walk(value)
-        walk(data)
-        for role in sorted(set(roles)):
-            try: role_definition(store,role)
-            except (Invalid,tomllib.TOMLDecodeError) as exc: errors.append(str(exc))
+    except (Invalid, OSError, ValueError) as exc: errors.append(str(exc))
     for e in store.plan['openspec']:
         if e['phase']=='done' or e.get('state')=='cancelled': continue
-        try: execution(store,e)
-        except Invalid as exc: errors.append(str(exc))
+        try: additional.update(t['role'] for t in execution(store,e))
+        except (Invalid, OSError, ValueError) as exc: errors.append(str(exc))
+    try: roles=sorted(set(route_roles(store))|additional)
+    except (Invalid, OSError, ValueError) as exc:
+        errors.append(str(exc)); roles=sorted(additional)
+    for role in roles:
+        try: descriptions.append(describe_role(store,role))
+        except (Invalid, OSError, ValueError) as exc: errors.append(str(exc))
+    try:
+        config=native_config(store); capacity=config.get('agents',{}).get('max_concurrent_threads_per_session',config.get('agents',{}).get('max_threads'))
+        if capacity is not None and store.policy().get('max_agents',4)>capacity:
+            errors.append('policy.max_agents exceeds project Codex subagent capacity')
+    except (Invalid, OSError, ValueError) as exc: errors.append(str(exc))
+    if any(d['configured_model'] is None for d in descriptions):
+        warnings.append('some models inherit machine/runtime settings; project files cannot prove the effective model')
     for executable in ('codex','openspec'):
         if not shutil.which(executable): warnings.append(f'{executable} not found; native/CLI end-to-end not verified')
     try: store.guard_history()
     except Invalid as exc: errors.append(str(exc))
-    return {'ok':not errors,'version':VERSION,'errors':errors,'warnings':warnings,'roles':sorted(set(roles)),'native_execution':'unverified'}
+    return {'ok':not errors,'version':VERSION,'errors':list(dict.fromkeys(errors)),'warnings':warnings,'roles':roles,'role_configuration':descriptions,'native_execution':'unverified'}

@@ -5,7 +5,7 @@ import re
 import yaml
 from plan_inputs import input_issues, resolve_inputs
 
-VERSION = '2.0.0-rc.3'
+VERSION = '2.0.0'
 PHASES = ('change', 'apply', 'archive', 'done')
 STATES = ('planned', 'ready', 'in-progress', 'blocked', 'cancelled')
 SCOPES = ('auto', 'full', 'change-only', 'apply-only', 'legacy-all-change')
@@ -153,42 +153,43 @@ def validate(plan, strict_inputs=False, completed_ids=()):
     if any('behavior' in b for b in groups['batches'].values()): warnings.append('legacy batch.behavior ignored')
     return errors, warnings
 
-def select_next(plan, scope='auto', only_batch=None):
-    """Pure structural selection; runtime adds evidence/approval holds before start."""
+def select_next(plan, scope='auto', only_batch=None, only_wave=None):
+    """Select within a wave; runnable apply work can unblock a pending producer input."""
     require(scope in SCOPES, f'unknown scope {scope}')
+    if only_batch:
+        require(any(b['id']==only_batch for b in plan.get('batches',[])), f'unknown batch: {only_batch}')
     if scope == 'legacy-all-change':
-        first = select_next(plan, 'change-only', only_batch)
-        return first if first['selected'] else select_next(plan, 'apply-only', only_batch)
+        first = select_next(plan, 'change-only', only_batch, only_wave)
+        return first if first['selected'] else select_next(plan, 'apply-only', only_batch, only_wave)
     entries = {e['id']: e for e in plan.get('openspec', [])}
     held, archives = [], []
     for b in plan.get('batches', []):
         if only_batch and b['id'] != only_batch: continue
         for w in b['waves']:
+            if only_wave and w['id'] != only_wave: continue
             active = [entries[c] for c in w['openspec'] if entries[c].get('state') != 'cancelled']
             pending = [e for e in active if e['phase'] in ('change', 'apply')]
             if not pending:
                 if any(e['phase'] == 'archive' for e in active): archives.append(b['id'])
                 continue
-            stage = 'change' if any(e['phase'] == 'change' for e in pending) else 'apply'
-            if scope == 'change-only' and stage != 'change' or scope == 'apply-only' and stage != 'apply':
-                continue
-            eligible = []
-            for e in pending:
-                if e['phase'] != stage: continue
-                reasons = []
-                for dep in e.get('depends_on', []):
-                    d = entries.get(dep)
-                    if d and (d.get('state') in ('blocked', 'cancelled') or PHASES.index(d['phase']) < (1 if stage == 'change' else 2)):
-                        reasons.append(f'dependency {dep} not ready')
-                if e.get('state') == 'blocked': reasons.append('blocked')
-                if stage == 'apply' and e.get('review') != 'approved': reasons.append('review pending')
-                if reasons: held.append({'id': e['id'], 'reason': '; '.join(reasons)})
-                else:
-                    row = deepcopy(e); row['inputs'] = resolve_inputs(plan, e)
-                    row.setdefault('path', f'openspec/changes/{e["id"]}'); row.setdefault('tasks', row['path'] + '/tasks.md')
-                    eligible.append(row)
-            if eligible:
-                return {'selected': {'batch': b['id'], 'wave': w['id'], 'stage': stage, 'goal': b.get('goal', ''), 'parallel': bool(w.get('parallel')) and len(eligible)>1, 'entries': eligible}, 'held': held, 'archive_ready': sorted(set(archives))}
+            stages = ('change',) if scope=='change-only' else ('apply',) if scope=='apply-only' else ('change','apply')
+            for stage in stages:
+                eligible = []
+                for e in pending:
+                    if e['phase'] != stage: continue
+                    reasons = []
+                    for dep in e.get('depends_on', []):
+                        d = entries.get(dep)
+                        if d and (d.get('state') in ('blocked', 'cancelled') or PHASES.index(d['phase']) < (1 if stage == 'change' else 2)):
+                            reasons.append(f'dependency {dep} not ready')
+                    if e.get('state') == 'blocked': reasons.append('blocked')
+                    if stage == 'apply' and e.get('review') != 'approved': reasons.append('review pending')
+                    if reasons: held.append({'id': e['id'], 'reason': '; '.join(reasons)})
+                    else:
+                        row = deepcopy(e); row['inputs'] = resolve_inputs(plan, e)
+                        row.setdefault('path', f'openspec/changes/{e["id"]}'); row.setdefault('tasks', row['path'] + '/tasks.md')
+                        eligible.append(row)
+                if eligible:
+                    return {'selected': {'batch': b['id'], 'wave': w['id'], 'stage': stage, 'goal': b.get('goal', ''), 'parallel': bool(w.get('parallel')) and len(eligible)>1, 'entries': eligible}, 'held': held, 'archive_ready': sorted(set(archives))}
             if scope == 'auto': return {'selected': None, 'held': held, 'archive_ready': sorted(set(archives))}
-            break
     return {'selected': None, 'held': held, 'archive_ready': sorted(set(archives))}

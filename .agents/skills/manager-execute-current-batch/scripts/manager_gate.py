@@ -41,6 +41,8 @@ def review(store,e,path,snapshot):
         require(isinstance(f,dict) and f.get('severity') in ('critical','blocker','warning','suggestion') and f.get('description'),'invalid review finding')
     require(not any(f['severity'] in ('critical','blocker') for f in findings),'blocking review findings')
     paths=report.get('evidence'); require(isinstance(paths,list) and paths,'review evidence required')
+    for p in paths:
+        require(isinstance(p,str) and store.file(p).is_file() and store.file(p).stat().st_size>0,'review evidence must be a nonempty file')
     evidence={p:store.source({'source':p}) for p in paths}
     started=store.state['starts'].get(e['id'],{})
     changed=diff(started.get('code',{}),store.code())
@@ -54,6 +56,7 @@ def review(store,e,path,snapshot):
         for p in screenshots:
             f=store.file(p); require(f.suffix.lower() in ('.png','.jpg','.jpeg','.webp') and f.is_file() and f.stat().st_size>0,'missing/empty screenshot')
             evidence[p]=store.source({'source':p})
+        require(isinstance(interactions,str) and store.file(interactions).is_file() and store.file(interactions).stat().st_size>0,'UI interaction evidence must be a nonempty file')
         evidence[interactions]=store.source({'source':interactions})
     return {'reviewer_agent_id':who,'report':str(file.relative_to(store.root)),'report_sha256':digest(file.read_bytes()),'evidence':evidence,'ui_required':ui_needed}
 

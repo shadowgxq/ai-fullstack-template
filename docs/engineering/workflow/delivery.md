@@ -14,7 +14,7 @@
 
 Change 按可独立验收的意图划分，前端/后端/测试通常是内部任务。契约与迁移先确定；之后仅在代码路径、DB、端口、缓存和浏览器资源无冲突时并行。change 间 waves 与 change 内 execution DAG 分开。
 
-角色通过根 AGENTS 和受影响端导航读取规则；PRD、技术/UI 基线走专用字段，真正共享输入定义一次并以 input_refs 引用，不把规范目录和整仓库都登记成 Input。Worker 返回修改、结果与证据；Manager 核对后单写 plan/tasks。真实线程未停止不能抢占任务。
+角色通过根 AGENTS 和受影响端导航读取规则；PRD、技术/UI 基线走专用字段，真正共享输入定义一次并以 input_refs 引用，不把规范目录和整仓库都登记成 Input。原生写入 Worker 即使串行也必须使用 execution.yaml，先 claim 再写；无图只用于明确许可的 Manager 直接串行实现。Worker 返回修改、结果与证据；Manager 核对后单写 plan/tasks。最终独立 reviewer 不由 QA 或实现线程替代。真实线程未停止不能抢占任务。
 
 ## 验证与同步
 

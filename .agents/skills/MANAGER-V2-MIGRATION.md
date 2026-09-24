@@ -1,7 +1,7 @@
 # Manager v2 安装、迁移与验收
 
-控制工具版本：2.0.0-rc.3。Python 3.11+、PyYAML；实际项目需要已安装的 OpenSpec CLI 和可用的原生 Agent 工具。
-不能仅更新 SKILL.md。`manager-execute-current-batch/scripts/` 中 8 个 Python 文件必须作为同一版本安装。
+控制工具版本：2.0.0。Python 3.11+、PyYAML；实际项目需要已安装的 OpenSpec CLI 和可用的原生 Agent 工具。
+不能仅更新 SKILL.md。`manager-execute-current-batch/scripts/` 中所有 Python 文件（包括 manager_roles.py）必须作为同一版本安装。
 
 ## 1. 先检查，不改变产品批准
 
@@ -36,9 +36,30 @@ checks:
 ```
 
 OpenSpec strict validate 是内置必跑项，不因 change checks 为空跳过。缺少项目检查会阻止 apply；不能放 `true` 或打印 PASS 代替业务检查。
-roles.routes 里的角色必须同时在项目 `.codex/config.toml` 以 `[agents.<name>]` + `config_file` 注册，并指向 `.codex/agents/<name>.toml`；角色文件的 name/description/developer_instructions 仍为 Manager 校验输入。模型、reasoning、权限按实际本机 Codex 版本核对，不能用角色自述证明模型。
+manager/roles.yaml 只维护阶段/任务到原生角色的路由；模板现在包含完整路由，不由 Model profile 自建路由层。当前 Codex 支持自动加载 .codex/agents/*.toml；显式 [agents.<name>].config_file 为兼容方式，并非唯一方式。存在显式声明时 doctor 核对路径及描述，不静默忽略错误声明。模板去掉重复注册，角色 name/description/developer_instructions 只维护一份。
 
-项目模板采用两档原生模型策略：root 与默认 subagent 使用 `gpt-6-sol` + `xhigh`；architect/backend-dev/frontend-dev/product-manager/reviewer 不写模型字段，继承该默认值；explorer/qa/test-worker/ui-ux-reviewer 显式覆盖为 `gpt-6-luna` + `max`。切换主力模型只改 `.codex/config.toml` 的 root/default 两个入口；轻量角色保留显式覆盖，并由仓库测试约束四个角色保持一致。不要再引入 Terra 中间档或自定义 model_profile 翻译层。
+root 与默认 subagent 为 gpt-6-sol/xhigh；architect/backend-dev/frontend-dev/product-manager/reviewer 继承默认，explorer/qa/test-worker/ui-ux-reviewer 为 gpt-6-luna/max。轻角色仅做边界明确的调查/测试/证据采集；复杂测试设计、根因及最终独立评审交给 Sol 角色。模型和 effort 是否对本机账号可用必须另行预检。
+
+### 从全局 Skill 安装到项目
+
+全局 skills/templates/project 是模板源，不会自动成为业务项目配置。首次接入（在获授权 operator 环境执行）：
+
+```bash
+python3 /home/gxq/.agents/skills/scripts/init_manager_project.py /path/to/project
+python3 /home/gxq/.agents/skills/scripts/init_manager_project.py /path/to/project --write
+```
+
+默认只预览；--write 只创建缺失的角色、config、roles、policy 文件，绝不覆盖已存在文件或生成 plan/runtime/批准。存在同名定制文件时原样保留，并在 preserved 中报告，需按差异合并后再 doctor；这不是自动升级/覆盖工具。运行中的 session/claims/repair/archive ticket 或事务存在时拒绝写入。不要覆盖 ~/.codex 配置、MCP/provider、项目 checks 或历史状态。
+
+把 policy.checks 换成本项目真实可运行检查，再启动新 Codex 会话核对角色发现与实际模型；只复制模板不代表原生执行就绪。分别运行：
+
+```bash
+python3 "$PT" --plan manager/plan.yaml doctor
+python3 "$PT" --plan manager/plan.yaml resolve-role --role backend-dev
+```
+
+doctor 校验 core routes、实际任务角色、本地 native 配置及并发上限；resolve-role 可在 plan 创建前只读展示配置继承，observed_model 始终不冒充实际值。当前控制器要求角色定义位于项目内，不把全局模板或符号链接当作项目运行配置。详细约定见[角色协议](manager-execute-current-batch/references/role-contract.md)。
+
 已有工程规范继续通过 AGENTS.md 和角色阅读入口生效。它们不是每个 Change 的必需 Input。接口契约、数据/原型等真正输入共用顶层定义并显式引用，详见输入契约。
 
 ## 3. 计划格式与批准
@@ -89,3 +110,8 @@ prune 仅移除具有有效完成凭证的 done，保存展开后的 Input 历�
 如需回滚控制工具，先停止写入，把代码、plan 与 runtime 作为同一备份恢复；不能让旧工具读取新状态后继续自动推进。
 本地 hash、decision_ref、agent_id 属于协作控制，不是身份认证；同用户恶意进程仍可篡改状态。严格边界需要受保护 CI、隔离工作区、权限和可信审批系统。
 不保证 native Agent 已执行、不自动启动服务、合并 PR、归档或部署。实际 CI 的 live OpenSpec 测试与原生 Codex/业务/UI 验收是不同层级。
+## 7. V2 最终稿接入注意
+
+各 Manager Skill 与控制工具统一为 2.0.0，runtime 文件保持 version:2。升级前结束正在运行的原生线程和旧轮次，不搬动/改写历史目录。rc.3 的 session 缺少完整语义范围绑定，升级后需明确新授权创建新 session；不复用或伪造 scope_hash。旧技术/制品批准仍按内容与 gate 规则核验，不自动放行。
+原生 Worker 必须有最小 execution.yaml；不允许无图派发后补 claim。缺工具可经明确授权由 Manager 直接串行实现，但最终独立 Review/项目验证缺失时仍不能标记完成。
+归档、Git 提交/合并和部署继续是分别授权的动作。本版没有自动批准、自动归档或自动扩大运行范围。

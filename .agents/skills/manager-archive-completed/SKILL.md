@@ -1,7 +1,7 @@
 ---
 name: manager-archive-completed
 description: Archive only explicitly approved, freshly verified active changes through real OpenSpec; verify immutable history and new archive content, then prune with persistent dependency records.
-version: 2.0.0-rc.1
+version: 2.0.0
 ---
 
 # Manager 显式归档与计划剪枝

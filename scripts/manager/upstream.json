@@ -1,72 +1,27 @@
 {
   "repository": "shadowgxq/skills",
-  "commit": "db8f983c7e4626e9e4025493dfaa95d1f220ad55",
-  "version": "2.0.0-rc.3",
+  "commit": "6625edca2397a4f67d6ca82dace0bd0a41c08243",
+  "version": "2.0.0",
   "files": [
     {
-      "source": "manager-execute-current-batch/SKILL.md",
-      "path": ".agents/skills/manager-execute-current-batch/SKILL.md",
-      "sha256": "310db4bfb4881e04e08a3d94803287a8988ad2f3ddd471d0da3c750f8c9e971d"
+      "source": ".github/workflows/manager-runtime.yml",
+      "path": ".agents/skills/.github/workflows/manager-runtime.yml",
+      "sha256": "832cd56f27b1b9ff7aa3df05ab0d2338a15ff8ba5486eda85d220b2bc965f867"
     },
     {
-      "source": "manager-execute-current-batch/references/subagent-batch-handoff.md",
-      "path": ".agents/skills/manager-execute-current-batch/references/subagent-batch-handoff.md",
-      "sha256": "cb3f67d5d625cc8222e48500fbcff9d05401411d680aa9dfa6b5712adff8d47c"
+      "source": "MANAGER-V2-MIGRATION.md",
+      "path": ".agents/skills/MANAGER-V2-MIGRATION.md",
+      "sha256": "4f2e7ca648b0c013c1c39ea8d2d427e1c92ea0fde538474c20bbcc400f802e03"
     },
     {
-      "source": "manager-execute-current-batch/references/evidence-contract.md",
-      "path": ".agents/skills/manager-execute-current-batch/references/evidence-contract.md",
-      "sha256": "f2aeaa6ea7351d29eb50f65a9ff141d3e2c1cb3687a8452a89d1a5e729f731b7"
-    },
-    {
-      "source": "manager-execute-current-batch/references/verify-auto-repair.md",
-      "path": ".agents/skills/manager-execute-current-batch/references/verify-auto-repair.md",
-      "sha256": "1102cec3be6b5384a355938e59a07499f50c8aa514fab5be082bcedbadcf8957"
-    },
-    {
-      "source": "manager-execute-current-batch/scripts/manager_store.py",
-      "path": ".agents/skills/manager-execute-current-batch/scripts/manager_store.py",
-      "sha256": "c0666e4fd1c8a364f21cefe687efdd7b51edd547f4e5081fa4972e3147fe7c5f"
-    },
-    {
-      "source": "manager-execute-current-batch/scripts/manager_flow.py",
-      "path": ".agents/skills/manager-execute-current-batch/scripts/manager_flow.py",
-      "sha256": "3035c3f60896ef7b5ae3263492045e430dc63d867b0ffc15e6c2c7ba08fdbf44"
-    },
-    {
-      "source": "manager-execute-current-batch/scripts/plan_tool.py",
-      "path": ".agents/skills/manager-execute-current-batch/scripts/plan_tool.py",
-      "sha256": "1e936a17e7e991e1b6914ce9203308908f792b22d75e537abaf29cdb8772657e"
-    },
-    {
-      "source": "manager-execute-current-batch/scripts/manager_schema.py",
-      "path": ".agents/skills/manager-execute-current-batch/scripts/manager_schema.py",
-      "sha256": "63ca923e5e5d55882c1e0e0d45dc05dd68ea9edabbf048ab395b16237d897883"
-    },
-    {
-      "source": "manager-execute-current-batch/scripts/manager_archive.py",
-      "path": ".agents/skills/manager-execute-current-batch/scripts/manager_archive.py",
-      "sha256": "6dd978b00ea80a7cb7571ccf7942edd08d1bb46d66a0f3294631ec77a192def0"
-    },
-    {
-      "source": "manager-execute-current-batch/scripts/manager_tasks.py",
-      "path": ".agents/skills/manager-execute-current-batch/scripts/manager_tasks.py",
-      "sha256": "2828d383ce85706839f090cd385f705ad8fcc89d1ff0e4ac32c86327743d623d"
-    },
-    {
-      "source": "manager-execute-current-batch/scripts/plan_inputs.py",
-      "path": ".agents/skills/manager-execute-current-batch/scripts/plan_inputs.py",
-      "sha256": "f8036da02e3d6ec36c0107428a156fc3ce52f6a5b9e6e5c28ef6093f4d45ecea"
-    },
-    {
-      "source": "manager-execute-current-batch/scripts/manager_gate.py",
-      "path": ".agents/skills/manager-execute-current-batch/scripts/manager_gate.py",
-      "sha256": "784775ba11298d8ad6d0ae0ac48523cc9fa2e98c41d2f84a9f8f033f1f9fdf92"
+      "source": "MANAGER-WORKFLOW.md",
+      "path": ".agents/skills/MANAGER-WORKFLOW.md",
+      "sha256": "eba8a4a4c61dcc97d1c8dc06cf4013d7f1eb4aef1cea8f4359d3961b22d6e066"
     },
     {
       "source": "manager-archive-completed/SKILL.md",
       "path": ".agents/skills/manager-archive-completed/SKILL.md",
-      "sha256": "952b098989ec5327583b4e483f870cb1e57253793f80d745d459258863ccda47"
+      "sha256": "fbf2ea8f6a8d7b71b27e863cf40d397fd241352c66ad3eed4bce9e84fdd7d0c4"
     },
     {
       "source": "manager-archive-completed/agents/openai.yaml",
@@ -74,69 +29,9 @@
       "sha256": "37b4e07661e042fbd62ac57b248a0e62d43d4a274e2c15a7aadee4210444096e"
     },
     {
-      "source": "manager-plan-from-doc/SKILL.md",
-      "path": ".agents/skills/manager-plan-from-doc/SKILL.md",
-      "sha256": "8ea54ee16f1123a9b33141105e3e83164519dcce6a67514fb8187432ff3fae31"
-    },
-    {
-      "source": "manager-plan-from-doc/references/planning-rules.md",
-      "path": ".agents/skills/manager-plan-from-doc/references/planning-rules.md",
-      "sha256": "b60ec4673fbf681010ed2ab48c789487111fe0efa2387c48094cbcd96ea4330f"
-    },
-    {
-      "source": "manager-plan-from-doc/references/input-contract.md",
-      "path": ".agents/skills/manager-plan-from-doc/references/input-contract.md",
-      "sha256": "f9808dc3fe22e6efecc19be7bee861c735234c546eb49a0af2f1ad1164c1e4b2"
-    },
-    {
-      "source": "manager-plan-from-doc/references/planning-strategy.md",
-      "path": ".agents/skills/manager-plan-from-doc/references/planning-strategy.md",
-      "sha256": "53825851f1420a15fb4c6c9632ccf8a33627f4b7cd5248d1d5afc8d63507e54a"
-    },
-    {
-      "source": "manager-plan-from-doc/references/manager-plan-schema.md",
-      "path": ".agents/skills/manager-plan-from-doc/references/manager-plan-schema.md",
-      "sha256": "2585e3a5d596539123c66694d663c42424dcb444e13bd15f6c5dadc42c56c5ce"
-    },
-    {
-      "source": "manager-plan-from-doc/templates/preview.md",
-      "path": ".agents/skills/manager-plan-from-doc/templates/preview.md",
-      "sha256": "c31c15f6eca8a3e743f4d5ace48b6d131063a1703bd638dfa336954287dc9f53"
-    },
-    {
-      "source": "manager-plan-from-doc/templates/plan-write.md",
-      "path": ".agents/skills/manager-plan-from-doc/templates/plan-write.md",
-      "sha256": "26dbd06e6b5ed2c05a4e43e7ea62e5a311590bc1257f5340276d6c070166343e"
-    },
-    {
-      "source": "manager-run/SKILL.md",
-      "path": ".agents/skills/manager-run/SKILL.md",
-      "sha256": "0bd8f484da124e477a45424ae273a54a6eb94582bb1d9f0fbdff972a6dedd53d"
-    },
-    {
-      "source": "manager-tech-design/SKILL.md",
-      "path": ".agents/skills/manager-tech-design/SKILL.md",
-      "sha256": "9807b49bd0ab1312c273f65b0018367b11788db6641013ce6a9c7439423db5fb"
-    },
-    {
-      "source": "manager-tech-design/templates/review.md",
-      "path": ".agents/skills/manager-tech-design/templates/review.md",
-      "sha256": "0d10763615ee7dcd631992a6835f290e2eca80011f7d66ee4194d8344bf1959c"
-    },
-    {
-      "source": "manager-tech-design/templates/feature-design.md",
-      "path": ".agents/skills/manager-tech-design/templates/feature-design.md",
-      "sha256": "6dd9b542924f7d8c0186fd1c6f0467cd7f960f34088c6e4fa8d427accf60f201"
-    },
-    {
-      "source": "manager-tech-design/templates/overview.md",
-      "path": ".agents/skills/manager-tech-design/templates/overview.md",
-      "sha256": "cda4ba4eafffdaacaf2e43b24f79174a05b48ee9a5ce8bcd60fa3d9e64b9c219"
-    },
-    {
       "source": "manager-bugfix/SKILL.md",
       "path": ".agents/skills/manager-bugfix/SKILL.md",
-      "sha256": "00a3dcd3c4e93302bf63c01c4b5f3de3681eda0a5a73020f1d4e7ef36932e50f"
+      "sha256": "62e94bba32954debd3e96b5866bb8b386a8ef6d6f29a92b0188e4b3c1bd6bc34"
     },
     {
       "source": "manager-bugfix/references/backwrite-matrix.md",
@@ -154,24 +49,144 @@
       "sha256": "60ed7ea366bcf0f92b06774ee777cfb2d72bd3966951bed963472bb2c3a4f950"
     },
     {
-      "source": "manager-revise-plan/SKILL.md",
-      "path": ".agents/skills/manager-revise-plan/SKILL.md",
-      "sha256": "b1542803ac3d17385ac5718840da6c133fdec49683e0dc6b3c73fcccc4eb40a2"
+      "source": "manager-execute-current-batch/SKILL.md",
+      "path": ".agents/skills/manager-execute-current-batch/SKILL.md",
+      "sha256": "ecbb9fda50e597913675194df9c3d91ce7713db644c707f9d31fcbff4b20c958"
+    },
+    {
+      "source": "manager-execute-current-batch/references/evidence-contract.md",
+      "path": ".agents/skills/manager-execute-current-batch/references/evidence-contract.md",
+      "sha256": "f83b7428f20750111365de5d195077daa399965be8937a28035e0c06efae4562"
+    },
+    {
+      "source": "manager-execute-current-batch/references/role-contract.md",
+      "path": ".agents/skills/manager-execute-current-batch/references/role-contract.md",
+      "sha256": "465b68abbd5840b485d87f52accf640c9c9e725417ea0544627c49b07697f949"
+    },
+    {
+      "source": "manager-execute-current-batch/references/subagent-batch-handoff.md",
+      "path": ".agents/skills/manager-execute-current-batch/references/subagent-batch-handoff.md",
+      "sha256": "cb3f67d5d625cc8222e48500fbcff9d05401411d680aa9dfa6b5712adff8d47c"
+    },
+    {
+      "source": "manager-execute-current-batch/references/verify-auto-repair.md",
+      "path": ".agents/skills/manager-execute-current-batch/references/verify-auto-repair.md",
+      "sha256": "1102cec3be6b5384a355938e59a07499f50c8aa514fab5be082bcedbadcf8957"
+    },
+    {
+      "source": "manager-execute-current-batch/scripts/manager_archive.py",
+      "path": ".agents/skills/manager-execute-current-batch/scripts/manager_archive.py",
+      "sha256": "6dd978b00ea80a7cb7571ccf7942edd08d1bb46d66a0f3294631ec77a192def0"
+    },
+    {
+      "source": "manager-execute-current-batch/scripts/manager_flow.py",
+      "path": ".agents/skills/manager-execute-current-batch/scripts/manager_flow.py",
+      "sha256": "34b1da19e667a9522e021964c62e0d9e62deb2ed335f3f4f8645f3ce221d8909"
+    },
+    {
+      "source": "manager-execute-current-batch/scripts/manager_gate.py",
+      "path": ".agents/skills/manager-execute-current-batch/scripts/manager_gate.py",
+      "sha256": "721763d7e7ec6bfda989ac50566d69bf676b7896aeb937a2d0ab14334e7ff2d5"
+    },
+    {
+      "source": "manager-execute-current-batch/scripts/manager_roles.py",
+      "path": ".agents/skills/manager-execute-current-batch/scripts/manager_roles.py",
+      "sha256": "027e9724b8b8ff56f85f802ff6b9eb1d4e6a8a7e29f7d6e19fd865a1a7123a84"
+    },
+    {
+      "source": "manager-execute-current-batch/scripts/manager_schema.py",
+      "path": ".agents/skills/manager-execute-current-batch/scripts/manager_schema.py",
+      "sha256": "feb2d1fbc27f49005237238c31930b215d1a5c1b844dc3f6d54f81b6710eb050"
+    },
+    {
+      "source": "manager-execute-current-batch/scripts/manager_store.py",
+      "path": ".agents/skills/manager-execute-current-batch/scripts/manager_store.py",
+      "sha256": "51ba14cd030b628f91ccfe15cbd9b75421c37c46a48c1460bc86988101c2233b"
+    },
+    {
+      "source": "manager-execute-current-batch/scripts/manager_tasks.py",
+      "path": ".agents/skills/manager-execute-current-batch/scripts/manager_tasks.py",
+      "sha256": "a24643dc520005443861baa38d3baaafb29bffd5b79e13a97ce9e9fa5a8f3a0c"
+    },
+    {
+      "source": "manager-execute-current-batch/scripts/plan_inputs.py",
+      "path": ".agents/skills/manager-execute-current-batch/scripts/plan_inputs.py",
+      "sha256": "f8036da02e3d6ec36c0107428a156fc3ce52f6a5b9e6e5c28ef6093f4d45ecea"
+    },
+    {
+      "source": "manager-execute-current-batch/scripts/plan_tool.py",
+      "path": ".agents/skills/manager-execute-current-batch/scripts/plan_tool.py",
+      "sha256": "adf89a0ce67c801d888f67450989d1e590c6c1942654cb975f1c048f4a9dcb3a"
+    },
+    {
+      "source": "manager-plan-from-doc/SKILL.md",
+      "path": ".agents/skills/manager-plan-from-doc/SKILL.md",
+      "sha256": "b02a1291d7155f4fc0f2ec6a7704a1083c4e152fc1dfa361873b199bf129adb9"
+    },
+    {
+      "source": "manager-plan-from-doc/references/input-contract.md",
+      "path": ".agents/skills/manager-plan-from-doc/references/input-contract.md",
+      "sha256": "f9808dc3fe22e6efecc19be7bee861c735234c546eb49a0af2f1ad1164c1e4b2"
+    },
+    {
+      "source": "manager-plan-from-doc/references/manager-plan-schema.md",
+      "path": ".agents/skills/manager-plan-from-doc/references/manager-plan-schema.md",
+      "sha256": "29a8e283dfda8aa044f2f08796dbe9ba4d3c65ce1ef9ca4ab5f09cb801d8f832"
+    },
+    {
+      "source": "manager-plan-from-doc/references/planning-rules.md",
+      "path": ".agents/skills/manager-plan-from-doc/references/planning-rules.md",
+      "sha256": "b60ec4673fbf681010ed2ab48c789487111fe0efa2387c48094cbcd96ea4330f"
+    },
+    {
+      "source": "manager-plan-from-doc/references/planning-strategy.md",
+      "path": ".agents/skills/manager-plan-from-doc/references/planning-strategy.md",
+      "sha256": "53825851f1420a15fb4c6c9632ccf8a33627f4b7cd5248d1d5afc8d63507e54a"
+    },
+    {
+      "source": "manager-plan-from-doc/templates/plan-write.md",
+      "path": ".agents/skills/manager-plan-from-doc/templates/plan-write.md",
+      "sha256": "26dbd06e6b5ed2c05a4e43e7ea62e5a311590bc1257f5340276d6c070166343e"
+    },
+    {
+      "source": "manager-plan-from-doc/templates/preview.md",
+      "path": ".agents/skills/manager-plan-from-doc/templates/preview.md",
+      "sha256": "c31c15f6eca8a3e743f4d5ace48b6d131063a1703bd638dfa336954287dc9f53"
     },
     {
       "source": "manager-prd-review/SKILL.md",
       "path": ".agents/skills/manager-prd-review/SKILL.md",
-      "sha256": "c24f4b70fdbe2c1d124f6e4b4d4d863ddb5d07964fdccc4a7678822ceb9541cd"
+      "sha256": "ca95a4e93eade008ecb240a9a27923ed8409c7f0cc17252d15a04b34342acba7"
     },
     {
-      "source": "MANAGER-WORKFLOW.md",
-      "path": ".agents/skills/MANAGER-WORKFLOW.md",
-      "sha256": "876d61232c9971dcf3652033486248445e3232ff19f8ffc6bb38d1efdf1b8e37"
+      "source": "manager-revise-plan/SKILL.md",
+      "path": ".agents/skills/manager-revise-plan/SKILL.md",
+      "sha256": "77e9d2a2bae764182164f7c0b56cffefc3306e9ef99c3cd73f066cf81219657c"
     },
     {
-      "source": "MANAGER-V2-MIGRATION.md",
-      "path": ".agents/skills/MANAGER-V2-MIGRATION.md",
-      "sha256": "9e0d59e341b103e29f3d8a7e752c0b72696733ba69f375e61fa931e562d1c6d6"
+      "source": "manager-run/SKILL.md",
+      "path": ".agents/skills/manager-run/SKILL.md",
+      "sha256": "ed509307dd6eecbedadb4b8a5b7d28e60769b446a9b5dbeb96f3af181ddd5150"
+    },
+    {
+      "source": "manager-tech-design/SKILL.md",
+      "path": ".agents/skills/manager-tech-design/SKILL.md",
+      "sha256": "39c9dfbb8e342d84f07a4694549f2dc28b9a31ddcdbc45f366eaada0e6de398b"
+    },
+    {
+      "source": "manager-tech-design/templates/feature-design.md",
+      "path": ".agents/skills/manager-tech-design/templates/feature-design.md",
+      "sha256": "6dd9b542924f7d8c0186fd1c6f0467cd7f960f34088c6e4fa8d427accf60f201"
+    },
+    {
+      "source": "manager-tech-design/templates/overview.md",
+      "path": ".agents/skills/manager-tech-design/templates/overview.md",
+      "sha256": "cda4ba4eafffdaacaf2e43b24f79174a05b48ee9a5ce8bcd60fa3d9e64b9c219"
+    },
+    {
+      "source": "manager-tech-design/templates/review.md",
+      "path": ".agents/skills/manager-tech-design/templates/review.md",
+      "sha256": "0d10763615ee7dcd631992a6835f290e2eca80011f7d66ee4194d8344bf1959c"
     },
     {
       "source": "scripts/archive_guard.py",
@@ -179,59 +194,9 @@
       "sha256": "005e047c67cdbfa6432faaa1e93c42f8b781b873f3afa3bee925286665726846"
     },
     {
-      "source": ".github/workflows/manager-runtime.yml",
-      "path": ".agents/skills/.github/workflows/manager-runtime.yml",
-      "sha256": "832cd56f27b1b9ff7aa3df05ab0d2338a15ff8ba5486eda85d220b2bc965f867"
-    },
-    {
-      "source": "templates/project/manager/policy.yaml",
-      "path": ".agents/skills/templates/project/manager/policy.yaml",
-      "sha256": "726d3f3ed526eb300e6a601e678aff9705ba7c7747ba24260d3f4e9bf42bc25f"
-    },
-    {
-      "source": "templates/project/.codex/config.toml",
-      "path": ".agents/skills/templates/project/.codex/config.toml",
-      "sha256": "cacaeaa57debfcccb3d6728dcd97655d9c104c707039257ed4219d4ff9a66516"
-    },
-    {
-      "source": "templates/project/.codex/agents/product-manager.toml",
-      "path": ".agents/skills/templates/project/.codex/agents/product-manager.toml",
-      "sha256": "2b9e5ae52a4b7a7496e16b200e38d131cc6f3c3f049862a4e75a577ac7fd8362"
-    },
-    {
-      "source": "templates/project/.codex/agents/frontend-dev.toml",
-      "path": ".agents/skills/templates/project/.codex/agents/frontend-dev.toml",
-      "sha256": "d5b249d755ec11410fd6fe2d889dfcdd6fa9af7235e61767e6ccfed010ff933d"
-    },
-    {
-      "source": "templates/project/.codex/agents/explorer.toml",
-      "path": ".agents/skills/templates/project/.codex/agents/explorer.toml",
-      "sha256": "4f0e0760fd1c43ad18132d5c28a34fd18e0e35c97305c06becc50559b89adabf"
-    },
-    {
-      "source": "templates/project/.codex/agents/reviewer.toml",
-      "path": ".agents/skills/templates/project/.codex/agents/reviewer.toml",
-      "sha256": "fa63daa0078769b9ecadae842c7c075e0d7bf6bd452d0f0715c014b82b77f158"
-    },
-    {
-      "source": "templates/project/.codex/agents/ui-ux-reviewer.toml",
-      "path": ".agents/skills/templates/project/.codex/agents/ui-ux-reviewer.toml",
-      "sha256": "93605d346c2a04ee453c9093c00da9e3f92acf90bc4fc9fc709d5cd2301fb5d3"
-    },
-    {
-      "source": "templates/project/.codex/agents/backend-dev.toml",
-      "path": ".agents/skills/templates/project/.codex/agents/backend-dev.toml",
-      "sha256": "c3741de051db09d38e0c0b9452b02e5eb456a38654b6914671ede9d8012425d8"
-    },
-    {
-      "source": "templates/project/.codex/agents/test-worker.toml",
-      "path": ".agents/skills/templates/project/.codex/agents/test-worker.toml",
-      "sha256": "179b5d683bc74baa5447dd4829fef5d819daeed04c221e9dc3161c9f93b934fa"
-    },
-    {
-      "source": "templates/project/.codex/agents/qa.toml",
-      "path": ".agents/skills/templates/project/.codex/agents/qa.toml",
-      "sha256": "33fc077a1b841006262c77d99f7a8c9af2adba6cbc9d0d6363bd9d6c057e1201"
+      "source": "scripts/init_manager_project.py",
+      "path": ".agents/skills/scripts/init_manager_project.py",
+      "sha256": "4f0d843b387f5f7671be223293859350f11aad617f7d6e68fb696bdbc79df62d"
     },
     {
       "source": "templates/project/.codex/agents/architect.toml",
@@ -239,19 +204,69 @@
       "sha256": "1e2a2e6683df30133cc0fef42a0a4dbc81c9cbe329b02a6d3a0f017c3cf36936"
     },
     {
+      "source": "templates/project/.codex/agents/backend-dev.toml",
+      "path": ".agents/skills/templates/project/.codex/agents/backend-dev.toml",
+      "sha256": "c3741de051db09d38e0c0b9452b02e5eb456a38654b6914671ede9d8012425d8"
+    },
+    {
+      "source": "templates/project/.codex/agents/explorer.toml",
+      "path": ".agents/skills/templates/project/.codex/agents/explorer.toml",
+      "sha256": "56299781a700a0aad254688b92043c47ce680443c7a438f8bd0592ed4bff5219"
+    },
+    {
+      "source": "templates/project/.codex/agents/frontend-dev.toml",
+      "path": ".agents/skills/templates/project/.codex/agents/frontend-dev.toml",
+      "sha256": "d5b249d755ec11410fd6fe2d889dfcdd6fa9af7235e61767e6ccfed010ff933d"
+    },
+    {
+      "source": "templates/project/.codex/agents/product-manager.toml",
+      "path": ".agents/skills/templates/project/.codex/agents/product-manager.toml",
+      "sha256": "2b9e5ae52a4b7a7496e16b200e38d131cc6f3c3f049862a4e75a577ac7fd8362"
+    },
+    {
+      "source": "templates/project/.codex/agents/qa.toml",
+      "path": ".agents/skills/templates/project/.codex/agents/qa.toml",
+      "sha256": "54db1cf63c97fb06f3fa48cb2ee3dbec23c0697902c37236c1fc825c7c18cfdf"
+    },
+    {
+      "source": "templates/project/.codex/agents/reviewer.toml",
+      "path": ".agents/skills/templates/project/.codex/agents/reviewer.toml",
+      "sha256": "fa63daa0078769b9ecadae842c7c075e0d7bf6bd452d0f0715c014b82b77f158"
+    },
+    {
+      "source": "templates/project/.codex/agents/test-worker.toml",
+      "path": ".agents/skills/templates/project/.codex/agents/test-worker.toml",
+      "sha256": "b97d4c7ca0e507d1e6b2b82391235ee24af2c2bc84b0c94c549d7af34d64a923"
+    },
+    {
+      "source": "templates/project/.codex/agents/ui-ux-reviewer.toml",
+      "path": ".agents/skills/templates/project/.codex/agents/ui-ux-reviewer.toml",
+      "sha256": "fe82656c4deb473f966ffd58753b2c6518865b99c2dc6a95ff0004047c730be4"
+    },
+    {
+      "source": "templates/project/.codex/config.toml",
+      "path": ".agents/skills/templates/project/.codex/config.toml",
+      "sha256": "5fecf921ca816a754558762b6409de9966f560380ba1d6074c48b380672046f9"
+    },
+    {
+      "source": "templates/project/manager/policy.yaml",
+      "path": ".agents/skills/templates/project/manager/policy.yaml",
+      "sha256": "726d3f3ed526eb300e6a601e678aff9705ba7c7747ba24260d3f4e9bf42bc25f"
+    },
+    {
+      "source": "templates/project/manager/roles.yaml",
+      "path": ".agents/skills/templates/project/manager/roles.yaml",
+      "sha256": "5673c8e4918bb4f946646bdc6a128a19f49a13c00fb0893a471809f397a179f6"
+    },
+    {
       "source": "tests/fixtures/team-site-inputs.yaml",
       "path": ".agents/skills/tests/fixtures/team-site-inputs.yaml",
       "sha256": "3f50712724ba7ce77e849c483f6098f07962bd2b4009041de31e98d8e166b167"
     },
     {
-      "source": "tests/test_plan_inputs.py",
-      "path": ".agents/skills/tests/test_plan_inputs.py",
-      "sha256": "96bf56b21d976c638e75a1188cf666c72b6d7679ee11ae305d7485ffcc156ef5"
-    },
-    {
-      "source": "tests/test_manager_runtime.py",
-      "path": ".agents/skills/tests/test_manager_runtime.py",
-      "sha256": "0cd3993a178d5431d703f023710828106e944500f55fa7540d63a599d980629f"
+      "source": "tests/test_manager_packaging.py",
+      "path": ".agents/skills/tests/test_manager_packaging.py",
+      "sha256": "0a6645fc7aa8f4fd109f3fca5f9b373b85a8d0b8cc93af54f19946a7f28d11a0"
     },
     {
       "source": "tests/test_manager_planning_strategy.py",
@@ -259,9 +274,19 @@
       "sha256": "75ea5ef02f87b24c20b14490d801eee7faaa66f5028f8047f7d5dae022bf083c"
     },
     {
-      "source": "tests/test_manager_packaging.py",
-      "path": ".agents/skills/tests/test_manager_packaging.py",
-      "sha256": "6c4b8e710dad8bccc6bde87a51c893721c5506cce7956eb17334109a9d966f4b"
+      "source": "tests/test_manager_runtime.py",
+      "path": ".agents/skills/tests/test_manager_runtime.py",
+      "sha256": "50a6cb46de5df3a89be00b08fcf1b45c7322e59d04e28a75a8e6e9a91bf2d8b8"
+    },
+    {
+      "source": "tests/test_manager_v2_final.py",
+      "path": ".agents/skills/tests/test_manager_v2_final.py",
+      "sha256": "1c3d4a8397666e12993995747d853f2504a10c701afc5bc75b0992e14f667ad5"
+    },
+    {
+      "source": "tests/test_plan_inputs.py",
+      "path": ".agents/skills/tests/test_plan_inputs.py",
+      "sha256": "96bf56b21d976c638e75a1188cf666c72b6d7679ee11ae305d7485ffcc156ef5"
     }
   ]
 }

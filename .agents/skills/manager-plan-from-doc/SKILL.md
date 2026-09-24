@@ -1,7 +1,7 @@
 ---
 name: manager-plan-from-doc
 description: Plan PRD and technical designs with AI-selected planning depth or explicit auto/full/rolling overrides; preserve independently acceptable changes, shared inputs and separate execution approvals.
-version: 2.0.0-rc.3
+version: 2.0.0
 ---
 
 # Manager 从文档规划

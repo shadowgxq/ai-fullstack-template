@@ -1,7 +1,7 @@
 ---
 name: manager-tech-design
 description: Create or revise a PRD-grounded hierarchical technical design with core flows and pseudocode; require human approval before formal change execution.
-version: 2.0.0-rc.3
+version: 2.0.0
 ---
 
 # Manager 技术方案
@@ -23,7 +23,7 @@ version: 2.0.0-rc.3
 ## 流程
 
 1. 建立产品行为清单：范围、非目标、角色权限、成功/失败状态、性能与数据保证。未决定的产品行为不得写成既定事实。
-2. 定向读取现有代码。可并行派 explorer 查前后端边界，QA 查可测试性，UI reviewer 查已有组件；主线程只收路径、风险和简短证据。
+2. 定向读取现有代码。可并行派 explorer 查前后端边界，reviewer 查可测试性与风险，QA 采集可运行检查入口，UI reviewer 查已有组件；主线程只收路径、风险和简短证据。
 3. architect 给出总体结构、主要模块/接口契约、核心业务流程和必要的伪代码。必须包含失败/重试/幂等/回滚等适用路径。
 4. 复杂功能单独展开，明确上位方案引用、输入输出、状态转换、不变量、关键数据结构与算法。不重复抄写总体方案。
 5. 新 UI 模式先有可运行代表性页面或已确认设计稿；核心状态和真实内容必须可检查。后续同类页面复用基线。

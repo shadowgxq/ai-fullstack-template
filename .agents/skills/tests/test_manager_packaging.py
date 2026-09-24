@@ -15,7 +15,7 @@ import plan_tool
 
 class PackagingTests(unittest.TestCase):
     def test_runtime_dependencies_and_documented_gate_files_exist(self):
-        for name in ('plan_tool','plan_inputs','manager_schema','manager_store','manager_flow','manager_tasks','manager_gate','manager_archive'):
+        for name in ('plan_tool','plan_inputs','manager_schema','manager_store','manager_flow','manager_tasks','manager_gate','manager_archive','manager_roles'):
             self.assertTrue((SCRIPTS/(name+'.py')).is_file(),name)
         for name in ('MANAGER-V2-MIGRATION.md','manager-execute-current-batch/references/evidence-contract.md','manager-execute-current-batch/references/verify-auto-repair.md','scripts/archive_guard.py'):
             self.assertTrue((ROOT/name).is_file(),name)
@@ -39,11 +39,8 @@ class PackagingTests(unittest.TestCase):
         self.assertEqual(agents['default_subagent_reasoning_effort'],'xhigh')
         primary={'architect','backend-dev','frontend-dev','product-manager','reviewer'}
         light={'explorer','qa','test-worker','ui-ux-reviewer'}
-        self.assertEqual({k for k,v in agents.items() if isinstance(v,dict)},primary|light)
+        self.assertFalse({k for k,v in agents.items() if isinstance(v,dict)}, 'standalone roles do not need duplicate registrations')
         for role in sorted(primary|light):
-            declaration=agents[role]
-            self.assertTrue(declaration.get('description'),role)
-            self.assertEqual(declaration.get('config_file'),f'agents/{role}.toml')
             role_config=tomllib.loads((codex/'agents'/f'{role}.toml').read_text())
             self.assertEqual(role_config.get('name'),role)
             if role in primary:
