@@ -2,41 +2,38 @@
 
 ## 安装与唯一机制
 
-Manager 固定为 `shadowgxq/skills@6625edca2397a4f67d6ca82dace0bd0a41c08243`，控制器 2.0.0。项目内八个 Manager Skill、9 个 runtime 模块、相关引用与测试作为同一版本安装于 `.agents/skills`；[摘要清单](../../../scripts/manager/upstream.json) 校验来源。完整机制只看 [Manager 工作流](../../../.agents/skills/MANAGER-WORKFLOW.md) 和 [安装/迁移](../../../.agents/skills/MANAGER-V2-MIGRATION.md)，本页不复制它们。
+Manager 使用 3.0.2 Skills，项目内八个入口、共同流程及必要引用安装于 `.agents/skills`。本地安装来自全局 Skills 工作树；[摘要清单](../../../scripts/manager/upstream.json) 记录基础提交、本地改动标记与逐文件摘要。完整机制见 [Manager 工作流](../../../.agents/skills/MANAGER-WORKFLOW.md)，不再使用自定义执行引擎。
 
 OpenSpec 使用 `@fission-ai/openspec@1.13.1`，core profile 的 6 个 Skills 由真实 CLI 生成：propose、explore、update、apply、sync-specs、archive。`.agents/skills/.openspec-target` 保留官方标记；不要手工改生成 Skill，升级使用相同 CLI 的 init/update 并复验。自定义 Manager/repair 不放到 frontend 下。
 
 ```bash
 npm install --global @fission-ai/openspec@1.13.1
 openspec --version
-uv run --no-project --with PyYAML==6.0.3 python scripts/manager/plan_tool.py --capabilities
-uv run --no-project --with PyYAML==6.0.3 python scripts/manager/plan_tool.py validate --strict-inputs
-uv run --no-project --with PyYAML==6.0.3 python scripts/manager/plan_tool.py doctor
+make manager-check
 ```
 
-`--help` 是当前命令参数的事实源；没有原生模型、浏览器或 CLI 时明确报告，不模拟。项目控制入口和结构 validator 都委托同一 runtime；不存在另一套旧 plan/apply/verify 状态机。
+原生命令参数以实际安装版本的 `--help` 为准。当前 Change 的制品可使用 `openspec validate <change-id> --strict --no-interactive` 校验；检查失败如实记录，不模拟工具或测试结果。
 
-## 本项目配置
+## 执行与审查
 
-- [plan](../../../manager/plan.yaml)：v2 空计划，planned change 可以尚无制品。validate 只结构校验；start/gate 再查真实来源、批准、执行和证据。
-- [policy](../../../manager/policy.yaml)：auto 规划默认、4 个角色线程/2 个写任务、900 秒检查上限；实际 apply checks 为 `make check`、前端 build。OpenSpec strict validate 仍由机制内置，不放 `true` 替代。
-- [roles](../../../manager/roles.yaml) 与 `.codex/agents`：业务路径引用本仓库 docs。主模型及四个轻量角色采用固定上游原生配置；安装、静态配置正确不证明账号可访问模型。操作者核对实际客户端后调整配置并同步审查，不虚构 observed model。
-- `.codex/config.toml`：项目级配置，角色文件自动发现，默认保护计划/历史、仅允许 loopback 网络；包安装/外部 API 域名需显式授权。frontend/backend/ai-service 私有 env 禁止读；不覆盖个人全局配置。
+只保留执行与审查两个职责，不需要项目 `.codex/config.toml`、固定角色文件、模型路由或初始化器。当前会话协调实现，依赖已满足且写入范围互不冲突的工作可由原生通用 subagent 并行处理；共享文件和未确定契约按依赖顺序执行。协调会话核对真实 diff，单写 tasks、Plan 与进度。
 
-新增安装使用 `.agents/skills/scripts/init_manager_project.py <project>` 预览；明确授权后 `--write` 仅补缺失文件，已有项目配置需合并，不能整体覆盖。本项目的 `change/apply/verify` 路由分别对应方案、实现与最终独立 reviewer；QA 负责取证，不代替最终 reviewer。`resolve-role --role <name>` 只报告配置，不证明真实模型已运行。完整约束见 [角色协议](../../../.agents/skills/manager-execute-current-batch/references/role-contract.md)。
+默认由一个独立只读 Reviewer 审查实际 diff、契约和已有检查证据；用户明确 `review=off` 时可以省略。职责种类不限制实现线程数量。每个 Change 检查与所需审查完成后及时回写 code-verified，阶段末再补必要集成检查。没有实际独立审查线程时报告未完成，不能将自查写成独立审查通过。模型与权限由宿主会话提供，Manager 不另行覆盖。
 
-运行状态/批准/claims/ticket/预算持久化及保密要求见 [Manager README](../../../manager/README.md)。计划正文保持紧凑，日志、大截图不塞进 YAML。
+## 计划与检查入口
 
-## 检查入口
+[项目计划](../../../manager/plan.yaml)、progress、tasks、runtime 证据和归档保留既有记录。旧计划不会因升级工具被改写，也不再作为 docs/CI 的 Manager 版本门禁；新建或实质修订计划时按 [当前格式](../../../.agents/skills/manager-plan-from-doc/references/plan-format.md) 使用其只读结构检查。该检查不证明业务实现或人工验收通过。
 
-`make docs architecture` 校验项目导航、规则与边界；`make manager-check` 校验源码摘要、capabilities、doctor 及上游控制测试；`make manager-live` 增加真实 OpenSpec 生命周期测试。上游用例中的身份和 Agent 是显式测试替身，不代表原生派发。
+`make docs architecture` 校验项目导航、规则与边界；`make manager-check` 只检查已安装 Skills 的文件摘要。`make check` 保留三端静态检查、业务测试与契约校验；`make up-web && make smoke-web` 验证前后端，`make up && make smoke` 验证完整栈。开发任务按实际改动范围选择必要检查，不因 Manager 安装运行全栈验收。
 
-`make check` 执行三端静态与测试、契约；`make up-web && make smoke-web` 验证前后端，`make up && make smoke` 验证完整栈。浏览器安装与命令见 [浏览器验收入口](../../../scripts/browser/README.md)。UI Gate 需要相应基线、真实操作和独立 review；浏览器 smoke 不是全部未来业务验收。
+CI 的 Manager job 使用固定版本 OpenSpec 校验当前 changes 与 specs：`openspec validate --all --strict --no-interactive`。它不解析 Manager 计划，也不重新验收归档任务。
+
+代码与逻辑检查、独立审查、人工产品验收分别记录。浏览器协助仅在当前任务明确授权时使用；入口见 [浏览器验收入口](../../../scripts/browser/README.md)。
 
 ## 显式归档与剪枝
 
-使用 [归档 Skill](../../../.agents/skills/manager-archive-completed/SKILL.md) 的 prepare → 授权 operator 执行真实 OpenSpec archive → finalize，再按真实授权 prune。只有完成凭证可满足被剪枝依赖；不得手动搬目录、修改已封存的字节或清空状态解锁。空模板不保留 archive 根 `.gitkeep`，因为控制器要求其子项为完整归档目录。
+使用 [归档 Skill](../../../.agents/skills/manager-archive-completed/SKILL.md) 核对代码检查、所需人工验收与本次授权，再执行真实 OpenSpec archive。归档、PR 合并和生产发布分别授权；不得手工搬目录、改写已封存内容或伪造验收。历史记录保留，不因工具升级剪枝。
 
 ## 更新边界
 
-升级时固定新上游提交，整体替换上述机制及相应测试，重新生成官方 OpenSpec Skills，适配项目 policy/roles/校验和导航；核对差异后更新摘要。不要恢复过时控制器、复制所有不相关社区 Skills，或把项目安装授权写成业务批准。
+更新八个 Manager Skills 时整体同步其共同流程、引用、模板和只读计划检查，记录真实来源并更新文件摘要。OpenSpec 官方 Skills 通过其 CLI 单独更新。项目工程命令、业务代码、计划与历史证据不随工具包自动重写。

@@ -4,11 +4,8 @@ import sys
 import tempfile
 import unittest
 
-import yaml
-
 sys.path.insert(0, str(Path(__file__).parents[1]))
 from check_docs import prose_errors
-from manager.validate_plan import validate_plan
 
 
 class DocumentHygieneChecks(unittest.TestCase):
@@ -42,20 +39,3 @@ class DocumentHygieneChecks(unittest.TestCase):
                      "openspec/changes/demo/verification.md", "docs/templates/prompt.md"):
             with self.subTest(name=name):
                 self.assertEqual(self.scan(name, "Assistant: example"), [])
-
-    def write_plan(self, plan):
-        path = self.root / "manager/plan.yaml"
-        path.parent.mkdir(exist_ok=True)
-        path.write_text(yaml.safe_dump(plan), encoding="utf-8")
-        return validate_plan(path)
-
-    def empty_plan(self):
-        return {"version": 2, "requirements": [], "inputs": [], "openspec": [], "batches": []}
-
-    def test_empty_template_requires_no_fake_date(self):
-        self.assertEqual(self.write_plan(self.empty_plan()), [])
-
-    def test_malformed_and_incomplete_plan_still_rejected(self):
-        for key, value in (("requirements", [{"id": "req-test", "source": "missing.md"}]), ("batches", None)):
-            plan = self.empty_plan(); plan[key] = value
-            self.assertTrue(self.write_plan(plan))

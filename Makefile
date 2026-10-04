@@ -1,6 +1,6 @@
 TOOLS_PYTHON := uv run --no-project --with PyYAML==6.0.3 python
 
-.PHONY: manager-check manager-live install infra migrate dev-frontend dev-backend dev-ai worker up down check docs contracts contracts-check smoke up-web smoke-web architecture
+.PHONY: manager-check install infra migrate dev-frontend dev-backend dev-ai worker up down check docs contracts contracts-check smoke up-web smoke-web architecture
 install:
 	pnpm --dir frontend install --frozen-lockfile
 	cd backend && uv sync --locked
@@ -31,7 +31,6 @@ check: docs architecture
 	$(MAKE) contracts-check
 docs:
 	$(TOOLS_PYTHON) scripts/check_docs.py
-	$(TOOLS_PYTHON) scripts/manager/validate_plan.py manager/plan.yaml
 	python3 scripts/repairs/validate_repairs.py
 	$(TOOLS_PYTHON) -m unittest discover -s scripts/tests -v
 contracts:
@@ -49,9 +48,4 @@ architecture:
 	python3 scripts/check_architecture.py
 
 manager-check:
-	$(TOOLS_PYTHON) scripts/check_sources.py
-	$(TOOLS_PYTHON) scripts/manager/plan_tool.py --capabilities
-	$(TOOLS_PYTHON) scripts/manager/plan_tool.py doctor
-	$(TOOLS_PYTHON) -m unittest discover -s .agents/skills/tests -v
-manager-live:
-	MANAGER_LIVE_OPENSPEC=1 OPENSPEC_TELEMETRY=0 CI=true $(MAKE) manager-check
+	python3 scripts/check_sources.py

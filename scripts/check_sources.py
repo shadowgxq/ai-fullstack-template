@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check pinned mechanisms; optionally audit frontend synchronization provenance."""
+"""Check installed Skill snapshots and optional frontend synchronization provenance."""
 from pathlib import Path
 import argparse
 import hashlib
@@ -14,10 +14,7 @@ def manager_errors(root=ROOT):
     for row in data['files']:
         path = root/row['path']
         if not path.is_file() or path.is_symlink() or sha(path) != row['sha256']:
-            errors.append('Manager upstream file drift: '+row['path'])
-    expected = {row['path'] for row in data['files'] if row['path'].endswith('.py')}
-    for path in (root/'.agents/skills/manager-execute-current-batch/scripts').glob('*.py'):
-        if str(path.relative_to(root)) not in expected: errors.append('Unpinned runtime module: '+str(path))
+            errors.append('Manager installed file drift: '+row['path'])
     return errors
 
 def managed_paths(root):
@@ -36,5 +33,5 @@ def frontend_errors(root=ROOT):
 if __name__ == '__main__':
     parser=argparse.ArgumentParser(); parser.add_argument('--frontend', action='store_true'); args=parser.parse_args()
     errors=manager_errors()+(frontend_errors() if args.frontend else [])
-    print('\n'.join(errors) if errors else 'Pinned source integrity OK')
+    print('\n'.join(errors) if errors else 'Installed source integrity OK')
     raise SystemExit(bool(errors))

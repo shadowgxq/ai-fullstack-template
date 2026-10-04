@@ -1,0 +1,38 @@
+# Example only: replace sources and acceptance with this project's actual scope.
+requirements:
+  - id: R1
+    source: docs/prd/example.md#data
+    code_acceptance:
+      - API rejects invalid fields and persists valid records.
+  - id: R2
+    source: docs/prd/example.md#page
+    code_acceptance:
+      - The page uses project components and handles loading and errors.
+    human_acceptance:
+      - Confirm the rendered layout and create-record interaction.
+inputs: []
+openspec:
+  - id: record-api
+    requirements: [R1]
+    depends_on: []
+    status: planned
+  - id: record-page
+    requirements: [R2]
+    depends_on: [record-api]
+    status: planned
+batches:
+  - id: M1
+    depends_on: []
+    changes: [record-api]
+    checkpoint: auto
+    status: planned
+    human_acceptance: not-required
+    checks: []
+  - id: M2
+    depends_on: [M1]
+    changes: [record-page]
+    checkpoint: auto
+    status: planned
+    human_acceptance: pending
+    checks: []
+    note: Final human layout and interaction acceptance remains pending; it does not stop code execution.

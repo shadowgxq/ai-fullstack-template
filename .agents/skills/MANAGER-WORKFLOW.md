@@ -1,89 +1,86 @@
-# OpenSpec Manager v2
+# Manager / OpenSpec 工作流
 
-控制工具版本：2.0.0。安装与旧项目接入见[迁移说明](MANAGER-V2-MIGRATION.md)。
+版本 3.0.2。以 Skill 指导当前会话执行，不提供自定义工作流引擎。八个入口共用本页的授权、状态和恢复规则，不在各入口重复定义。
 
-## 定位与主流程
-
-PRD 定义行为；技术方案定义实现边界、核心流程、伪代码与关键决策；OpenSpec 记录本次差异；Manager 管理依赖、授权、任务、修复和证据；Goal 只反复推进明确授权的有限范围。
-保留 Manager + OpenSpec + Codex，不引入另一套 Agent 框架。“代码/文档自洽”不等于用户已验收产品。
+## 主流程
 
 ```text
-产品需求 → 总/专项技术方案 → 人工审阅
-  → 规划策略与 Change 拆分 → 计划/停点预览与批准
-  → 明确执行范围 → manager-run 逐 selection 调用 execute
-  → 当前 Change 制品与批准 → 实现 → 真实检查与独立验收
-  → 自动检查点继续 / 人工产品验收 / 规划边界停止
-  → 按需修复或受控修订 → 显式归档
+PRD → manager-prd-review → 人工确认需求
+    → manager-tech-design（复用已有方案，复杂部分才展开）
+    → manager-plan-from-doc → M1 → M2 → … → Mxx
+    → 两种执行入口：Execute 单阶段 / Run 连续全部剩余阶段
+        → Execute：当前 Change 制品 → 实现 → 代码/逻辑检查 → 有限修复
+        → Execute：阶段代码集成检查 → 保存结果并返回
+        → 用户决定下一步 / Run 核对停点后继续下一阶段
+    → 最终人工视觉、交互与产品验收 → 按授权归档 / 提交 PR
 ```
 
-探索先验证方向，局部小修走 repairs，不强制完整新设计。新 UI 先确认代表性页面，再批量扩展。
+新需求在 PRD review 后保留一次真实人工确认；已确认且未变的范围直接复用。技术方案和计划可以同一次确认，不把每个专项方案、Change 或阶段完成变成再次签字。用户明确“先 review、不要开发”时到此结束。
+M1～Mxx 与 Change 两层依赖保留。阶段顺序不代替真实依赖；上游尚未完成的能力不能由下游假数据冒充。标准流程分阶段验证，不等于每阶段人工确认。
 
-## 八个 Manager 入口
+## 入口职责
 
-| Skill | 职责 |
+| Skill | 负责 |
 | --- | --- |
-| [manager-prd-review](manager-prd-review/SKILL.md) | 按风险评审需求与产品裁决 |
-| [manager-tech-design](manager-tech-design/SKILL.md) | 技术总/专项方案、核心流程与人工批准 |
-| [manager-plan-from-doc](manager-plan-from-doc/SKILL.md) | AI 判断规划深度，接受用户覆盖，形成 Change、依赖与批次停点 |
-| [manager-execute-current-batch](manager-execute-current-batch/SKILL.md) | 执行一个 selection，负责实际任务与验证 |
-| [manager-run](manager-run/SKILL.md) | 在明确授权的一个或多个批次内持续驱动，恢复与停止 |
-| [manager-bugfix](manager-bugfix/SKILL.md) | 按复现最小修复，不迁就错误代码改 Spec |
-| [manager-revise-plan](manager-revise-plan/SKILL.md) | 受控修订、影响分析与批准/证据失效 |
-| [manager-archive-completed](manager-archive-completed/SKILL.md) | 真实归档、历史保护与剪枝 |
+| manager-prd-review | 审需求、消歧义，交用户确认产品目标 |
+| manager-tech-design | 按已确认目标设计实现边界、数据流和关键决策 |
+| manager-plan-from-doc | 需求覆盖、Change 拆分、阶段依赖与验收位置 |
+| manager-run | 循环调用 Execute，推进当前 Plan 全部剩余已规划阶段 |
+| manager-execute-current-batch | 一次一个阶段，负责实现、阶段检查及状态回写，收尾即返回 |
+| manager-bugfix | 修实现偏差，复验受影响部分 |
+| manager-revise-plan | 修改发生实质变化的需求、方案或依赖 |
+| manager-archive-completed | 核对真实验收后用 OpenSpec 归档 |
 
-repair-intake/repair-runner 为独立项目小修队列，不共享 Manager 状态机。
+## 可选 UI/UX 设计输入
 
-## 规划范围、细化深度、执行授权分开
+UI-heavy 需求按 [UI/UX 接入契约](ui-ux-delivery/references/manager-integration.md) 判断是否需要设计交接；不是所有 UI Change 的必经 Gate。已有设计先复用；用户已直接提供 Prompt、UI 图、Figma、HTML/原型等设计输入时，直接作为 `reference` 接入 Manager/OpenSpec，**不补跑 UX 生成**。只有显式调用或已授权计划明确委托生成设计时才启动 ui-ux-delivery。Manager 场景用 target=handoff，产物通过现有 inputs/input_refs 按 Surface 消费；设计 Skill 不实现业务代码、不写本工作流状态。外部出图保留在 ui-ux-delivery 生成路径中，等待只影响真实依赖项。
 
-本次用户参数/明确自然语言 > 项目 policy.planning > 默认 auto。公开请求为 planning=auto/full/rolling；auto 由 AI 依据 PRD、技术方案与实际不确定性判断 full/rolling/mixed。
-明确的交付边界可以一次规划多个里程碑，后续依赖探索结果的部分留 roadmap；只在执行对应 Change 时生成其详细制品。full 不意味着预生成全部四件套，也不意味着允许执行全部批次。
-判断记录复用 manager/runtime/planning/<id>.md，不增加另一份状态机。唯一详细规则见[规划策略](manager-plan-from-doc/references/planning-strategy.md)。
+## 两个执行入口
 
-用户批准本次运行范围，例如 M1～M3；manager-run 可以连续推进其中 checkpoint: auto 的普通批次。每批仍有真实检查、独立审查和技术检查点，不自动写人类产品验收。
-checkpoint: manual（缺省）保留产品验收停点；高风险与未决产品/技术判断必须 manual。planning_boundary 表示未排期决策边界，不自动调用 Planner 扩范围。
-已有后续计划且条件未变时直接执行，无需每批重新 plan；条件改变才做受控修订。所有自动化保持在真实授权范围内。
+- `$manager-execute-current-batch`：单步；一步是一个 M，可明确指定 M1。完成本阶段检查后返回用户，不自动进入 M2。
+- `$manager-run`：连续；从当前进度循环调用同一个 Execute，直到全部已规划阶段代码完成或真实停点，不负责重新拆分需求。
 
-## 拆分与 Input
+复杂或希望观察结果时逐阶段 Execute；需求明确时 Run。两者用相同 Plan、检查标准与 progress，可先 Execute M1 再 Run 剩余阶段，也可暂停 Run 后用 Execute 修完当前阶段。更窄的明确授权始终优先，不能因入口默认值扩大范围。
+Execute 正常返回只是阶段交接；只有 Run 判断是否继续跨阶段。直接 Execute 的阶段集成检查不能省略，也不交给一个可能根本未运行的 Runner。
 
-Change 是显式依赖完成后可独立验收的一次行为变化，不是代码层、目录或一位 Agent。前后端/测试通常为内部任务；Requirement/Capability/Change/Task 不要求一一对应。
-读取 PRD 全文行为，保留权限、失败恢复与持久性，按验收归属分组；执行五项边界测试和合并复核。20–25 个任务只提示粒度审查。
-规范经 AGENTS/角色入口读取，源码由定向调查；PRD/技术/UI 基线走专用字段。真正契约、数据和快照在顶层 inputs 定义一次，实际消费者用 input_refs；无隐式继承。
-保留 scope/required/snapshot 的不同语义，不为降低输入数量删除约束。见[输入契约](manager-plan-from-doc/references/input-contract.md)。
+## 一次请求与人工边界
 
-## 控制文件与批准
+只保留执行与审查两个职责，不要求角色文件、模型路由或项目初始化。执行由当前会话协调，可把依赖已满足且写入范围互不冲突的实现交给多个原生通用 subagent 并行处理；有前后依赖、共享文件或未确定契约时按依赖顺序执行。职责种类不限制实际线程数量，不能因删除固定职业角色而强制串行。
+默认由一个独立只读 Reviewer 审查已完成 Change 的实际 diff 与检查证据，再回写该 Change 的代码状态并释放下游依赖；阶段收尾补查集成及新增 diff，复用已有效审查的结果。用户明确 `review=off` 时可省略独立审查。Reviewer 不参与实现或修改计划，不与自己完成的实现混用；复验只覆盖修复及受影响部分。运行环境没有可用 subagent 时由当前会话完成实现与自查，明确报告独立审查未完成，不能冒充审查已通过。
+派发只交接本次目标、必要输入、依赖、明确读写范围、验证授权和返回证据；不创建角色注册表、额外任务图或执行凭证。当前会话核对真实改动、合并结果并维护 tasks 与 Plan。subagent 不改共享进度、不自行提交/发布/归档，也不递归分发其他执行者。
+两个入口的授权分别覆盖当前一个阶段、当前 Plan 全部剩余已规划阶段的代码实现、按项目规则允许的验证与局部修复；均不授权未列入的需求。自然语言优先，默认遵守 Plan 中明确的人工停点。
+checkpoint 默认 auto；manual 只用于用户明确要求，或缺少当前人工决定会使后续产品/交互/关键契约方向无法确定、或可预见造成大面积返工的节点，Planner 在 note 写清待确认内容及受影响下游。重要、高风险、有 UI、希望看效果或最终仍需人工验收本身都不能触发 manual；不影响后续编码的视觉/产品验收保持 auto + pending。相关前置人工点在直接 Execute 时同样有效。
+用户明确 `human_review=skip` 或“视觉交互统一放最后验收”时，可将指定范围的阶段签字延后，保持 pending；它不是“用户已验收”，也不解决未知产品事实或授权生产操作；普通 Run 无须依赖该覆盖才能连续执行，新 PRD 的真实人工确认仍保留。
+执行中不因为 Change 制品生成、阶段代码通过、缺少固定角色或新建内部上下文重复询问。新增产品目标、无法安全决定的关键取舍、用户指定停点才交还决策权。
 
-plan.yaml 保留 requirements/openspec/batches，phase 为 change→apply→archive→done；非 done 的 state 为 planned/ready/in-progress/blocked/cancelled。
-manager/runtime 保存批准、claims、gate、预算、session/checkpoints 与事务。计划正文不放日志。生命周期状态由 plan_tool.py 写。
-manager/roles.yaml 映射角色；项目 .codex/agents/<name>.toml 定义原生角色；policy.yaml 配置真实检查、资源上限与规划默认值。全局 Skill 模板不会自动同步项目；init_manager_project.py 只创建缺失配置，已有定制文件保留，安装/更新后必须预检。
-命令以 --capabilities / --help 为准。resolve-planning 只读解析请求优先级，不推断需求、不生成计划或批准。
-validate 检查结构；start 另核对真实 required 来源、依赖、技术批准。旧 approved 字符串、planning=full、session 创建或重启都不能替代内容批准。
+## 工作资料与进度
 
-## 执行、并行和证据
+- `manager/plan.yaml`：Requirements、共享 Inputs、Changes、M1～Mxx 依赖及摘要状态；格式见 [计划格式](manager-plan-from-doc/references/plan-format.md)。
+- `openspec/changes/<id>/`：由项目实际 OpenSpec schema 定义制品；`tasks.md` 是唯一任务清单，`verify-report.md` 简记代码验证与人工待验项。
+- `manager/progress.md`：仅保留本次授权范围/来源、当前 M/Change、代码检查结果索引、人工待验、阻塞/修复次数和下一步。两种入口共用；不保存执行模式或新会话状态，不复制 tasks、PRD 或完整日志。
 
-每轮只处理返回的 selection；优先当前 wave 的制品，再实现。同 wave 的消费者因缺上游实际产物等待时，可以先推进已批准且就绪的上游 apply；不跳过 wave、审批或真实阻塞，不先生成整个项目制品。full/legacy-all-change 执行 scope 不是规划模式，也不是额外授权。
-外层 Change 并行与内部 execution.yaml Task DAG 分开。只要派发原生写入 Worker，就要有最小任务图并在 change gate 前批准；仅 Manager 经授权直接串行实现时可省略。任务依据 needs/reads/writes/resources 及并发上限选择；文件、契约、DB、端口和浏览器会话参与冲突检查。
-先创建真实等待任务的线程，取得 ID 并 task-claim，再给写授权。Worker 不改 plan、不勾 tasks；Manager 核实后单写。原线程未停不得抢占，协作锁不是 ACL，严格隔离用 worktree/沙箱。
-gate-run 执行 OpenSpec strict validate 与项目检查，要求独立 Reviewer 和适用 UI 证据；advance 核对 code/contract 与证据，日志或报告被改写则拒绝。
-首次跨批检查当前集成快照；后续消费已记录的契约与证据，不因正常下游代码变化无限重验上游。当前 Change 与归档前仍需 fresh gate。证据格式见[协议](manager-execute-current-batch/references/evidence-contract.md)。
+状态由协调会话在检查真实文件后直接回写，不伪造批准 ID 或测试结果。开始前检查工作区及其他执行者；同一 Plan 同时只允许一个协调写入会话，多个实现 subagent 只写各自已分配的独立代码范围。阶段或 Change 收尾时保存进度；用户已授权提交时及时提交已完成代码，不用等待全部人工验收。PR 如实标记待验收，不自动合并。
 
-## 修复、修订与恢复
+## 验证职责
 
-要求对、代码错：聚焦允许路径，自动最多 2 次，预算跨重启保留。无进展、越界或 contract 改变则停止，不能迁就代码改规格。
-需求/设计变化先拿真实裁决、停止受影响线程，计算显式依赖闭包并核对共享要求/输入的消费者；只改受影响内容，旧批准与证据失效。Cancelled 不能当作完成依赖。
-session-open 固定批次、停点、Change 语义、验收及有效 Input 定义和轮数；每轮 round-begin/execute/round-finish。未收尾轮次先核对结果，不重复派发。
-正常进程中断可恢复 active session；STOP 后需明确新授权，不能自行重开。范围耗尽、人工裁决、规划边界、失败或预算均停，不把 no-work 当全产品完成。
-上下文保留目标、版本、决策和证据索引；Worker 仅获取任务必需资料，新轮次/压缩不保证假设隔离。
+单个 Change 只做[代码与逻辑验收](manager-execute-current-batch/references/verification.md)：实际行为、相关测试、项目既有 token/公共组件/状态处理的静态检查。**单个 Change 不使用浏览器，不要求截图或交互录像。**
+阶段只补跨 Change 的必要代码、API、数据库集成检查。视觉观感、实际页面交互和易用性放在明确的人工验收位置；不在阶段尾隐式启动浏览器。用户单独要求浏览器协助时作为独立验收任务，不反向增加每个 Change 的门禁。
+静态检查不能证明像素、遮挡、响应式或真实交互正确；不得写“视觉通过”。必须真实验证而尚未验证的逻辑不能标记 code-verified。检查失效时按影响面复验，不重新索要同一产品授权。
 
-## 历史与发布
+## 环境与副作用
 
-归档、PR 合并与生产发布为独立操作。归档需显式授权：archive-prepare → operator 执行真实 openspec archive → archive-finalize，不自行实现规格合并。
-旧历史先审计再 seal；scripts/archive_guard.py 用可信 Git 基线检查旧归档增删改。completion-import 不伪造旧 gate；正常证明存在后才 prune，Input 快照保留历史消费语义。
-legacy/ 只保存历史流程，不自动安装/切换，不与当前 runtime 混用。
-安装、结构/控制测试、真实 OpenSpec CLI、原生 Agent 与业务/UI 验收分别报告，不以其中一层通过代替全部生产验收。
+先读取项目 AGENTS.md 与本次授权。已明确属于本项目、已获授权的本地开发/隔离测试库，可以直接进行相关查询、迁移、测试数据和服务操作，不逐项再问；确认具体目标、数据归属和操作影响，不仅凭 localhost、Docker 或 test 库名判断可丢弃。
+现有开发数据、共享或生产环境不默认允许重置/删除；目标不明先用隔离替代或暂缓相关检查。浏览器、部署、外部发送、生产迁移等遵守用户和宿主边界，不修改主会话模型、权限、MCP 或全局配置。不能改项目规则来绕过明确禁止；冲突一次说明，避免循环询问。
 
-## 角色与审核边界
+## 失败、恢复与停止
 
-开发、架构、需求与最终独立 Reviewer 使用 Sol；Luna 轻角色只负责窄范围调查、明确测试和证据采集，能力不足时显式升级，不降级主力开发。详见[角色协议](manager-execute-current-batch/references/role-contract.md)。原生角色的发现、实际模型和生效权限需在真实客户端核对；doctor/resolve-role 只做静态检查，不将配置或 Agent 自述当作运行证明。
-技术方案批准、计划/执行授权、制品批准与产品验收不是同一件事；已有批准确实覆盖当前不变范围时可引用，不需重复请求相同确认，但不得用重启、planning=full 或 auto checkpoint 伪造授权。
+可修复的实现/测试问题先定向修复。同一问题默认两次有针对性的尝试；有新证据且仍在用户预算内可说明后调整，不用换 ID 或新会话清零次数。条件未变不重复失败命令。
+局部失败记录为 blocked，只阻塞依赖它的任务；继续授权范围内能安全隔离的独立工作。检查共享类型、schema、文件和构建影响，不能只凭没有 depends_on 就认定独立；保留用户改动，不用 reset 清除现场。
+恢复时读取 Plan、tasks、报告和 progress，核对已有代码、进程及副作用；不重复实现。新的同范围继续请求足以恢复，不询问是否创建 session；先前用户停止、未满足人工决定、预算耗尽不能靠自动重试越过。
+Execute 正常完成一个阶段就返回；Run 只在全部已规划代码完成、没有安全可执行工作、必要产品决定、明确人工停点、权限/资源确实不足、总预算耗尽或用户停止时结束。一次汇总真正阻塞，不因一个普通命令退出码就停止所有工作。
+最终区分“代码完成”“人工待验”“阻塞/未执行”。没有可执行项不等于全部完成；没有真实用户反馈不能更新 human_acceptance 为 accepted。
 
-单独授权下游批次不会绕过显式依赖的上游批次验收或 planning_boundary；控制器只读核对相关上游检查点，不扩大写入授权。不相关批次不因此阻塞。
+## 使用
+
+全局安装八个 Manager Skill 及其引用文件即可；主入口位于同级 `MANAGER-WORKFLOW.md`。不要向业务项目复制 `.codex` 配置。可选的[只读计划检查](manager-plan-from-doc/scripts/check_plan.py)需要 Python 3.11+、PyYAML，只校验结构和依赖，不执行任务或修改状态。
+已有项目按本页与当前格式整理活动计划，停止旧执行者后再开始；本版不提供旧控制器适配或自动迁移，不删除项目已有实现与历史证据。

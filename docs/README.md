@@ -20,14 +20,14 @@ AGENTS.md                         公共协作约束与任务路由
 |---|---|
 | [根 AGENTS.md](../AGENTS.md) | 所有 Agent；沟通、改动范围、命令授权与文档路由 |
 | [公共工程细则](engineering/common/README.md) | [代码质量](engineering/common/code-quality.md) 覆盖变量/注释/复用/准确性；[Python](engineering/common/python.md) 与数据/运行/验证按需补读 |
-| [交付流程](engineering/workflow/delivery.md) | 工作分级、技术方案批准、垂直 change、有限执行与验收；[工具兼容](engineering/workflow/tooling.md) 区分当前能力与 Manager v2 接入条件 |
+| [交付流程](engineering/workflow/delivery.md) | 工作分级、技术方案批准、垂直 change、有限执行与验收；[工具入口](engineering/workflow/tooling.md) 说明当前 Manager / OpenSpec 接入 |
 | [前端规范](engineering/frontend/README.md) | UI、状态、路由、工具链；入口为 [frontend/AGENTS.md](../frontend/AGENTS.md) |
 | [后端规范](engineering/backend/README.md) | 认证、CRUD、迁移、Redis；入口为 [backend/AGENTS.md](../backend/AGENTS.md) |
 | [AI 服务规范](engineering/ai-service/README.md) | 技术基线、分层、Workflow/State、恢复、模型/工具、API/产物与 Evals；入口为 [ai-service/AGENTS.md](../ai-service/AGENTS.md) |
 | [产品需求](product/README.md) | 使用方的真实产品范围与验收；模板不预装业务 PRD |
 | [架构与 ADR](architecture/README.md) | 系统基线及按需业务总/专项技术方案；批准内容由 change 引用，不复制成另一份 design |
 | [跨端契约](contracts/README.md) | DTO、状态、错误语义；生成 schema 的事实源在提供方代码 |
-| [当前计划](../manager/plan.yaml) | 已登记需求、批次与 change 阶段；v2 模板初始为空 |
+| [项目计划](../manager/plan.yaml) | 已登记需求、批次与 change 记录；新计划按当前 Manager 格式维护 |
 | [OpenSpec 配置](../openspec/config.yaml) | change 的设计、任务与增量规格 |
 | [修复队列](../repairs/README.md) | 小范围修复；不同时建立另一份执行状态 |
 

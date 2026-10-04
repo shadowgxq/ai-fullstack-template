@@ -34,12 +34,6 @@ def link_errors(root, path):
     return errors
 
 
-def plan_errors(root):
-    # Share the same semantic validator used by the Manager CLI.
-    from manager.validate_plan import validate_plan
-    return validate_plan(root / "manager/plan.yaml")
-
-
 def prose_errors(root, path):
     """Detect obvious chat residue in long-lived docs, not legitimate prompts."""
     rel = path.relative_to(root)
@@ -119,7 +113,6 @@ def validate(root):
         elif len(path.read_text().splitlines()) > 60:
             errors.append(f"{name}: routing entry exceeds 60 lines; move details into docs")
     errors.extend(hygiene_errors(root))
-    errors.extend(plan_errors(root))
     errors.extend(manager_errors(root))
     return errors
 

@@ -26,12 +26,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: {persist-credentials: false}
-      - uses: astral-sh/setup-uv@v6
-        with: {python-version: '3.12'}
       - uses: actions/setup-node@v4
         with: {node-version: '22'}
       - run: npm install --global @fission-ai/openspec@1.13.1
-      - run: make manager-live
+      - run: make manager-check
+      - run: openspec validate --all --strict --no-interactive
         env:
           OPENSPEC_TELEMETRY: '0'
           CI: 'true'

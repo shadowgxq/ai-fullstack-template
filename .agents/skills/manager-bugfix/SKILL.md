@@ -1,46 +1,17 @@
 ---
 name: manager-bugfix
-description: Repair a reported deviation with minimal write scope, persistent budgets and exact artifact backwrite ownership; distinguish code defects from new requirements and archived history.
-version: 2.0.0
+description: Fix a concrete implementation deviation and recheck affected code without changing correct requirements or introducing a repair workflow.
+version: 3.0.2
 ---
 
-# Manager 修复
+# 实现修复
 
-## 分流
+遵守[共同流程](../MANAGER-WORKFLOW.md)、[代码验收](../manager-execute-current-batch/references/verification.md)与[独立审查](../manager-execute-current-batch/references/code-review.md)。
 
-先明确 expected/actual、复现步骤、环境、证据和归属。无法复现时做定向调查，不进行大范围猜测修改。
+1. 对照预期/实际、来源和复现定位问题；环境失败与代码缺陷分别记录，不猜测性大重构。
+2. 在当前活动 Change 内修代码和相关测试；正确需求不改。实现目标或关键设计确需变化时转 manager-revise-plan。
+3. 代码变化影响已完成项时，将相关 Change/阶段代码状态标回 in-progress，并清楚标明待复验；保留正确实现，不重置整份 tasks 或重复全部工作。
+4. 只复验修复及受影响消费者；改变已审查 diff 时交独立 Reviewer 定向复查，用户明确 review=off 时省略。记录根因、修改、检查/审查结果和尝试次数；所需检查与复查完成后恢复真实代码状态，否则保留待完成项。交回调用方，由 Execute 继续本阶段收尾，Run 据返回结果调度。独立调用只返回修复结果，Bugfix 不启动后续阶段。
+5. 归档后出现的新问题使用新活动 Change，不能修改旧验收历史。
 
-| 类型 | 路径 |
-| --- | --- |
-| 当前 change 的实现偏离正确要求 | 原 change 内代码修复，默认不改 Spec |
-| 方案自身有误，行为目标未变 | manager-revise-plan 修 design/tasks，重新确认必要决策 |
-| 用户改变目标/要求 | manager-revise-plan，不假装成 bugfix |
-| 已归档行为需要变化 | 新 active change；旧 archive 永久只读 |
-| 无行为变化的局部小修 | 现有 repairs/repair-intake/repair-runner，保留最小复现和验证 |
-
-[回写矩阵](references/backwrite-matrix.md)、[根因清单](references/root-cause-checklist.md)、[记录模板](references/finding-template.md)。
-
-## 代码修复流程
-
-1. 定位最小失败路径和正确验收，必要时先补会失败的回归测试。
-2. 对已 archive-ready 但尚未真正归档的 change，使用 `reopen --kind code --decision-ref <问题引用>`；blocked 也须受控 reopen，不用 start 直接解锁。
-3. 重新 start apply。code reopen 会将受影响 claim 标为 superseded，并重置任务勾选；已有代码和证据不删除，正确实现可复用，但完成状态须通过新验证恢复。自动修复在已 in-progress apply 内执行，不重复 reopen、不重置尝试次数。
-4. `repair-begin --change <id> --finding <稳定问题ID> --allow <代码/测试路径>`。默认 code-only，禁止把 docs/spec/manager 设为允许区。
-5. 派对应 Worker 定向修复。超出范围必须暂停说明根因，不允许修复者任意修改需求、跳过测试、更新视觉基准。
-6. `repair-finish --key <返回key>` 检查真实修改范围和 contract 未变。违规后 block，保留工作供审查，不自动 reset 丢失用户修改。
-7. 局部检查先定位问题；最终要重新跑当前 change 的完整 gate，包括独立 Review 和实际交互。不能把一次针对性单测当最终完成。
-8. 最多两次自动修复，计数跨 Goal 重启持久化。同一问题不能改名骗过预算；无法继续时升级根因/产品决策。
-9. 记录根因、代码与测试修改、是否需制品回写、实际检查结果。纯代码错误明确写 `No artifact backwrite required`。
-
-## 特别规则
-
-重大重构不能无限塞进修复回路：目标不变但架构需变，先走 design revision；目标变了则新需求。
-“实现后觉得不够美观”先判断是偏离已批准基线还是新的视觉偏好；后者走 UI 基线修订，不要不断重写业务 Spec。
-记录 findings 在活动 change；归档后新问题记录在新的修复项，绝不向旧 archive 追加 findings。
-
-## 共同边界
-
-遵守 [Manager 总体工作流](../MANAGER-WORKFLOW.md) 和项目 AGENTS.md。这里只修改被明确授权的文件。
-不修改第三方 CLI 生成的 OpenSpec Skills，不私自 git add/commit/push、部署、发布或归档。
-归档目录永远不是普通修复的写入目标。状态只通过 plan_tool.py 修改。
-真实工具、模型、浏览器或验证不可用时明确报告，不模拟已经执行。
+普通小修可直接修，不自动转入 repair-intake/repair-runner；它们只在用户显式调用时使用。

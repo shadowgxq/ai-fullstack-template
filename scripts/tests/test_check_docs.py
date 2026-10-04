@@ -21,16 +21,6 @@ class DocumentationChecks(unittest.TestCase):
             self.assertEqual(len(errors), 1)
             self.assertIn("missing.md", errors[0])
 
-    def test_plan_references_are_checked(self):
-        with tempfile.TemporaryDirectory() as name:
-            root = Path(name)
-            (root / "manager").mkdir()
-            (root / "docs/product").mkdir(parents=True)
-            (root / "manager/plan.yaml").write_text("requirements:\n  - id: REQ-TEST-001\n    source: missing.md\n    requirements:\n      - REQ-TEST-002\n")
-            errors = module.plan_errors(root)
-            self.assertTrue(errors)
-            self.assertTrue(any("invalid" in e or "list" in e for e in errors))
-
     def test_agents_length_gate(self):
         with tempfile.TemporaryDirectory() as name:
             root = Path(name)
