@@ -9,8 +9,8 @@ PRD → manager-prd-review → 人工确认需求
     → manager-tech-design（复用已有方案，复杂部分才展开）
     → manager-plan-from-doc → M1 → M2 → … → Mxx
     → 两种执行入口：Execute 单阶段 / Run 连续全部剩余阶段
-        → Execute：当前 Change 制品 → 实现 → 代码/逻辑检查 → 有限修复
-        → Execute：阶段代码集成检查 → 保存结果并返回
+        → Execute：阶段内就绪的 Change/任务 → 并行实现 → 逐 Change 检查、审查与局部修复
+        → Execute：阶段集成检查与新增 diff 审查 → 保存结果并返回
         → 用户决定下一步 / Run 核对停点后继续下一阶段
     → 最终人工视觉、交互与产品验收 → 按授权归档 / 提交 PR
 ```
@@ -26,7 +26,7 @@ M1～Mxx 与 Change 两层依赖保留。阶段顺序不代替真实依赖；上
 | manager-tech-design | 按已确认目标设计实现边界、数据流和关键决策 |
 | manager-plan-from-doc | 需求覆盖、Change 拆分、阶段依赖与验收位置 |
 | manager-run | 循环调用 Execute，推进当前 Plan 全部剩余已规划阶段 |
-| manager-execute-current-batch | 一次一个阶段，负责实现、阶段检查及状态回写，收尾即返回 |
+| manager-execute-current-batch | 一次一个阶段，协调阶段内并行实现、逐 Change 审查、阶段检查及状态回写，收尾即返回 |
 | manager-bugfix | 修实现偏差，复验受影响部分 |
 | manager-revise-plan | 修改发生实质变化的需求、方案或依赖 |
 | manager-archive-completed | 核对真实验收后用 OpenSpec 归档 |
@@ -43,11 +43,20 @@ UI-heavy 需求按 [UI/UX 接入契约](ui-ux-delivery/references/manager-integr
 复杂或希望观察结果时逐阶段 Execute；需求明确时 Run。两者用相同 Plan、检查标准与 progress，可先 Execute M1 再 Run 剩余阶段，也可暂停 Run 后用 Execute 修完当前阶段。更窄的明确授权始终优先，不能因入口默认值扩大范围。
 Execute 正常返回只是阶段交接；只有 Run 判断是否继续跨阶段。直接 Execute 的阶段集成检查不能省略，也不交给一个可能根本未运行的 Runner。
 
+## 执行与审查
+
+只保留执行与审查两个职责，使用宿主原生通用 subagent；职责数量不限制执行者数量，无需角色文件、模型路由或项目初始化。
+
+- 执行：同一阶段内多个就绪 Change，以及同一 Change 内的独立任务，均可并行处理。当前会话按任务粒度、宿主并发限制和用户预算分发；前置依赖已满足、共享契约已明确且读写范围互不冲突时才并行。仅共享只读资料不构成冲突，任务所依赖的代码或契约正在被修改时仍需等待。
+- 审查：默认由一个独立只读 Reviewer 逐 Change 审查实际 diff 与检查证据；用户明确 `review=off` 时可省略。必要检查与所需独立审查通过后，协调者回写该 Change `code-verified` 并释放下游依赖；发现问题时先修复并定向复查。审查只阻塞对应 Change 及其依赖，其他就绪的独立任务继续执行；阶段收尾只补集成及新增 diff，复用有效结论。具体范围与复查规则见[独立审查](manager-execute-current-batch/references/code-review.md)。
+- 协调：派发时交接目标、必要输入、依赖、明确读写范围、验证授权和返回证据。当前会话核对真实改动、整合结果，统一维护 tasks、Plan 与 progress；执行 subagent 只写分配范围，Reviewer 只读。subagent 不自行提交、发布、归档或递归分发，不建立额外角色注册表或任务图。
+
+例如 A、B 独立，C 依赖 A：A 与 B 可并行；A 检查、审查通过后，若 C 与 B 读写互不冲突，即可启动 C，无需等待 B 完成。
+
+宿主无法分发 subagent 时，当前会话可继续实现和自查；所需独立审查保持未完成，相关 Change 不标为 `code-verified`，并说明限制。
+
 ## 一次请求与人工边界
 
-只保留执行与审查两个职责，不要求角色文件、模型路由或项目初始化。执行由当前会话协调，可把依赖已满足且写入范围互不冲突的实现交给多个原生通用 subagent 并行处理；有前后依赖、共享文件或未确定契约时按依赖顺序执行。职责种类不限制实际线程数量，不能因删除固定职业角色而强制串行。
-默认由一个独立只读 Reviewer 审查已完成 Change 的实际 diff 与检查证据，再回写该 Change 的代码状态并释放下游依赖；阶段收尾补查集成及新增 diff，复用已有效审查的结果。用户明确 `review=off` 时可省略独立审查。Reviewer 不参与实现或修改计划，不与自己完成的实现混用；复验只覆盖修复及受影响部分。运行环境没有可用 subagent 时由当前会话完成实现与自查，明确报告独立审查未完成，不能冒充审查已通过。
-派发只交接本次目标、必要输入、依赖、明确读写范围、验证授权和返回证据；不创建角色注册表、额外任务图或执行凭证。当前会话核对真实改动、合并结果并维护 tasks 与 Plan。subagent 不改共享进度、不自行提交/发布/归档，也不递归分发其他执行者。
 两个入口的授权分别覆盖当前一个阶段、当前 Plan 全部剩余已规划阶段的代码实现、按项目规则允许的验证与局部修复；均不授权未列入的需求。自然语言优先，默认遵守 Plan 中明确的人工停点。
 checkpoint 默认 auto；manual 只用于用户明确要求，或缺少当前人工决定会使后续产品/交互/关键契约方向无法确定、或可预见造成大面积返工的节点，Planner 在 note 写清待确认内容及受影响下游。重要、高风险、有 UI、希望看效果或最终仍需人工验收本身都不能触发 manual；不影响后续编码的视觉/产品验收保持 auto + pending。相关前置人工点在直接 Execute 时同样有效。
 用户明确 `human_review=skip` 或“视觉交互统一放最后验收”时，可将指定范围的阶段签字延后，保持 pending；它不是“用户已验收”，也不解决未知产品事实或授权生产操作；普通 Run 无须依赖该覆盖才能连续执行，新 PRD 的真实人工确认仍保留。
@@ -63,7 +72,7 @@ checkpoint 默认 auto；manual 只用于用户明确要求，或缺少当前人
 
 ## 验证职责
 
-单个 Change 只做[代码与逻辑验收](manager-execute-current-batch/references/verification.md)：实际行为、相关测试、项目既有 token/公共组件/状态处理的静态检查。**单个 Change 不使用浏览器，不要求截图或交互录像。**
+单个 Change 完成[代码与逻辑验收](manager-execute-current-batch/references/verification.md)及所需独立审查：实际行为、相关测试、项目既有 token/公共组件/状态处理的静态检查。**单个 Change 不使用浏览器，不要求截图或交互录像。**
 阶段只补跨 Change 的必要代码、API、数据库集成检查。视觉观感、实际页面交互和易用性放在明确的人工验收位置；不在阶段尾隐式启动浏览器。用户单独要求浏览器协助时作为独立验收任务，不反向增加每个 Change 的门禁。
 静态检查不能证明像素、遮挡、响应式或真实交互正确；不得写“视觉通过”。必须真实验证而尚未验证的逻辑不能标记 code-verified。检查失效时按影响面复验，不重新索要同一产品授权。
 

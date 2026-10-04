@@ -1,14 +1,14 @@
 {
   "repository": "shadowgxq/skills",
   "version": "3.0.2",
-  "source_revision": "921ef0ad828155b54a5ef09809a525e98f6a4f83",
+  "source_revision": "14ef69109c0a0eb05328968a90ed1d55085e0291",
   "source_modified": false,
   "installation_source": "local global Skills worktree",
   "files": [
     {
       "source": "MANAGER-WORKFLOW.md",
       "path": ".agents/skills/MANAGER-WORKFLOW.md",
-      "sha256": "829b7869010fd094c7c5a68e7d8bfe31a5cc76a0b426e4143c77f103594f72e5"
+      "sha256": "d6257843efbdecc0abced3fe961fd71625e1bf0dd2443630be85d14c8a5972ef"
     },
     {
       "source": "manager-archive-completed/SKILL.md",
@@ -23,17 +23,17 @@
     {
       "source": "manager-execute-current-batch/SKILL.md",
       "path": ".agents/skills/manager-execute-current-batch/SKILL.md",
-      "sha256": "e208c93af68942473a57925b0b302d630dcb1b3cf754bce1c523b3bdb38cb4b9"
+      "sha256": "4bc3517e871d67278e23fabb9e1f7769119959954084280c883af257d4d1a2b7"
     },
     {
       "source": "manager-execute-current-batch/references/code-review.md",
       "path": ".agents/skills/manager-execute-current-batch/references/code-review.md",
-      "sha256": "56f4219fbefeba1f9897361a8f00ec262c99469f94998d48d98e1c852488c6f7"
+      "sha256": "eec5fd23cee350e58bee46b13a53bf5062f4d3fb7a4f7f05a7dd9acfd574f291"
     },
     {
       "source": "manager-execute-current-batch/references/verification.md",
       "path": ".agents/skills/manager-execute-current-batch/references/verification.md",
-      "sha256": "7828638dc750773b67a7f5dd065374a27ea9b67ad17f9fe78e49463cbeb09eb2"
+      "sha256": "bacf421d496b08f0762e926520c84fd6c437308d4d31eaa89689253261eaffe5"
     },
     {
       "source": "manager-plan-from-doc/SKILL.md",
@@ -48,7 +48,7 @@
     {
       "source": "manager-plan-from-doc/references/plan-format.md",
       "path": ".agents/skills/manager-plan-from-doc/references/plan-format.md",
-      "sha256": "497e4c2589894bc40cf0bb2202e6211003490c5e416e1a661a57a3042294938a"
+      "sha256": "5dd80772c96cb5c76ffca997b08537b864a64ab4a28b74faf8d2ffcf2ee48db4"
     },
     {
       "source": "manager-plan-from-doc/scripts/check_plan.py",
@@ -68,7 +68,7 @@
     {
       "source": "manager-run/SKILL.md",
       "path": ".agents/skills/manager-run/SKILL.md",
-      "sha256": "39831b8c8f781df64ce7e2b72127d0db10dc12da705d2fa0e3271ce09fb90fe5"
+      "sha256": "755686c6c37b9fa282287c4f83e8538c2e706e8b1e69aeee7e44ff3a1d25f932"
     },
     {
       "source": "manager-tech-design/SKILL.md",
