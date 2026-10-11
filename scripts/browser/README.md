@@ -1,6 +1,6 @@
 # 浏览器验收
 
-针对本地可丢弃环境运行真实浏览器，不 mock 网络。范围：标准首页/组件/主题、light/dark 与 Signal/Neutral、语言持久化、Dialog 键盘、移动布局，以及当前 Backend 真实注册/登录/刷新/撤销会话。
+针对本地可丢弃环境运行真实浏览器，不 mock 网络。范围：标准首页/组件/主题、青色 Light/Dark 切换与刷新持久化、语言持久化、Dialog 键盘、移动布局，以及当前 Backend 真实注册/登录/刷新/撤销会话。
 
 ```bash
 make up-web
