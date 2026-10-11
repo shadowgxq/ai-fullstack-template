@@ -258,7 +258,7 @@ function ActionButton({
       : variant === 'secondary'
         ? 'min-h-[var(--share-action-height)] min-w-[var(--share-action-secondary-min-width)]'
         : variant === 'platform'
-          ? 'h-auto min-h-[var(--popover-tile-height)] min-w-0 w-full flex-col px-[var(--popover-tile-padding-x)] text-[var(--font-size-xs)]'
+          ? 'h-auto min-h-[var(--popover-tile-height)] min-w-0 w-full flex-col px-[var(--popover-tile-padding-x)] text-[length:var(--font-size-xs)]'
           : 'min-h-[var(--share-action-height)] min-w-0 w-full justify-start text-left';
 
   return (
@@ -668,7 +668,7 @@ export function ShareDialog({
         <DialogFooter className="mt-0 shrink-0 flex-col border-t border-border-subtle bg-popover px-[var(--dialog-padding)] pt-[var(--space-4)] pb-[var(--dialog-padding)] sm:flex-row sm:items-center sm:justify-between">
           {imageIsPreparing ? (
             <p
-              className="text-muted-foreground mb-[var(--space-3)] flex items-center gap-[var(--button-gap)] text-[var(--font-size-sm)] leading-[var(--line-height-sm)]"
+              className="text-muted-foreground mb-[var(--space-3)] flex items-center gap-[var(--button-gap)] text-[length:var(--font-size-sm)] leading-[var(--line-height-sm)]"
               role="status"
             >
               <LoaderCircle
@@ -679,7 +679,7 @@ export function ShareDialog({
             </p>
           ) : imageIsUnavailable ? (
             <p
-              className="text-destructive mb-[var(--space-3)] text-[var(--font-size-sm)] leading-[var(--line-height-sm)]"
+              className="text-destructive mb-[var(--space-3)] text-[length:var(--font-size-sm)] leading-[var(--line-height-sm)]"
               role="alert"
             >
               {imageUnavailableLabel ?? t('share.imageUnavailable')}
@@ -690,7 +690,7 @@ export function ShareDialog({
             {feedback ? (
               <p
                 className={cn(
-                  'shrink-0 text-[var(--font-size-sm)] leading-[var(--line-height-sm)]',
+                  'shrink-0 text-[length:var(--font-size-sm)] leading-[var(--line-height-sm)]',
                   share.error ? 'text-destructive' : 'text-success',
                 )}
                 role={share.error ? 'alert' : 'status'}
@@ -737,7 +737,7 @@ export function ShareDialog({
                 </ActionButton>
               ) : null}
               {shareActions.length === 0 && copyActions.length === 0 && !downloadAction ? (
-                <p className="text-muted-foreground text-[var(--font-size-sm)] leading-[var(--line-height-sm)]">
+                <p className="text-muted-foreground text-[length:var(--font-size-sm)] leading-[var(--line-height-sm)]">
                   {imageIsPreparing
                     ? (preparingImageLabel ?? t('share.preparingImage'))
                     : (noActionsLabel ?? t('share.noActions'))}

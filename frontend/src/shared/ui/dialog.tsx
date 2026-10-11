@@ -88,7 +88,7 @@ const DialogContent = React.forwardRef<
         data-dialog-type={type}
         data-variant={variant}
         className={cn(
-          'fixed top-1/2 left-1/2 z-50 w-[calc(100%-var(--space-8))] -translate-x-1/2 -translate-y-1/2 rounded-[var(--radius-dialog)] border border-border-subtle bg-popover text-[var(--font-size-md)] leading-[var(--line-height-md)] text-popover-foreground shadow-[var(--elevation-lg)] outline-none duration-[var(--duration-normal)] data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 motion-reduce:duration-0',
+          'fixed top-1/2 left-1/2 z-50 w-[calc(100%-var(--space-8))] -translate-x-1/2 -translate-y-1/2 rounded-[var(--radius-dialog)] border-[length:var(--control-border-width)] border-border-subtle bg-popover text-[length:var(--text-control-size)] leading-[var(--text-control-line)] text-popover-foreground shadow-[var(--elevation-lg)] outline-none duration-[var(--duration-normal)] data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 motion-reduce:duration-0',
           variant === 'flush'
             ? 'flex flex-col gap-0 overflow-hidden p-0'
             : 'grid gap-[var(--space-5)] p-[var(--dialog-padding)]',
@@ -103,7 +103,7 @@ const DialogContent = React.forwardRef<
             <Button
               variant="ghost"
               size="icon-sm"
-              className="absolute top-[var(--space-3)] right-[var(--space-3)] after:absolute after:-inset-[6px] after:content-['']"
+              className="absolute top-[var(--space-3)] right-[var(--space-3)] after:absolute after:-inset-[calc((var(--control-hit-size)-var(--button-height-sm))/2)] after:content-['']"
               aria-label={closeLabel}
             >
               <XIcon aria-hidden="true" />
@@ -166,7 +166,7 @@ function DialogTitle({
     <DialogPrimitive.Title
       data-slot="dialog-title"
       className={cn(
-        'font-sans text-[var(--font-size-lg)] leading-[var(--line-height-lg)] font-semibold',
+        'font-sans text-[length:var(--font-size-lg)] leading-[var(--line-height-lg)] font-semibold',
         className,
       )}
       {...props}
@@ -182,7 +182,7 @@ function DialogDescription({
     <DialogPrimitive.Description
       data-slot="dialog-description"
       className={cn(
-        'text-[var(--font-size-md)] leading-[var(--line-height-base)] text-muted-foreground *:[a]:underline *:[a]:underline-offset-[var(--space-3)] *:[a]:hover:text-foreground',
+        'text-[length:var(--text-body-size)] leading-[var(--text-body-line)] text-muted-foreground *:[a]:underline *:[a]:underline-offset-[var(--space-3)] *:[a]:hover:text-foreground',
         className,
       )}
       {...props}

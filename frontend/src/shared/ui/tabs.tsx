@@ -47,7 +47,7 @@ const TabsTrigger = React.forwardRef<
       data-slot="tabs-trigger"
       data-variant={variant}
       className={cn(
-        'inline-flex h-[var(--tabs-trigger-height)] items-center justify-center gap-[var(--button-gap)] rounded-[var(--radius-control)] px-[var(--button-padding-x-sm)] text-[var(--font-size-md)] leading-[var(--line-height-md)] font-medium whitespace-nowrap text-muted-foreground transition-[color,background-color,border-color,box-shadow,opacity] duration-[var(--duration-fast)] ease-[var(--ease-standard)] outline-none hover:text-foreground focus-visible:[--tw-ring-width:var(--focus-ring-width)] focus-visible:[--tw-ring-offset-width:var(--focus-ring-offset)] focus-visible:ring-ring focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-[var(--disabled-opacity)] data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-[var(--elevation-xs)] motion-reduce:transition-none',
+        'inline-flex h-[var(--tabs-trigger-height)] items-center justify-center gap-[var(--button-gap)] rounded-[var(--radius-control)] px-[var(--button-padding-x-sm)] text-[length:var(--text-control-size)] leading-[var(--text-control-line)] font-medium whitespace-nowrap text-muted-foreground transition-[color,background-color,border-color,box-shadow,opacity] duration-[var(--duration-fast)] ease-[var(--ease-standard)] outline-none hover:text-foreground focus-visible:ring-[length:var(--focus-ring-width)] focus-visible:ring-offset-[length:var(--focus-ring-offset)] focus-visible:ring-ring focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-[var(--disabled-opacity)] data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-[var(--elevation-xs)] motion-reduce:transition-none',
         variant === 'underline' &&
           'h-[var(--tabs-height)] rounded-none border-b-[calc(var(--control-border-width)*2)] border-transparent !px-0 data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none',
         className,
@@ -68,7 +68,7 @@ const TabsContent = React.forwardRef<
       ref={ref}
       data-slot="tabs-content"
       className={cn(
-        'mt-[var(--subsection-gap)] outline-none focus-visible:[--tw-ring-width:var(--focus-ring-width)] focus-visible:ring-ring',
+        'mt-[var(--subsection-gap)] outline-none focus-visible:ring-[length:var(--focus-ring-width)] focus-visible:ring-ring',
         className,
       )}
       {...props}

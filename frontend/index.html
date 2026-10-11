@@ -16,22 +16,18 @@
     />
     <title>Agent Template</title>
     <script>
-      // No-FOUC: 渲染前根据持久化的主题预设 <html data-theme>，与 shared/theme 一致。
+      // No-FOUC: 渲染前根据持久化的明暗偏好设置 <html data-theme>，与 shared/theme 一致。
       (function () {
         var mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        var preset = 'signal';
         try {
           var raw = localStorage.getItem('ui-theme');
           var storedState = raw ? JSON.parse(raw).state : null;
           var storedMode = storedState ? storedState.mode : null;
-          var storedPreset = storedState ? storedState.preset : null;
           mode = storedMode === 'light' || storedMode === 'dark' ? storedMode : mode;
-          preset = storedPreset === 'signal' || storedPreset === 'neutral' ? storedPreset : preset;
         } catch (e) {
           /* 忽略：localStorage 不可用时使用首次系统偏好 */
         }
         document.documentElement.dataset.theme = mode;
-        document.documentElement.dataset.themePreset = preset;
       })();
     </script>
   </head>

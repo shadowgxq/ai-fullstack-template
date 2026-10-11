@@ -322,11 +322,11 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
   }
 
   const rememberCheckbox = (
-    <label className="inline-flex items-center gap-[var(--space-2)] text-[var(--font-size-md)] leading-[var(--line-height-md)] text-foreground">
+    <label className="inline-flex items-center gap-[var(--space-2)] text-[length:var(--font-size-md)] leading-[var(--line-height-md)] text-foreground">
       <input
         type="checkbox"
         checked={remember}
-        className="size-[var(--icon-size-md)] accent-primary focus-visible:[--tw-ring-width:var(--focus-ring-width)] focus-visible:ring-ring focus-visible:ring-offset-background"
+        className="size-[var(--icon-size-md)] accent-primary focus-visible:ring-[length:var(--focus-ring-width)] focus-visible:ring-ring focus-visible:ring-offset-background"
         onChange={(event) => setRemember(event.target.checked)}
       />
       <span>{t('auth.remember')}</span>
@@ -379,10 +379,10 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
           className="flex flex-col gap-[var(--space-1)] rounded-[var(--radius-control)] bg-muted px-[var(--space-3)] py-[var(--space-2)]"
           role="status"
         >
-          <p className="text-[var(--font-size-md)] leading-[var(--line-height-base)] text-foreground [overflow-wrap:anywhere]">
+          <p className="text-[length:var(--font-size-md)] leading-[var(--line-height-base)] text-foreground [overflow-wrap:anywhere]">
             {t('auth.codeSent', { email: sentTo })}
           </p>
-          <p className="text-[var(--font-size-xs)] leading-[var(--line-height-sm)] text-muted-foreground">
+          <p className="text-[length:var(--font-size-xs)] leading-[var(--line-height-sm)] text-muted-foreground">
             {t('auth.codeExpiresIn', { minutes: expireMinutes })}
           </p>
         </div>
@@ -394,7 +394,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
     <>
       {message ? (
         <p
-          className="text-[var(--font-size-md)] leading-[var(--line-height-base)] text-destructive"
+          className="text-[length:var(--font-size-md)] leading-[var(--line-height-base)] text-destructive"
           role="alert"
         >
           {message}
@@ -403,7 +403,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
 
       {firstLogin ? (
         <p
-          className="text-[var(--font-size-md)] leading-[var(--line-height-base)] text-success"
+          className="text-[length:var(--font-size-md)] leading-[var(--line-height-base)] text-success"
           role="status"
         >
           {t('auth.welcomeNew')}
@@ -412,7 +412,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
 
       {resetDone ? (
         <p
-          className="text-[var(--font-size-md)] leading-[var(--line-height-base)] text-success"
+          className="text-[length:var(--font-size-md)] leading-[var(--line-height-base)] text-success"
           role="status"
         >
           {t('auth.forgot.done')}
@@ -446,7 +446,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
   const googleBlock =
     CAN_USE_GOOGLE && mode !== 'forgot' ? (
       <>
-        <div className="flex items-center gap-[var(--space-3)] text-[var(--font-size-xs)] text-muted-foreground">
+        <div className="flex items-center gap-[var(--space-3)] text-[length:var(--font-size-xs)] text-muted-foreground">
           <span className="h-[var(--control-border-width)] flex-1 bg-border" />
           <span>{t('auth.or')}</span>
           <span className="h-[var(--control-border-width)] flex-1 bg-border" />
@@ -456,7 +456,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
 
         {googleMessage ? (
           <p
-            className="text-[var(--font-size-md)] leading-[var(--line-height-base)] text-destructive"
+            className="text-[length:var(--font-size-md)] leading-[var(--line-height-base)] text-destructive"
             role="alert"
           >
             {googleMessage}
@@ -614,7 +614,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
           onSubmit={handleForgotSubmit}
           noValidate
         >
-          <p className="text-[var(--font-size-sm)] leading-[var(--line-height-sm)] text-muted-foreground">
+          <p className="text-[length:var(--font-size-sm)] leading-[var(--line-height-sm)] text-muted-foreground">
             {t('auth.forgot.hint')}
           </p>
 

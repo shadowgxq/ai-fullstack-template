@@ -25,12 +25,7 @@
     "theme": {
       "label": "深色模式",
       "light": "切换浅色模式",
-      "dark": "切换深色模式",
-      "presetLabel": "视觉风格",
-      "presets": {
-        "signal": "信号青绿",
-        "neutral": "中性黑白"
-      }
+      "dark": "切换深色模式"
     },
     "locales": {
       "en": "英文",
@@ -143,47 +138,51 @@
       "footer": "公共能力保持稳定，业务变化留在各自领域中。"
     },
     "theme": {
-      "status": "Design Tokens · 可选择",
-      "title": "为你的产品选择视觉方向。",
-      "description": "明暗模式与视觉预设彼此独立。先选择品牌气质，再把业务页面建立在同一套语义 token 上。",
-      "catalogEyebrow": "视觉预设",
-      "catalogTitle": "选择一套基础气质",
-      "current": "当前：{{preset}}",
-      "presets": {
-        "signal": {
-          "description": "纸面浅灰、teal 主色与深绿黑暗色模式。适合金融产品、数据工作台和需要信任感的业务。"
+      "status": "信号青绿 · Light / Dark",
+      "title": "一套视觉基础，两种明暗模式。",
+      "description": "为青绿色主题选择浅色或深色外观。两套配色共用布局、控件和清楚的信息层级。",
+      "catalogEyebrow": "明暗外观",
+      "catalogTitle": "选择明暗模式",
+      "current": "当前：{{mode}}",
+      "modes": {
+        "light": {
+          "label": "浅色",
+          "description": "浅色画布、清楚的深蓝文字与青绿色主操作。"
         },
-        "neutral": {
-          "description": "保留模板原本的中性黑白语气。适合内部工具、工程后台和希望后续自行注入品牌色的项目。"
+        "dark": {
+          "label": "深色",
+          "description": "深绿画布、浅色文字与明亮的青绿色主操作。"
         }
       },
-      "modeEyebrow": "明暗模式",
-      "modeTitle": "与视觉预设独立",
-      "modeDescription": "明暗模式仍可从右上角设置菜单切换，选中的视觉预设会同时覆盖 light 与 dark 两套 token。",
+      "modeEyebrow": "统一基础",
+      "modeTitle": "两种模式，同一套控件",
+      "modeDescription": "也可从设置菜单切换明暗模式。你的偏好会保存，下次访问时沿用。",
       "modeLabel": "当前模式",
-      "footer": "视觉预设只改变表达方式，不改变页面结构、状态和业务契约。"
+      "footer": "外观变化时，页面结构、交互状态和业务行为保持一致。"
     }
   },
   "theme": {
-    "status": "Design Tokens · 可选择",
-    "title": "为你的产品选择视觉方向。",
-    "description": "明暗模式与视觉预设彼此独立。先选择品牌气质，再把业务页面建立在同一套语义 token 上。",
-    "catalogEyebrow": "视觉预设",
-    "catalogTitle": "选择一套基础气质",
-    "current": "当前：{{preset}}",
-    "presets": {
-      "signal": {
-        "description": "纸面浅灰、teal 主色与深绿黑暗色模式。适合金融产品、数据工作台和需要信任感的业务。"
+    "status": "信号青绿 · Light / Dark",
+    "title": "一套视觉基础，两种明暗模式。",
+    "description": "为青绿色主题选择浅色或深色外观。两套配色共用布局、控件和清楚的信息层级。",
+    "catalogEyebrow": "明暗外观",
+    "catalogTitle": "选择明暗模式",
+    "current": "当前：{{mode}}",
+    "modes": {
+      "light": {
+        "label": "浅色",
+        "description": "浅色画布、清楚的深蓝文字与青绿色主操作。"
       },
-      "neutral": {
-        "description": "保留模板原本的中性黑白语气。适合内部工具、工程后台和希望后续自行注入品牌色的项目。"
+      "dark": {
+        "label": "深色",
+        "description": "深绿画布、浅色文字与明亮的青绿色主操作。"
       }
     },
-    "modeEyebrow": "明暗模式",
-    "modeTitle": "与视觉预设独立",
-    "modeDescription": "明暗模式仍可从右上角设置菜单切换，选中的视觉预设会同时覆盖 light 与 dark 两套 token。",
+    "modeEyebrow": "统一基础",
+    "modeTitle": "两种模式，同一套控件",
+    "modeDescription": "也可从设置菜单切换明暗模式。你的偏好会保存，下次访问时沿用。",
     "modeLabel": "当前模式",
-    "footer": "视觉预设只改变表达方式，不改变页面结构、状态和业务契约。"
+    "footer": "外观变化时，页面结构、交互状态和业务行为保持一致。"
   },
   "components": {
     "status": "组件库",

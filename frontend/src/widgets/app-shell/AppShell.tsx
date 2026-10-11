@@ -32,9 +32,7 @@ export function AppShell({ children, hideFooter = false }: AppShellProps) {
         {t('header.skipToContent')}
       </a>
       <AppHeader />
-      <div className={showFooter ? 'min-h-0 min-w-0 flex-1 pb-14' : 'min-h-0 min-w-0 flex-1'}>
-        {children}
-      </div>
+      <div className="min-h-0 min-w-0 flex-1">{children}</div>
       {showFooter ? <AppFooter /> : null}
       <LoginModal />
       <ChangePasswordModal />

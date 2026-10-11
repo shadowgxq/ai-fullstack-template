@@ -25,12 +25,7 @@
     "theme": {
       "label": "Dark mode",
       "light": "Switch to light mode",
-      "dark": "Switch to dark mode",
-      "presetLabel": "Visual style",
-      "presets": {
-        "signal": "Signal teal",
-        "neutral": "Neutral"
-      }
+      "dark": "Switch to dark mode"
     },
     "locales": {
       "en": "English",
@@ -143,47 +138,51 @@
       "footer": "Shared capabilities stay stable while business change remains inside each domain."
     },
     "theme": {
-      "status": "Design tokens · choose a direction",
-      "title": "Choose the visual direction for your product.",
-      "description": "Light and dark modes stay independent from the visual preset. Choose the brand posture first, then build business pages on the same semantic token contract.",
-      "catalogEyebrow": "Visual presets",
-      "catalogTitle": "Choose a foundation",
-      "current": "Current: {{preset}}",
-      "presets": {
-        "signal": {
-          "description": "Paper-like surfaces, teal actions, and a deep green-black dark mode. A fit for finance, data workspaces, and trust-led products."
+      "status": "Signal teal · Light / Dark",
+      "title": "One visual foundation, two modes.",
+      "description": "Choose the light or dark appearance for Signal teal. Both use the same layout, controls, and clear hierarchy.",
+      "catalogEyebrow": "Appearance",
+      "catalogTitle": "Choose your mode",
+      "current": "Current: {{mode}}",
+      "modes": {
+        "light": {
+          "label": "Light",
+          "description": "A light canvas, clear navy text, and teal primary actions."
         },
-        "neutral": {
-          "description": "The template's original neutral black-and-white voice. A fit for internal tools, engineering back offices, or projects adding their own brand layer later."
+        "dark": {
+          "label": "Dark",
+          "description": "A deep green canvas, light text, and bright teal primary actions."
         }
       },
-      "modeEyebrow": "Light and dark",
-      "modeTitle": "Independent from the preset",
-      "modeDescription": "The appearance mode stays in the top-right settings menu. The selected preset supplies both its light and dark token sets.",
+      "modeEyebrow": "Shared foundation",
+      "modeTitle": "The same controls in both modes",
+      "modeDescription": "You can also switch modes in the settings menu. Your preference is saved for the next visit.",
       "modeLabel": "Current mode",
-      "footer": "A visual preset changes expression, not page structure, state, or business contracts."
+      "footer": "The appearance changes while page structure, interaction states, and business behavior stay consistent."
     }
   },
   "theme": {
-    "status": "Design tokens · choose a direction",
-    "title": "Choose the visual direction for your product.",
-    "description": "Light and dark modes stay independent from the visual preset. Choose the brand posture first, then build business pages on the same semantic token contract.",
-    "catalogEyebrow": "Visual presets",
-    "catalogTitle": "Choose a foundation",
-    "current": "Current: {{preset}}",
-    "presets": {
-      "signal": {
-        "description": "Paper-like surfaces, teal actions, and a deep green-black dark mode. A fit for finance, data workspaces, and trust-led products."
+    "status": "Signal teal · Light / Dark",
+    "title": "One visual foundation, two modes.",
+    "description": "Choose the light or dark appearance for Signal teal. Both use the same layout, controls, and clear hierarchy.",
+    "catalogEyebrow": "Appearance",
+    "catalogTitle": "Choose your mode",
+    "current": "Current: {{mode}}",
+    "modes": {
+      "light": {
+        "label": "Light",
+        "description": "A light canvas, clear navy text, and teal primary actions."
       },
-      "neutral": {
-        "description": "The template's original neutral black-and-white voice. A fit for internal tools, engineering back offices, or projects adding their own brand layer later."
+      "dark": {
+        "label": "Dark",
+        "description": "A deep green canvas, light text, and bright teal primary actions."
       }
     },
-    "modeEyebrow": "Light and dark",
-    "modeTitle": "Independent from the preset",
-    "modeDescription": "The appearance mode stays in the top-right settings menu. The selected preset supplies both its light and dark token sets.",
+    "modeEyebrow": "Shared foundation",
+    "modeTitle": "The same controls in both modes",
+    "modeDescription": "You can also switch modes in the settings menu. Your preference is saved for the next visit.",
     "modeLabel": "Current mode",
-    "footer": "A visual preset changes expression, not page structure, state, or business contracts."
+    "footer": "The appearance changes while page structure, interaction states, and business behavior stay consistent."
   },
   "components": {
     "status": "Component library",

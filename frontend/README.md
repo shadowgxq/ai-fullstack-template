@@ -28,4 +28,4 @@ pnpm preview --host 127.0.0.1 --port 4173
 
 `/api` 开发与 Nginx 生产代理均保留路径。API 超时默认 20000ms。Docker 延续本仓库 Nginx 非 root 静态服务，不携带来源的独立 Caddy/Railway 部署。标准 `index.html` 保留已声明的 Google Fonts 资源；默认无外部翻译代理目标、无 analytics 脚本；这些扩展需明确配置，当前 backend 未提供翻译服务。
 
-项目规范唯一入口为 [前端专项导航](../docs/engineering/frontend/README.md)。本目录不另建 docs、Manager 或 Skills 副本。
+项目规范入口为 [前端专项导航](../docs/engineering/frontend/README.md)；[设计规范与 Pencil 资产](../docs/design/README.md) 维护视觉、Token 选择和设计适配。本目录不另建 docs、Manager 或 Skills 副本。

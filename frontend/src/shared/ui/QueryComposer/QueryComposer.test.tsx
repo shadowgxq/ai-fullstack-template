@@ -283,7 +283,7 @@ describe('QueryComposer', () => {
     });
 
     expect(screen.getByRole('listbox').parentElement).toHaveClass(
-      'max-h-[28rem]',
+      'max-h-[var(--query-composer-panel-max-height)]',
       'overflow-y-auto',
       'overscroll-contain',
     );

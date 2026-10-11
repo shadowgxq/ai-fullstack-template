@@ -19,7 +19,8 @@
 | props、受控状态、primitive 行为 | [组件 API](component-definition.md) |
 | 分层与 public import | [技术基线](../architecture/technology-options.md#依赖方向)、[文件组织](file-organization.md) |
 | UI、表单、焦点、键盘与失败反馈 | [UI 状态](accessibility-and-ui-states.md) |
-| 样式、文案、主题 | [theme / i18n](../guides/theming-and-i18n.md) |
+| 视觉与 Token 选用 | [UI 规范](../../../design/ui-spec.md)、[Token 政策](../../../design/tokens.md) |
+| 样式入口、文案、主题接线 | [theme / i18n](../guides/theming-and-i18n.md) |
 | 配置、Vite 与代理 | [配置指南](../guides/runtime-config-and-vite.md) |
 
 默认保留 theme/i18n；opt-out 按主题指南完整修改实现、依赖与文档，不只删除接线。样式采用已配置的 Tailwind/CSS Variables 与 `cn()`，不创建平行 token、Provider 或请求 client。

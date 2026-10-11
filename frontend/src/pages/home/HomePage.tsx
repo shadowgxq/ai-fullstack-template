@@ -95,13 +95,13 @@ function OverviewContent() {
 
   return (
     <div className={viewClass}>
-      <div className="relative pb-12">
+      <div className="relative">
         <div
           className="pointer-events-none absolute inset-y-0 left-1/2 z-0 w-screen -translate-x-1/2 bg-hero"
           aria-hidden="true"
         />
         <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent to-page"
+          className="pointer-events-none absolute bottom-0 left-1/2 z-0 h-28 w-screen -translate-x-1/2 bg-gradient-to-b from-transparent to-page"
           aria-hidden="true"
         />
         <div className="relative z-10">
@@ -190,7 +190,7 @@ function OverviewContent() {
           </section>
 
           <section
-            className="border-border mt-16 grid grid-cols-3 gap-0 border-y py-11 max-[760px]:mt-12 max-[760px]:grid-cols-1 max-[760px]:gap-0"
+            className="border-border mt-16 grid grid-cols-3 gap-0 border-t py-11 max-[760px]:mt-12 max-[760px]:grid-cols-1 max-[760px]:gap-0"
             aria-label={t('home.overviewLabel')}
           >
             {overviewSections.map(({ key, Icon }, index) => (
@@ -458,7 +458,10 @@ export function HomePage() {
         ) : null}
         <main
           id="main-content"
-          className="relative z-1 mx-auto w-[min(100%-3rem,var(--layout-max-width))] py-14 max-[760px]:py-10 max-[480px]:w-[min(100%-1.5rem,var(--layout-max-width))] max-[480px]:py-8"
+          className={cn(
+            'relative z-1 mx-auto w-[min(100%-3rem,var(--layout-max-width))] pt-14 max-[760px]:pt-10 max-[480px]:w-[min(100%-1.5rem,var(--layout-max-width))] max-[480px]:pt-8',
+            isFoundation ? 'pb-14 max-[760px]:pb-10 max-[480px]:pb-8' : 'pb-6',
+          )}
           tabIndex={-1}
         >
           {isFoundation ? <FoundationContent /> : <OverviewContent />}

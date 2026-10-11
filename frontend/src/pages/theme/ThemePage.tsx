@@ -1,33 +1,17 @@
 import { Check, Moon, Palette } from '@/shared/icons';
-import { THEME_PRESETS, type ThemePreset, useTheme } from '@/shared/theme';
+import { type ThemeMode, useTheme } from '@/shared/theme';
 import { cn } from '@/shared/utils/cn';
 import { useTranslation } from 'react-i18next';
 
 import { AppShell } from '../../widgets/app-shell';
 
-const presetMeta: Record<
-  ThemePreset,
-  {
-    descriptionKey: string;
-    labelKey: string;
-  }
-> = {
-  signal: {
-    labelKey: 'header.theme.presets.signal',
-    descriptionKey: 'theme.presets.signal.description',
-  },
-  neutral: {
-    labelKey: 'header.theme.presets.neutral',
-    descriptionKey: 'theme.presets.neutral.description',
-  },
-};
+const THEME_MODES = ['light', 'dark'] as const;
 
-function ThemePreview({ mode, preset }: { mode: 'light' | 'dark'; preset: ThemePreset }) {
+function ThemePreview({ mode }: { mode: ThemeMode }) {
   return (
     <div
       className="bg-background border-border/80 min-h-44 rounded-lg border p-3 shadow-sm"
       data-theme={mode}
-      data-theme-preset={preset}
       aria-hidden="true"
     >
       <div className="border-border flex items-center justify-between border-b pb-3">
@@ -54,7 +38,7 @@ function ThemePreview({ mode, preset }: { mode: 'light' | 'dark'; preset: ThemeP
 
 export function ThemePage() {
   const { t } = useTranslation();
-  const { mode, preset, setPreset } = useTheme();
+  const { mode, setMode } = useTheme();
 
   return (
     <AppShell>
@@ -96,18 +80,18 @@ export function ThemePage() {
               <span className="border-primary/30 bg-primary/10 text-primary inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium">
                 <Check size={14} aria-hidden="true" />
                 {t('theme.current', {
-                  preset: t(presetMeta[preset].labelKey),
+                  mode: t(`theme.modes.${mode}.label`),
                 })}
               </span>
             </div>
 
             <div className="mt-6 grid grid-cols-2 gap-4 max-[760px]:grid-cols-1">
-              {THEME_PRESETS.map((presetKey) => {
-                const isActive = preset === presetKey;
+              {THEME_MODES.map((modeKey) => {
+                const isActive = mode === modeKey;
 
                 return (
                   <button
-                    key={presetKey}
+                    key={modeKey}
                     type="button"
                     className={cn(
                       'border-border bg-card text-left transition-all motion-reduce:transition-none',
@@ -115,19 +99,19 @@ export function ThemePage() {
                       isActive && 'border-primary shadow-md ring-2 ring-primary/15',
                     )}
                     aria-pressed={isActive}
-                    onClick={() => setPreset(presetKey)}
+                    onClick={() => setMode(modeKey)}
                   >
-                    <ThemePreview mode={mode} preset={presetKey} />
+                    <ThemePreview mode={modeKey} />
                     <div className="mt-5 flex items-start justify-between gap-4">
                       <div>
                         <span className="text-primary font-sans text-xs tracking-[0.08em] uppercase">
-                          {presetKey}
+                          {modeKey}
                         </span>
                         <h3 className="text-foreground font-sans mt-2 text-xl font-semibold">
-                          {t(presetMeta[presetKey].labelKey)}
+                          {t(`theme.modes.${modeKey}.label`)}
                         </h3>
                         <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
-                          {t(presetMeta[presetKey].descriptionKey)}
+                          {t(`theme.modes.${modeKey}.description`)}
                         </p>
                       </div>
                       <span
@@ -165,7 +149,7 @@ export function ThemePage() {
               <div>
                 <span className="text-muted-foreground text-xs">{t('theme.modeLabel')}</span>
                 <strong className="text-foreground mt-1 block text-base">
-                  {t(mode === 'dark' ? 'header.theme.dark' : 'header.theme.light')}
+                  {t(`theme.modes.${mode}.label`)}
                 </strong>
               </div>
             </div>

@@ -33,7 +33,7 @@ const SelectTrigger = React.forwardRef<
       data-slot="select-trigger"
       data-size={size}
       className={cn(
-        'flex w-full min-w-0 items-center justify-between gap-[var(--input-icon-gap)] rounded-[var(--radius-control)] border border-[var(--control-border-width)] border-input bg-background px-[var(--input-padding-x)] text-[var(--font-size-md)] leading-[var(--line-height-md)] text-foreground outline-none transition-[color,background-color,border-color,box-shadow] duration-[var(--duration-fast)] ease-[var(--ease-standard)] hover:border-border-strong focus-visible:[--tw-ring-width:var(--control-focus-stroke)] focus-visible:[--tw-ring-offset-width:var(--focus-ring-offset)] focus-visible:border-ring focus-visible:ring-ring focus-visible:ring-offset-background data-[state=open]:border-ring data-[state=open]:ring-ring disabled:cursor-not-allowed disabled:bg-muted disabled:opacity-[var(--disabled-opacity)] aria-invalid:border-[var(--control-invalid-border)] aria-invalid:[--tw-ring-width:var(--control-focus-stroke)] aria-invalid:ring-destructive/30 [&>span]:flex [&>span]:min-w-0 [&>span]:items-center [&>span]:gap-[var(--input-icon-gap)] [&>span]:truncate motion-reduce:transition-none',
+        'flex w-full min-w-0 items-center justify-between gap-[var(--input-icon-gap)] rounded-[var(--radius-control)] border-[length:var(--control-border-width)] border-input bg-background px-[var(--input-padding-x)] text-[length:var(--text-control-size)] leading-[var(--text-control-line)] text-foreground outline-none transition-[color,background-color,border-color,box-shadow] duration-[var(--duration-fast)] ease-[var(--ease-standard)] hover:border-border-strong focus-visible:ring-[length:var(--control-focus-stroke)] focus-visible:ring-offset-[length:var(--focus-ring-offset)] focus-visible:border-ring focus-visible:ring-ring focus-visible:ring-offset-background data-[state=open]:border-ring data-[state=open]:ring-ring disabled:cursor-not-allowed disabled:bg-muted disabled:opacity-[var(--disabled-opacity)] aria-invalid:border-[var(--control-invalid-border)] aria-invalid:ring-[length:var(--control-focus-stroke)] aria-invalid:ring-destructive/30 [&>span]:flex [&>span]:min-w-0 [&>span]:items-center [&>span]:gap-[var(--input-icon-gap)] [&>span]:truncate motion-reduce:transition-none',
         SELECT_SIZE_CLASSES[size],
         className,
       )}
@@ -63,7 +63,7 @@ const SelectContent = React.forwardRef<
         data-slot="select-content"
         position={position}
         className={cn(
-          'relative z-50 max-h-[var(--radix-select-content-available-height)] min-w-[var(--dropdown-min-width)] overflow-hidden rounded-[var(--radius-control)] border border-border-subtle bg-popover text-popover-foreground shadow-[var(--elevation-md)] outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+          'relative z-50 max-h-[var(--radix-select-content-available-height)] min-w-[var(--dropdown-min-width)] overflow-hidden rounded-[var(--radius-control)] border-[length:var(--control-border-width)] border-border-subtle bg-popover text-popover-foreground shadow-[var(--elevation-md)] outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
           position === 'popper' &&
             'data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1',
           className,
@@ -96,7 +96,7 @@ function SelectLabel({
     <SelectPrimitive.Label
       data-slot="select-label"
       className={cn(
-        'px-[var(--dropdown-item-padding-x)] py-[var(--space-1)] text-[var(--font-size-xs)] leading-[var(--line-height-sm)] font-medium text-muted-foreground',
+        'px-[var(--dropdown-item-padding-x)] py-[var(--space-1)] text-[length:var(--text-caption-size)] leading-[var(--text-caption-line)] font-medium text-muted-foreground',
         className,
       )}
       {...props}
@@ -113,7 +113,7 @@ const SelectItem = React.forwardRef<
       ref={ref}
       data-slot="select-item"
       className={cn(
-        'relative flex h-[var(--dropdown-item-height)] w-full cursor-default items-center rounded-[var(--radius-control)] px-[var(--dropdown-item-padding-x)] pr-[calc(var(--dropdown-item-padding-x)+var(--control-icon-size)+var(--control-icon-gap))] text-[var(--font-size-md)] leading-[var(--line-height-md)] outline-none select-none focus:bg-surface-hover focus:text-foreground data-[state=checked]:bg-surface-selected data-[state=checked]:text-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-[var(--disabled-opacity)]',
+        'relative flex min-h-[var(--dropdown-item-height)] w-full cursor-default items-center rounded-[var(--radius-control)] px-[var(--dropdown-item-padding-x)] py-[var(--dropdown-item-padding-y)] [overflow-wrap:anywhere] pr-[calc(var(--dropdown-item-padding-x)+var(--control-icon-size)+var(--control-icon-gap))] text-[length:var(--text-control-size)] leading-[var(--text-control-line)] outline-none select-none focus:bg-surface-hover focus:text-foreground data-[state=checked]:bg-surface-selected data-[state=checked]:text-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-[var(--disabled-opacity)]',
         className,
       )}
       {...props}

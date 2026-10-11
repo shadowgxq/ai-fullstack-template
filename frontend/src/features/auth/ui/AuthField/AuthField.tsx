@@ -111,7 +111,7 @@ export function AuthField({
       {error ? (
         <p
           id={errorId}
-          className="text-[var(--helper-font-size)] leading-[var(--helper-line-height)] text-destructive"
+          className="text-[length:var(--helper-font-size)] leading-[var(--helper-line-height)] text-destructive"
           role="alert"
         >
           {error}

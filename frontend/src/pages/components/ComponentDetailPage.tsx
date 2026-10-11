@@ -293,7 +293,7 @@ function ComponentDetail({ item }: { item: ComponentCatalogItem }) {
 
             <header className="mt-5 flex items-start justify-between gap-8 max-[620px]:flex-col">
               <div className="min-w-0">
-                <h1 className="text-foreground text-[var(--text-page-title-size)] leading-[var(--text-page-title-line)] font-bold tracking-[-0.045em]">
+                <h1 className="text-foreground text-[length:var(--text-page-title-size)] leading-[var(--text-page-title-line)] font-bold tracking-[-0.045em]">
                   {item.name}
                 </h1>
                 <p className="text-muted-foreground mt-3 max-w-2xl text-base leading-relaxed">

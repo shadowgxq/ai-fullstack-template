@@ -1,0 +1,167 @@
+{
+  "format_version": 1,
+  "repository": "https://github.com/shadowgxq/skills",
+  "source_revision": "978f8e026db14fe4fe106293ff63a1e41ddec930",
+  "source_modified": true,
+  "upstream_release": false,
+  "snapshot_version": "snapshot-5b95f7d9dde4",
+  "snapshot_sha256": "5b95f7d9dde45069500315533fceaff6fc23409b553b1edb2909c22c1e93ff19",
+  "archive": "source.zip",
+  "archive_sha256": "152e723fae93a2e937415d1a5fd1a57c3ce1a79acc2a3ca8e85825bd7d5f7de1",
+  "skills": {
+    "pencil-design": {
+      "declared_version": "1.2.0",
+      "source_status": "untracked"
+    },
+    "design-to-code": {
+      "declared_version": null,
+      "source_status": "modified"
+    },
+    "design-qa": {
+      "declared_version": null,
+      "source_status": "modified"
+    }
+  },
+  "files": [
+    {
+      "path": "design-qa/agents/openai.yaml",
+      "sha256": "cda337fb9b4690532d451bd368b366e8c00d13e1b1f7e2cbe0e9e56710a62085"
+    },
+    {
+      "path": "design-qa/references/comparison.md",
+      "sha256": "1b07836302251367b9fa1da1bdfbe7d002ff38178abdceec0a2c2dd0ae63030a"
+    },
+    {
+      "path": "design-qa/references/native.md",
+      "sha256": "bf8e22f97ce3d08ee6d6fb318704a31eabf587efeec439d5c849f085c9eb5fd2"
+    },
+    {
+      "path": "design-qa/references/web.md",
+      "sha256": "e2db85e95c3b430ed6c2928c0d4980cfb1d2222c13764d6cb9a7845be3622a32"
+    },
+    {
+      "path": "design-qa/scripts/capture.mjs",
+      "sha256": "a5434f934662a19854a36f2204b0a6fd99e6976827996a32c5d5eaedfd0d3936"
+    },
+    {
+      "path": "design-qa/scripts/inspect.mjs",
+      "sha256": "8e4cfb0212eb3c20ac4f6580fdf0f118f4d7e65f469ba2fad7b994bc8e51ae70"
+    },
+    {
+      "path": "design-qa/scripts/native_evidence.py",
+      "sha256": "79705ba448c5b7bb524cf3eb890432212b408abfdb2c37129c6111b5cf39c1bb"
+    },
+    {
+      "path": "design-qa/scripts/web.mjs",
+      "sha256": "7120e4712580d4d1273c1bf608dc8cc500e620969ab356b8d8a68cf92f2a7888"
+    },
+    {
+      "path": "design-qa/SKILL.md",
+      "sha256": "4e9066283cb479a9558de642ea4cdab6e778e77ce8633b899da9732422412f4f"
+    },
+    {
+      "path": "design-qa/tests/browser-smoke.mjs",
+      "sha256": "f62c7ab2ca739a204ac2e601437dd009fedc94e4f5bbb02fe462ab60b8a08695"
+    },
+    {
+      "path": "design-qa/tests/test_native.py",
+      "sha256": "089c616742836d56283aa3fcebf5ea3d135ce131f902c24c0c031db26ca1a6d2"
+    },
+    {
+      "path": "design-qa/tests/values.test.mjs",
+      "sha256": "2fcac9ecbee3121f5042336065495f7ed7432e0279c3b10053facabf8b49ff00"
+    },
+    {
+      "path": "design-to-code/agents/openai.yaml",
+      "sha256": "6a8565bbc7457f5dd863f70cf875038022c1c710c12de9d1861e563969239bad"
+    },
+    {
+      "path": "design-to-code/references/cache-contract.md",
+      "sha256": "273913822fe29a947ab4827cc78bb1c6754a09a196a34af833c48850fb20dd63"
+    },
+    {
+      "path": "design-to-code/references/page-implementation.md",
+      "sha256": "d9d8a5e64c034199a5c78178b4df5645e58dcef419e65dcfd8d8342e25c77ff0"
+    },
+    {
+      "path": "design-to-code/references/project-context.md",
+      "sha256": "249076ae9141162361ec5295d3f4f321979057b4f6f32f94e47f9d80c5557788"
+    },
+    {
+      "path": "design-to-code/references/sources/figma.md",
+      "sha256": "edb1ff320411ba0745ef9739d979b3e574f94aed9c1ac66d62846e649c5778e9"
+    },
+    {
+      "path": "design-to-code/references/sources/pencil.md",
+      "sha256": "2ca78d4957b0de03673ab669fd04a8a0db6c61f6bdca57d738b8083614690125"
+    },
+    {
+      "path": "design-to-code/references/targets/react-native.md",
+      "sha256": "142f18d8428564083c4732f057e53d53986720a6a8c182062523c83b610e5fe1"
+    },
+    {
+      "path": "design-to-code/references/targets/react-web.md",
+      "sha256": "fca669c7d60b154c19179aa36db45c87b023ac300fe49a00538cfcd3c3cc7c12"
+    },
+    {
+      "path": "design-to-code/references/targets/vue-web.md",
+      "sha256": "80ba041d7f2078ad2bc76e6401bfc7ef55cee2400331a006d96eb8fd6833afd5"
+    },
+    {
+      "path": "design-to-code/scripts/cache.py",
+      "sha256": "79e082f033509e6b046f1faa0dfa6ceeaa978d7a4a3f6ce5df8eb15c6eebf3ee"
+    },
+    {
+      "path": "design-to-code/scripts/mcp_probe.py",
+      "sha256": "e6a51a2a567d112e9847b8282459c1ee8d3640f8fd5d18464cc4f5a719bac4a7"
+    },
+    {
+      "path": "design-to-code/scripts/pencil_source.py",
+      "sha256": "48cbe9e1ef24aac5852f791b46d454f21a949e8da61f9d955efeded46d7d7a7f"
+    },
+    {
+      "path": "design-to-code/SKILL.md",
+      "sha256": "12fe146475ef367790810a73fbfa400815d96d8d5e20e98099fe691cd4b48c91"
+    },
+    {
+      "path": "design-to-code/tests/fixtures/home.pen",
+      "sha256": "d46f592c331859e4bd7f8dd9d3d2b98b076970141af0ed1d834c7ecea5404598"
+    },
+    {
+      "path": "design-to-code/tests/fixtures/mock_mcp.py",
+      "sha256": "2f1b54a8dfc7bf786790917bd56d4987f5bc497f1c1bd7b6a9d4c88592ac0148"
+    },
+    {
+      "path": "design-to-code/tests/fixtures/README.md",
+      "sha256": "bf8fccf4ac07ca9f9b88393068f4d185110b4550a89013e8b140987b76d803c0"
+    },
+    {
+      "path": "design-to-code/tests/pencil_checks.py",
+      "sha256": "b7890d5510427c434e75aca8ec5744851b4e9ae6d81d9f4b7568ebabd73b04b9"
+    },
+    {
+      "path": "design-to-code/tests/test_cache.py",
+      "sha256": "67716c4c05a029656f24b80f593c2f57d6e165c23b76a66e9e414680a8b71e60"
+    },
+    {
+      "path": "design-to-code/tests/test_contracts.py",
+      "sha256": "cb771b04c72b03c1c163a6c223ba577cdc8c84f8a9437af458ad612c1d95b244"
+    },
+    {
+      "path": "design-to-code/tests/test_slice_completeness.py",
+      "sha256": "b6b4ca23341b1b146eda5dea9de9e7d8836de317d41de3a0749fad2b34dd4ee8"
+    },
+    {
+      "path": "DESIGN-WORKFLOW.md",
+      "sha256": "664db9bf64cfffe7073068c80630a90cd6989eaaef9bc11c2c0d21f06a1d43c6"
+    },
+    {
+      "path": "pencil-design/agents/openai.yaml",
+      "sha256": "c2d1638eb8c9d7db6d6bfd24ce4c85a891f2e8bf92352e2337e873b7e600d002"
+    },
+    {
+      "path": "pencil-design/SKILL.md",
+      "sha256": "f07cf7d9fc179a3d188a920ff5dde5fed40e0bd8e4245c5c9d2e906613a3774c"
+    }
+  ]
+}

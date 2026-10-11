@@ -28,7 +28,7 @@
 
 | 任务 | 入口 |
 |---|---|
-| 前端代码或前端工程文档 | [frontend/AGENTS.md](frontend/AGENTS.md) |
+| 前端代码、设计资产或相关规范 | [frontend/AGENTS.md](frontend/AGENTS.md)、[前端任务路径](docs/engineering/frontend/README.md#任务路径) |
 | 后端代码或后端工程文档 | [backend/AGENTS.md](backend/AGENTS.md) |
 | Agent Runtime 或 AI 工程文档 | [ai-service/AGENTS.md](ai-service/AGENTS.md) |
 | 数据库、缓存、配置、运行环境或跨端验证 | [公共工程细则](docs/engineering/common/README.md) |

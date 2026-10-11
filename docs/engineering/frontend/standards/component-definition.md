@@ -17,9 +17,9 @@
 
 ## 组件行为
 
-- root element 优先语义化 HTML；交互元素用 `button`、`a` 或原生控件，不用 `div` 模拟。
-- Button-like 组件必须支持 `disabled`，按需支持 `isPending`/`loading`，并保证 pending 时不重复触发。
-- 接收 `onSubmit`、`onConfirm`、`onSave` 的组件，由调用方持有 mutation 状态，组件负责展示和阻止重复交互。
+- 状态、语义元素、可访问名称、重复触发、焦点与键盘要求只在 [UI 状态](accessibility-and-ui-states.md) 维护。
+- 接收 `onSubmit`、`onConfirm`、`onSave` 的组件由调用方持有 mutation 状态；组件通过明确状态 API 展示并阻止重复交互，不自行推断请求成功。
+- 复用前核对真实状态参数，不把 `isPending` 或 `loading` 当成每个组件都支持的 props。
 - render、派生状态与草稿重置遵循 [React 规则](react-patterns.md#状态与-effect)，不在本页重复定义。
 
 ## 数据边界
@@ -29,14 +29,13 @@
 
 ## UI Primitive
 
-- overlay、dialog、popover、tooltip、select、menu 优先复用项目 shared UI。
-- 项目没有 shared UI 时，先建立最小基础封装，再让业务层使用。
-- shared UI 封装可访问性、尺寸、token、常见状态，不把底层 primitive 细节泄漏给业务层。
-- Button、MenuItem、DialogAction 等 action primitive 统一处理 `type`、`disabled`、pending、可访问名称和重复触发保护。
+- 控件选择和必要封装按 [组件治理](../components/components.md#决策顺序)，不另定义复用顺序。
+- shared UI 以稳定 API 封装可访问性、尺寸与状态；业务层不依赖内部实现细节，也不把业务决策传为底层开关。
+- 原生/第三方能力与实际包装 API 保持一致，不因规范列举一种能力而臆造所有控件的参数。
 
 ## 样式
 
-- 样式入口和 token 约定见 [主题指南](../guides/theming-and-i18n.md)。
+- Token 选择见 [政策](../../../design/tokens.md)，样式入口和运行接线见 [主题指南](../guides/theming-and-i18n.md)。
 - class 从结构语义命名，例如 `.root`、`.header`、`.content`、`.footer`、`.action`。
 - 颜色、间距、圆角、字体优先 token；状态样式优先基于 `data-state`、`aria-invalid`、`disabled`。
 - root element 不承担外部间距；外部布局由调用方或布局容器控制。

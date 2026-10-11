@@ -5,7 +5,8 @@
 /* 让 shadcn 的 dark: 变体跟随项目既有的 data-theme 机制。 */
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
-:root {
+:root,
+[data-theme='light'] {
   color-scheme: light;
 
   /* =========================================================
@@ -45,11 +46,13 @@
   --text-page-title-size: var(--font-size-2xl);
   --text-page-title-line: var(--line-height-2xl);
   --text-section-title-size: 20px;
-  --text-section-title-line: 28px;
+  --text-section-title-line: var(--line-height-xl);
   --text-card-title-size: var(--font-size-lg);
   --text-card-title-line: var(--line-height-base);
   --text-body-size: var(--font-size-md);
   --text-body-line: var(--line-height-base);
+  --text-control-size: var(--font-size-md);
+  --text-control-line: var(--line-height-md);
   --text-caption-size: var(--font-size-xs);
   --text-caption-line: var(--line-height-sm);
 
@@ -74,35 +77,36 @@
 
   /* 页面级节奏：1440 与 2K 共用同一组尺寸，不依赖大量媒体查询。 */
   --layout-max-width: 1336px;
-  --layout-gutter: 32px;
+  --layout-gutter: var(--space-8);
   --header-height: 56px;
-  --page-padding-top: 40px;
-  --page-padding-bottom: 64px;
-  --hero-padding-top: 40px;
-  --hero-padding-bottom: 32px;
-  --section-gap: 40px;
-  --subsection-gap: 24px;
-  --content-gap: 16px;
-  --compact-gap: 8px;
-  --toolbar-gap: 12px;
-  --grid-gap: 16px;
+  --page-padding-top: var(--space-10);
+  --page-padding-bottom: var(--space-16);
+  --hero-padding-top: var(--space-10);
+  --hero-padding-bottom: var(--space-8);
+  --section-gap: var(--space-10);
+  --subsection-gap: var(--space-6);
+  --content-gap: var(--space-4);
+  --compact-gap: var(--space-2);
+  --toolbar-gap: var(--space-3);
+  --grid-gap: var(--space-4);
 
   /* Docs / Component Library */
   --docs-sidebar-width: 236px;
-  --docs-sidebar-gap: 32px;
+  --docs-sidebar-gap: var(--space-8);
   --docs-content-max-width: 1040px;
   --docs-nav-item-height: 36px;
-  --docs-nav-item-padding-x: 12px;
-  --docs-nav-group-gap: 20px;
+  --docs-nav-item-padding-x: var(--space-3);
+  --docs-nav-group-gap: var(--space-5);
 
   /* =========================================================
    * 03. Radius
    * ======================================================= */
   --radius: 0.5rem;
   --radius-control: 8px;
-  --radius-card: 12px;
-  --radius-panel: 12px;
-  --radius-dialog: 12px;
+  --radius-surface: 12px;
+  --radius-card: var(--radius-surface);
+  --radius-panel: var(--radius-surface);
+  --radius-dialog: var(--radius-surface);
   --radius-pill: 999px;
 
   /* Component contract state primitives. */
@@ -113,10 +117,10 @@
   --control-focus-stroke: 1.5px;
   --focus-ring-offset: 2px;
   --disabled-opacity: 0.48;
-  --control-invalid-border: #ff5a5f;
+  --control-invalid-border: #c93645;
   --control-hit-size: 44px;
   --control-icon-size: var(--icon-size-md);
-  --control-icon-gap: var(--button-gap);
+  --control-icon-gap: var(--space-2);
   --form-field-gap: var(--space-2);
   --form-group-gap: var(--space-5);
   --label-font-size: var(--font-size-md);
@@ -134,9 +138,9 @@
   --control-height-xl: 44px;
   --control-height-2xl: 48px;
 
-  --control-padding-x-sm: 10px;
-  --control-padding-x-md: 12px;
-  --control-padding-x-lg: 16px;
+  --control-padding-x-sm: var(--space-2-5);
+  --control-padding-x-md: var(--space-3);
+  --control-padding-x-lg: var(--space-4);
 
   --icon-size-xs: 12px;
   --icon-size-sm: 14px;
@@ -149,18 +153,26 @@
   --button-height-sm: var(--control-height-sm);
   --button-height-md: var(--control-height-lg);
   --button-height-lg: var(--control-height-2xl);
-  --button-padding-x-sm: 12px;
+  --button-padding-x-sm: var(--space-3);
+  /* 14px preserves the compact default button; it is not another spacing scale. */
   --button-padding-x-md: 14px;
-  --button-padding-x-lg: 16px;
-  --button-gap: 8px;
+  --button-padding-x-lg: var(--space-4);
+  --button-padding-y-sm: var(--space-1);
+  --button-padding-y-md: var(--space-2);
+  --button-padding-y-lg: var(--space-3);
+  --button-gap: var(--space-2);
 
   /* Input / Select / Search */
   --input-height-sm: var(--control-height-md);
   --input-height-md: var(--control-height-lg);
   --input-height-lg: var(--control-height-xl);
-  --input-padding-x: 12px;
-  --input-icon-gap: 8px;
+  --input-padding-x: var(--space-3);
+  --input-icon-gap: var(--space-2);
   --textarea-min-height: 96px;
+
+  /* QueryComposer keeps its larger search surface; other geometry reuses the scale. */
+  --query-composer-min-height: 56px;
+  --query-composer-panel-max-height: 448px;
 
   /* Switch track stays below the 24px interaction-weight ceiling. */
   --switch-track-height: 24px;
@@ -171,48 +183,49 @@
   /* Tabs / Segmented control */
   --tabs-height: 36px;
   --tabs-trigger-height: 32px;
-  --tabs-padding: 2px;
-  --tabs-gap: 4px;
+  --tabs-padding: var(--space-0-5);
+  --tabs-gap: var(--space-1);
 
   /* Badge / Chip */
   --badge-height: 22px;
-  --badge-padding-x: 8px;
+  --badge-padding-x: var(--space-2);
   --badge-gap: 5px;
-  --badge-font-size: 12px;
+  --badge-font-size: var(--font-size-xs);
 
   /* Component gallery card */
   --component-card-min-height: 104px;
-  --component-card-padding-x: 20px;
+  --component-card-padding-x: var(--space-5);
   --component-card-padding-y: 18px;
-  --component-card-gap: 12px;
+  --component-card-gap: var(--space-3);
   --component-card-icon-box: 40px;
 
   /* Generic panel / demo */
-  --panel-padding-sm: 16px;
-  --panel-padding-md: 20px;
-  --panel-padding-lg: 24px;
-  --demo-block-gap: 16px;
+  --panel-padding-sm: var(--space-4);
+  --panel-padding-md: var(--space-5);
+  --panel-padding-lg: var(--space-6);
+  --demo-block-gap: var(--space-4);
 
   /* Overlay components */
   --tooltip-max-width: 280px;
-  --tooltip-padding-x: 12px;
-  --tooltip-padding-y: 8px;
+  --tooltip-padding-x: var(--space-3);
+  --tooltip-padding-y: var(--space-2);
   --popover-width: 320px;
-  --popover-padding: 16px;
+  --popover-padding: var(--space-4);
   --popover-compact-width: 288px;
   --popover-compact-padding: var(--space-2);
   --popover-compact-gap: var(--space-2-5);
   --popover-tile-height: 64px;
-  --popover-tile-padding-x: 12px;
+  --popover-tile-padding-x: var(--space-3);
   --popover-tile-icon-box: 28px;
   --popover-tile-icon-size: var(--icon-size-lg);
   --dropdown-min-width: 220px;
   --dropdown-item-height: 36px;
-  --dropdown-item-padding-x: 10px;
+  --dropdown-item-padding-x: var(--space-2-5);
+  --dropdown-item-padding-y: var(--space-2);
   --dialog-width-sm: 440px;
   --dialog-width-md: 480px;
   --dialog-width-lg: 720px;
-  --dialog-padding: 24px;
+  --dialog-padding: var(--space-6);
   --calendar-width: 320px;
   --drawer-width: 420px;
 
@@ -223,9 +236,9 @@
 
   /* Table / Code */
   --table-row-height: 44px;
-  --table-cell-padding-x: 12px;
-  --code-font-size: 13px;
-  --code-line-height: 20px;
+  --table-cell-padding-x: var(--space-3);
+  --code-font-size: var(--font-size-sm);
+  --code-line-height: var(--line-height-md);
   --code-padding: 18px;
 
   /* =========================================================
@@ -261,9 +274,9 @@
 
   --border-subtle: #e3eaf1;
   --border: #d8e1ea;
-  --border-strong: #b8c6d4;
+  --border-strong: #6d7c92;
   --header-border: #e3eaf1;
-  --input: #d8e1ea;
+  --input: #7d8ba0;
 
   --primary: #00857c;
   --primary-hover: #007b73;
@@ -275,16 +288,16 @@
   --secondary: #f3f6f8;
   --secondary-foreground: #10213d;
   --muted: #eef2f6;
-  --muted-foreground: #66758d;
+  --muted-foreground: #5f6d84;
   --accent: #f4f8fa;
   --accent-foreground: #10213d;
 
   --destructive: #c93645;
   --destructive-subtle: #fff0f2;
-  --success: #16814f;
+  --success: #127749;
   --success-subtle: #e8f6ee;
   --success-foreground: #ffffff;
-  --warning: #a76c07;
+  --warning: #996007;
   --warning-subtle: #fff5df;
   --warning-foreground: #ffffff;
 
@@ -309,78 +322,6 @@
   --sidebar-accent-foreground: #10213d;
   --sidebar-border: #e3eaf1;
   --sidebar-ring: #00958c;
-}
-
-/* =========================================================
- * 07. Neutral / Light
- * 只切换语义色；几何、间距、字号、组件密度完全共用。
- * ======================================================= */
-[data-theme-preset='neutral'] {
-  --background: #f8f8f9;
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-
-  --header-bg: oklch(1 0 0);
-  --hero-bg: #f7f7f8;
-  --page-bg: #f8f8f9;
-  --surface-bg: oklch(1 0 0);
-  --surface-hover: oklch(0.97 0 0);
-  --surface-selected: oklch(0.97 0 0);
-
-  --border-subtle: oklch(0.922 0 0);
-  --border: oklch(0.922 0 0);
-  --border-strong: #d4d4d8;
-  --header-border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-
-  --primary: oklch(0.205 0 0);
-  --primary-hover: #27272a;
-  --primary-active: #09090b;
-  --primary-foreground: oklch(0.985 0 0);
-  --primary-subtle: oklch(0.97 0 0);
-  --primary-subtle-hover: #e9e9ec;
-
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-subtle: oklch(0.96 0.05 27);
-  --control-invalid-border: var(--destructive);
-  --success: oklch(0.62 0.17 150);
-  --success-subtle: oklch(0.96 0.04 150);
-  --success-foreground: oklch(0.985 0 0);
-  --warning: oklch(0.68 0.16 75);
-  --warning-subtle: oklch(0.97 0.04 85);
-  --warning-foreground: oklch(0.145 0 0);
-
-  --ring: oklch(0.708 0 0);
-  --overlay: rgb(9 9 11 / 0.42);
-
-  --code-bg: #18181b;
-  --code-foreground: #f4f4f5;
-  --code-muted: #a1a1aa;
-
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
 }
 
 @theme inline {
@@ -460,7 +401,7 @@
 }
 
 /* =========================================================
- * 08. Signal Teal / Dark
+ * 07. Signal Teal / Dark
  * ======================================================= */
 [data-theme='dark'] {
   color-scheme: dark;
@@ -481,9 +422,9 @@
 
   --border-subtle: #34413d;
   --border: #34413d;
-  --border-strong: #405049;
+  --border-strong: #7b8c85;
   --header-border: #2b3834;
-  --input: #52625c;
+  --input: #66766f;
 
   --primary: #56cdbc;
   --primary-hover: #78dec9;
@@ -535,77 +476,6 @@
   --elevation-sm: 0 1px 2px rgb(0 0 0 / 0.24), 0 4px 12px rgb(0 0 0 / 0.16);
   --elevation-md: 0 10px 28px rgb(0 0 0 / 0.28);
   --elevation-lg: 0 18px 48px rgb(0 0 0 / 0.36);
-}
-
-/* =========================================================
- * 09. Neutral / Dark
- * ======================================================= */
-[data-theme='dark'][data-theme-preset='neutral'] {
-  --background: #111113;
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-
-  --header-bg: oklch(0.205 0 0);
-  --hero-bg: #171719;
-  --page-bg: #111113;
-  --surface-bg: oklch(0.205 0 0);
-  --surface-hover: oklch(0.269 0 0);
-  --surface-selected: oklch(0.269 0 0);
-
-  --border-subtle: oklch(1 0 0 / 10%);
-  --border: oklch(1 0 0 / 10%);
-  --border-strong: #45454d;
-  --header-border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-
-  --primary: oklch(0.922 0 0);
-  --primary-hover: #ffffff;
-  --primary-active: #e4e4e7;
-  --primary-foreground: oklch(0.205 0 0);
-  --primary-subtle: oklch(0.269 0 0);
-  --primary-subtle-hover: #303036;
-
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-subtle: oklch(0.3 0.08 25);
-  --control-invalid-border: oklch(0.704 0.191 22.216);
-  --success: oklch(0.72 0.16 150);
-  --success-subtle: oklch(0.3 0.08 150);
-  --success-foreground: oklch(0.145 0 0);
-  --warning: oklch(0.8 0.14 80);
-  --warning-subtle: oklch(0.3 0.08 80);
-  --warning-foreground: oklch(0.145 0 0);
-
-  --ring: oklch(0.556 0 0);
-  --overlay: rgb(0 0 0 / 0.62);
-
-  --code-bg: #09090b;
-  --code-foreground: #f4f4f5;
-  --code-muted: #a1a1aa;
-
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
 }
 
 /*

@@ -7,12 +7,11 @@ import { useTheme } from '../../shared/theme';
  * 与 index.html 的防闪烁脚本配合：脚本负责首帧，本组件负责后续切换。
  */
 export function ThemeInitializer() {
-  const { mode, preset } = useTheme();
+  const { mode } = useTheme();
 
   useEffect(() => {
     document.documentElement.dataset.theme = mode;
-    document.documentElement.dataset.themePreset = preset;
-  }, [mode, preset]);
+  }, [mode]);
 
   return null;
 }

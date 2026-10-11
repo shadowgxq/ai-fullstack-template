@@ -6,7 +6,7 @@ import { LoaderCircle } from 'lucide-react'
 import { cn } from '@/shared/utils/cn'
 
 const buttonVariants = cva(
-  'group/button inline-flex touch-manipulation shrink-0 items-center justify-center rounded-[var(--radius-control)] border border-transparent bg-clip-padding text-[var(--font-size-md)] leading-[var(--line-height-md)] font-medium whitespace-nowrap transition-[color,background-color,border-color,box-shadow,opacity] duration-[var(--duration-fast)] ease-[var(--ease-standard)] outline-none select-none focus-visible:[--tw-ring-width:var(--focus-ring-width)] focus-visible:[--tw-ring-offset-width:var(--focus-ring-offset)] focus-visible:ring-ring focus-visible:ring-offset-background disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-[var(--disabled-opacity)] aria-busy:opacity-100 aria-invalid:border-[var(--control-invalid-border)] aria-invalid:[--tw-ring-width:var(--control-focus-stroke)] aria-invalid:ring-destructive/20 motion-reduce:transition-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*="size-"])]:size-[var(--icon-size-md)]',
+  'group/button inline-flex max-w-full touch-manipulation shrink-0 items-center justify-center rounded-[var(--radius-control)] border-[length:var(--control-border-width)] border-transparent bg-clip-padding text-[length:var(--text-control-size)] leading-[var(--text-control-line)] font-medium whitespace-normal text-center [overflow-wrap:anywhere] transition-[color,background-color,border-color,box-shadow,opacity] duration-[var(--duration-fast)] ease-[var(--ease-standard)] outline-none select-none focus-visible:ring-[length:var(--focus-ring-width)] focus-visible:ring-offset-[length:var(--focus-ring-offset)] focus-visible:ring-ring focus-visible:ring-offset-background disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-[var(--disabled-opacity)] aria-busy:opacity-100 aria-invalid:border-[var(--control-invalid-border)] aria-invalid:ring-[length:var(--control-focus-stroke)] aria-invalid:ring-destructive/20 motion-reduce:transition-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*="size-"])]:size-[var(--icon-size-md)]',
   {
     variants: {
       variant: {
@@ -19,16 +19,16 @@ const buttonVariants = cva(
         ghost:
           'bg-transparent text-foreground hover:bg-surface-hover active:bg-surface-selected',
         destructive:
-          'border-destructive/20 bg-destructive-subtle text-destructive hover:bg-destructive/20 active:bg-destructive/30 focus-visible:ring-destructive',
-        link: '!h-auto !gap-0 !px-0 bg-transparent text-primary underline-offset-[var(--space-1)] hover:text-primary-hover hover:underline active:translate-y-0',
+          'border-destructive/20 bg-destructive-subtle text-destructive hover:border-destructive/60 active:border-destructive focus-visible:ring-destructive',
+        link: '!h-auto !min-h-0 !gap-0 !px-0 !py-0 bg-transparent text-primary underline-offset-[var(--space-1)] hover:text-primary-hover hover:underline active:translate-y-0',
       },
       size: {
         // 保留旧 API 别名，但不再引入另一套几何：xs 与 icon-xs 对齐 compact。
-        xs: 'h-[var(--button-height-sm)] gap-[var(--button-gap)] px-[var(--button-padding-x-sm)]',
-        sm: 'h-[var(--button-height-sm)] gap-[var(--button-gap)] px-[var(--button-padding-x-sm)]',
+        xs: 'min-h-[var(--button-height-sm)] gap-[var(--button-gap)] px-[var(--button-padding-x-sm)] py-[var(--button-padding-y-sm)]',
+        sm: 'min-h-[var(--button-height-sm)] gap-[var(--button-gap)] px-[var(--button-padding-x-sm)] py-[var(--button-padding-y-sm)]',
         default:
-          'h-[var(--button-height-md)] gap-[var(--button-gap)] px-[var(--button-padding-x-md)]',
-        lg: 'h-[var(--button-height-lg)] gap-[var(--button-gap)] px-[var(--button-padding-x-lg)]',
+          'min-h-[var(--button-height-md)] gap-[var(--button-gap)] px-[var(--button-padding-x-md)] py-[var(--button-padding-y-md)]',
+        lg: 'min-h-[var(--button-height-lg)] gap-[var(--button-gap)] px-[var(--button-padding-x-lg)] py-[var(--button-padding-y-lg)]',
         icon: 'size-[var(--button-height-md)] gap-0 px-0',
         'icon-xs': 'size-[var(--button-height-sm)] gap-0 px-0',
         'icon-sm': 'size-[var(--button-height-sm)] gap-0 px-0',

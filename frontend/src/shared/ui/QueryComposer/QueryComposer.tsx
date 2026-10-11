@@ -174,22 +174,25 @@ function QueryComposerInner<TItem>(
       if (!input) return;
 
       const inputRect = input.getBoundingClientRect();
-      const spaceAbove = Math.max(
-        0,
-        inputRect.top - SUGGESTION_PANEL_VIEWPORT_MARGIN - SUGGESTION_PANEL_GAP,
-      );
+      const style = window.getComputedStyle(input);
+      // CSS is the visual source; fallbacks also keep placement usable before styles load.
+      const maxPanelHeight =
+        Number.parseFloat(style.getPropertyValue('--query-composer-panel-max-height')) ||
+        SUGGESTION_PANEL_MAX_HEIGHT;
+      const viewportMargin =
+        Number.parseFloat(style.getPropertyValue('--space-3')) || SUGGESTION_PANEL_VIEWPORT_MARGIN;
+      const panelGap =
+        Number.parseFloat(style.getPropertyValue('--space-2')) || SUGGESTION_PANEL_GAP;
+      const spaceAbove = Math.max(0, inputRect.top - viewportMargin - panelGap);
       const spaceBelow = Math.max(
         0,
-        window.innerHeight -
-          inputRect.bottom -
-          SUGGESTION_PANEL_VIEWPORT_MARGIN -
-          SUGGESTION_PANEL_GAP,
+        window.innerHeight - inputRect.bottom - viewportMargin - panelGap,
       );
-      const shouldPlaceAbove = spaceBelow < SUGGESTION_PANEL_MAX_HEIGHT && spaceAbove > spaceBelow;
+      const shouldPlaceAbove = spaceBelow < maxPanelHeight && spaceAbove > spaceBelow;
       const availableHeight = shouldPlaceAbove ? spaceAbove : spaceBelow;
 
       setPanelPlacement(shouldPlaceAbove ? 'top' : 'bottom');
-      setPanelMaxHeight(Math.max(1, Math.min(SUGGESTION_PANEL_MAX_HEIGHT, availableHeight)));
+      setPanelMaxHeight(Math.max(1, Math.min(maxPanelHeight, availableHeight)));
     }
 
     updatePanelLayout();
@@ -354,12 +357,18 @@ function QueryComposerInner<TItem>(
     <div ref={rootRef} className={cn('relative min-w-0', className)}>
       <label
         htmlFor={inputId}
-        className={cn('text-foreground mb-2 block text-base font-semibold', labelClassName)}
+        className={cn(
+          'text-foreground mb-[var(--form-field-gap)] block text-[length:var(--label-font-size)] leading-[var(--label-line-height)] font-medium',
+          labelClassName,
+        )}
       >
         {label}
       </label>
       {description ? (
-        <div id={descriptionId} className="text-muted-foreground mb-2 text-sm">
+        <div
+          id={descriptionId}
+          className="text-muted-foreground mb-[var(--form-field-gap)] text-[length:var(--text-body-size)] leading-[var(--text-body-line)]"
+        >
           {description}
         </div>
       ) : null}
@@ -367,10 +376,11 @@ function QueryComposerInner<TItem>(
       <div className="relative">
         <Search
           className={cn(
-            'text-muted-foreground pointer-events-none absolute left-4 z-10',
-            isMultiline ? 'top-[19px]' : 'top-1/2 -translate-y-1/2',
+            'text-muted-foreground pointer-events-none absolute left-[var(--space-4)] z-10 size-[var(--icon-size-lg)]',
+            isMultiline
+              ? 'top-[calc(var(--space-4)+(var(--line-height-lg)-var(--icon-size-lg))/2+var(--control-border-width))]'
+              : 'top-1/2 -translate-y-1/2',
           )}
-          size={20}
           aria-hidden="true"
         />
         {isMultiline ? (
@@ -388,7 +398,7 @@ function QueryComposerInner<TItem>(
             aria-controls={isPanelVisible ? panelId : undefined}
             aria-activedescendant={activeDescendant}
             className={cn(
-              'border-input bg-background text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring min-h-14 w-full resize-none rounded-xl border py-4 pr-14 pl-12 text-base leading-6 outline-none transition-[height,border-color,box-shadow] focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50',
+              'border-input bg-background text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring min-h-[var(--query-composer-min-height)] w-full rounded-[var(--radius-panel)] border-[length:var(--control-border-width)] pr-[calc(var(--control-hit-size)+var(--space-1-5)*2)] pl-[var(--space-12)] text-[length:var(--font-size-lg)] leading-[var(--line-height-lg)] outline-none duration-[var(--duration-fast)] ease-[var(--ease-standard)] focus-visible:ring-[length:var(--control-focus-stroke)] focus-visible:ring-offset-[length:var(--focus-ring-offset)] focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-[var(--disabled-opacity)] motion-reduce:transition-none resize-none py-[var(--space-4)] transition-[height,border-color,box-shadow]',
               inputClassName,
             )}
           />
@@ -406,7 +416,7 @@ function QueryComposerInner<TItem>(
             aria-controls={isPanelVisible ? panelId : undefined}
             aria-activedescendant={activeDescendant}
             className={cn(
-              'border-input bg-background text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring min-h-14 w-full rounded-xl border py-3 pr-14 pl-12 text-base outline-none transition-[border-color,box-shadow] focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50',
+              'border-input bg-background text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring min-h-[var(--query-composer-min-height)] w-full rounded-[var(--radius-panel)] border-[length:var(--control-border-width)] pr-[calc(var(--control-hit-size)+var(--space-1-5)*2)] pl-[var(--space-12)] text-[length:var(--font-size-lg)] leading-[var(--line-height-lg)] outline-none duration-[var(--duration-fast)] ease-[var(--ease-standard)] focus-visible:ring-[length:var(--control-focus-stroke)] focus-visible:ring-offset-[length:var(--focus-ring-offset)] focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-[var(--disabled-opacity)] motion-reduce:transition-none py-[var(--space-3)] transition-[border-color,box-shadow]',
               inputClassName,
             )}
           />
@@ -415,8 +425,10 @@ function QueryComposerInner<TItem>(
           <button
             type="button"
             className={cn(
-              'text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-ring absolute right-1.5 z-10 inline-grid size-11 place-items-center rounded-lg transition-colors focus-visible:ring-2 focus-visible:outline-none disabled:pointer-events-none',
-              isMultiline ? 'top-1.5' : 'top-1/2 -translate-y-1/2',
+              'text-muted-foreground hover:bg-surface-hover hover:text-foreground focus-visible:ring-ring absolute right-[var(--space-1-5)] z-10 inline-grid size-[var(--control-hit-size)] place-items-center rounded-[var(--radius-control)] transition-colors duration-[var(--duration-fast)] focus-visible:ring-[length:var(--focus-ring-width)] focus-visible:outline-none disabled:pointer-events-none disabled:opacity-[var(--disabled-opacity)] motion-reduce:transition-none',
+              isMultiline
+                ? 'top-[calc((var(--query-composer-min-height)-var(--control-hit-size))/2)]'
+                : 'top-1/2 -translate-y-1/2',
             )}
             disabled={isDisabled}
             aria-label={messages.clearInput}
@@ -429,7 +441,7 @@ function QueryComposerInner<TItem>(
               inputRef.current?.focus();
             }}
           >
-            <X size={17} aria-hidden="true" />
+            <X className="size-[var(--icon-size-md)]" aria-hidden="true" />
           </button>
         ) : null}
 
@@ -438,8 +450,10 @@ function QueryComposerInner<TItem>(
             ref={panelRef}
             id={panelId}
             className={cn(
-              'border-border bg-popover text-popover-foreground absolute right-0 left-0 z-50 max-h-[28rem] overflow-y-auto overscroll-contain rounded-xl border p-2 shadow-lg',
-              panelPlacement === 'top' ? 'bottom-full mb-2' : 'top-full mt-2',
+              'border-border bg-popover text-popover-foreground absolute right-0 left-0 z-50 max-h-[var(--query-composer-panel-max-height)] overflow-y-auto overscroll-contain rounded-[var(--radius-panel)] border-[length:var(--control-border-width)] p-[var(--space-2)] text-[length:var(--text-control-size)] leading-[var(--text-control-line)] shadow-[var(--elevation-lg)]',
+              panelPlacement === 'top'
+                ? 'bottom-full mb-[var(--space-2)]'
+                : 'top-full mt-[var(--space-2)]',
             )}
             style={{
               maxHeight: panelMaxHeight === null ? undefined : `${panelMaxHeight}px`,
@@ -447,31 +461,34 @@ function QueryComposerInner<TItem>(
           >
             {searchState.status === 'loading' ? (
               <div
-                className="text-muted-foreground flex min-h-12 items-center gap-2 px-3 py-2 text-sm"
+                className="text-muted-foreground flex min-h-[var(--control-height-2xl)] items-center gap-[var(--space-2)] px-[var(--space-3)] py-[var(--space-2)]"
                 role="status"
                 aria-live="polite"
               >
-                <LoaderCircle className="animate-spin" size={18} aria-hidden="true" />
+                <LoaderCircle
+                  className="size-[var(--icon-size-md)] animate-spin"
+                  aria-hidden="true"
+                />
                 {messages.searching}
               </div>
             ) : null}
 
             {searchState.status === 'error' ? (
               <div
-                className="text-muted-foreground flex min-h-12 flex-wrap items-center gap-2 px-3 py-2 text-sm"
+                className="text-destructive flex min-h-[var(--control-height-2xl)] flex-wrap items-center gap-[var(--space-2)] px-[var(--space-3)] py-[var(--space-2)]"
                 role="status"
                 aria-live="polite"
               >
                 <span className="min-w-0 flex-1">{messages.searchError}</span>
                 <button
                   type="button"
-                  className="text-primary hover:bg-accent focus-visible:ring-ring inline-flex min-h-9 items-center gap-1 rounded-md px-2 font-medium focus-visible:ring-2 focus-visible:outline-none"
+                  className="text-primary hover:bg-surface-hover focus-visible:ring-ring inline-flex min-h-[var(--control-height-md)] items-center gap-[var(--space-1)] rounded-[var(--radius-control)] px-[var(--space-2)] font-medium focus-visible:ring-[length:var(--focus-ring-width)] focus-visible:outline-none"
                   onClick={() => {
                     setActiveIndex(-1);
                     searchState.retry();
                   }}
                 >
-                  <RefreshCw size={14} aria-hidden="true" />
+                  <RefreshCw className="size-[var(--icon-size-sm)]" aria-hidden="true" />
                   {messages.retry}
                 </button>
               </div>
@@ -479,7 +496,7 @@ function QueryComposerInner<TItem>(
 
             {searchState.status === 'empty' ? (
               <div
-                className="text-muted-foreground min-h-11 px-3 py-2 text-sm"
+                className="text-muted-foreground min-h-[var(--control-height-xl)] px-[var(--space-3)] py-[var(--space-2)]"
                 role="status"
                 aria-live="polite"
               >
@@ -505,7 +522,7 @@ function QueryComposerInner<TItem>(
                       <button
                         id={`${panelId}-option-${index}`}
                         type="button"
-                        className="hover:bg-accent focus-visible:bg-accent data-[active=true]:bg-accent focus-visible:ring-ring flex min-h-12 w-full items-center rounded-lg px-3 py-2 text-left outline-none transition-colors focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-60"
+                        className="hover:bg-surface-hover focus-visible:bg-surface-hover data-[active=true]:bg-surface-selected focus-visible:ring-ring flex min-h-[var(--control-height-2xl)] w-full items-center rounded-[var(--radius-control)] px-[var(--space-3)] py-[var(--space-2)] text-left [overflow-wrap:anywhere] outline-none transition-colors duration-[var(--duration-fast)] focus-visible:ring-[length:var(--focus-ring-width)] motion-reduce:transition-none disabled:cursor-not-allowed disabled:opacity-[var(--disabled-opacity)]"
                         role="option"
                         aria-selected={activeIndex === index}
                         aria-disabled={isItemDisabled}
@@ -521,11 +538,17 @@ function QueryComposerInner<TItem>(
                   );
                 })}
                 {isFreeformVisible && props.mode === 'hybrid' ? (
-                  <li className={items.length > 0 ? 'border-border mt-1 border-t pt-1' : undefined}>
+                  <li
+                    className={
+                      items.length > 0
+                        ? 'border-border mt-[var(--space-1)] border-t-[length:var(--control-border-width)] pt-[var(--space-1)]'
+                        : undefined
+                    }
+                  >
                     <button
                       id={`${panelId}-freeform`}
                       type="button"
-                      className="hover:bg-accent focus-visible:bg-accent data-[active=true]:bg-accent focus-visible:ring-ring flex min-h-12 w-full items-center rounded-lg px-3 py-2 text-left outline-none transition-colors focus-visible:ring-2"
+                      className="hover:bg-surface-hover focus-visible:bg-surface-hover data-[active=true]:bg-surface-selected focus-visible:ring-ring flex min-h-[var(--control-height-2xl)] w-full items-center rounded-[var(--radius-control)] px-[var(--space-3)] py-[var(--space-2)] text-left [overflow-wrap:anywhere] outline-none transition-colors duration-[var(--duration-fast)] focus-visible:ring-[length:var(--focus-ring-width)] motion-reduce:transition-none"
                       role="option"
                       aria-selected={activeIndex === items.length}
                       data-active={activeIndex === items.length}
@@ -547,7 +570,11 @@ function QueryComposerInner<TItem>(
       </div>
 
       {validationMessage ? (
-        <div id={validationId} className="text-destructive mt-2 text-sm" role="alert">
+        <div
+          id={validationId}
+          className="text-destructive mt-[var(--form-field-gap)] text-[length:var(--text-body-size)] leading-[var(--text-body-line)]"
+          role="alert"
+        >
           {validationMessage}
         </div>
       ) : null}
