@@ -1,12 +1,12 @@
 # 设计交付约定
 
-本页提供模板的平台与适配参数。任务路由见 [前端导航](../engineering/frontend/README.md#任务路径)，通用读取、制稿、实现与验证动作由同一 Skills 来源的 `DESIGN-WORKFLOW.md` 和三个正式入口维护。
+本页提供模板的平台与适配参数。任务路由见 [前端导航](../engineering/frontend/README.md#任务路径)，通用读取、制稿、实现与验证动作由同一 Skills 来源的 [设计工作流](../../.agents/skills/DESIGN-WORKFLOW.md) 和四个正式入口维护。
 
 ## 适用项目
 
 目标包为 `frontend/`，React/Vite Web；手机画布是触控布局。框架、Provider、路由和宿主以 [技术基线](../engineering/frontend/architecture/technology-options.md) 与真实源码为准。
 
-读取从 [根 AGENTS](../../AGENTS.md)、[文档地图](../README.md)、[frontend/AGENTS](../../frontend/AGENTS.md) 进入。无稿开发读取同一套视觉、Token、组件与状态规则，不把制稿或设计快照作为前置。
+读取从 [根 AGENTS](../../AGENTS.md)、[文档地图](../README.md)、[frontend/AGENTS](../../frontend/AGENTS.md) 进入。新页面和关键交互按任务路径准备设计；已有适用稿复用，轻量修改沿用同一套视觉、Token、组件与状态规则。
 
 ## 来源与目标
 
@@ -65,43 +65,14 @@ Token 绑定不等于主题正确。受影响组件与页面需核对两主题�
 
 ## 交接与读取
 
-复用当前 change / PR / 交接，采用共同协议的最小字段，不新建长期进度系统或复制 Token/组件正文。未实现或无法访问的能力、主题、映射和消费者如实保留。
+正式技术方案前，在现有设计文档位置维护同一份需求级设计记录，引用已确认 PRD，并定位真实 Pen 文件/Frame/修订、必要状态/主题/视口、组件与 Token 映射、实际检查及接受范围。此时无需 Change/task IDs；就绪条件与代表页决定沿用 [设计工作流](../../.agents/skills/DESIGN-WORKFLOW.md#设计就绪与技术反馈)。未实现或无法访问的能力、主题、映射和消费者如实保留。
 
-三个正式 Skill、共同协议和必要引用必须来自同一完整来源；不只复制单个 `SKILL.md`，不认为目录存在就已安装或加载。Pencil 菜单选用的自定义 Skill 与 MCP `read_skill` 工具说明是不同上下文，均不自动取得项目读取权。不可访问时补本次必要原始规范/源码和版本，不保存长期精简副本。
+技术方案实际读取该记录与相关设计节点，再确定实现契约；不可行交互或契约冲突返回同一设计来源做最小修订，产品行为变化先确认 PRD。后续 Change 的 `design.md` 引用同一记录、修订和本任务 Frame/状态，UI 任务在 `tasks.md` 绑定 `design-to-code` 的范围；不复制设计正文或新建平行任务状态。设计接受不代替代码验证与最终人工产品验收。
+
+四个正式 Skill、共同协议和必要引用必须来自同一完整来源。Pencil 菜单选用的自定义 Skill 与 MCP `read_skill` 工具说明是不同上下文，均不自动取得项目读取权。不可访问时补本次必要原始规范/源码和版本，不保存长期精简副本。
 
 ## Skill 来源与安装
 
-三个正式入口和共同协议来自 [shadowgxq/skills](https://github.com/shadowgxq/skills)。模板锁定 `snapshot-5b95f7d9dde4`，完整依赖包为 [source.zip](../../scripts/design-skills/source.zip)，来源、文件清单和 SHA-256 见 [upstream.json](../../scripts/design-skills/upstream.json)。来源基准提交为 `978f8e026db14fe4fe106293ff63a1e41ddec930`；快照包含该工作树的未发布修改，不能仅检出此提交来还原本版。
-
-| 入口 | 声明版本 | 可复现版本 |
-|---|---|---|
-| `pencil-design` | `1.2.0` | 上述完整快照；采集时尚未纳入来源 Git |
-| `design-to-code` | 未声明独立版本 | 上述完整快照 |
-| `design-qa` | 未声明独立版本 | 上述完整快照 |
-| `DESIGN-WORKFLOW.md` | 共同协议，无独立版本 | 与三个入口使用同一快照 |
-
-依赖包原样保留 Skill、引用、脚本和必要资源；规则维护回到来源仓库，模板升级时整体更新包和摘要，不在项目另写一套执行规则。本快照不代表上游正式发布。
-
-Codex 安装遵循 [Skills 官方说明](https://developers.openai.com/codex/skills/#where-to-save-skills)：项目入口为 `.agents/skills/`，也支持该目录中的符号链接。先用 `upstream.json` 的 `archive_sha256` 校验包；需要逐文件核对时使用其中的 `files` 清单。以下命令从仓库根目录执行，适用于 WSL / Linux / macOS，且目标目录尚不存在：
-
-```sh
-set -e
-python3 - <<'PY'
-import hashlib, json
-from pathlib import Path
-bundle = Path('scripts/design-skills')
-manifest = json.loads((bundle / 'upstream.json').read_text())
-assert hashlib.sha256((bundle / 'source.zip').read_bytes()).hexdigest() == manifest['archive_sha256'], 'Skill archive checksum mismatch'
-PY
-python3 -m zipfile -e scripts/design-skills/source.zip .tools/design-skills/snapshot-5b95f7d9dde4
-mkdir -p .agents/skills
-for name in pencil-design design-to-code design-qa DESIGN-WORKFLOW.md; do
-  ln -s "../../.tools/design-skills/snapshot-5b95f7d9dde4/$name" ".agents/skills/$name"
-done
-```
-
-Windows 原生环境可校验并解压同一包，将三个完整目录与同级 `DESIGN-WORKFLOW.md` 放入项目 `.agents/skills/`，保持相对结构。已有同名项目或用户级 Skill 时先核对来源与摘要，复用匹配版本或明确升级，不并存重复入口，也不直接覆盖已有修改。
-
-安装后在 Codex 的技能选择器确认三个入口可发现，并分别读取对应 `SKILL.md` 及其所需协议和引用；未出现时重启 Codex 再核对。Pencil MCP / CLI 的连接与工具说明仍按实际环境验证，安装这些 Skill 不会自动安装 Pencil。
+来源、锁定版本、完整依赖包、安装和检查统一见 [工具入口](../engineering/workflow/tooling.md#安装与唯一机制)。本页只维护项目交接参数。
 
 机制依据：[Design Libraries](https://docs.pen.dev/core-concepts/design-libraries)、[Variables](https://docs.pen.dev/core-concepts/variables)、[pen interactive](https://docs.pen.dev/for-developers/pen-cli)。具体能力以当前安装和实际回读为准。

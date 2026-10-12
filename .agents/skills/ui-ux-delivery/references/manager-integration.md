@@ -1,61 +1,39 @@
-# Manager / OpenSpec 接入：设计交接，不接管调度
+# Manager / OpenSpec 设计接入
 
-## 适用性与授权
+生命周期、就绪和反馈只引用 [设计工作流](../../DESIGN-WORKFLOW.md#执行范围)；调度/状态只引用 [Manager](../../MANAGER-WORKFLOW.md)。本页仅定义阶段之间的输入与回写，不另建流程或状态机。
 
-默认自动判断“需不需要设计帮助”，不是所有 Change 自动启动一个 UI/UX 流程。后端/SDK/迁移不触发；普通 UI 小改沿用已有规范、做轻量差异检查；新核心流程、复杂配置器或明显任务退化风险才准备本 Skill 的设计交接。判断理由可写已有 note，不新增 uiux_gate 字段或新的 Plan 状态。
+## 设计到技术与规划
 
-已有有效参考先复用。用户已经明确提供 UI Prompt、最终 UI 图、Figma、HTML/原型或其他设计材料，并要求作为当前实现参考时，直接登记为 Manager `purpose=reference` 输入并按实际消费者设置 scope；**不为了包装成 handoff 而补跑 ui-ux-delivery、UX 原型或外部出图**。这些材料仍不能覆盖已确认 PRD/权限/关键契约；发生实质冲突时按原有需求/方案修订流程处理。
+设计阶段以已确认 PRD/需求范围为入口，不需要 Change/task IDs。任务与交接正文维护在同一份需求级设计记录；可编辑 Pen、来源修订、真实 Frame、必要状态/主题/视口及接受和检查范围可定位，不把占位路径当就绪证据。
 
-只有用户显式调用，或已授权的计划明确委托本 Skill 生成设计时，才启动设计和写产物；泛泛的 manager-run 不授权新增长设计流程、外部发图或无关页面。先分析可发现事实；真正改变产品方向的未知点才暂停。外部图未回只阻塞实际依赖它的界面工作，共享接口/状态受影响时也必须承认依赖，不能仅因“后端”就假定可并行。
+`manager-tech-design` 实际读取该记录与相关设计节点/状态，再完成实现契约；冲突沿共同反馈链修同一设计来源。Planner 只消费就绪且与技术一致的当前范围；不以把制稿排成未来任务的方式越过前提，不新增 UI/UX 里程碑或平行需求清单。
 
-## 单一实现所有者
+PRD 由 requirements.source 引用，技术方案由 technical_design 引用。共享设计使用现有 inputs（source、purpose、required、scope）与实际消费者 input_refs；已确认实现目标用 required=true，purpose 可为 reference，它不获得改写产品规则的权威。仅风格参考保持可选；无 UI 的 Change 不挂无关设计。
 
-Manager 场景使用 target=handoff：ANALYZE → UX → VISUAL → HANDOFF_READY。设计就绪不是 code-verified、human accepted 或项目 Done。Skill 不执行 React/OpenSpec，不写 manager/plan.yaml、progress 或任务勾选。Manager Execute 是唯一业务实现与阶段代码检查入口，Run 只调度；原生 OpenSpec Skills 不修改。
+## 当前 Change 内执行
 
-设计可在技术细化前提供交互依据，也可在已有项目的当前阶段补充；不强制整个产品先出全套图，更不重置已有计划。短可行性检查和真实工程约束先读，设计不能替代需求或擅改技术契约。
+1. Execute 读取已确认需求、正式方案与绑定的设计依据；已有稿直接消费，不在 Execute 重新生成当前需求整套设计。缺必需来源、接受或实质交互状态时返回共同反馈链，阻塞受影响实现并继续真正独立的已授权工作。
+2. 到当前就绪 Change 才按实际 OpenSpec schema/instructions 生成或更新制品。`design.md` 保留技术方案其他章节，**UI 实现依据**只维护上游设计记录的链接/修订、所选 Frame/状态及批准适配，不复制上游 UI 设计任务正文。
+3. Apply 的 UI 任务委托 **`design-to-code`**：交接 **Change + task IDs + 页面/区域/状态 + 设计来源 + 读写范围 + 检查授权**，只实现所选未完成任务。后端按普通实现；制稿已覆盖当前需求不授权生成整份 Plan 的代码。
+4. 实现者返回真实 diff、task IDs、检查与缺口，由原协调者回写原 `tasks.md`、Plan 和 progress。设计协作者不写代码或完成状态；`design-to-code` 不建任务清单、不勾其他任务、不递归启动 Apply/Run。
+5. 设计或关键契约变化时，核对实际消费者和来源版本；先按同一反馈链处理，已有计划交 manager-revise-plan 只更新受影响制品/依赖及待复验项。代码错误由原实现者修，不改正确设计迁就代码。
 
-## 引用方式（沿用现有 Plan 格式）
+同一阶段内真正独立任务可并行；同一文件/共享契约冲突时串行。阶段代码权限仍由 Run/Execute 决定；设计范围不是代码写入范围，不提前创建后续 Change 或代码。
 
-```yaml
-inputs:
-  - id: funnel-ux
-    source: docs/design/ui-ux/funnel/ui-ux-handoff.json
-    purpose: reference
-    required: true
-    scope: [funnel-editor]
-openspec:
-  - id: ordered-funnel
-    requirements: [funnel]
-    depends_on: []
-    status: planned
-    input_refs: [funnel-ux]
-```
+## 引用与原生 Apply
 
-这是可并入已有 Plan 的片段，不是完整计划。purpose=reference 表示设计参考，不是新需求；required=true 仅表示本任务确实依赖这份资料。不能给每个 Change 广播所有图；没有真实依赖时不机械 required。用户直接提供的 Prompt、Figma、HTML/原型、最终 UI 图等都可直接作为 reference 使用，不强制先包成 handoff，也不因此补造 UX 批准记录。
+inputs/input_refs 是 Manager 字段，原生 OpenSpec 不会自动展开。Execute 必须把选中来源的实际链接、Frame/状态、修订及任务边界写入当前 `design.md`，在 `tasks.md` 的 UI 条目明确 `design-to-code` 范围。Apply/恢复读取真实 contextFiles，沿链接定向读取设计与源码，不只检查路径存在。
 
-Planner 读取交接的 Current/Preserve/Delta/Target Flow 与目标范围，按端到端意图划分 Change，而非每张图一个 Change。在现有 note 或 design/tasks 简记相关 Surface 和允许调整点，避免再生成 UX 追踪台账。
+原生 OpenSpec 不会自动调用 Skill。执行 Agent 必须实际加载 `design-to-code`；直接 Apply 也消费同一 design/tasks 约束，不修改第三方 Skill。schema 没有 design/context 时使用实际等价制品，不能跳过必需设计。
 
-## 不止记录引用：进入原生 OpenSpec 的最小交接
+具体原生入口遵守已安装版本的授权/返回边界；若 propose 仅生成制品且要求返回，就保留当前就绪制品，按实际规则再进入 apply，不宣称一个 CLI 自动串联所有 Skill，也不修改第三方入口绕过停点。
 
-`inputs/input_refs` 属于 Manager，原生 OpenSpec 不会替 Manager 自动展开这些引用。Execute 在生成当前 Change 时读取所选 scope，将来源路径、Surface 和关键保留边界简记到现有 design.md；从 PRD/已确认任务提炼至少一个业务输入 → 可观察结果的 Scenario，放入实际 schema 对应的规格。不要另建追踪台账，也不要全文复制 PRD/原型。
+行为由 PRD/specs 定义；例如用户选择 30 分钟，内部转为 1800000 毫秒，而不是让用户填写内部字段。Pen 表达视觉/交互状态，不能代替 API、权限、错误和恢复契约。
 
-例如“用户选择 30 分钟，查询内部使用 1800000 毫秒”，而不是“支持 windowMs 字段”。进入 Apply 后，读取原生 instructions 返回的 contextFiles，并按 design 中的路径定向读取相关原型和最终图；不能只看任务清单或只确认文件存在。图片是视觉参考，不增加需求；reference 允许合理布局差异，不等于可以丢掉原需求的用户任务。
+## 验证与恢复
 
-在 verify-report.md 保留最小证据：对应任务、实际代码/测试位置、已验证行为、仍需真实操作的条目。源码/接口测试不能声称视觉通过，原生 `state=all_done` 也不能代写 Manager 的 human_acceptance。阶段验收走真实入口、正常任务、失败恢复与受影响既有功能，不只对照截图或是否能打开页面。
+代码检查按原 Execute 授权，不附加逐 Change 浏览器门禁；`design-qa` 在已授权的还原/运行验收位置取证。设计接受、code-verified、最终产品 human_acceptance 分开记录，原生 all_done 不代表产品已验收。
 
-## 消费与防偏移
+同一来源未变化可复用有效证据；新任务/修订核对 [缓存合同](../../design-to-code/references/cache-contract.md)。前置设计被修改时检查技术/计划及实际消费者，只失效受影响结果；不更换任务 ID 清零失败，不用缺工具或静态夹具冒充真实设计完成。
 
-1. 技术设计用相关用户任务约束接口和视图适配，但不照抄原型 Mock 数据、API 或演示权限。
-2. 生成/Review 当前 Change 时对照 PRD与相关参考，写清关键用户输入、输出、保留边界与必要异常；UX 不能新增业务范围，文案/组件不是机械一比一。
-3. Apply 必须消费 input_refs 所指范围。允许局部组件替换、响应式重排、无语义变化的排版优化；不能为了通用 Schema 将业务选择退化为内部 ID、JSON、毫秒参数手填。技术用户确实需要的技术字段不一概隐藏。
-4. 写入范围和共享契约影响沿用现有边界审查。不以本 Skill 的 Mock 验证代替真实查询、权限或数据检查。
-5. code-verified 仍由 Execute 的代码/逻辑/阶段集成检查决定；视觉与真实任务体验在 Plan 的阶段或最终人工位置验收。独立浏览器协助只按该验收任务的明确授权执行，不塞到每个 Change，不改 Run/Execute 默认语义。
-6. 实质产品变化走已有 revise-plan；实现偏差走 bugfix。没有实质变化不再次审批设计；参考缺失/陈旧先核对影响，只有真实阻塞才停止依赖工作。
-
-可选只读检查：`python3 <skill>/scripts/delivery.py --check-handoff <file> --project-root <root>`。只验证来源、范围、图片绑定仍有效，不判断模型输出质量或真实用户是否已接受。设计文件改动后刷新交接，不换 hash 冒充旧检查；原型迭代影响的 UI 检查重做，不自动重批整个 PRD。
-
-## 不变的 Manager 主线
-
-PRD确认 → 技术方案 → Plan → Execute/Run → 代码检查 → 已安排的产品验收 → 按授权归档/PR。UI/UX 是条件设计输入，不是第九个 Manager Skill，不引入调度器、角色/模型配置、通用人工 Gate 或第二份任务清单。Execute 一次一个 M 后返回；Run 仍在已满足真实停点时继续。最终 UI 图、原型批准及 HANDOFF_READY 均不能填成 human_acceptance=accepted。
-
-按消费范围检查可追加 `--surface <id>`（可重复）。局部图变化只使对应引用失效；PRD、原型、共享 Contract 等整体来源变化仍须核对所有消费者。省略范围时验证整份 handoff；脚本不据此自动停止 Manager。
+归档按 [归档入口](../../manager-archive-completed/SKILL.md)修复本次移动产生的相对链接，需求级设计记录与 Pen 保持原位置，不修改旧历史；所有引用保留原目标和锚点。

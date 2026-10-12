@@ -1,35 +1,84 @@
 {
   "format_version": 1,
   "repository": "https://github.com/shadowgxq/skills",
-  "source_revision": "978f8e026db14fe4fe106293ff63a1e41ddec930",
-  "source_modified": true,
+  "source_branch": "master",
+  "source_revision": "5cc2205b4c692f31317da8f472bf156ae2c8393e",
+  "source_modified": false,
   "upstream_release": false,
-  "snapshot_version": "snapshot-5b95f7d9dde4",
-  "snapshot_sha256": "5b95f7d9dde45069500315533fceaff6fc23409b553b1edb2909c22c1e93ff19",
+  "snapshot_version": "snapshot-5998d58f8477",
+  "snapshot_sha256": "5998d58f8477d7bb7232854f8751a8c8a4be869e60ec34271c53e79ffeef7b28",
   "archive": "source.zip",
-  "archive_sha256": "152e723fae93a2e937415d1a5fd1a57c3ce1a79acc2a3ca8e85825bd7d5f7de1",
+  "archive_sha256": "676eb480e3d7de9edb9a67dea5b4e94f124678eb9061051c4454aaa3afc5370b",
   "skills": {
+    "manager-prd-review": {
+      "declared_version": "4.0.0",
+      "source_status": "tracked"
+    },
+    "manager-tech-design": {
+      "declared_version": "4.0.0",
+      "source_status": "tracked"
+    },
+    "manager-plan-from-doc": {
+      "declared_version": "4.0.0",
+      "source_status": "tracked"
+    },
+    "manager-execute-current-batch": {
+      "declared_version": "4.0.0",
+      "source_status": "tracked"
+    },
+    "manager-run": {
+      "declared_version": "4.0.0",
+      "source_status": "tracked"
+    },
+    "manager-bugfix": {
+      "declared_version": "4.0.0",
+      "source_status": "tracked"
+    },
+    "manager-revise-plan": {
+      "declared_version": "4.0.0",
+      "source_status": "tracked"
+    },
+    "manager-archive-completed": {
+      "declared_version": "4.0.0",
+      "source_status": "tracked"
+    },
+    "ui-ux-delivery": {
+      "declared_version": "5.0.0",
+      "source_status": "tracked"
+    },
     "pencil-design": {
-      "declared_version": "1.2.0",
-      "source_status": "untracked"
+      "declared_version": "2.0.0",
+      "source_status": "tracked"
     },
     "design-to-code": {
-      "declared_version": null,
-      "source_status": "modified"
+      "declared_version": "1.2.0",
+      "source_status": "tracked"
     },
     "design-qa": {
       "declared_version": null,
-      "source_status": "modified"
+      "source_status": "tracked"
     }
   },
   "files": [
+    {
+      "path": "DESIGN-WORKFLOW.md",
+      "sha256": "5c0da36ffcdf84bc9fa060c8a227144fc30d6357bdf21d4c145e80f9bab7cd11"
+    },
+    {
+      "path": "MANAGER-WORKFLOW.md",
+      "sha256": "47d285eae0ec9017dae01b63f1e0736b18495cd9dae3b7a441e76786fbc8e655"
+    },
+    {
+      "path": "design-qa/SKILL.md",
+      "sha256": "c38964c44d3b98a5e60b671c29440ed70a33ba50bdad1bd7e54c9661f0829557"
+    },
     {
       "path": "design-qa/agents/openai.yaml",
       "sha256": "cda337fb9b4690532d451bd368b366e8c00d13e1b1f7e2cbe0e9e56710a62085"
     },
     {
       "path": "design-qa/references/comparison.md",
-      "sha256": "1b07836302251367b9fa1da1bdfbe7d002ff38178abdceec0a2c2dd0ae63030a"
+      "sha256": "7b3fb1a27d0ca48d52a7a2b3a65a9b0b19a2b78d5aaea95e60417a6f7599b38f"
     },
     {
       "path": "design-qa/references/native.md",
@@ -37,7 +86,7 @@
     },
     {
       "path": "design-qa/references/web.md",
-      "sha256": "e2db85e95c3b430ed6c2928c0d4980cfb1d2222c13764d6cb9a7845be3622a32"
+      "sha256": "6f076282bf0bbf00642134f0112251579ccb3b20d766c3a6990140f10a65666f"
     },
     {
       "path": "design-qa/scripts/capture.mjs",
@@ -56,10 +105,6 @@
       "sha256": "7120e4712580d4d1273c1bf608dc8cc500e620969ab356b8d8a68cf92f2a7888"
     },
     {
-      "path": "design-qa/SKILL.md",
-      "sha256": "4e9066283cb479a9558de642ea4cdab6e778e77ce8633b899da9732422412f4f"
-    },
-    {
       "path": "design-qa/tests/browser-smoke.mjs",
       "sha256": "f62c7ab2ca739a204ac2e601437dd009fedc94e4f5bbb02fe462ab60b8a08695"
     },
@@ -72,20 +117,24 @@
       "sha256": "2fcac9ecbee3121f5042336065495f7ed7432e0279c3b10053facabf8b49ff00"
     },
     {
+      "path": "design-to-code/SKILL.md",
+      "sha256": "f1d50c6a18b981eb48e5998bf3dfbabb7a10beddfdbbd99499e92c96efec8f6d"
+    },
+    {
       "path": "design-to-code/agents/openai.yaml",
-      "sha256": "6a8565bbc7457f5dd863f70cf875038022c1c710c12de9d1861e563969239bad"
+      "sha256": "69189380b6aeb2bf3d8aae7afd6a78d1092e5c5178cada7668ed09ebca32eeda"
     },
     {
       "path": "design-to-code/references/cache-contract.md",
-      "sha256": "273913822fe29a947ab4827cc78bb1c6754a09a196a34af833c48850fb20dd63"
+      "sha256": "51d02655d4e0fc2faa928ba21ebe88cbd06a907cd40d76481d433d27367451a6"
     },
     {
       "path": "design-to-code/references/page-implementation.md",
-      "sha256": "d9d8a5e64c034199a5c78178b4df5645e58dcef419e65dcfd8d8342e25c77ff0"
+      "sha256": "0001d35d1f072be2d5017f0761b8de95d29b97a24786ad70e49900bf22ab1f83"
     },
     {
       "path": "design-to-code/references/project-context.md",
-      "sha256": "249076ae9141162361ec5295d3f4f321979057b4f6f32f94e47f9d80c5557788"
+      "sha256": "aacaf1cd256d872c8727903a57533a57080339e3dbb57121313503951f2321f2"
     },
     {
       "path": "design-to-code/references/sources/figma.md",
@@ -109,7 +158,7 @@
     },
     {
       "path": "design-to-code/scripts/cache.py",
-      "sha256": "79e082f033509e6b046f1faa0dfa6ceeaa978d7a4a3f6ce5df8eb15c6eebf3ee"
+      "sha256": "81f9ac141b510c4cc40d530acfc0640fa00ec2eca3cfc94d9c3acae495fde199"
     },
     {
       "path": "design-to-code/scripts/mcp_probe.py",
@@ -120,8 +169,8 @@
       "sha256": "48cbe9e1ef24aac5852f791b46d454f21a949e8da61f9d955efeded46d7d7a7f"
     },
     {
-      "path": "design-to-code/SKILL.md",
-      "sha256": "12fe146475ef367790810a73fbfa400815d96d8d5e20e98099fe691cd4b48c91"
+      "path": "design-to-code/tests/fixtures/README.md",
+      "sha256": "bf8fccf4ac07ca9f9b88393068f4d185110b4550a89013e8b140987b76d803c0"
     },
     {
       "path": "design-to-code/tests/fixtures/home.pen",
@@ -132,36 +181,108 @@
       "sha256": "2f1b54a8dfc7bf786790917bd56d4987f5bc497f1c1bd7b6a9d4c88592ac0148"
     },
     {
-      "path": "design-to-code/tests/fixtures/README.md",
-      "sha256": "bf8fccf4ac07ca9f9b88393068f4d185110b4550a89013e8b140987b76d803c0"
-    },
-    {
       "path": "design-to-code/tests/pencil_checks.py",
       "sha256": "b7890d5510427c434e75aca8ec5744851b4e9ae6d81d9f4b7568ebabd73b04b9"
     },
     {
       "path": "design-to-code/tests/test_cache.py",
-      "sha256": "67716c4c05a029656f24b80f593c2f57d6e165c23b76a66e9e414680a8b71e60"
+      "sha256": "03d0a733bf212cd711255aeaeaf5b306a1a02813a2b008c30c448d84ae3a771e"
     },
     {
       "path": "design-to-code/tests/test_contracts.py",
-      "sha256": "cb771b04c72b03c1c163a6c223ba577cdc8c84f8a9437af458ad612c1d95b244"
+      "sha256": "65fcf2086053ffa2251692130152439fa1522618fd4e793092b9f448f9a743d1"
     },
     {
       "path": "design-to-code/tests/test_slice_completeness.py",
       "sha256": "b6b4ca23341b1b146eda5dea9de9e7d8836de317d41de3a0749fad2b34dd4ee8"
     },
     {
-      "path": "DESIGN-WORKFLOW.md",
-      "sha256": "664db9bf64cfffe7073068c80630a90cd6989eaaef9bc11c2c0d21f06a1d43c6"
+      "path": "manager-archive-completed/SKILL.md",
+      "sha256": "0fa72276672cf43bdcdbaa8b494e905327dd00c863fbb89ed1a4e415e5bb648e"
     },
     {
-      "path": "pencil-design/agents/openai.yaml",
-      "sha256": "c2d1638eb8c9d7db6d6bfd24ce4c85a891f2e8bf92352e2337e873b7e600d002"
+      "path": "manager-bugfix/SKILL.md",
+      "sha256": "cdbd0c66f0f3060af7903470b4bc050d3e9e8b42a65a38645501a34d5f0921dd"
+    },
+    {
+      "path": "manager-execute-current-batch/SKILL.md",
+      "sha256": "2c2cdd8374c67fbc1d5671268d4312888985a7a754ab5ed91cc4c74427db9257"
+    },
+    {
+      "path": "manager-execute-current-batch/references/code-review.md",
+      "sha256": "eec5fd23cee350e58bee46b13a53bf5062f4d3fb7a4f7f05a7dd9acfd574f291"
+    },
+    {
+      "path": "manager-execute-current-batch/references/verification.md",
+      "sha256": "6e61c8adf3b2b26b5f7c7052b3a57882adb12a54086eae2c7e8381426bb62d0e"
+    },
+    {
+      "path": "manager-plan-from-doc/SKILL.md",
+      "sha256": "fca0fa48a0ac2332a7c4fa007ccfd881ef020882636654b1395ff2cc9f588dce"
+    },
+    {
+      "path": "manager-plan-from-doc/references/input-contract.md",
+      "sha256": "8f2c33d57a65bd578a6500b59c787759e8fd7c05d8afd144e087c7cb6e97bd64"
+    },
+    {
+      "path": "manager-plan-from-doc/references/plan-format.md",
+      "sha256": "acedb66761c4e6fdc59b65e4c9e1787792f95dcd7914c3553d707e223166c058"
+    },
+    {
+      "path": "manager-plan-from-doc/scripts/check_plan.py",
+      "sha256": "24565e22da7a3a3d6ab999d2be2b67c358d2380e091d250523caf229b702331b"
+    },
+    {
+      "path": "manager-prd-review/SKILL.md",
+      "sha256": "9b322792a51776c32ce5f5970ae34533cd5ff6c8382978d8525a1d8490a7719a"
+    },
+    {
+      "path": "manager-revise-plan/SKILL.md",
+      "sha256": "efc2dcc7a752bb28ff773853591df428e653b34b23d192de1b2488249edcf98a"
+    },
+    {
+      "path": "manager-run/SKILL.md",
+      "sha256": "39be8ad4348afe1a56624a32ea4c13287db43cc871f0aed32b82e2bc651ba77c"
+    },
+    {
+      "path": "manager-tech-design/SKILL.md",
+      "sha256": "633553bd550ece12628c22a15f8a654c86b06feb29b2903ebb38a313a12eebdb"
+    },
+    {
+      "path": "manager-tech-design/templates/overview.md",
+      "sha256": "7a08d137d9579022edad2f0bb095c77c550b0cef5d0ba9bbc6f93ea9cafb34b3"
     },
     {
       "path": "pencil-design/SKILL.md",
-      "sha256": "f07cf7d9fc179a3d188a920ff5dde5fed40e0bd8e4245c5c9d2e906613a3774c"
+      "sha256": "45e43d8a71205a8911c2d5c788deb6bac901a026f008db4d021566e74b5a8813"
+    },
+    {
+      "path": "pencil-design/agents/openai.yaml",
+      "sha256": "2cb423dd9665cc7fb7dd1244dfbd392eeeca92bac5bbea23e0c3cbf66543220f"
+    },
+    {
+      "path": "templates/project/manager/plan.yaml",
+      "sha256": "1daa99da14a0db80040b65d2e57c95d9637919b5d6e9624baadf11e5f073f045"
+    },
+    {
+      "path": "ui-ux-delivery/SKILL.md",
+      "sha256": "8d14d15d713762f6a4eccc24f3ea057e9fe39a5539c61c8f80d24fda9038e63b"
+    },
+    {
+      "path": "ui-ux-delivery/agents/openai.yaml",
+      "sha256": "f0b7284d0609cc419f83c3fda8c323dc4552f148f0a9a3699e7b4c2839b0ff93"
+    },
+    {
+      "path": "ui-ux-delivery/evals/evals.json",
+      "sha256": "cc22918c517bb108ead9d775e6b360001f93bc630049d3a94bb2f2c7e048d22c"
+    },
+    {
+      "path": "ui-ux-delivery/references/manager-integration.md",
+      "sha256": "5565aaaccf6b1e6c9f8ce5b45cf2371e2c217673b6d5b802927bb6b4e4b0ad12"
+    },
+    {
+      "path": "ui-ux-delivery/templates/pencil-task.md",
+      "sha256": "05ac068ff4a9a1e3014c492038d0aafa4240ebdf8689f3fc20a4ce50d724d02b"
     }
   ]
 }

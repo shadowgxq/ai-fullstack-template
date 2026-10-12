@@ -20,7 +20,7 @@ AGENTS.md                         公共协作约束与任务路由
 |---|---|
 | [根 AGENTS.md](../AGENTS.md) | 所有 Agent；沟通、改动范围、命令授权与文档路由 |
 | [公共工程细则](engineering/common/README.md) | [代码质量](engineering/common/code-quality.md) 覆盖变量/注释/复用/准确性；[Python](engineering/common/python.md) 与数据/运行/验证按需补读 |
-| [交付流程](engineering/workflow/delivery.md) | 工作分级、技术方案批准、垂直 change、有限执行与验收；[工具入口](engineering/workflow/tooling.md) 说明当前 Manager / OpenSpec 接入 |
+| [交付流程](engineering/workflow/delivery.md) | PRD 确认、UI/UX 设计交付、正式技术方案、垂直 change 与验收；[工具入口](engineering/workflow/tooling.md) 统一维护 Skill 版本、安装与检查 |
 | [前端规范](engineering/frontend/README.md) | UI、状态、路由、工具链；入口为 [frontend/AGENTS.md](../frontend/AGENTS.md) |
 | [后端规范](engineering/backend/README.md) | 认证、CRUD、迁移、Redis；入口为 [backend/AGENTS.md](../backend/AGENTS.md) |
 | [AI 服务规范](engineering/ai-service/README.md) | 技术基线、分层、Workflow/State、恢复、模型/工具、API/产物与 Evals；入口为 [ai-service/AGENTS.md](../ai-service/AGENTS.md) |

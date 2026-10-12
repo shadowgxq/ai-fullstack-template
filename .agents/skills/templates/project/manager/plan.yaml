@@ -35,4 +35,4 @@ batches:
     status: planned
     human_acceptance: pending
     checks: []
-    note: Final human layout and interaction acceptance remains pending; it does not stop code execution.
+    note: Final product acceptance remains pending; any prerequisite representative-page decision is referenced in Change design before dependent visual rollout.

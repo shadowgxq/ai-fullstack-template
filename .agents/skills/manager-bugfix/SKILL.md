@@ -1,7 +1,7 @@
 ---
 name: manager-bugfix
 description: Fix a concrete implementation deviation and recheck affected code without changing correct requirements or introducing a repair workflow.
-version: 3.0.2
+version: 4.0.0
 ---
 
 # 实现修复

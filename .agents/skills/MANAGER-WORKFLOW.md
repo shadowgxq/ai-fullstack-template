@@ -1,18 +1,19 @@
 # Manager / OpenSpec 工作流
 
-版本 3.0.2。以 Skill 指导当前会话执行，不提供自定义工作流引擎。八个入口共用本页的授权、状态和恢复规则，不在各入口重复定义。
+版本 4.0.0。以 Skill 指导当前会话执行，不提供自定义工作流引擎。八个入口共用本页的授权、状态和恢复规则，不在各入口重复定义。
 
 ## 主流程
 
 ```text
 PRD → manager-prd-review → 人工确认需求
-    → manager-tech-design（复用已有方案，复杂部分才展开）
+    → UI/UX 设计交付：ui-ux-delivery → pencil-design（按设计工作流生成或复用）
+    → manager-tech-design（消费 PRD 与设计交付，完成正式技术方案）
     → manager-plan-from-doc → M1 → M2 → … → Mxx
     → 两种执行入口：Execute 单阶段 / Run 连续全部剩余阶段
-        → Execute：阶段内就绪的 Change/任务 → 并行实现 → 逐 Change 检查、审查与局部修复
+        → Execute：阶段内就绪的 Change/任务 → Apply（UI 使用 design-to-code）→ 逐 Change 检查、审查与局部修复
         → Execute：阶段集成检查与新增 diff 审查 → 保存结果并返回
         → 用户决定下一步 / Run 核对停点后继续下一阶段
-    → 最终人工视觉、交互与产品验收 → 按授权归档 / 提交 PR
+    → design-qa（按授权验证还原与运行）→ 最终人工产品验收 → 按授权归档 / 提交 PR
 ```
 
 新需求在 PRD review 后保留一次真实人工确认；已确认且未变的范围直接复用。技术方案和计划可以同一次确认，不把每个专项方案、Change 或阶段完成变成再次签字。用户明确“先 review、不要开发”时到此结束。
@@ -31,14 +32,16 @@ M1～Mxx 与 Change 两层依赖保留。阶段顺序不代替真实依赖；上
 | manager-revise-plan | 修改发生实质变化的需求、方案或依赖 |
 | manager-archive-completed | 核对真实验收后用 OpenSpec 归档 |
 
-## 可选 UI/UX 设计输入
+## UI/UX 设计输入
 
-UI-heavy 需求按 [UI/UX 接入契约](ui-ux-delivery/references/manager-integration.md) 判断是否需要设计交接；不是所有 UI Change 的必经 Gate。已有设计先复用；用户已直接提供 Prompt、UI 图、Figma、HTML/原型等设计输入时，直接作为 `reference` 接入 Manager/OpenSpec，**不补跑 UX 生成**。只有显式调用或已授权计划明确委托生成设计时才启动 ui-ux-delivery。Manager 场景用 target=handoff，产物通过现有 inputs/input_refs 按 Surface 消费；设计 Skill 不实现业务代码、不写本工作流状态。外部出图保留在 ui-ux-delivery 生成路径中，等待只影响真实依赖项。
+设计生命周期、就绪条件与反馈修订唯一见 [设计工作流](DESIGN-WORKFLOW.md)，任务绑定见 [接入契约](ui-ux-delivery/references/manager-integration.md)。UI/UX 一体化交付位于正式技术方案之前；技术方案与 Planner 消费同一设计来源，Execute 按当前 Change/task IDs 使用 `design-to-code`，不是开发后再做一次页面生成。
+
+无 UI、已有适用设计和轻量修改按设计工作流判断，不另设“先技术、后制稿”模式。完整设计只覆盖当前已确认需求，不扩展未来产品；大型探索需求先明确本次独立范围，未确认部分留在路线图。缺必要设计时停止相关正式方案定稿、规划与 UI 实现，继续已授权且可隔离的检查；不把制稿推迟成后续 Change 来解除前置条件。
 
 ## 两个执行入口
 
 - `$manager-execute-current-batch`：单步；一步是一个 M，可明确指定 M1。完成本阶段检查后返回用户，不自动进入 M2。
-- `$manager-run`：连续；从当前进度循环调用同一个 Execute，直到全部已规划阶段代码完成或真实停点，不负责重新拆分需求。
+- `$manager-run`：连续；从当前进度循环调用同一个 Execute，直到全部已规划代码阶段完成或真实停点，不负责重新拆分需求。
 
 复杂或希望观察结果时逐阶段 Execute；需求明确时 Run。两者用相同 Plan、检查标准与 progress，可先 Execute M1 再 Run 剩余阶段，也可暂停 Run 后用 Execute 修完当前阶段。更窄的明确授权始终优先，不能因入口默认值扩大范围。
 Execute 正常返回只是阶段交接；只有 Run 判断是否继续跨阶段。直接 Execute 的阶段集成检查不能省略，也不交给一个可能根本未运行的 Runner。
@@ -72,8 +75,8 @@ checkpoint 默认 auto；manual 只用于用户明确要求，或缺少当前人
 
 ## 验证职责
 
-单个 Change 完成[代码与逻辑验收](manager-execute-current-batch/references/verification.md)及所需独立审查：实际行为、相关测试、项目既有 token/公共组件/状态处理的静态检查。**单个 Change 不使用浏览器，不要求截图或交互录像。**
-阶段只补跨 Change 的必要代码、API、数据库集成检查。视觉观感、实际页面交互和易用性放在明确的人工验收位置；不在阶段尾隐式启动浏览器。用户单独要求浏览器协助时作为独立验收任务，不反向增加每个 Change 的门禁。
+单个 Change 完成[代码与逻辑验收](manager-execute-current-batch/references/verification.md)及所需独立审查：实际行为、相关测试、项目既有 token/公共组件/状态处理的静态检查。**普通代码验收不隐式使用浏览器，不要求截图或交互录像。**
+阶段只补跨 Change 的必要代码、API、数据库集成检查。视觉观感、实际页面交互和易用性放在明确的人工验收位置；不在阶段尾隐式启动浏览器。本次已授权浏览器协助时，协调者作为独立验收任务组织 design-qa/实际操作，不反向增加每个 Change 的门禁；前期设计接受不代替最终产品验收。
 静态检查不能证明像素、遮挡、响应式或真实交互正确；不得写“视觉通过”。必须真实验证而尚未验证的逻辑不能标记 code-verified。检查失效时按影响面复验，不重新索要同一产品授权。
 
 ## 环境与副作用
@@ -91,5 +94,5 @@ Execute 正常完成一个阶段就返回；Run 只在全部已规划代码完�
 
 ## 使用
 
-全局安装八个 Manager Skill 及其引用文件即可；主入口位于同级 `MANAGER-WORKFLOW.md`。不要向业务项目复制 `.codex` 配置。可选的[只读计划检查](manager-plan-from-doc/scripts/check_plan.py)需要 Python 3.11+、PyYAML，只校验结构和依赖，不执行任务或修改状态。
-已有项目按本页与当前格式整理活动计划，停止旧执行者后再开始；本版不提供旧控制器适配或自动迁移，不删除项目已有实现与历史证据。
+Manager 八个入口、设计四个入口及其共同文档/引用按同一提交完整安装；主入口位于同级 `MANAGER-WORKFLOW.md`，安装核对见[来源安装与读取](DESIGN-WORKFLOW.md#来源安装与读取)。不要向业务项目复制 `.codex` 配置。可选的[只读计划检查](manager-plan-from-doc/scripts/check_plan.py)需要 Python 3.11+、PyYAML，只校验结构和依赖，不执行任务或修改状态。
+开始/恢复前核对实际安装版本、当前任务和执行者；只更新当前授权范围，不修改无关实现或验收记录。

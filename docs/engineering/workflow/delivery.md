@@ -2,6 +2,12 @@
 
 流程机制唯一来源为已固定的 [Manager 工作流](../../../.agents/skills/MANAGER-WORKFLOW.md) 及对应 Skill；本页只维护本项目的事实源、跨端边界和交付约束。
 
+## 流程概览
+
+已确认 PRD → 适用的 UI/UX 设计交付 → 正式技术方案 → OpenSpec 规划 → 按 Change/task 实现 → 还原验证与人工产品验收 → 按授权归档。
+
+新业务涉及新页面、布局/导航或关键交互变化时，默认由 `ui-ux-delivery → pencil-design` 在正式技术方案前完成当前确认范围的设计；已有适用稿复用，无 UI 影响或轻量修改按 [设计工作流](../../../.agents/skills/DESIGN-WORKFLOW.md#执行范围) 跳过完整制稿。具体任务入口见 [前端导航](../frontend/README.md#任务路径)，项目交接要求见 [设计交付约定](../../design/design-handoff.md#交接与读取)。技术方案与规划引用同一设计来源，执行时 UI 任务使用 `design-to-code`；设计接受、代码验证与最终产品验收分别记录。
+
 ## 项目级事实源
 
 `docs/product` 保存真实业务与验收；`docs/architecture` 保存稳定边界与需求对应的总/专项技术设计；`docs/contracts` 保存跨端语义，schema 由提供方生成。`manager/plan.yaml` 保存 requirement、集中 inputs、change 依赖与批次；详细任务只在活动 change 的 tasks。不要重复生成另一套 PRD、接口或任务状态。

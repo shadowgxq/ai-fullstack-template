@@ -1,6 +1,6 @@
 # 当前 Plan 格式
 
-只维护一份 `manager/plan.yaml`。新格式不带自定义 session、执行凭证或旧版枚举；LLM 直接维护，结构示例见[模板](../../templates/project/manager/plan.yaml)。
+只维护一份 `manager/plan.yaml`。协调者直接维护当前任务摘要，结构示例见[模板](../../templates/project/manager/plan.yaml)。
 
 | 字段 | 含义 |
 | --- | --- |
@@ -26,4 +26,4 @@ checkpoint：默认生成 `auto`；Run 在阶段代码通过后继续，Execute 
 
 每个活动 Change 的 verify-report.md 记录代码/逻辑检查、独立审查结果、静态 UI 规范检查、实际命令/结果、待人工项和修复次数，格式自由；短任务不用生成多个 JSON/日志/hash 文件。tasks.md 只勾实际完成的实现与代码检查项；产品人工验收集中由本表的 human_acceptance 记录，不能混入实现完成复选框。
 `manager/progress.md` 由两种入口共用，保存授权、当前 M/Change、检查索引、人工待验、阻塞/修复次数和下一步，不记录模式或会话状态；Plan 的摘要状态不复制每个 task。结构检查在计划写入/实质修订后执行，不要求每个命令前后执行。
-UI/UX 交接沿用 inputs.source + purpose=reference + scope 与 Change.input_refs，不增加 uiux_gate、ui_baseline 或另一份状态机。示例与设计完成/产品验收区分见[接入契约](../../ui-ux-delivery/references/manager-integration.md)。
+UI 的任务绑定和设计决定见[接入契约](../../ui-ux-delivery/references/manager-integration.md)，使用本表已有字段，不新增状态。
