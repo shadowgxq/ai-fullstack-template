@@ -41,9 +41,9 @@ feature/widget 的“公共出口”仅表示模块可见性，不表示公共�
 | Tabs、Dialog | 内容切换或浮层焦点/关闭契约；选项、内容与提交流程归消费者 | 公共交互组件与必要示例，不按原子化程度拆分 |
 | DropdownMenu、Popover、Tooltip | 菜单或浮层的触发、焦点、关闭与状态；操作及内容由调用方提供 | 公共壳层与中性示例，不固定筛选、分享或导出流程 |
 | Skeleton | 无业务的占位形状；内容尺寸与布局归使用方 | 基础主组件在 core，头像/文字/内容组合为普通用法示例 |
-| Calendar | 完整日期选择的项目公共契约未明确；月份、选中、禁用和 locale 为实例数据 | business.pen 内维护，继续复用当前 DayPicker 包装，不迁移代码 |
-| QueryComposer | 三种模式、候选与自由输入、单结果自动提交等策略尚未确认为公共契约 | business.pen 内维护主组件和状态，继续复用当前 shared 实现 |
-| AuthField、AuthForm、LoginModal、ShareDialog、AppHeader / AppShell | 认证、分享、导航与壳层装配分别由 feature/widget 拥有 | business.pen 的实际业务主组件与组合 |
+| Calendar | 完整日期选择的项目公共契约未明确；月份、选中、禁用和 locale 为实例数据 | 当前无业务设计稿，继续复用当前 DayPicker 包装，不迁移代码 |
+| QueryComposer | 三种模式、候选与自由输入、单结果自动提交等策略尚未确认为公共契约 | 当前无业务设计稿，继续复用当前 shared 实现 |
+| AuthField、AuthForm、LoginModal、ShareDialog、AppHeader / AppShell | 认证、分享、导航与壳层装配分别由 feature/widget 拥有 | 当前无业务设计稿，工程拥有者与公开出口保持现状 |
 | Card、ListItem、Feedback、目录页 | 没有独立公共契约；内容、数据状态、动作和页面布局由消费者拥有 | 就近用于实际页面或功能，不另建一套泛化主组件目录 |
 
 目录页仍列出 `componentCatalog.ts` 的 15 个入口。“13 个基础 + 2 个高级”是展示分类，不是 13 个公共设计组件的批准记录。源码中的 Calendar / QueryComposer 入口暂保持现状，设计归属调整没有重写运行时契约。
@@ -52,7 +52,7 @@ feature/widget 的“公共出口”仅表示模块可见性，不表示公共�
 
 ## Pencil 定位与映射
 
-资产见 [设计登记](../../../design/README.md#资产登记)。公共库通过正式导入连接到消费稿；表中 ID 是定位线索，使用前回读文档、主组件、命名空间、主题和覆盖。
+资产见 [设计登记](../../../design/README.md#资产登记)。消费稿应通过正式导入连接公共库；当前仅保留公共库，表中 ID 是定位线索，使用前回读文档、主组件、命名空间、主题和覆盖。
 
 | 公共库定位 | 映射或组合边界 |
 |---|---|
@@ -74,22 +74,7 @@ feature/widget 的“公共出口”仅表示模块可见性，不表示公共�
 | Popover：`YgyA1` / `bPBFx`；Tooltip：`U6Q5Go` | default / compact 浮层与简短提示；内容插槽不预设业务语义 |
 | Skeleton：`Q4c4tU` | 基础占位形状；完整内容排布不导出为公共组件 |
 
-消费稿 `business.pen` 的业务主组件只在本文件复用，引用公共库的控件与变量；设计文件中的可见性不改变 TypeScript 模块出口。
-
-| 消费稿定位 | 工程拥有者 |
-|---|---|
-| `E2KNK` Feature compositions | 模板组合目录；默认能力，不展示未启用 provider |
-| `t60H5i` AppHeader | widgets/app-header；AppShell 负责挂载与全局策略 |
-| `U59RVh` AuthForm；`mVE68` LoginModal | features/auth；字段、模式、记住我和反馈归认证 feature |
-| `zy3kc` ShareDialog | features/share；poster 归调用方，操作按真实能力选择 |
-| `eRcI0` AuthField；主组件 `ZavBz` | 认证字段维护单元，组合公共 Input；不导出公共 Field |
-| `xDQ6v` Component catalog | 单一桌面页面结构，壳层和内容分开表达；Dark 使用同一 Frame 切换主题导出 |
-| `It5yT` Component detail · Select | 详情页侧栏、预览与源码区域；公共 Select 实例包含展开内容 |
-| `Kaxc4` Feature states | 认证空输入/提交/失败及分享图片生成状态 |
-| `YQEZB` QueryComposer；主组件 `lYlVM` | 候选就绪、无匹配自由输入、remote_only 异步状态及多行输入；Hybrid 已有候选时不显示自由输入项，公共准入待确认 |
-| `rIanN` Calendar；主组件 `cCqYj` | 日期选择示例与实例数据，公共契约待明确 |
-
-消费稿的组件目录页展示全部 15 个真实入口；完整公共规范只在 core 维护，业务稿没有第二套 All component examples 或泛化组合主组件目录。
+当前没有业务消费稿及可回读的业务节点。后续消费稿的业务主组件应在该文件内复用，并引用公共库的控件与变量；设计文件中的可见性不改变 TypeScript 模块出口。完整公共规范只在 core 维护。
 
 设计示例用于表达职责与复用，不是现有页面的逐像素基线；页面主稿和桌面宽度检查按 [布局规范](../../../design/ui-spec.md#布局与宿主)。当前不提供手机稿；未来若新增，仍按实际 Web 宿主、组件契约和响应式实现适配。完整 API 与交互协议查源码，展示状态不等于运行时验证。
 

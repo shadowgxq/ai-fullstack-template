@@ -26,16 +26,15 @@
 | 资产 | 用途 |
 |---|---|
 | [design-system/core.lib.pen](design-system/core.lib.pen) | 公共设计库；Signal Teal 的 74 个设计变量、已准入控件及必要用法与状态示例，按维护单元独立定位 |
-| [business.pen](business.pen) | 业务消费稿；认证、分享、应用壳、组件目录与 Select 详情页，以及公共契约待明确的 Calendar / QueryComposer；导入公共库 |
-| `design-system/previews/`、`previews/` | 当前主稿及必要主题对照的导出图；各自的 `dark/` 子目录是同一 Frame 切换主题后的预览，不是另一份可编辑源 |
+| `design-system/previews/`、`previews/` | 公共库导出图与已有业务预览；各自的 `dark/` 子目录是同一 Frame 切换主题后的预览，不是另一份可编辑源；业务预览当前无对应消费稿 |
 
-默认维护这两个可编辑设计文件：公共库提供 Tokens、基础 UI 与通过 [公共准入](../engineering/frontend/components/components.md#公共层准入) 的通用交互组件；`business.pen` 承担业务组合、布局、页面及通用性未明确的组件，使用方直接在消费稿中演进，不默认新增第三份组合库。
+当前可编辑设计文件为公共库，提供 Tokens、基础 UI 与通过 [公共准入](../engineering/frontend/components/components.md#公共层准入) 的通用交互组件。当前没有业务消费稿；已有业务预览不作为可编辑设计源，后续业务设计按对应需求建立并登记。
 
-公共库不依赖消费稿的变量或主组件；业务主组件可以在消费稿内复用，并继续引用公共控件和变量。设计主组件数量不决定 React 组件数量，feature/widget 的公开出口也不等于公共设计系统成员。当前归属、节点与代码边界见 [组件清单](../engineering/frontend/components/component-inventory.md#归属与复用边界)。
+公共库不依赖消费稿的变量或主组件；业务主组件应在消费稿内复用，并引用公共控件和变量。设计主组件数量不决定 React 组件数量，feature/widget 的公开出口也不等于公共设计系统成员。当前归属、节点与代码边界见 [组件清单](../engineering/frontend/components/component-inventory.md#归属与复用边界)。
 
 公共稿展示组件契约和必要用法，业务稿展示真实功能与页面。示例容器不自动成为主组件；业务稿不再维护一套完整的公共控件规范目录。组件目录页的“基础 / 高级”分类是页面导航，不是设计归属规则。
 
-组件规范区与业务页面默认保留 Light 主稿，Dark 预览使用同一 Frame ID 导出到对应 `previews/dark/`。公共颜色配对板及 `ywtIg` 关键状态板保留同源双主题对照，集中表达操作、焦点、校验、选中和透明遮罩；业务稿不维护第二张完整 Dark 目录页，也不在 QueryComposer 状态主稿中重复铺设 Dark 行。预览随受影响主稿同步，两主题渲染与运行时验证的边界按交付约定记录。
+组件规范区与业务页面默认保留 Light 主稿，Dark 预览使用同一 Frame ID 导出到对应 `previews/dark/`。公共颜色配对板及 `ywtIg` 关键状态板保留同源双主题对照，集中表达操作、焦点、校验、选中和透明遮罩。预览随受影响主稿同步，两主题渲染与运行时验证的边界按交付约定记录。
 
 页面示例遵循 [桌面布局基准](ui-spec.md#布局与宿主)；组件规范板和状态目录用于展示复用关系，画布总宽度不决定页面或控件尺寸。
 
