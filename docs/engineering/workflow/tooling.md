@@ -23,9 +23,15 @@ openspec --version
 
 原生命令参数以实际安装版本的 `--help` 为准。当前 Change 的制品可使用 `openspec validate <change-id> --strict --no-interactive` 校验；检查失败如实记录，不模拟工具或测试结果。
 
+## 项目初始化入口
+
+[project-init](../../../.agents/skills/project-init/SKILL.md) 是随本项目维护的轻量入口，只读取 [视觉初始化规范](../frontend/guides/project-bootstrap.md#复制模板后的视觉初始化) 并按范围执行，不是全局设计 Skill 的副本，也不参与普通需求的自动调度。
+
+在 Codex 中使用 `$project-init` 显式调用；其 `agents/openai.yaml` 设置 `policy.allow_implicit_invocation: false`，不依赖描述文字阻止自动匹配。机制见 [官方 Skill 元数据](https://developers.openai.com/codex/skills/)。复制时保留 `.agents` 目录；入口未被客户端发现时先检查项目路径并重新加载，再核对可用性，不宣称仅写入文件就已加载。
+
 ## 执行与审查
 
-只保留执行与审查两个职责，不需要项目 `.codex/config.toml`、固定角色文件、模型路由或初始化器。当前会话协调实现，依赖已满足且写入范围互不冲突的工作可由原生通用 subagent 并行处理；共享文件和未确定契约按依赖顺序执行。协调会话核对真实 diff，单写 tasks、Plan 与进度。
+只保留执行与审查两个职责，不需要项目 `.codex/config.toml`、固定角色文件、模型路由或角色初始化器。当前会话协调实现，依赖已满足且写入范围互不冲突的工作可由原生通用 subagent 并行处理；共享文件和未确定契约按依赖顺序执行。协调会话核对真实 diff，单写 tasks、Plan 与进度。
 
 默认由一个独立只读 Reviewer 审查实际 diff、契约和已有检查证据；用户明确 `review=off` 时可以省略。职责种类不限制实现线程数量。每个 Change 检查与所需审查完成后及时回写 code-verified，阶段末再补必要集成检查。没有实际独立审查线程时报告未完成，不能将自查写成独立审查通过。模型与权限由宿主会话提供，Manager 不另行覆盖。
 
@@ -33,7 +39,7 @@ openspec --version
 
 [项目计划](../../../manager/plan.yaml)、progress、tasks、runtime 证据和归档保留既有记录。旧计划不会因全局工具更新被改写，也不作为 docs/CI 的 Manager 版本门禁；新建或实质修订计划时按全局 `manager-plan-from-doc/references/plan-format.md` 使用其只读结构检查。该检查不证明业务实现或人工验收通过。
 
-`make docs architecture` 校验项目导航、规则与边界。`make check` 保留三端静态检查、业务测试与契约校验；`make up-web && make smoke-web` 验证前后端，`make up && make smoke` 验证完整栈。实际验证范围遵守根 AGENTS 和当前授权；非运行时文档变更只审查 diff，不因工具说明更新运行自动化测试与全栈验收。
+`make docs architecture` 校验项目导航、规则与边界。`make check` 保留三端静态检查、业务测试与契约校验；`make up-web && make smoke-web` 验证前后端，`make up && make smoke` 验证完整栈。实际验证范围遵守根 AGENTS 和当前授权；文档与 Skill 说明变更按 [文档检查范围](../common/README.md#验证范围) 验证，不因此启动业务服务或全栈验收。
 
 CI 的 Manager job 使用固定版本 OpenSpec 校验当前 changes 与 specs：`openspec validate --all --strict --no-interactive`。它不依赖开发者的全局 Skills，不解析 Manager 计划，也不重新验收归档任务。
 

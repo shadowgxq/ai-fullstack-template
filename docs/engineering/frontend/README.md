@@ -6,6 +6,7 @@
 
 | 输入任务 | 入口与范围 |
 |---|---|
+| 复制模板后的视觉初始化或指定设计清理 | 显式调用项目级 `project-init`，按 [初始化指南](guides/project-bootstrap.md#复制模板后的视觉初始化) 执行；不是普通业务的前置步骤 |
 | 新业务涉及新页面、布局/导航或关键交互变化 | 已确认 PRD 后默认使用 `ui-ux-delivery → pencil-design`，在正式技术方案前完成当前确认范围的设计；读 [设计入口](../../design/README.md) 与 [交付约定](../../design/design-handoff.md) |
 | 已有适用 Figma/Pencil，指定页面实现 | 核对来源、状态覆盖与接受范围后复用；使用 `design-to-code`，读交付约定与共同规则；在 OpenSpec 下绑定当前 Change/task IDs |
 | 文案、小型修复或不改变结构与关键交互的样式修改 | 沿用现有实现、共同 UI 规则和真实 API，定向修改与验证，可跳过完整制稿 |

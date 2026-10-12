@@ -1,0 +1,6 @@
+interface:
+  display_name: "项目视觉初始化"
+  short_description: "复制模板后显式执行视觉初始化，按范围清理或重建设计体系"
+  default_prompt: "使用 $project-init 处理复制模板后的视觉初始化；默认沿用现有体系，只执行明确要求的清理或重建。"
+policy:
+  allow_implicit_invocation: false
