@@ -38,8 +38,8 @@ ComponentName/
 - 当前页面级区块组件：`widgets/<widget-name>/ui/`。
 - 用户动作或业务流程组件：`features/<feature-name>/ui/`。
 - 领域对象展示或轻量编辑组件：`entities/<entity-name>/ui/`。
-- 无业务基础组件：`shared/ui/`。
-- 不因“未来可能复用”提前移动到 `shared/ui` 或 `shared/hooks`。
+- 基础 UI 与通过 [公共层准入](../components/components.md#公共层准入) 的通用交互组件：`shared/ui/`。
+- 复杂组合和通用性未明确的组件先留在拥有它的业务模块；不因多页面使用、外观相似或“未来可能复用”提前移动到 `shared/ui` 或 `shared/hooks`。
 
 ## Module API
 
@@ -75,7 +75,7 @@ shared/
   icons/     # 图标资产、wrapper、名称约束
   styles/    # global.css 内集中 reset、token、theme
   testing/   # render helper、mock helper、测试工具
-  ui/        # 无业务基础 UI
+  ui/        # 基础 UI 与具有稳定无业务契约的通用交互
   utils/     # 无业务纯工具函数
 ```
 

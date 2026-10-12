@@ -19,13 +19,21 @@
 
 ## 资产登记
 
+深浅主题的主组件、页面展示与检查按 [主题表达约定](design-handoff.md#深浅主题的设计表达) 维护。下列现有 Light / Dark 展示或预览用于定位，不是要求每个新增组件和页面都成对产出的模板。
+
 | 资产 | 用途 |
 |---|---|
-| [design-system/core.lib.pen](design-system/core.lib.pen) | Signal Teal 的 Light / Dark、75 个公共设计变量、颜色配对与统一字体/间距/圆角、现有公共控件与 QueryComposer 状态；组件尺寸在对应上下文记录来源 |
-| [examples.pen](examples.pen) | 1440px 桌面组件目录、全部 15 个 demo 入口的 Light / Dark 展示、认证与分享组合；通过真实导入消费公共库 |
-| `design-system/previews/`、`previews/` | 对应设计的导出图；不是另一份可编辑源 |
+| [design-system/core.lib.pen](design-system/core.lib.pen) | 公共设计库；Signal Teal 的 74 个设计变量、已准入控件及必要用法与状态示例，按维护单元独立定位 |
+| [business.pen](business.pen) | 业务消费稿；认证、分享、应用壳、组件目录与 Select 详情页，以及公共契约待明确的 Calendar / QueryComposer；导入公共库 |
+| `design-system/previews/`、`previews/` | 当前主稿及必要主题对照的导出图；各自的 `dark/` 子目录是同一 Frame 切换主题后的预览，不是另一份可编辑源 |
 
-公共库不依赖示例或业务变量/主组件；认证、分享、导航与页面组合留在消费稿，业务复用不自动升级为 shared。设计主组件数量不决定 React 组件数量；Card、ListItem、Feedback 可以是内容组合模式。
+默认维护这两个可编辑设计文件：公共库提供 Tokens、基础 UI 与通过 [公共准入](../engineering/frontend/components/components.md#公共层准入) 的通用交互组件；`business.pen` 承担业务组合、布局、页面及通用性未明确的组件，使用方直接在消费稿中演进，不默认新增第三份组合库。
+
+公共库不依赖消费稿的变量或主组件；业务主组件可以在消费稿内复用，并继续引用公共控件和变量。设计主组件数量不决定 React 组件数量，feature/widget 的公开出口也不等于公共设计系统成员。当前归属、节点与代码边界见 [组件清单](../engineering/frontend/components/component-inventory.md#归属与复用边界)。
+
+公共稿展示组件契约和必要用法，业务稿展示真实功能与页面。示例容器不自动成为主组件；业务稿不再维护一套完整的公共控件规范目录。组件目录页的“基础 / 高级”分类是页面导航，不是设计归属规则。
+
+组件规范区与业务页面默认保留 Light 主稿，Dark 预览使用同一 Frame ID 导出到对应 `previews/dark/`。公共颜色配对板及 `ywtIg` 关键状态板保留同源双主题对照，集中表达操作、焦点、校验、选中和透明遮罩；业务稿不维护第二张完整 Dark 目录页，也不在 QueryComposer 状态主稿中重复铺设 Dark 行。预览随受影响主稿同步，两主题渲染与运行时验证的边界按交付约定记录。
 
 页面示例遵循 [桌面布局基准](ui-spec.md#布局与宿主)；组件规范板和状态目录用于展示复用关系，画布总宽度不决定页面或控件尺寸。
 

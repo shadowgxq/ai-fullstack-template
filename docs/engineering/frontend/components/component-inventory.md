@@ -11,8 +11,9 @@
 | Select、Switch、Tabs | `shared/ui/{select,switch,tabs}.tsx` | 公共 primitive；可控选择和键盘交互 |
 | Dialog | `shared/ui/dialog.tsx` | 公共 primitive；Portal、遮罩、焦点、尺寸、Header/Body/Footer |
 | DropdownMenu、Popover、Tooltip | `shared/ui/{dropdown-menu,popover,tooltip}.tsx` | 公共 primitive；浮层与焦点协议 |
-| Skeleton、Calendar | `shared/ui/{skeleton,calendar}.tsx` | 公共 primitive；占位与 DayPicker 日期选择 |
-| QueryComposer | `shared/ui/QueryComposer/index.ts` | 公共组合；候选、输入、取消/迟到结果，API adapter 由消费者注入 |
+| Skeleton | `shared/ui/skeleton.tsx` | shared 基础占位形状；实际内容布局由消费者组合 |
+| Calendar | `shared/ui/calendar.tsx` | 现有 shared 导出；包装 DayPicker，设计先归业务，项目公共日期契约待明确 |
+| QueryComposer | `shared/ui/QueryComposer/index.ts` | 现有 shared 导出；候选、自由输入与提交策略的公共准入待确认，设计先归业务，继续复用代码 |
 | ShareDialog | `features/share/index.ts` | feature 公共出口；分享/复制/图片导出，内容与 poster 由使用方提供 |
 | AuthField、AuthForm、LoginModal、ChangePasswordForm、ChangePasswordModal | `features/auth/index.ts` | feature 公共出口；认证语义保留在 auth，不升级为 shared 通用表单 |
 | GoogleLoginButton | `features/auth/ui/GoogleLoginButton/` | auth 内部组件，不绕过 feature 出口跨模块导入 |
@@ -22,7 +23,32 @@
 
 primitive 按文件导入，自建组合组件用窄 `index.ts`；`shared/ui/index.ts` 只保留空出口注释，不是总桶。不要引用已删除的旧 DemoSection/ControlDemos/OverlayDemos/AdvancedDemos 目录。
 
+feature/widget 的“公共出口”仅表示模块可见性，不表示公共设计系统归属；当前源码位置也不替代 [公共层准入](components.md#公共层准入) 的判断。
+
 认证支持用户名密码注册/登录、会话重验和退出；邮箱验证码、Google、找回/修改密码仅保留可选演示实现，生产入口关闭。权限由服务器核验；mock、隐藏按钮与 UI model 不能替代授权。字段契约见 [跨端契约](../../../contracts/README.md)。
+
+## 归属与复用边界
+
+以下记录当前设计维护单元与真实实现。代码目录、组件目录页的“基础 / 高级”分类和展示板位置都不替代准入判断；设计主组件不与 React 组件一一对应。
+
+| 对象 | 准入依据或未明确边界 | 当前维护方式 |
+|---|---|---|
+| Design Tokens | 正式值与语义来自 global.css，设计只投影所需集合 | core.lib.pen 的公共变量与 Foundations |
+| Button | 操作呈现、变体、尺寸、禁用与 loading；不判断业务成功 | 公共主组件与实例状态 |
+| Input、Label、Textarea | 原生字段、关联、readonly / disabled / invalid；不承担领域校验 | 公共控件；Label + 控件 + helper 为普通用法示例，没有公共 Field API |
+| Switch | checked、禁用与键盘协议，不固定开关业务含义 | 公共主组件与状态 |
+| Select | 单选、受控值、键盘、触发框和选项面板；选项由调用方提供 | 公共交互组件，含完整展开态；当前代码不提供搜索或多选 |
+| Tabs、Dialog | 内容切换或浮层焦点/关闭契约；选项、内容与提交流程归消费者 | 公共交互组件与必要示例，不按原子化程度拆分 |
+| DropdownMenu、Popover、Tooltip | 菜单或浮层的触发、焦点、关闭与状态；操作及内容由调用方提供 | 公共壳层与中性示例，不固定筛选、分享或导出流程 |
+| Skeleton | 无业务的占位形状；内容尺寸与布局归使用方 | 基础主组件在 core，头像/文字/内容组合为普通用法示例 |
+| Calendar | 完整日期选择的项目公共契约未明确；月份、选中、禁用和 locale 为实例数据 | business.pen 内维护，继续复用当前 DayPicker 包装，不迁移代码 |
+| QueryComposer | 三种模式、候选与自由输入、单结果自动提交等策略尚未确认为公共契约 | business.pen 内维护主组件和状态，继续复用当前 shared 实现 |
+| AuthField、AuthForm、LoginModal、ShareDialog、AppHeader / AppShell | 认证、分享、导航与壳层装配分别由 feature/widget 拥有 | business.pen 的实际业务主组件与组合 |
+| Card、ListItem、Feedback、目录页 | 没有独立公共契约；内容、数据状态、动作和页面布局由消费者拥有 | 就近用于实际页面或功能，不另建一套泛化主组件目录 |
+
+目录页仍列出 `componentCatalog.ts` 的 15 个入口。“13 个基础 + 2 个高级”是展示分类，不是 13 个公共设计组件的批准记录。源码中的 Calendar / QueryComposer 入口暂保持现状，设计归属调整没有重写运行时契约。
+
+设计稿中的 Button/link、underline Tabs 及淡底徽标、导航小字使用 `foreground`，按 [颜色配对](../../../design/tokens.md#公共颜色契约) 满足当前浅色背景的文字对比要求；link 文字保留下划线以识别操作。React 的 Button/link、underline Tabs 和部分目录/详情文字仍使用 `text-primary`，link 下划线仅在 hover 显示；这项设计目标尚未同步到运行时代码，不能将 Pen 渲染检查视为代码已通过对比度验收。
 
 ## Pencil 定位与映射
 
@@ -32,23 +58,23 @@ primitive 按文件导入，自建组合组件用窄 `index.ts`；`shared/ui/ind
 |---|---|
 | `MKpT9` Foundations；`KNJdR` Semantic colors | 青色 Light / Dark 的概览与完整公共颜色配对；只含 mode 轴，数值源为 global.css |
 | `lhFZv` Typography and spacing | 六种文字角色、表单标签、间距、圆角、布局与焦点参数；行高按正式字号/行高投影 |
-| `pSii0` Public components；`PgzCl` Interaction states | 公共控件与必要交互状态 |
-| `q4pId` / `ywtIg` Extended components | 菜单、浮层、提示、标签、日历与骨架屏的 Light / Dark 展示；Dark 引用相同主组件 |
-| `gIYIV` QueryComposer states | hybrid 候选、remote_only 加载/空/失败、多行输入、禁用及 Dark 状态 |
+| `et1HX` Button；`HVHuZ` Input；`zhytp` Label | 变体、状态、尺寸与字段用法；用法容器不是公共主组件 |
+| `C0zvOR` Select；`U3VfEB` Tabs；`WUSkr` Switch | 选择与切换契约及必要状态 |
+| `tv1M5` Textarea；`KJiwo` Dialog；`zIN7D` DropdownMenu | 输入状态、浮层关系与菜单协议 |
+| `RQqGP` Popover；`m8XoV8` Tooltip；`S87yt` Skeleton | 通用容器、提示和基础占位用法 |
+| `ywtIg` Key theme states | 同源 Light / Dark 的操作、焦点、校验、选中与 Dialog 遮罩对照；完整变体仍在各组件规范区 |
 | Button：`j8DiT` / `EthvI` / `xWh1X` / `YIss5` / `y6hYPZ` / `hrEJg` | default / outline / secondary / ghost / destructive / link；同一 Button API 的变体 |
-| Field：`sNvUv` / `Y4nas` / `UtJiC` | Label + Input / Select / Textarea + helper/error 的设计组合，不存在独立 shared Field API |
+| Input / Select / Textarea：`mTBzU` / `MCyOS` / `v1JdnQ` | 控件本体；标签和辅助说明由使用方或示例组合 |
+| Select 展开态：`wl5iK` | Trigger + Content + Item 的通用单选组合，含选中指示 |
 | Tabs：`m1mgV8` / `O51Bi` | segmented / underline |
 | Switch：`FdzMi` / `BHVZs` / `I8Ezw` | 同一 Switch 的 on / off / disabled 状态 |
 | Dialog：`ocBvt` | Dialog 及 Header/Body/Footer 的基础组合；内容插槽允许按消费者替换 |
-| Card / ListItem：`ck9Uf` / `wvEwX` | 内容组合模式；模板没有同名公共 React 组件 |
-| Feedback：`qvVYM` / `UWG4y` / `I0NGKB` | loading / empty / error 模式；消费者拥有数据状态和恢复 action |
 | Label：`QS5ir` | 独立标签样式；运行时关联与 disabled 语义由 Label primitive 及字段使用方承担 |
 | DropdownMenu：`AwJuH` | 打开态、选中、禁用、分隔与危险项；子菜单与键盘协议以源码为准 |
 | Popover：`YgyA1` / `bPBFx`；Tooltip：`U6Q5Go` | default / compact 浮层与简短提示；内容插槽不预设业务语义 |
-| Skeleton：`rGgIH`；Calendar：`nETr4` | 内容占位模式；日期单选、今天、外月和禁用示例，locale/日期由消费者提供 |
-| QueryComposer：`tMJJE` | 公共查询组合；视觉主组件与状态实例复用，候选、提交和恢复回调归消费者 |
+| Skeleton：`Q4c4tU` | 基础占位形状；完整内容排布不导出为公共组件 |
 
-消费稿 `examples.pen` 的业务主组件只在本文件复用，引用公共库的控件与变量；“设计私有”不改变对应 feature/widget 的 TypeScript 公共出口。
+消费稿 `business.pen` 的业务主组件只在本文件复用，引用公共库的控件与变量；设计文件中的可见性不改变 TypeScript 模块出口。
 
 | 消费稿定位 | 工程拥有者 |
 |---|---|
@@ -56,11 +82,14 @@ primitive 按文件导入，自建组合组件用窄 `index.ts`；`shared/ui/ind
 | `t60H5i` AppHeader | widgets/app-header；AppShell 负责挂载与全局策略 |
 | `U59RVh` AuthForm；`mVE68` LoginModal | features/auth；字段、模式、记住我和反馈归认证 feature |
 | `zy3kc` ShareDialog | features/share；poster 归调用方，操作按真实能力选择 |
-| `xDQ6v` / `Y76aaL` Component catalog | 桌面 Light / Dark 页面组合，壳层和内容分开表达 |
+| `eRcI0` AuthField；主组件 `ZavBz` | 认证字段维护单元，组合公共 Input；不导出公共 Field |
+| `xDQ6v` Component catalog | 单一桌面页面结构，壳层和内容分开表达；Dark 使用同一 Frame 切换主题导出 |
+| `It5yT` Component detail · Select | 详情页侧栏、预览与源码区域；公共 Select 实例包含展开内容 |
 | `Kaxc4` Feature states | 认证空输入/提交/失败及分享图片生成状态 |
-| `g0kOv` / `J9Wqj` All component examples | 15 个 demo 入口的 Light / Dark 展示；公共实例引用 core，完整 ShareDialog 在 Feature compositions |
+| `YQEZB` QueryComposer；主组件 `lYlVM` | 候选就绪、无匹配自由输入、remote_only 异步状态及多行输入；Hybrid 已有候选时不显示自由输入项，公共准入待确认 |
+| `rIanN` Calendar；主组件 `cCqYj` | 日期选择示例与实例数据，公共契约待明确 |
 
-消费稿的 All component examples / Light、Dark 两张 1440px 展示板覆盖 `componentCatalog.ts` 的全部 15 个入口；公共实例通过导入连接到 core.lib.pen，ShareDialog 复用本文件的 feature 主组件。
+消费稿的组件目录页展示全部 15 个真实入口；完整公共规范只在 core 维护，业务稿没有第二套 All component examples 或泛化组合主组件目录。
 
 设计示例用于表达职责与复用，不是现有页面的逐像素基线；页面主稿和桌面宽度检查按 [布局规范](../../../design/ui-spec.md#布局与宿主)。当前不提供手机稿；未来若新增，仍按实际 Web 宿主、组件契约和响应式实现适配。完整 API 与交互协议查源码，展示状态不等于运行时验证。
 
