@@ -1,6 +1,0 @@
-interface:
-  display_name: "UI/UX Delivery"
-  short_description: "正式技术方案前交付当前需求的完整设计，任务与结果同源"
-  default_prompt: "使用 $ui-ux-delivery 读取已确认 PRD 和项目技术/组件约束，协调 pencil-design 完成当前需求的可编辑设计及必要状态。复用一份需求级设计记录，实际核对就绪后交回原协调者供 manager-tech-design 消费；不要求已有 Change，不写业务代码。"
-policy:
-  allow_implicit_invocation: false

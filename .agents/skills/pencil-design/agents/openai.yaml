@@ -1,4 +1,0 @@
-interface:
-  display_name: "Pencil Design"
-  short_description: "按项目规则制稿，代表页接受后扩展当前授权范围"
-  default_prompt: "使用 $pencil-design 执行当前设计任务，读取项目规则和真实库，由 pen.dev 完成具体样式；在正式技术方案前按共同代表页规则完成当前已确认需求的设计及必要状态，实际保存回读后交回原协调者，不创建代码或 OpenSpec 制品。"

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Design QA"
-  short_description: "核对项目期望和同一设计状态，分别报告代码、运行与视觉证据"
-  default_prompt: "使用 $design-qa 按项目规则与同一设计状态检查页面，记录真实测量、语义审查、适配和未验证项，不擅自修改代码或设计。"

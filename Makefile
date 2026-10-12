@@ -1,6 +1,6 @@
 TOOLS_PYTHON := uv run --no-project --with PyYAML==6.0.3 python
 
-.PHONY: manager-check install infra migrate dev-frontend dev-backend dev-ai worker up down check docs contracts contracts-check smoke up-web smoke-web architecture
+.PHONY: install infra migrate dev-frontend dev-backend dev-ai worker up down check docs contracts contracts-check smoke up-web smoke-web architecture
 install:
 	pnpm --dir frontend install --frozen-lockfile
 	cd backend && uv sync --locked
@@ -46,6 +46,3 @@ smoke-web:
 	python3 scripts/smoke.py --skip-ai
 architecture:
 	python3 scripts/check_architecture.py
-
-manager-check:
-	python3 scripts/check_sources.py

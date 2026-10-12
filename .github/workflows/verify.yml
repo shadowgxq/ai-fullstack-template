@@ -29,7 +29,6 @@ jobs:
       - uses: actions/setup-node@v4
         with: {node-version: '22'}
       - run: npm install --global @fission-ai/openspec@1.13.1
-      - run: make manager-check
       - run: openspec validate --all --strict --no-interactive
         env:
           OPENSPEC_TELEMETRY: '0'

@@ -1,6 +1,6 @@
 # 设计交付约定
 
-本页提供模板的平台与适配参数。任务路由见 [前端导航](../engineering/frontend/README.md#任务路径)，通用读取、制稿、实现与验证动作由同一 Skills 来源的 [设计工作流](../../.agents/skills/DESIGN-WORKFLOW.md) 和四个正式入口维护。
+本页提供模板的平台与适配参数。任务路由见 [前端导航](../engineering/frontend/README.md#任务路径)，通用读取、制稿、实现与验证动作由全局安装、同一来源的 `DESIGN-WORKFLOW.md` 和四个正式入口维护，读取入口见 [工具入口](../engineering/workflow/tooling.md#安装与唯一机制)。
 
 ## 适用项目
 
@@ -65,7 +65,7 @@ Token 绑定不等于主题正确。受影响组件与页面需核对两主题�
 
 ## 交接与读取
 
-正式技术方案前，在现有设计文档位置维护同一份需求级设计记录，引用已确认 PRD，并定位真实 Pen 文件/Frame/修订、必要状态/主题/视口、组件与 Token 映射、实际检查及接受范围。此时无需 Change/task IDs；就绪条件与代表页决定沿用 [设计工作流](../../.agents/skills/DESIGN-WORKFLOW.md#设计就绪与技术反馈)。未实现或无法访问的能力、主题、映射和消费者如实保留。
+正式技术方案前，在现有设计文档位置维护同一份需求级设计记录，引用已确认 PRD，并定位真实 Pen 文件/Frame/修订、必要状态/主题/视口、组件与 Token 映射、实际检查及接受范围。此时无需 Change/task IDs；就绪条件与代表页决定沿用全局 `DESIGN-WORKFLOW.md` 的设计就绪与技术反馈规则。未实现或无法访问的能力、主题、映射和消费者如实保留。
 
 技术方案实际读取该记录与相关设计节点，再确定实现契约；不可行交互或契约冲突返回同一设计来源做最小修订，产品行为变化先确认 PRD。后续 Change 的 `design.md` 引用同一记录、修订和本任务 Frame/状态，UI 任务在 `tasks.md` 绑定 `design-to-code` 的范围；不复制设计正文或新建平行任务状态。设计接受不代替代码验证与最终人工产品验收。
 
@@ -73,6 +73,6 @@ Token 绑定不等于主题正确。受影响组件与页面需核对两主题�
 
 ## Skill 来源与安装
 
-来源、锁定版本、完整依赖包、安装和检查统一见 [工具入口](../engineering/workflow/tooling.md#安装与唯一机制)。本页只维护项目交接参数。
+全局来源、安装与读取统一见 [工具入口](../engineering/workflow/tooling.md#安装与唯一机制)。本页只维护项目交接参数。
 
 机制依据：[Design Libraries](https://docs.pen.dev/core-concepts/design-libraries)、[Variables](https://docs.pen.dev/core-concepts/variables)、[pen interactive](https://docs.pen.dev/for-developers/pen-cli)。具体能力以当前安装和实际回读为准。

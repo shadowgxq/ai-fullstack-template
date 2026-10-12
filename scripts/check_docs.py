@@ -5,8 +5,6 @@ import re
 import sys
 from urllib.parse import unquote, urlsplit
 
-from check_sources import managed_paths, manager_errors
-
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -95,7 +93,7 @@ def hygiene_errors(root):
     for path in active_files(root):
         rel = path.relative_to(root)
         # Review records may intentionally name removed paths; execution guidance may not.
-        if str(rel) not in managed_paths(root) and (path.name in {"AGENTS.md", "CLAUDE.md", "SKILL.md"} or str(rel).startswith("docs/engineering/")):
+        if path.name in {"AGENTS.md", "CLAUDE.md", "SKILL.md"} or str(rel).startswith("docs/engineering/"):
             if stale.search(path.read_text()):
                 errors.append(f"{rel}: stale execution-guidance path")
     return errors
@@ -113,7 +111,6 @@ def validate(root):
         elif len(path.read_text().splitlines()) > 60:
             errors.append(f"{name}: routing entry exceeds 60 lines; move details into docs")
     errors.extend(hygiene_errors(root))
-    errors.extend(manager_errors(root))
     return errors
 
 

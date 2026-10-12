@@ -15,7 +15,7 @@
 | Theme / i18n 的运行接线 | [主题指南](../engineering/frontend/guides/theming-and-i18n.md) |
 | 业务与服务能力 | 使用方 [产品需求](../product/README.md) 与 [跨端契约](../contracts/README.md) |
 
-通用动作由同一 Skills 来源的 `ui-ux-delivery`、`pencil-design`、`design-to-code`、`design-qa` 与 `DESIGN-WORKFLOW.md` 维护；本目录不保存执行 Skill 或项目绑定副本。来源、锁定版本与安装入口见 [工具入口](../engineering/workflow/tooling.md#安装与唯一机制)。
+通用动作由全局安装、同一来源的 `ui-ux-delivery`、`pencil-design`、`design-to-code`、`design-qa` 与 `DESIGN-WORKFLOW.md` 维护；本目录不保存执行 Skill 或项目绑定副本。全局来源与读取入口见 [工具入口](../engineering/workflow/tooling.md#安装与唯一机制)。
 
 ## 资产登记
 

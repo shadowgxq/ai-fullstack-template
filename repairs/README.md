@@ -6,10 +6,12 @@
 
 | 入口 | 职责 |
 |---|---|
-| [repair-intake](../.agents/skills/repair-intake/SKILL.md) | 用户显式启用后，定位并登记问题，不执行修复 |
-| [repair-runner](../.agents/skills/repair-runner/SKILL.md) | 选择任务、安排执行、独立验证、回写状态；具体调度与恢复规则由该 Skill 维护 |
+| `repair-intake` | 用户显式启用后，定位并登记问题，不执行修复 |
+| `repair-runner` | 选择任务、安排执行、独立验证、回写状态；具体调度与恢复规则由该 Skill 维护 |
 | [repair-template.md](repair-template.md) | 单项修复的字段与记录结构，不是活动任务 |
 | [list.yaml](list.yaml) | 选择范围与本轮执行索引，不重复保存问题正文 |
+
+两个修复入口复用全局安装的 Skills，实际读取路径见 [工具入口](../docs/engineering/workflow/tooling.md#安装与唯一机制)。项目保留队列格式与校验器。
 
 ## 数据位置与状态
 

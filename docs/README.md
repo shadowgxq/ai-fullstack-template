@@ -45,8 +45,8 @@ AGENTS.md                         公共协作约束与任务路由
 
 新增、删除或移动文档时同步导航、相对链接、REQ-ID 和任务索引引用。命令在服务 README 与 Makefile 维护；schema 由提供方生成；版本以各端 lockfile 为准。
 
-外部参考只提炼适用规则，在其规则拥有者处注明来源与适用边界；项目文档不复制完整 Skill；已固定的工具机制与必要依赖在 `.agents/skills` 中按来源整包维护。入口与细则分离借鉴 [Agent Skills 渐进加载](https://agentskills.io/specification#progressive-disclosure)，但工程文档仍由本仓库导航，不宣称新增或激活某个 skill。
+外部参考只提炼适用规则，在其规则拥有者处注明来源与适用边界；项目复用全局安装的通用 Skills，不保存重复副本、快照包或安装摘要；`.agents/skills` 仅保留全局未提供的项目工具入口。入口与细则分离借鉴 [Agent Skills 渐进加载](https://agentskills.io/specification#progressive-disclosure)，但工程文档仍由本仓库导航，不宣称新增或激活某个 skill。
 
 使用方项目通过 [显式归档](engineering/workflow/tooling.md#显式归档与剪枝) 使用真实 OpenSpec 命令同步生效规格并封存 change；归档、合并和发布分别决定，不手工移动目录或改写旧归档。历史不作为默认任务上下文，剪枝前必须保留依赖可解析的完成证据。模板自身的维护来源与验证记录通过 Git/PR 历史追溯，删除工作树副本不改写历史。
 
-工作流工具版本、安装与受控更新见 [工具入口](engineering/workflow/tooling.md)；不存在旧控制器兼容模式。标准前端代码来源与本仓库文档归属见 [前端基线](engineering/frontend/architecture/technology-options.md)。
+工作流工具来源、全局接入与更新边界见 [工具入口](engineering/workflow/tooling.md)；不存在旧控制器兼容模式。标准前端代码来源与本仓库文档归属见 [前端基线](engineering/frontend/architecture/technology-options.md)。
