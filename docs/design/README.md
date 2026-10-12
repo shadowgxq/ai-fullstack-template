@@ -17,6 +17,8 @@
 
 通用动作由全局安装、同一来源的 `ui-ux-delivery`、`pencil-design`、`design-to-code`、`design-qa` 与 `DESIGN-WORKFLOW.md` 维护；本目录不保存执行 Skill 或项目绑定副本。全局来源与读取入口见 [工具入口](../engineering/workflow/tooling.md#安装与唯一机制)。
 
+复制模板后沿用、清理指定示例或更换视觉体系，统一按 [视觉初始化](../engineering/frontend/guides/project-bootstrap.md#复制模板后的视觉初始化) 处理；本页登记当前资产，不把模板示例当作使用方业务的已批准设计。
+
 ## 资产登记
 
 深浅主题的主组件、页面展示与检查按 [主题表达约定](design-handoff.md#深浅主题的设计表达) 维护。下列现有 Light / Dark 展示或预览用于定位，不是要求每个新增组件和页面都成对产出的模板。
