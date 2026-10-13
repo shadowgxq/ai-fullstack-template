@@ -274,16 +274,14 @@
                     {
                       "type": "frame",
                       "id": "yfkRx",
+                      "x": 0,
+                      "y": 0,
                       "name": "Mode tabs spacing",
-                      "width": "fill_container",
+                      "context": "Login modes appear only when multiple capabilities are enabled; the default username/password form has no mode selector.",
+                      "enabled": false,
+                      "width": "fill_container(432)",
                       "layout": "vertical",
                       "gap": "$A:space-4",
-                      "padding": [
-                        24,
-                        0,
-                        0,
-                        0
-                      ],
                       "children": [
                         {
                           "id": "N81Sw2",
@@ -508,17 +506,18 @@
                       "ref": "A:ocBvt",
                       "name": "Login dialog shell",
                       "width": "fill_container",
-                      "gap": 8,
+                      "gap": "$A:space-5",
                       "cornerRadius": "$A:radius-surface",
                       "padding": "$A:space-6",
                       "descendants": {
                         "A:fR47i": {
-                          "justifyContent": "end"
+                          "justifyContent": "start"
                         },
                         "A:h1I3Kw": {
-                          "enabled": false,
-                          "width": 0,
-                          "lineHeight": "$A:large-text-leading"
+                          "enabled": true,
+                          "width": "fill_container",
+                          "lineHeight": "$A:large-text-leading",
+                          "content": "登录"
                         },
                         "A:fxhvO": {
                           "enabled": false,

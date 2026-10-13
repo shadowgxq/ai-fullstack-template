@@ -26,9 +26,8 @@ export function LoginModal() {
         closeLabel={t('auth.close')}
         className="max-h-[calc(100dvh-var(--space-8))] overflow-y-auto"
       >
-        {/* 可见内容直接从登录方式开始；标题保留给可访问性语义。 */}
-        <DialogHeader className="sr-only">
-          <DialogTitle>{t('auth.title')}</DialogTitle>
+        <DialogHeader className="pr-[var(--space-6)]">
+          <DialogTitle>{t('auth.login')}</DialogTitle>
         </DialogHeader>
 
         {/* 登录成功就地关闭，停留在用户原本的页面上。 */}

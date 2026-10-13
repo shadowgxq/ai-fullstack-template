@@ -221,8 +221,8 @@
       "sha256": "b74cedf2ee37efd390c7bc02fe1e2801da9cf08bcb9cc570ffa86c6f3cb93d2e"
     },
     "src/features/auth/ui/AuthForm/AuthForm.tsx": {
-      "reason": "Backend auth contract/capabilities and regression",
-      "sha256": "bd764be89fda866361cbb8c7a2f82f026a118ec8d118771ac12f593178aaad2f"
+      "reason": "Authentication presentation follows enabled backend capabilities; a single login method has no tabs and the dialog title stays visible.",
+      "sha256": "34ac315c84de702ace32f52846f54a62dcb4f1fdf75f1baac3b97b60a742f521"
     },
     "src/shared/api/requestClient.ts": {
       "reason": "Monorepo integration: proxy, error envelope, metadata or container",
@@ -295,6 +295,10 @@
     "src/shared/api/api-error.test.ts": {
       "reason": "Fullstack authentication integration regression coverage and actual backend boundary.",
       "sha256": "82cdd05dd730d5518f3cb873fda2c7937ca8eea6f19bf8c8b8329f7dbb957789"
+    },
+    "src/features/auth/ui/LoginModal/LoginModal.tsx": {
+      "reason": "Authentication presentation follows enabled backend capabilities; a single login method has no tabs and the dialog title stays visible.",
+      "sha256": "6af01bf91c981d8dcff06ba118661cbb10e6652f5db24a0e8b69d589d9390347"
     }
   },
   "added_integration_files": [
@@ -306,6 +310,8 @@
     "src/features/auth/ui/AuthForm/AuthForm.test.tsx",
     "src/features/auth/model/auth.mutations.test.tsx",
     "src/features/auth/model/auth.validation.test.ts",
-    "src/shared/api/requestClient.test.ts"
+    "src/shared/api/requestClient.test.ts",
+    "src/features/auth/ui/AuthForm/AuthForm.demo.test.tsx",
+    "src/features/auth/ui/LoginModal/LoginModal.test.tsx"
   ]
 }

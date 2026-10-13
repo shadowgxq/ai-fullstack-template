@@ -423,23 +423,20 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
 
   /** 登录方式之间是平级关系，用 tab 表达；注册与找回是派生流程，不进 tab。 */
   const tabs = (
-    // 弹窗顶部为关闭按钮保留独立的 Header 空间，切换按钮保持完整宽度。
-    <div className="pt-[var(--space-6)]">
-      <Tabs
-        value={mode === 'code' || mode === 'password' ? mode : 'code'}
-        onValueChange={(value) => {
-          if (value === 'code' || value === 'password') switchMode(value);
-        }}
-      >
-        <TabsList className="w-full" aria-label={t('auth.login')}>
-          {LOGIN_MODES.map((value) => (
-            <TabsTrigger key={value} value={value} className="min-w-0 flex-1">
-              {t(`auth.tabs.${value}`)}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-      </Tabs>
-    </div>
+    <Tabs
+      value={mode === 'code' || mode === 'password' ? mode : 'code'}
+      onValueChange={(value) => {
+        if (value === 'code' || value === 'password') switchMode(value);
+      }}
+    >
+      <TabsList className="w-full" aria-label={t('auth.login')}>
+        {LOGIN_MODES.map((value) => (
+          <TabsTrigger key={value} value={value} className="min-w-0 flex-1">
+            {t(`auth.tabs.${value}`)}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+    </Tabs>
   );
 
   // Google 是「另一种进来的方式」，对找回密码这种修复流程没有意义，那一态不出现。
@@ -686,7 +683,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
 
   return (
     <div className={cn('flex flex-col gap-[var(--content-gap)]', className)}>
-      {mode === 'code' || mode === 'password' ? tabs : null}
+      {LOGIN_MODES.length > 1 && (mode === 'code' || mode === 'password') ? tabs : null}
       {renderForm()}
       {googleBlock}
       {links}
