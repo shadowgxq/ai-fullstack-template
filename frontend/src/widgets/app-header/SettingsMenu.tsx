@@ -8,8 +8,7 @@ import { Switch } from '@/shared/ui/switch';
 import { cn } from '@/shared/utils/cn';
 
 /**
- * Header 的全局设置入口。公共基础与主题文档由主导航/组件目录承载，设置菜单只保留
- * 语言与明暗模式等全局偏好，避免重复入口。
+ * Header 的全局设置入口，保留语言与明暗模式等全局偏好。
  */
 export function SettingsMenu() {
   const { t } = useTranslation();

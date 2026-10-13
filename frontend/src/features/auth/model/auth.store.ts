@@ -38,6 +38,7 @@ const rememberAwareStorage: StateStorage = {
 };
 
 type AuthState = {
+  sessionGeneration: number;
   token: string | null;
   user: AuthUser | null;
   remember: boolean;
@@ -48,13 +49,16 @@ type AuthState = {
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
+      sessionGeneration: 0,
       token: null,
       user: null,
       remember: readRemember(),
       setSession: (token, user) => {
         setAuthToken(token);
-        set({ token, user });
+        const current = get();
+        const hasChanged = current.token !== token || current.user?.userId !== user.userId;
+        set({ token, user, sessionGeneration: current.sessionGeneration + (hasChanged ? 1 : 0) });
       },
       setRemember: (remember) => {
         writeRemember(remember);
@@ -63,7 +67,12 @@ export const useAuthStore = create<AuthState>()(
       },
       clear: () => {
         setAuthToken(null);
-        set({ token: null, user: null });
+        const current = get();
+        set({
+          token: null,
+          user: null,
+          sessionGeneration: current.sessionGeneration + (current.token || current.user ? 1 : 0),
+        });
       },
     }),
     {

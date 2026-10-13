@@ -20,6 +20,10 @@
 
 业务技术方案沿用本目录，按需维护 `<area>/overview.md`，复杂功能再补 `features/<feature>.md`；不预建空方案或复制系统基线。方案覆盖核心流程与适用的失败/重试/回滚路径，获批后由 change design 引用；具体分级与批准流程见 [交付流程](../engineering/workflow/delivery.md)。
 
+## 业务技术方案
+
+- [个人资源收藏夹](bookmarks/overview.md)：REQ-BOOKMARKS-001 的数据/API、原子操作、恢复协议与设计消费边界；产品/视觉验收状态见当前计划。
+
 ## 数据流与所有权
 
 目标业务链路：浏览器 → backend（用户/资源授权）→ AI API（受信服务身份）→ PostgreSQL-backed Command Queue → Worker → LangGraph → 结果。

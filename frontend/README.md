@@ -22,7 +22,7 @@ pnpm preview --host 127.0.0.1 --port 4173
 
 ## 基础能力与集成
 
-路由为 `/`、`/foundation`、`/theme`、`/components`、`/components/:componentName`、`/login` 与 404。保留来源的同步路由配置、AppProviders、AppHeader/AppShell/AppFooter、组件演示、主题/i18n、分享、QueryComposer 和测试基础设施；基础能力页不是产品业务。
+业务路由为 `/bookmarks`，`/` 重定向到收藏夹；`/login` 返回首页并在未登录时打开登录弹窗。旧模板展示路径进入 404。保留 AppProviders、AppHeader/AppShell/AppFooter、认证、公共组件、主题/i18n、分享、QueryComposer 和测试基础设施；顶栏保留应用标题、设置及账号入口。
 
 认证 UI 复用标准 AuthForm/LoginModal，通过 `features/auth/model/auth.api.ts` 适配当前 Backend：`/api/v1/auth/{register,login,me,logout}`，成功 code 为 0。用户名保持真实身份；注册后另行登录，失败不伪装建立会话；logout 成功才清理会话，失败保留身份并显示错误；旧 token 的迟到 401 不清理已经替换的新会话。`auth.capabilities.ts` 关闭后端未实现的邮箱验证码、Google、找回/修改密码入口。相关标准组件只保留为可选演示能力；显式开发 mock 不是生产失败回退。
 

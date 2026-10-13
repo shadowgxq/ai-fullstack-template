@@ -30,7 +30,7 @@ ComponentName/
 - 禁止用 `index.tsx` 作为组件实现文件。
 - 简单 JSX 且只有一个调用点时不要提前抽组件；已经抽成命名组件就按目录放置。
 - `App`、providers、router、page route entry 保持在模块根目录，不算 UI 组件 inventory。
-- 当前 app-header 的 AppHeader/AccountMenu/SettingsMenu、app-shell 的 AppFooter 和 pages/components/componentCatalog.ts 保持现有平铺结构，不为目录对称重写。
+- 当前 app-header 的 AppHeader/AccountMenu/SettingsMenu和 app-shell 的 AppFooter 保持现有平铺结构，不为目录对称重写。
 
 ## 放置规则
 

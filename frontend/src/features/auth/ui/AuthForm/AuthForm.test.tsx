@@ -34,6 +34,8 @@ describe('standard form with fullstack capabilities', () => {
     expect(screen.queryByLabelText('Email')).not.toBeInTheDocument();
     expect(screen.queryByText('Forgot password?')).not.toBeInTheDocument();
     expect(screen.queryByText(/Google/)).not.toBeInTheDocument();
+    expect(screen.queryByRole('tablist')).not.toBeInTheDocument();
+    expect(screen.queryByRole('tab')).not.toBeInTheDocument();
   });
   it('submits actual username/password and keeps input when backend fails', async () => {
     passwordLogin.mockRejectedValue(new Error('unavailable'));

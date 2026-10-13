@@ -17,9 +17,9 @@
 | ShareDialog | `features/share/index.ts` | feature 公共出口；分享/复制/图片导出，内容与 poster 由使用方提供 |
 | AuthField、AuthForm、LoginModal、ChangePasswordForm、ChangePasswordModal | `features/auth/index.ts` | feature 公共出口；认证语义保留在 auth，不升级为 shared 通用表单 |
 | GoogleLoginButton | `features/auth/ui/GoogleLoginButton/` | auth 内部组件，不绕过 feature 出口跨模块导入 |
+| BookmarksWorkspace | `features/bookmarks/index.ts` | 收藏业务 feature 出口；列表、收藏/分组表单、删除确认、当前页选择与恢复由业务组合，内部组件不升级为 shared |
 | AppHeader | `widgets/app-header/index.ts` | widget 公共出口；导航、设置与账户；SettingsMenu / AccountMenu 保留内部 |
 | AppShell / AppFooter | `widgets/app-shell/index.ts` | widget 公共出口；壳层、主内容跳转、页脚策略、弹窗，不创建第二套 Provider |
-| 组件目录 / 详情 | `pages/components/ComponentsPage.tsx`、`ComponentDetailPage.tsx`、`componentCatalog.ts` | 页面组合与演示，不构成业务或全栈验收证据 |
 
 primitive 按文件导入，自建组合组件用窄 `index.ts`；`shared/ui/index.ts` 只保留空出口注释，不是总桶。不要引用已删除的旧 DemoSection/ControlDemos/OverlayDemos/AdvancedDemos 目录。
 
@@ -46,13 +46,13 @@ feature/widget 的“公共出口”仅表示模块可见性，不表示公共�
 | AuthField、AuthForm、LoginModal、ShareDialog、AppHeader / AppShell | 认证、分享、导航与壳层装配分别由 feature/widget 拥有 | 当前无业务设计稿，工程拥有者与公开出口保持现状 |
 | Card、ListItem、Feedback、目录页 | 没有独立公共契约；内容、数据状态、动作和页面布局由消费者拥有 | 就近用于实际页面或功能，不另建一套泛化主组件目录 |
 
-目录页仍列出 `componentCatalog.ts` 的 15 个入口。“13 个基础 + 2 个高级”是展示分类，不是 13 个公共设计组件的批准记录。源码中的 Calendar / QueryComposer 入口暂保持现状，设计归属调整没有重写运行时契约。
+组件目录展示页已移除；展示分类不作为公共设计组件的批准记录。源码中的 Calendar / QueryComposer 入口暂保持现状，设计归属调整没有重写运行时契约。
 
-设计稿中的 Button/link、underline Tabs 及淡底徽标、导航小字使用 `foreground`，按 [颜色配对](../../../design/tokens.md#公共颜色契约) 满足当前浅色背景的文字对比要求；link 文字保留下划线以识别操作。React 的 Button/link、underline Tabs 和部分目录/详情文字仍使用 `text-primary`，link 下划线仅在 hover 显示；这项设计目标尚未同步到运行时代码，不能将 Pen 渲染检查视为代码已通过对比度验收。
+设计稿中的 Button/link、underline Tabs 及淡底徽标、导航小字使用 `foreground`，按 [颜色配对](../../../design/tokens.md#公共颜色契约) 满足当前浅色背景的文字对比要求；link 文字保留下划线以识别操作。React 的 Button/link 和 underline Tabs 仍使用 `text-primary`，link 下划线仅在 hover 显示；这项设计目标尚未同步到运行时代码，不能将 Pen 渲染检查视为代码已通过对比度验收。
 
 ## Pencil 定位与映射
 
-资产见 [设计登记](../../../design/README.md#资产登记)。消费稿应通过正式导入连接公共库；当前仅保留公共库，表中 ID 是定位线索，使用前回读文档、主组件、命名空间、主题和覆盖。
+资产见 [设计登记](../../../design/README.md#资产登记)。消费稿通过正式导入连接公共库；表中 ID 是定位线索，使用前回读文档、主组件、命名空间、主题和覆盖。
 
 | 公共库定位 | 映射或组合边界 |
 |---|---|
@@ -74,8 +74,8 @@ feature/widget 的“公共出口”仅表示模块可见性，不表示公共�
 | Popover：`YgyA1` / `bPBFx`；Tooltip：`U6Q5Go` | default / compact 浮层与简短提示；内容插槽不预设业务语义 |
 | Skeleton：`Q4c4tU` | 基础占位形状；完整内容排布不导出为公共组件 |
 
-当前没有业务消费稿及可回读的业务节点。后续消费稿的业务主组件应在该文件内复用，并引用公共库的控件与变量；设计文件中的可见性不改变 TypeScript 模块出口。完整公共规范只在 core 维护。
+收藏夹业务节点与实例映射见 [收藏夹设计交付](../../../design/bookmarks-design.md)。业务组合在消费稿维护，并引用公共库的控件与变量；设计文件中的可见性不改变 TypeScript 模块出口。完整公共规范只在 core 维护。
 
-设计示例用于表达职责与复用，不是现有页面的逐像素基线；页面主稿和桌面宽度检查按 [布局规范](../../../design/ui-spec.md#布局与宿主)。当前不提供手机稿；未来若新增，仍按实际 Web 宿主、组件契约和响应式实现适配。完整 API 与交互协议查源码，展示状态不等于运行时验证。
+设计示例用于表达职责与复用，不是现有页面的逐像素基线；页面主稿和桌面宽度检查按 [布局规范](../../../design/ui-spec.md#布局与宿主)。收藏夹手机稿按实际 Web 宿主、组件契约和响应式实现适配。完整 API 与交互协议查源码，展示状态不等于运行时验证。
 
 主题/图标/翻译/analytics/identity 是 shared 能力，不计作 UI 组件。翻译和 analytics 的远端接入需明确配置；保留 SDK 不代表默认发送请求。

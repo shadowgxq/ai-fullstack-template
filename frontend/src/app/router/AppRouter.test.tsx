@@ -29,17 +29,35 @@ describe('AppRouter', () => {
     await i18n.changeLanguage('en');
   });
 
-  it.each([
-    ['/', 'Build a shippable frontend baseline for agents.'],
-    ['/foundation', 'Start from stable shared capabilities.'],
-  ])('renders the home view at %s', (path, heading) => {
-    const router = createMemoryRouter(appRoutes, { initialEntries: [path] });
+  it('redirects the home page to bookmarks and keeps account/settings access', async () => {
+    const router = createMemoryRouter(appRoutes, { initialEntries: ['/'] });
 
     renderRouter(router);
 
-    expect(router.state.location.pathname).toBe(path);
-    expect(screen.getByRole('heading', { name: heading })).toBeInTheDocument();
+    expect(
+      await screen.findByRole('heading', { name: /Keep great resources/ }),
+    ).toBeInTheDocument();
+    expect(router.state.location.pathname).toBe('/bookmarks');
+    expect(screen.getByRole('link', { name: 'Bookmarks home' })).toHaveAttribute(
+      'href',
+      '/bookmarks',
+    );
+    expect(screen.getByRole('button', { name: 'Settings' })).toBeInTheDocument();
+    expect(
+      screen.queryByRole('navigation', { name: 'Primary navigation' }),
+    ).not.toBeInTheDocument();
   });
+
+  it.each(['/foundation', '/theme', '/components', '/components/button'])(
+    'renders 404 for the removed template path %s',
+    (path) => {
+      const router = createMemoryRouter(appRoutes, { initialEntries: [path] });
+      renderRouter(router);
+      expect(
+        screen.getByRole('heading', { name: 'This page does not exist.' }),
+      ).toBeInTheDocument();
+    },
+  );
 
   it('renders the not-found page for an unknown path', () => {
     const router = createMemoryRouter(appRoutes, { initialEntries: ['/missing'] });

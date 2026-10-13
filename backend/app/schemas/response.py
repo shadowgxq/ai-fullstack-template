@@ -12,6 +12,13 @@ class ApiResponse(BaseModel, Generic[T]):
     data: T | None = None
 
 
+class Paginated(BaseModel, Generic[T]):
+    list: list[T]
+    total: int
+    page: int
+    page_size: int
+
+
 def success_response(data: T | None = None, message: str = "success") -> dict:
     return {
         "code": 0,

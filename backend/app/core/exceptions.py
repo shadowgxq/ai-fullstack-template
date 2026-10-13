@@ -69,3 +69,37 @@ class AuthDependencyUnavailable(BusinessException):
             message="Authentication temporarily unavailable",
             status_code=503,
         )
+
+
+class BookmarkResourceUnavailable(BusinessException):
+    def __init__(self):
+        super().__init__(40410, "Resource unavailable", 404)
+
+
+class BookmarkKeyConflict(BusinessException):
+    def __init__(self):
+        super().__init__(
+            40911, "Idempotency key was already used for different content", 409
+        )
+
+
+class BookmarkOperationPrevented(BusinessException):
+    def __init__(self):
+        super().__init__(40913, "Operation was prevented; submit a new intent", 409)
+
+
+class BookmarkGroupNameConflict(BusinessException):
+    def __init__(self):
+        super().__init__(40910, "Group name already exists", 409)
+
+
+class BookmarkGroupImpactChanged(BusinessException):
+    def __init__(self):
+        super().__init__(
+            40912, "Group bookmark count changed; check the latest impact", 409
+        )
+
+
+class BookmarkMoveUnavailable(BusinessException):
+    def __init__(self):
+        super().__init__(40914, "Move source or target unavailable", 409)

@@ -1,5 +1,116 @@
-version: 2
-requirements: []
-inputs: []
-openspec: []
-batches: []
+requirements:
+- id: REQ-BOOKMARKS-001
+  source: docs/product/bookmarks-prd.md
+  code_acceptance:
+  - CA1 / PRD 3.1：收藏新增、回填编辑、取消与单条删除；字段规范、重复 URL、新标签安全打开、备注查看、重新登录后持久化均有逻辑测试。
+  - CA2 / PRD 3.2：标题/URL 字面子串搜索、英文大小写及首尾空格、分组联合过滤、固定每页 10 条、稳定排序、越界回退与两种计数语义正确。
+  - CA3 / PRD 3.3：固定入口不可维护，空分组可创建，名称规则及并发重名约束有效；改名不改变收藏顺序；删除分组原子迁入未分组并更新时间、总数不变。
+  - CA4 / PRD 3.4：仅当前页选择；翻页/筛选清空；原子移动、同目标不更新时间、失败保留有效选择、成功清空与刷新均有测试。
+  - CA5 / PRD 3.5：API 逐资源限制账号范围，非法源/目标不可部分写入；前端退出/换账号清缓存并拒绝迟到响应，认证异常不泄露私人内容。
+  - CA6 / PRD 4：加载/三类空态/刷新失败/字段错误/明确失败/unknown 分别处理；写入 key 与回执防重、resolve 阻止迟到旧操作、草稿和有效选择按结果保留。
+  - CA7 / PRD 4：真实组件与 Token 复用、同结构表单和反馈复用、两主题/i18n、响应式及语义/焦点/触控约束具备实现与静态/组件测试证据。
+  human_acceptance:
+  - 最终按 PRD 6 完成保存、重访、找回、编辑、分组清理、批量移动、删除及双账号隔离的完整产品路径。
+  - 按设计交付核对桌面 1440px、手机 390px 及小视口/长文案，明暗主题、语言、两行手机顶栏、键盘焦点、200% 文字和浮层滚动；异常反馈清楚且可恢复。
+inputs:
+- id: bookmarks-design-core
+  source: docs/design/bookmarks-design.md
+  purpose: reference
+  required: true
+  scope:
+  - 同一 bookmarks.pen；SHA-256 234a29969acacf918dd86d0e80bc5d30865c4077d5becd3d139e28dc6f1feb66；沿记录读取实际节点及公共组件依据。
+  - frGCk/U596kS 主页面，F8Q3b/XMjMl 与 wPuex 收藏表单，ALjzf/WODao 删除收藏槽，XGUVa 空态/菜单/备注，I5Qsg 反馈与 unknown。
+  - M1 先落实收藏主路径与响应式宿主；分组管理和选择控件在对应后续 Change 接通，不将设计示例或空按钮伪装为已完成功能。
+- id: bookmarks-design-groups
+  source: docs/design/bookmarks-design.md
+  purpose: reference
+  required: true
+  scope:
+  - 沿同一保存版和场景映射消费 frGCk/U596kS 分组浏览、ALjzf/HDGhN 名称表单、ALjzf/WODao 删除分组后果、XGUVa 空分组/菜单及 mJdGV 分组选择部分。
+  - I5Qsg 的明确失败和 unknown；公共 Input invalid/Button loading；不生成新的整套弹窗或设计稿。
+- id: bookmarks-design-batch
+  source: docs/design/bookmarks-design.md
+  purpose: reference
+  required: true
+  scope:
+  - 沿同一保存版消费 EapSM/fISvK 与 mJdGV 当前页选择、目标分组、移动及取消；I5Qsg 失败保留和查看最新结果；frGCk/U596kS 页码与数量刷新。
+openspec:
+- id: bookmarks-save-and-find
+  requirements:
+  - REQ-BOOKMARKS-001
+  depends_on: []
+  status: code-verified
+  technical_design:
+  - docs/architecture/bookmarks/overview.md
+  input_refs:
+  - bookmarks-design-core
+  note: M1 垂直交付保存与找回：实现收藏 CRUD、列表/搜索/分页、备注与安全外链、登录入口/账号隔离、手机顶栏及共用表单。 建立三张目标表、必要约束/索引/迁移、分页与计数 DTO、幂等操作回执和 resolve，并以收藏写入验证完整恢复链；不是孤立基础设施 Change。
+    列表契约从一开始支持最终 group 语义，真实分组列表可为空；有分组数据的查询与权限可由本 Change 的隔离夹具验证，不依赖未来页面或伪 API。 覆盖 CA1、CA2 基础及分组查询契约、CA5、CA6 收藏路径、CA7 页面与表单；M2 接通分组创建入口和联合筛选产品路径，M3
+    才启用批量选择。 本 Change 直接交付隔离 PostgreSQL 测试夹具及真实迁移/约束/锁/重复 key/resolve 竞争验证，不把 SQLite 通过当数据库证明。 验收只依赖自身：API/组件/状态测试及静态 UI 检查；实现后独立只读审查。UI tasks
+    绑定 design-to-code 与本 input 的区域。
+- id: bookmarks-group-management
+  requirements:
+  - REQ-BOOKMARKS-001
+  depends_on:
+  - bookmarks-save-and-find
+  status: code-verified
+  technical_design:
+  - docs/architecture/bookmarks/overview.md
+  input_refs:
+  - bookmarks-design-groups
+  note: M2 垂直交付分组创建/改名/删除 API 与页面入口、收藏表单分组选择、分组联合搜索及空分组反馈。 复用 M1 的事务与操作回执，用真实分组写入证明防重/unknown 恢复；删除确认展示最新影响数量，冲突重新检查，迁移收藏与删除分组同事务。 覆盖 CA3、CA2
+    联合筛选与独立计数、CA1 指定分组保存/编辑、CA5 分组授权、CA6 分组失败/恢复、CA7 共用名称与删除窗口。 独立验收使用 M1 收藏新增/编辑及本阶段分组接口布置组内数据，不依赖 M3 批量移动。 复验并发重名、删除与收藏新增/编辑竞争、回滚、改名不改排序、迁入未分组的时间/计数/当前页回退。
+    使用 M1 实际已验证契约生成本 Change 制品；同范围实现细节可据结果细化，产品/契约冲突返回原方案来源。UI 使用 design-to-code；完成后独立只读审查。
+- id: bookmarks-batch-organize
+  requirements:
+  - REQ-BOOKMARKS-001
+  depends_on:
+  - bookmarks-save-and-find
+  - bookmarks-group-management
+  status: code-verified
+  technical_design:
+  - docs/architecture/bookmarks/overview.md
+  input_refs:
+  - bookmarks-design-batch
+  note: M3 垂直交付当前页选择与批量移动 API、目标选择、取消、明确失败保留有效项、unknown 恢复和成功后刷新。 覆盖 CA4，整体验证 CA2 分页/计数、CA3 删除分组与移动竞争、CA5 所有源与目标授权、CA6 全写入恢复以及 CA7 批量区。 真实 PostgreSQL
+    验证任一源/目标失效全部失败、中途异常无部分写入、同目标时间不变、实际移动同时间且稳定排序、重复 key 与 resolve 竞争。 前端测试清选择、页内全选、取消不写、迟到响应、失败选择交集和移空当前页后自动回退；不得靠未实现的未来 Change 完成本阶段验收。 UI 使用
+    design-to-code；完成独立只读审查，阶段收尾补完整收藏工作流集成，复用前阶段仍有效证据。
+batches:
+- id: M1
+  depends_on: []
+  changes:
+  - bookmarks-save-and-find
+  checkpoint: auto
+  status: code-verified
+  human_acceptance: pending
+  checks:
+  - 核对 Alembic 在明确隔离 PostgreSQL 目标升级、跨账号 FK/查询约束、用户锁及操作回执竞争测试；目标不可用则记录阻塞，不放行依赖。
+  - API 客户端完成新增→搜索/分页→编辑→重访→删除及 unknown/resolve；两个账号与迟到响应回归，不依赖浏览器或 M2。
+  - 按前后端 README 执行受影响检查，更新并校验后端生成契约、直接消费者、make architecture 与 make docs；独立审查及新增集成 diff 检查通过后才 code-verified。
+  note: 本期范围稳定，采用完整三阶段规划。人工产品/视觉验收集中最终进行，此处 pending 不构成人工停点。连续执行授权见 progress；归档、提交和生产迁移另行授权。
+- id: M2
+  depends_on:
+  - M1
+  changes:
+  - bookmarks-group-management
+  checkpoint: auto
+  status: code-verified
+  human_acceptance: pending
+  checks:
+  - 跨 M1/M2 集成：创建分组→保存收藏到该组→搜索→改名→删除组→未分组；校验计数、时间、页码及回执，删除失败保持完整原状。
+  - 运行分组约束/权限/真实 PostgreSQL 竞争及前端表单恢复测试，回归 M1 收藏主路径；检查契约/消费者与独立审查的新增影响。
+  note: 依赖 M1 代码与集成通过；不重复代表页风格确认。人工验收继续汇总到最终位置。
+- id: M3
+  depends_on:
+  - M2
+  changes:
+  - bookmarks-batch-organize
+  checkpoint: auto
+  status: code-verified
+  human_acceptance: pending
+  checks:
+  - 跨 M1–M3 集成：保存多条→分组/关键词分页→选当前页→移动→改名/删组→回退有效页→再登录；API 与逻辑检查覆盖全部 CA1–CA7。
+  - 真实 PostgreSQL 验证移动/删组/编辑交错、单项失效及原子回滚，确认计数与排序不漂移；前端失效会话/unknown/刷新失败恢复回归。
+  - 完成受影响前后端检查、契约漂移与静态 UI 规范检查、独立审查及阶段新增 diff 审查；记录未执行项，不重复全栈或无关 AI 检查。
+  note: 最终人工位置：统一核对 PRD 6 与 requirements.human_acceptance，范围覆盖三个阶段。 经明确授权才运行浏览器/design-qa 和相应服务；完成代码不能将 pending 改为 accepted。 真实验收反馈覆盖前阶段时一并登记其
+    decision_ref，不创建平行状态文件；归档、提交 PR 和发布分别授权。

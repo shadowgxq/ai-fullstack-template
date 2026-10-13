@@ -1,24 +1,17 @@
 {
   "meta": {
-    "title": "Agent 模板",
-    "description": "内置主题、国际化、登录与分享公共能力的 React 前端生产基线。"
+    "title": "个人资源收藏夹",
+    "description": "保存、查找和整理你的收藏资料。"
   },
   "app": {
-    "title": "Agent 模板",
+    "title": "个人资源收藏夹",
     "footer": {
       "disclaimer": "示例内容仅供参考，不构成专业建议。"
     }
   },
   "header": {
-    "homeLabel": "Agent 模板首页",
-    "navLabel": "主导航",
+    "homeLabel": "收藏夹首页",
     "skipToContent": "跳到主内容",
-    "tabs": {
-      "overview": "概览",
-      "foundation": "公共基础",
-      "components": "组件",
-      "theme": "主题"
-    },
     "settings": "设置",
     "language": "语言",
     "adminRole": "管理员",
@@ -38,626 +31,6 @@
   },
   "common": {
     "translationLoading": "正在翻译内容"
-  },
-  "home": {
-    "status": "模板就绪",
-    "eyebrow": "Vite · React 18 · TypeScript",
-    "title": "为 Agent 构建可交付的前端基线。",
-    "titleLead": "为 Agent 构建",
-    "titleAccent": "可交付的前端基线。",
-    "description": "应用外壳、公共 token、国际化、登录与分享能力已准备就绪，支持可迁移、可执行、可维护的前端模板，助力你快速搭建 Agent 应用。",
-    "cta": "查看公共基础",
-    "learnMore": "了解更多",
-    "overviewLabel": "模板能力概览",
-    "capabilities": {
-      "title": "基础能力概览",
-      "description": "开箱即用的前端基础能力，助你专注业务创新。",
-      "ready": "模板已就绪",
-      "itemReady": "已就绪",
-      "cta": "开始使用模板",
-      "items": {
-        "appShell": {
-          "title": "应用外壳",
-          "text": "内置路由、布局、导航与全局样式"
-        },
-        "authShare": {
-          "title": "登录与分享",
-          "text": "公共 token、登录态与分享能力"
-        },
-        "i18n": {
-          "title": "国际化",
-          "text": "多语言切换与本地化方案"
-        },
-        "tokens": {
-          "title": "主题 Token",
-          "text": "统一的设计令牌与主题配置"
-        },
-        "layeredSource": {
-          "title": "分层结构",
-          "text": "清晰的源码组织与业务分层"
-        }
-      }
-    },
-    "sections": {
-      "appShell": {
-        "title": "应用外壳",
-        "text": "应用级 provider、导航、路由、全局样式与错误边界都位于稳定分层中。"
-      },
-      "layeredSource": {
-        "title": "分层源码",
-        "text": "按单向依赖，用 widgets、features、entities 与 shared 组合页面。"
-      },
-      "projectDocs": {
-        "title": "公共契约",
-        "text": "公共 token、登录与分享提供可记录、可扩展的契约，供业务功能复用。"
-      }
-    },
-    "foundation": {
-      "status": "公共能力 · 已接线",
-      "title": "从稳定的公共能力开始。",
-      "description": "这里展示模板提供的可复用边界。它们保持业务中立，可被新的页面、流程和领域组件直接组合。",
-      "back": "返回概览",
-      "summaryLabel": "可复用模块",
-      "summaryText": "覆盖视觉、会话、国际化与跨端分享；业务层只需要提供自己的事实数据。",
-      "catalogEyebrow": "模块目录",
-      "catalogTitle": "已经准备好的基础能力",
-      "ready": "READY",
-      "modules": {
-        "tokens": {
-          "title": "Design Tokens",
-          "text": "Primitive、Semantic、Component 三层变量统一控制明暗主题和组件状态。"
-        },
-        "auth": {
-          "title": "账户与会话",
-          "text": "验证码、账号密码、注册、重置密码和登录态 Header 使用同一份会话事实。"
-        },
-        "share": {
-          "title": "跨端分享",
-          "text": "根据 H5 与 Desktop 的真实能力生成平台入口、复制与下载动作。"
-        },
-        "i18n": {
-          "title": "国际化",
-          "text": "页面、Header、弹窗和浏览器 Tab 共用语言状态，切换后保持一致。"
-        }
-      },
-      "shareDemo": {
-        "title": "跨端分享能力预览",
-        "description": "按当前浏览器能力展示可用的平台入口、复制与下载动作。",
-        "open": "查看分享预览"
-      },
-      "handoff": {
-        "eyebrow": "接入顺序",
-        "title": "三步迁入业务域",
-        "description": "占位内容只说明边界；项目接入时按契约替换，不复制公共实现。",
-        "steps": {
-          "contract": "先确认 API、状态与多语言字段的真实契约。",
-          "compose": "再用公共 Header、表单、token 和 hooks 组合页面。",
-          "replace": "最后替换业务文案与数据源，并完成真实环境验收。"
-        }
-      },
-      "footer": "公共能力保持稳定，业务变化留在各自领域中。"
-    },
-    "theme": {
-      "status": "信号青绿 · Light / Dark",
-      "title": "一套视觉基础，两种明暗模式。",
-      "description": "为青绿色主题选择浅色或深色外观。两套配色共用布局、控件和清楚的信息层级。",
-      "catalogEyebrow": "明暗外观",
-      "catalogTitle": "选择明暗模式",
-      "current": "当前：{{mode}}",
-      "modes": {
-        "light": {
-          "label": "浅色",
-          "description": "浅色画布、清楚的深蓝文字与青绿色主操作。"
-        },
-        "dark": {
-          "label": "深色",
-          "description": "深绿画布、浅色文字与明亮的青绿色主操作。"
-        }
-      },
-      "modeEyebrow": "统一基础",
-      "modeTitle": "两种模式，同一套控件",
-      "modeDescription": "也可从设置菜单切换明暗模式。你的偏好会保存，下次访问时沿用。",
-      "modeLabel": "当前模式",
-      "footer": "外观变化时，页面结构、交互状态和业务行为保持一致。"
-    }
-  },
-  "theme": {
-    "status": "信号青绿 · Light / Dark",
-    "title": "一套视觉基础，两种明暗模式。",
-    "description": "为青绿色主题选择浅色或深色外观。两套配色共用布局、控件和清楚的信息层级。",
-    "catalogEyebrow": "明暗外观",
-    "catalogTitle": "选择明暗模式",
-    "current": "当前：{{mode}}",
-    "modes": {
-      "light": {
-        "label": "浅色",
-        "description": "浅色画布、清楚的深蓝文字与青绿色主操作。"
-      },
-      "dark": {
-        "label": "深色",
-        "description": "深绿画布、浅色文字与明亮的青绿色主操作。"
-      }
-    },
-    "modeEyebrow": "统一基础",
-    "modeTitle": "两种模式，同一套控件",
-    "modeDescription": "也可从设置菜单切换明暗模式。你的偏好会保存，下次访问时沿用。",
-    "modeLabel": "当前模式",
-    "footer": "外观变化时，页面结构、交互状态和业务行为保持一致。"
-  },
-  "components": {
-    "status": "组件库",
-    "title": "组件库",
-    "description": "按分类快速浏览组件，先看效果，再查看用法与代码。",
-    "summary": {
-      "number": "15",
-      "title": "已封装组件",
-      "description": "13 个基础组件与 2 个高级组件。",
-      "stats": {
-        "total": "个组件",
-        "shared": "基础",
-        "advanced": "高级"
-      }
-    },
-    "catalog": {
-      "eyebrow": "组件目录",
-      "title": "浏览组件",
-      "description": "搜索、筛选并进入组件详情，查看可用状态与使用方式。",
-      "searchLabel": "搜索组件",
-      "searchPlaceholder": "搜索组件名称、关键词...",
-      "filterLabel": "组件分类",
-      "viewLabel": "组件视图",
-      "gridView": "网格视图",
-      "listView": "列表视图",
-      "all": "全部",
-      "resultCount": "显示 {{shown}} / {{total}} 个组件",
-      "ready": "已封装",
-      "preview": "查看交互",
-      "empty": "没有匹配的组件，换个关键词试试。",
-      "items": {
-        "button": {
-          "description": "通用的按钮组件，支持多种状态与样式。"
-        },
-        "input": {
-          "description": "文本输入框，支持多种尺寸与校验状态。"
-        },
-        "label": {
-          "description": "文本标签，用于信息标识与说明。"
-        },
-        "select": {
-          "description": "下拉选择器，支持搜索与多选。"
-        },
-        "tabs": {
-          "description": "标签页，用于内容的分组切换。"
-        },
-        "dialog": {
-          "description": "对话框，支持多种场景与自定义内容。"
-        },
-        "dropdownMenu": {
-          "description": "下拉菜单，支持多级菜单与自定义项。"
-        },
-        "popover": {
-          "description": "气泡卡片，用于展示浮层信息。"
-        },
-        "tooltip": {
-          "description": "文字提示，悬停时展示额外信息。"
-        },
-        "switch": {
-          "description": "开关选择器，用于开关状态切换。"
-        },
-        "calendar": {
-          "description": "日历选择器，支持日期范围选择。"
-        },
-        "textarea": {
-          "description": "多行文本输入框，与 Input 共用状态体系。"
-        },
-        "skeleton": {
-          "description": "用于异步内容占位的骨架屏组件。"
-        },
-        "queryComposer": {
-          "description": "查询构建器，用于组合复杂查询条件。"
-        },
-        "shareDialog": {
-          "description": "跨端分享与复制下载操作浮层。"
-        }
-      },
-      "categories": {
-        "shared": {
-          "label": "基础组件",
-          "count": "13",
-          "short": "shared/ui",
-          "description": "无业务归属的基础 UI 控件。"
-        },
-        "advanced": {
-          "label": "高级组件",
-          "count": "2",
-          "short": "shared + features",
-          "description": "跨领域公共能力与复杂业务输入组合。"
-        }
-      }
-    },
-    "detail": {
-      "back": "返回组件库",
-      "ready": "已封装",
-      "sidebarLabel": "组件目录",
-      "sidebarSearch": "搜索组件名称...",
-      "tabs": {
-        "preview": "预览",
-        "examples": "代码示例",
-        "api": "API"
-      },
-      "copyCode": "复制代码",
-      "copied": "已复制",
-      "sharePreview": {
-        "status": "组件库",
-        "title": "跨端分享能力预览",
-        "description": "按当前浏览器能力展示可用的平台入口、复制与下载动作。"
-      },
-      "preview": {
-        "eyebrow": "Preview",
-        "title": "预览",
-        "description": "在真实的组件状态中查看它的交互方式。",
-        "button": {
-          "cardTitle": "Button 按钮",
-          "cardDescription": "触发操作、提交表单或引导用户完成关键行为。",
-          "basicTitle": "按钮样式",
-          "basicDescription": "不同场景下的按钮样式。",
-          "primary": "主要按钮",
-          "secondary": "次要按钮",
-          "text": "幽灵按钮",
-          "destructive": "危险按钮",
-          "startLoading": "加载示例",
-          "loading": "加载中",
-          "disabled": "禁用状态",
-          "variantsTitle": "变体",
-          "variantsDescription": "支持多种视觉风格的按钮变体。",
-          "variantPrimary": "Primary",
-          "variantSecondary": "Secondary",
-          "variantGhost": "Ghost",
-          "variantDestructive": "Destructive",
-          "ghost": "幽灵按钮",
-          "sizesTitle": "尺寸",
-          "sizesDescription": "支持不同尺寸，适应不同的界面场景。",
-          "small": "小号按钮",
-          "defaultSize": "默认按钮",
-          "large": "大号按钮",
-          "statesTitle": "状态示例",
-          "statesDescription": "展示焦点和按下状态的视觉反馈。",
-          "focus": "聚焦状态",
-          "active": "按下状态"
-        },
-        "input": {
-          "basicTitle": "基础用法",
-          "label": "名称",
-          "placeholder": "输入内容…",
-          "helper": "支持中文、英文和数字。",
-          "focus": "聚焦状态",
-          "focusValue": "设计系统",
-          "disabled": "禁用状态",
-          "error": "错误状态",
-          "errorMessage": "请输入有效的名称。"
-        },
-        "textarea": {
-          "basicTitle": "基础用法",
-          "label": "备注",
-          "placeholder": "输入备注…",
-          "helper": "最多输入 500 个字符。",
-          "counter": "{{count}} / 500",
-          "focus": "聚焦状态",
-          "focusValue": "这里是多行文本输入\n支持换行，适用于较长的内容描述。",
-          "disabled": "禁用状态",
-          "disabledValue": "不可输入的内容",
-          "error": "错误状态",
-          "errorMessage": "备注内容需要补充。"
-        },
-        "label": {
-          "basicTitle": "基础用法",
-          "label": "邮箱地址",
-          "placeholder": "name@example.com",
-          "required": "必填字段",
-          "optional": "选填字段",
-          "helper": "我们只会使用它发送通知。",
-          "error": "邮箱格式不正确。"
-        },
-        "select": {
-          "basicTitle": "基础用法",
-          "label": "选择组件",
-          "placeholder": "选择一项",
-          "open": "展开状态",
-          "disabled": "禁用选择",
-          "options": {
-            "one": "第一项",
-            "two": "第二项",
-            "three": "第三项"
-          }
-        },
-        "tabs": {
-          "basicTitle": "基础用法",
-          "preview": "预览",
-          "code": "代码",
-          "features": "功能特性",
-          "history": "版本记录",
-          "previewContent": "这里是预览内容。",
-          "codeContent": "这里是代码内容。",
-          "featuresContent": "这里是功能特性内容。",
-          "historyContent": "这里是版本记录内容。"
-        },
-        "dialog": {
-          "basicTitle": "三种确认类型",
-          "open": "打开 Dialog",
-          "title": "组件验证弹窗",
-          "description": "Dialog 负责遮罩、焦点管理和 Escape 关闭，预览只保留三种 type 与三种 size 的触发按钮。",
-          "cancel": "取消",
-          "confirm": "确认",
-          "close": "关闭弹窗",
-          "sizes": {
-            "small": "小弹窗 · 440px",
-            "medium": "中弹窗 · 480px",
-            "large": "大弹窗 · 720px"
-          },
-          "types": {
-            "default": {
-              "label": "默认确认",
-              "cardDescription": "用于常规操作的二次确认。",
-              "open": "打开默认确认",
-              "title": "确认发布组件？",
-              "description": "发布后，组件将对团队成员可见。",
-              "cancel": "取消",
-              "action": "确认发布"
-            },
-            "warning": {
-              "label": "警告提醒",
-              "cardDescription": "用于未保存内容的离开提醒。",
-              "open": "打开警告提醒",
-              "title": "离开当前页面？",
-              "description": "当前页面有未保存的内容，离开后将不会保存。",
-              "cancel": "继续编辑",
-              "action": "离开"
-            },
-            "danger": {
-              "label": "危险删除",
-              "cardDescription": "用于无法恢复的删除操作。",
-              "open": "打开危险删除",
-              "title": "删除组件？",
-              "description": "删除后将无法恢复，所有配置和数据都会被永久删除。",
-              "cancel": "取消",
-              "action": "删除"
-            }
-          }
-        },
-        "dropdown": {
-          "basicTitle": "基础用法",
-          "open": "打开菜单",
-          "first": "第一项",
-          "second": "第二项",
-          "group": "常用操作",
-          "edit": "编辑",
-          "duplicate": "复制",
-          "delete": "删除",
-          "shortcut": "⌘K"
-        },
-        "popover": {
-          "basicTitle": "基础用法",
-          "open": "打开 Popover",
-          "title": "浮层内容",
-          "description": "承载与当前上下文相关的小块操作。",
-          "action": "应用设置",
-          "close": "关闭浮层"
-        },
-        "tooltip": {
-          "basicTitle": "基础用法",
-          "open": "打开 Tooltip",
-          "content": "这是 Tooltip 提示",
-          "top": "上方提示",
-          "bottom": "下方提示",
-          "right": "右侧提示"
-        },
-        "switch": {
-          "basicTitle": "基础用法",
-          "label": "启用提示",
-          "interactive": "可交互状态：点击切换",
-          "disabled": "禁用状态",
-          "states": {
-            "unchecked": "关闭状态",
-            "checked": "开启状态",
-            "disabledOff": "禁用关闭",
-            "disabledOn": "禁用开启"
-          }
-        },
-        "calendar": {
-          "basicTitle": "基础用法",
-          "trigger": "默认状态",
-          "open": "展开状态",
-          "selected": "当前日期",
-          "empty": "未选择",
-          "today": "回到今天"
-        },
-        "skeleton": {
-          "basicTitle": "基础用法",
-          "basicDescription": "通过组合多个占位块匹配内容加载完成后的布局。",
-          "loadingLabel": "内容加载中"
-        },
-        "generic": {
-          "basicTitle": "基础预览",
-          "description": "该组件已接入模板，可从示例与源码中继续了解。"
-        }
-      },
-      "examples": {
-        "eyebrow": "Examples",
-        "title": "常用示例",
-        "description": "从最小用法开始，逐步组合到业务页面。"
-      },
-      "code": {
-        "exampleTitle": "代码示例",
-        "exampleDescription": "以下是 Button 组件的基本用法示例。"
-      },
-      "codeSamples": {
-        "button": {
-          "primary": "保存",
-          "secondary": "稍后处理",
-          "destructive": "删除"
-        },
-        "input": {
-          "placeholder": "输入内容…"
-        },
-        "label": {
-          "label": "邮箱"
-        },
-        "select": {
-          "placeholder": "选择一项"
-        },
-        "tabs": {
-          "preview": "预览"
-        },
-        "dialog": {
-          "open": "打开",
-          "content": "内容"
-        }
-      },
-      "api": {
-        "eyebrow": "API",
-        "title": "Props",
-        "description": "以下是当前组件最常用的公开参数，完整类型以源码为准。",
-        "columns": {
-          "name": "参数",
-          "type": "类型",
-          "default": "默认值",
-          "description": "说明"
-        },
-        "button": {
-          "variant": "控制按钮的视觉变体。",
-          "size": "控制按钮尺寸。",
-          "disabled": "禁用按钮及其交互。",
-          "asChild": "将按钮行为合并到子元素。"
-        },
-        "dialog": {
-          "type": "确认弹窗的语义类型，控制默认、警告和危险场景标识。",
-          "size": "控制弹窗宽度，默认 md 为 480px。",
-          "variant": "控制弹窗是带内边距的说明布局，还是由内容区自定义的 flush 布局。",
-          "showCloseButton": "是否显示右上角关闭按钮。",
-          "closeLabel": "关闭按钮的无障碍名称。"
-        },
-        "skeleton": {
-          "className": "调整占位块的尺寸、形状和布局。",
-          "ariaHidden": "默认对辅助技术隐藏；由外层状态区域提供加载说明。"
-        },
-        "generic": {
-          "children": "组件需要渲染的内容。",
-          "className": "追加样式类名。"
-        }
-      },
-      "source": {
-        "eyebrow": "Source",
-        "title": "源码位置",
-        "label": "来源：",
-        "copyPath": "复制路径",
-        "viewCode": "查看源码"
-      }
-    },
-    "input": {
-      "eyebrow": "02 · 主功能输入",
-      "title": "Query Composer",
-      "description": "已封装的输入主组件同时支持远程候选、自然语言和混合模式；页面只提供搜索适配器、候选渲染与 commit 行为。",
-      "label": "你想关注什么？",
-      "helper": "输入代码查看候选，也可以直接提交一句自然语言。",
-      "placeholder": "输入 Apple、Bitcoin 或一句自然语言…",
-      "clearInput": "清空输入",
-      "suggestionsLabel": "候选结果",
-      "searching": "正在查找候选…",
-      "empty": "没有匹配的候选，可以继续使用自然语言。",
-      "searchError": "候选搜索暂时失败。",
-      "retry": "重试",
-      "candidateTypes": {
-        "stock": "股票",
-        "crypto": "加密资产",
-        "commodity": "大宗商品"
-      },
-      "freeformTitle": "继续使用自然语言",
-      "freeformValue": "提交“{{value}}”给业务 resolver",
-      "commitLabel": "当前 commit",
-      "committed": "已提交：{{value}}",
-      "commitEmpty": "等待选择候选或提交 query",
-      "primaryAction": "确认输入",
-      "contractTitle": "组件契约",
-      "contract": {
-        "search": "debounce、取消请求和过期响应隔离由组件负责。",
-        "render": "候选行由页面注入 render function，保留业务事实。",
-        "commit": "Enter 只负责 commit，最终业务 CTA 由页面负责。"
-      },
-      "selected": "已选择候选：{{value}}"
-    },
-    "primitives": {
-      "eyebrow": "03 · 基础控件",
-      "title": "从裸控件到浮层",
-      "description": "Button、Input、Label、Select、Tabs、Switch、Calendar 与 Dialog / Popover / Menu / Tooltip 都直接使用模板公共实现。",
-      "actionsTitle": "行动与状态",
-      "actionsMeta": "Button · Switch",
-      "primary": "主要操作",
-      "outline": "描边",
-      "secondary": "次要操作",
-      "ghost": "幽灵",
-      "destructive": "危险操作",
-      "disabled": "不可用",
-      "switchLabel": "启用提示",
-      "fieldsTitle": "字段组合",
-      "fieldsMeta": "Input · Label · AuthField",
-      "basicLabel": "基础 Input",
-      "basicPlaceholder": "输入一段文本…",
-      "passwordLabel": "AuthField 密码",
-      "passwordPlaceholder": "输入密码",
-      "layersTitle": "浮层与反馈",
-      "layersMeta": "DropdownMenu · Select · Popover · Tooltip",
-      "menuTrigger": "打开菜单",
-      "menuLabel": "组件菜单",
-      "menuItems": {
-        "one": "选择第一项",
-        "two": "选择第二项",
-        "three": "选择第三项"
-      },
-      "menuSelected": "已选择：{{value}}",
-      "selectTrigger": "选择组件菜单项",
-      "selectPlaceholder": "选择一项",
-      "selectSelected": "Select 当前值：{{value}}",
-      "popoverTrigger": "打开 Popover",
-      "popoverTitle": "浮层内容",
-      "popoverDescription": "Popover 适合承载需要保持上下文的小块操作。",
-      "tooltipTrigger": "复制",
-      "tooltipContent": "这是 Tooltip 提示",
-      "calendarTitle": "日期选择",
-      "calendarMeta": "Calendar · 受控选中状态",
-      "calendarSelected": "当前日期",
-      "calendarEmpty": "未选择"
-    },
-    "business": {
-      "eyebrow": "04 · 业务组合",
-      "title": "公共能力接入点",
-      "description": "业务页面不复制公共状态，只提供领域数据、展示内容和动作回调。下面的分享预览直接使用模板已有能力。",
-      "shareTitle": "跨端分享",
-      "shareMeta": "ShareDialog · useShareActions",
-      "shareDescription": "ShareDialog 只接收 ShareContent 与业务海报，平台入口、复制和下载动作由公共能力决定。",
-      "openShare": "打开分享弹窗"
-    },
-    "dialog": {
-      "eyebrow": "05 · 交互验证",
-      "title": "浮层状态也要能试",
-      "description": "打开一个真实 Dialog，检查遮罩、焦点陷阱、Escape 关闭和按钮状态。",
-      "open": "打开 Dialog",
-      "modalTitle": "组件验证弹窗",
-      "modalDescription": "这是一个由 shared/ui/Dialog 提供的最小可操作示例。",
-      "modalLabel": "示例字段",
-      "modalPlaceholder": "输入后点击确认…",
-      "cancel": "取消",
-      "confirm": "确认",
-      "meta": "Dialog · 焦点陷阱 · Escape"
-    },
-    "share": {
-      "contentTitle": "Agent 模板",
-      "contentSlogan": "组件能力可以直接验证",
-      "contentResult": "平台入口、复制与下载动作由真实浏览器能力决定。",
-      "modalTitle": "分享组件预览",
-      "modalDescription": "业务只提供内容和海报，公共层负责动作、能力探测与反馈。",
-      "posterEyebrow": "公共能力 · 已接线"
-    },
-    "footer": "组件展示页只用于验证公共能力，不承载具体业务流程。"
   },
   "auth": {
     "close": "关闭",
@@ -791,6 +164,154 @@
     "actions": {
       "reload": "重新加载",
       "home": "返回首页"
+    }
+  },
+  "bookmarks": {
+    "resumeDraft": "返回填写内容",
+    "heading": "资源收藏夹",
+    "add": "添加收藏",
+    "edit": "编辑收藏",
+    "delete": "删除收藏",
+    "close": "关闭",
+    "cancel": "取消",
+    "save": "保存收藏",
+    "saveChanges": "保存修改",
+    "saving": "保存中…",
+    "saved": "操作已完成。",
+    "savedStale": "操作已完成，列表未更新。重新加载可查看最新结果。",
+    "unknown": "连接中断，暂时无法确认结果，请勿重复提交。",
+    "resolve": "查看最新结果",
+    "addDescription": "先保存下来，分组和备注可以稍后补充。",
+    "editDescription": "修改不会改变其他收藏。取消后保留原内容。",
+    "titleField": "标题",
+    "urlField": "链接",
+    "groupField": "分组",
+    "noteField": "备注",
+    "titleHint": "1–80 个字符",
+    "urlHint": "完整 HTTP 或 HTTPS 地址，最多 2,048 个字符",
+    "noteHint": "可选，最多 500 个字符",
+    "groupHint": "可选，默认归入“未分组”",
+    "all": "全部收藏",
+    "ungrouped": "未分组",
+    "groupsLabel": "收藏分组",
+    "resultsLabel": "收藏结果",
+    "total": "{{count}} 条",
+    "searchLabel": "搜索收藏",
+    "searchPlaceholder": "搜索标题或链接",
+    "search": "搜索",
+    "clearSearch": "清空关键词",
+    "viewNote": "查看 {{title}} 的备注",
+    "openLink": "在新标签页打开 {{title}}",
+    "moreActions": "{{title}} 的更多操作",
+    "open": "打开链接",
+    "noteDescription": "已保存的备注，仅供查看。",
+    "noNote": "暂无备注",
+    "deleteTitle": "删除这条收藏？",
+    "deleteDescription": "删除后无法恢复。",
+    "deleteGroupKept": "所属分组仍然保留。",
+    "emptyFirst": "还没有收藏",
+    "emptyGroup": "这个分组暂无收藏",
+    "emptySearch": "没有匹配的收藏",
+    "emptyDescription": "保存第一条资料，之后随时找回。",
+    "emptySearchDescription": "试试其他关键词，或清空当前搜索。",
+    "loading": "正在加载收藏…",
+    "loadFailed": "未能加载收藏，请检查网络后重试。",
+    "refreshFailed": "列表未能更新，仍显示之前加载的收藏。",
+    "reload": "重新加载",
+    "pageStatus": "第 {{page}} / {{pages}} 页 · {{count}} 条",
+    "previous": "上一页",
+    "next": "下一页",
+    "loginRequired": "登录后可保存和查找个人收藏。",
+    "errors": {
+      "characters": "内容包含无法保存的空字符，请删除该字符后重试。",
+      "title": "请输入 1–80 个字符的标题。",
+      "url": "请输入完整的 HTTP 或 HTTPS 地址，最多 2,048 个字符。",
+      "note": "备注最多 500 个字符。",
+      "group": "分组已不可用，请选择其他分组。",
+      "generic": "操作未完成，已保留输入，请检查后重试。",
+      "unavailable": "收藏或分组已不可用，请查看最新列表。",
+      "keyConflict": "无法重复此提交，请查看最新结果。",
+      "notExecuted": "操作未完成，已保留输入，可以再次提交。",
+      "groupName": "请输入 1–30 个字符的分组名称。",
+      "reservedGroup": "不能使用“全部”或“未分组”作为分组名称。",
+      "groupDuplicate": "已存在同名分组，请换一个名称。",
+      "groupCountChanged": "分组内收藏数量已变化，请刷新影响后再次确认。",
+      "moveUnavailable": "收藏或目标分组已不可用，请检查最新内容后再试。"
+    },
+    "createGroup": "新建分组",
+    "renameGroup": "重命名分组",
+    "deleteGroup": "删除分组",
+    "groupName": "分组名称",
+    "groupNameHint": "1–30 个字符；不能使用“全部”或“未分组”",
+    "createGroupDescription": "创建一级分组，稍后可以移入收藏。",
+    "renameGroupDescription": "仅修改名称，收藏归属和排列顺序不会改变。",
+    "saveGroupName": "保存名称",
+    "manageGroups": "管理分组",
+    "groupActions": "分组 {{name}} 的操作",
+    "selectGroupToManage": "选择自定义分组后，可以改名或删除。",
+    "deleteGroupTitle": "删除“{{name}}”？",
+    "deleteGroupDescription": "只删除分组，收藏会保留。",
+    "deleteGroupImpact": "其中 {{count}} 条收藏将全部转入“未分组”。收藏总数不变，最近更新时间会更新。",
+    "refreshGroupImpact": "刷新删除影响",
+    "confirmLatestImpact": "已显示最新影响，请检查后再次确认。",
+    "impactRefreshFailed": "未能刷新删除影响，请重试后再确认。",
+    "resumeGroupDeletion": "返回删除确认",
+    "selectPage": "选择当前页 {{count}} 条",
+    "selectBookmark": "选择 {{title}}",
+    "selectedCount": "已选 {{count}} 条 · 仅当前页",
+    "moveTarget": "移入分组",
+    "unavailableGroup": "分组已不可用",
+    "batchControls": "批量移动收藏",
+    "moveSelected": "移动所选",
+    "moveCount": "移动 {{count}} 条收藏",
+    "cancelSelection": "取消选择",
+    "selectionRefreshFailed": "移动未完成，未能更新有效选择。请重新加载后再试。",
+    "welcome": {
+      "position": "你的个人资源收藏夹",
+      "titleLead": "让好资料，",
+      "titleEnd": "下次找得到。",
+      "description": "保存网页链接，按分组整理，用关键词找回。",
+      "login": "登录，开始收藏",
+      "private": "收藏仅自己可见",
+      "exampleLabel": "功能示例",
+      "staticLabel": "功能示例 · 静态展示",
+      "exampleTitle": "资料有序，随时找回",
+      "findHint": "记得一点关键词，就能找回资料。",
+      "groups": {
+        "learning": "学习资料",
+        "tools": "开发工具",
+        "payment": "支付调研"
+      },
+      "examples": {
+        "react": {
+          "title": "React 官方文档",
+          "description": "常用知识，留在手边。"
+        },
+        "tools": {
+          "title": "开发工具清单",
+          "description": "给好用的工具留一个位置。"
+        }
+      },
+      "uses": {
+        "save": {
+          "title": "及时保存",
+          "description": "标题和链接即可保存，备注记录收藏原因。",
+          "mobileTitle": "保存",
+          "mobileDescription": "把值得再看的网页链接留下来"
+        },
+        "organize": {
+          "title": "轻松整理",
+          "description": "按用途分组，让散落的资料各归其位。",
+          "mobileTitle": "分组",
+          "mobileDescription": "按主题整理，资料各有归处"
+        },
+        "find": {
+          "title": "方便找回",
+          "description": "用标题或链接关键词，快速找到需要的资料。",
+          "mobileTitle": "查找",
+          "mobileDescription": "用关键词找回标题和链接"
+        }
+      }
     }
   }
 }

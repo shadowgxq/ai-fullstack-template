@@ -221,8 +221,8 @@
       "sha256": "b74cedf2ee37efd390c7bc02fe1e2801da9cf08bcb9cc570ffa86c6f3cb93d2e"
     },
     "src/features/auth/ui/AuthForm/AuthForm.tsx": {
-      "reason": "Backend auth contract/capabilities and regression",
-      "sha256": "bd764be89fda866361cbb8c7a2f82f026a118ec8d118771ac12f593178aaad2f"
+      "reason": "Authentication presentation follows enabled backend capabilities; a single method has a centered title and multiple methods retain the template switcher.",
+      "sha256": "74b1c569762269baa3a94eff7bdc048c186fedc5496d393449bfaefc78b633d6"
     },
     "src/shared/api/requestClient.ts": {
       "reason": "Monorepo integration: proxy, error envelope, metadata or container",
@@ -233,16 +233,16 @@
       "sha256": "459d5d63943fc771d3a3ad438d7fddae5d970f7716c45f8fabf0c161fd66f9cd"
     },
     "src/shared/i18n/locales/zh.json": {
-      "reason": "Backend auth contract/capabilities and regression",
-      "sha256": "2f8de0984c1c7d312076ddf325b9d6074731abf234cba3726d32b03017129785"
+      "reason": "REQ-BOOKMARKS-001：收藏入口、导航、会话边界和多语言直接消费者",
+      "sha256": "9bd7e4244bf828e00a6a383e6ee6f6868adf6b9f3dabdcb5635af0333eaac7a3"
     },
     "src/shared/i18n/locales/en.json": {
-      "reason": "Backend auth contract/capabilities and regression",
-      "sha256": "ffc5b399cef5a6587dcdea2af764e8c9f093c74b2809637a41e9c8d0dfd1b269"
+      "reason": "REQ-BOOKMARKS-001：收藏入口、导航、会话边界和多语言直接消费者",
+      "sha256": "a4fc01181a1f293d185d086e55f5d07a4c694a1c6a93d5f48b8da1b382992112"
     },
     "src/widgets/app-header/AppHeader.tsx": {
-      "reason": "Backend auth contract/capabilities and regression",
-      "sha256": "58808f0324f9b6ead9c8b8b7bfb10e0dc16080d8e9a53cb752dbb7ba93f042c8"
+      "reason": "REQ-BOOKMARKS-001：收藏入口、导航、会话边界和多语言直接消费者",
+      "sha256": "33143d9c8a26ef56bdb836a1f5ee4994b19f89ab322ff95fcadeb81c62804b61"
     },
     "src/widgets/app-header/AccountMenu.tsx": {
       "reason": "Backend auth contract/capabilities and regression",
@@ -295,6 +295,18 @@
     "src/shared/api/api-error.test.ts": {
       "reason": "Fullstack authentication integration regression coverage and actual backend boundary.",
       "sha256": "82cdd05dd730d5518f3cb873fda2c7937ca8eea6f19bf8c8b8329f7dbb957789"
+    },
+    "src/app/router/routes.tsx": {
+      "reason": "REQ-BOOKMARKS-001：收藏入口、导航、会话边界和多语言直接消费者",
+      "sha256": "cec6c73a4c60600007ac9cb00779659d688df6e7f4ccb72d2a735ada1250348e"
+    },
+    "src/features/auth/model/auth.store.ts": {
+      "reason": "REQ-BOOKMARKS-001：收藏入口、导航、会话边界和多语言直接消费者",
+      "sha256": "b01ffad438754faac39d6483e32cc1f386bfbd8ee4ca833a1d0da29473677c70"
+    },
+    "src/features/auth/ui/LoginModal/LoginModal.tsx": {
+      "reason": "Authentication presentation follows enabled backend capabilities; a single method has a centered title and multiple methods retain the template switcher.",
+      "sha256": "c6df3ed67740067e1264b2c5d5dc7aea67d75c2af2a57022a64043ab2c8742bd"
     }
   },
   "added_integration_files": [
@@ -306,6 +318,39 @@
     "src/features/auth/ui/AuthForm/AuthForm.test.tsx",
     "src/features/auth/model/auth.mutations.test.tsx",
     "src/features/auth/model/auth.validation.test.ts",
-    "src/shared/api/requestClient.test.ts"
+    "src/shared/api/requestClient.test.ts",
+    "src/features/bookmarks/index.ts",
+    "src/features/bookmarks/model/bookmarks.api.test.ts",
+    "src/features/bookmarks/model/bookmarks.api.ts",
+    "src/features/bookmarks/model/bookmarks.operations.test.tsx",
+    "src/features/bookmarks/model/bookmarks.operations.ts",
+    "src/features/bookmarks/model/bookmarks.queries.ts",
+    "src/features/bookmarks/model/bookmarks.types.ts",
+    "src/features/bookmarks/model/bookmarks.validation.test.ts",
+    "src/features/bookmarks/model/bookmarks.validation.ts",
+    "src/features/bookmarks/ui/BookmarkForm/BookmarkForm.tsx",
+    "src/features/bookmarks/ui/BookmarkForm/index.ts",
+    "src/features/bookmarks/ui/BookmarkList/BookmarkList.tsx",
+    "src/features/bookmarks/ui/BookmarkList/index.ts",
+    "src/features/bookmarks/ui/BookmarkSearch/BookmarkSearch.tsx",
+    "src/features/bookmarks/ui/BookmarkSearch/index.ts",
+    "src/features/bookmarks/ui/BookmarksWorkspace/BookmarksWorkspace.test.tsx",
+    "src/features/bookmarks/ui/BookmarksWorkspace/BookmarksWorkspace.tsx",
+    "src/features/bookmarks/ui/BookmarksWorkspace/index.ts",
+    "src/pages/bookmarks/BookmarksPage.test.tsx",
+    "src/pages/bookmarks/BookmarksPage.tsx",
+    "src/features/bookmarks/model/bookmarks.constants.ts",
+    "src/features/bookmarks/ui/BookmarksWorkspace/BookmarksGroups.test.tsx",
+    "src/features/bookmarks/ui/DeleteConfirmation/DeleteConfirmation.tsx",
+    "src/features/bookmarks/ui/DeleteConfirmation/index.ts",
+    "src/features/bookmarks/ui/GroupForm/GroupForm.tsx",
+    "src/features/bookmarks/ui/GroupForm/index.ts",
+    "src/features/bookmarks/ui/GroupMenu/GroupMenu.tsx",
+    "src/features/bookmarks/ui/GroupMenu/index.ts",
+    "src/features/bookmarks/ui/BatchToolbar/BatchToolbar.tsx",
+    "src/features/bookmarks/ui/BookmarksWorkspace/BookmarksBatch.test.tsx",
+    "src/features/bookmarks/ui/PageCheckbox/PageCheckbox.tsx",
+    "src/features/auth/ui/AuthForm/AuthForm.demo.test.tsx",
+    "src/features/auth/ui/LoginModal/LoginModal.test.tsx"
   ]
 }

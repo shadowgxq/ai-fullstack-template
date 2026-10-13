@@ -17,22 +17,26 @@
 
 通用动作由全局安装、同一来源的 `ui-ux-delivery`、`pencil-design`、`design-to-code`、`design-qa` 与 `DESIGN-WORKFLOW.md` 维护；本目录不保存执行 Skill 或项目绑定副本。全局来源与读取入口见 [工具入口](../engineering/workflow/tooling.md#安装与唯一机制)。
 
-复制模板后沿用、清理指定示例或更换视觉体系，统一按 [视觉初始化](../engineering/frontend/guides/project-bootstrap.md#复制模板后的视觉初始化) 处理；本页登记当前资产，不把模板示例当作使用方业务的已批准设计。
+复制模板后清理模板展示内容、指定设计资产或更换视觉体系，统一按 [项目初始化](../engineering/frontend/guides/project-bootstrap.md#复制模板后的项目初始化) 处理；本页登记当前资产，不把模板示例当作使用方业务的已批准设计。
 
 ## 资产登记
+
+需求级设计任务与交接见 [个人资源收藏夹](bookmarks-design.md)；代表页风格已接受，桌面、手机与必要状态设计已交付。
 
 深浅主题的主组件、页面展示与检查按 [主题表达约定](design-handoff.md#深浅主题的设计表达) 维护。下列现有 Light / Dark 展示或预览用于定位，不是要求每个新增组件和页面都成对产出的模板。
 
 | 资产 | 用途 |
 |---|---|
 | [design-system/core.lib.pen](design-system/core.lib.pen) | 公共设计库；Signal Teal 的 74 个设计变量、已准入控件及必要用法与状态示例，按维护单元独立定位 |
-| `design-system/previews/`、`previews/` | 公共库导出图与已有业务预览；各自的 `dark/` 子目录是同一 Frame 切换主题后的预览，不是另一份可编辑源；业务预览当前无对应消费稿 |
+| `design-system/previews/` | 公共库导出图；`dark/` 子目录是同一 Frame 切换主题后的预览，不是另一份可编辑源 |
+| [bookmarks.pen](bookmarks.pen) | 收藏夹业务消费稿；桌面、手机、表单、管理确认及必要状态，正式引用公共库 |
+| `previews/bookmarks/` | 收藏夹设计预览；`dark/` 为同一结构的深色导出 |
 
-当前可编辑设计文件为公共库，提供 Tokens、基础 UI 与通过 [公共准入](../engineering/frontend/components/components.md#公共层准入) 的通用交互组件。当前没有业务消费稿；已有业务预览不作为可编辑设计源，后续业务设计按对应需求建立并登记。
+公共库提供 Tokens、基础 UI 与通过 [公共准入](../engineering/frontend/components/components.md#公共层准入) 的通用交互组件；收藏夹消费稿的范围与检查记录见对应需求级设计交付。
 
 公共库不依赖消费稿的变量或主组件；业务主组件应在消费稿内复用，并引用公共控件和变量。设计主组件数量不决定 React 组件数量，feature/widget 的公开出口也不等于公共设计系统成员。当前归属、节点与代码边界见 [组件清单](../engineering/frontend/components/component-inventory.md#归属与复用边界)。
 
-公共稿展示组件契约和必要用法，业务稿展示真实功能与页面。示例容器不自动成为主组件；业务稿不再维护一套完整的公共控件规范目录。组件目录页的“基础 / 高级”分类是页面导航，不是设计归属规则。
+公共稿展示组件契约和必要用法，业务稿展示真实功能与页面。示例容器不自动成为主组件；业务稿不再维护一套完整的公共控件规范目录。公共库示例不作为业务导航或页面。
 
 组件规范区与业务页面默认保留 Light 主稿，Dark 预览使用同一 Frame ID 导出到对应 `previews/dark/`。公共颜色配对板及 `ywtIg` 关键状态板保留同源双主题对照，集中表达操作、焦点、校验、选中和透明遮罩。预览随受影响主稿同步，两主题渲染与运行时验证的边界按交付约定记录。
 

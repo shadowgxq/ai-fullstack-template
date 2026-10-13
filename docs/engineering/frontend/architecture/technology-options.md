@@ -23,9 +23,9 @@
 src/
   main.tsx
   app/                  # App、providers、router、error
-  pages/                # home、theme、components/componentCatalog.ts、login
+  pages/                # bookmarks、login
   widgets/              # app-header、app-shell
-  features/             # auth（本项目 gateway）、share
+  features/             # auth（本项目 gateway）、bookmarks、share
   shared/               # api/config/theme/i18n/icons/styles/testing/ui/utils
                         # analytics/identity/translation/motion
 ```
@@ -42,12 +42,12 @@ API 事实、错误和授权由 backend 决定；客户端泛型不是运行时�
 
 通用设计变量、公共控件和现有模板能力示例在 [设计资产](../../../design/README.md#资产登记) 登记；示例不是使用方业务需求，也不证明应用与设计已验收。
 
-基础/主题/组件展示页、通用账号 UI 和分享能力属于模板。参考库 PricePilot、独立业务 HTML、独立文档/Agent 配置未纳入。具体实体、业务导航、报告与 Agent workflow 进入使用方需求，不通过同步模板自动新增。
+概览、基础、主题与组件展示页已移除；认证、公共账号 UI、主题/语言机制和分享能力保留。收藏夹是当前业务首页，顶栏只保留应用标题、设置和账号。参考库 PricePilot、独立业务 HTML、独立文档/Agent 配置未纳入。具体实体、业务导航、报告与 Agent workflow 进入使用方需求，不通过同步模板自动新增。
 
 当前前后端认证可以联调；AI Runtime 仍单独提供确定性工作流，不把三端启动等同于真实 AI 产品交付。部署约束见 [全栈架构](../../../architecture/README.md)，命令见 [frontend README](../../../../frontend/README.md)。
 
 ## 路由与宿主
 
-各页面按真实实现组合 AppShell，后者装配 AppHeader、页脚策略与认证浮层；app 只装配 Provider/Router，不自动为每个路由包第二层壳。`/login` 重定向到首页，未认证时打开 LoginModal；不把它描述为独立登录页面。
+各页面按真实实现组合 AppShell，后者装配 AppHeader、页脚策略与认证浮层；app 只装配 Provider/Router，不自动为每个路由包第二层壳。`/` 重定向到 `/bookmarks`；`/login` 重定向到首页，未认证时打开 LoginModal，收藏夹内登录保留筛选深链；不把它描述为独立登录页面。
 
 AppHeader 的桌面高度来自自身 `h-[60px]` / `min-h-[60px]`，窄屏按源码自适应；不能用未消费的 `--header-height` 推导当前尺寸。内容容器由各页维护，没有统一 `.page-container` 工具类。导航、账户和浮层行为核对 widget/feature 的实际公开 API，系统/浏览器 chrome 不属于页面。

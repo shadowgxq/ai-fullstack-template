@@ -15,10 +15,7 @@ export function AppShell({ children, hideFooter = false }: AppShellProps) {
   const { t } = useTranslation();
   const location = useLocation();
   const shellRef = useRef<HTMLDivElement>(null);
-  const showFooter =
-    !hideFooter &&
-    !['/foundation', '/theme'].includes(location.pathname) &&
-    !location.pathname.startsWith('/components');
+  const showFooter = !hideFooter;
 
   useApplePageMotion(shellRef, location.pathname);
 

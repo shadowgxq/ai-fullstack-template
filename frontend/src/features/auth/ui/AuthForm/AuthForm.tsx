@@ -423,7 +423,6 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
 
   /** 登录方式之间是平级关系，用 tab 表达；注册与找回是派生流程，不进 tab。 */
   const tabs = (
-    // 弹窗顶部为关闭按钮保留独立的 Header 空间，切换按钮保持完整宽度。
     <div className="pt-[var(--space-6)]">
       <Tabs
         value={mode === 'code' || mode === 'password' ? mode : 'code'}
@@ -686,7 +685,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
 
   return (
     <div className={cn('flex flex-col gap-[var(--content-gap)]', className)}>
-      {mode === 'code' || mode === 'password' ? tabs : null}
+      {LOGIN_MODES.length > 1 && (mode === 'code' || mode === 'password') ? tabs : null}
       {renderForm()}
       {googleBlock}
       {links}

@@ -35,4 +35,4 @@ React 文案使用 `useTranslation().t()`，切换语言使用 `useLocale()`；�
 
 只能在明确的项目基线变更中执行：先清点 AppShell、主题页、组件示例及错误页的消费者，再处理 store、Provider、首帧脚本、资源、依赖和测试。仅删除演示页面不能顺带删除公共组件或主题基座。对应规则和 README 同步更新，不另留一套旧接线说明。
 
-当前默认语言为 `en`；ThemePage 与 SettingsMenu 均可切换明暗，语言在 SettingsMenu。内置 i18n 不调用远端翻译；shared/translation 是独立可选 adapter。布局声明不代表所有组件都在消费，顶栏的实际尺寸来源见 [路由与宿主](../architecture/technology-options.md#路由与宿主)。
+当前默认语言为 `en`；明暗与语言均在 SettingsMenu 切换。内置 i18n 不调用远端翻译；shared/translation 是独立可选 adapter。布局声明不代表所有组件都在消费，顶栏的实际尺寸来源见 [路由与宿主](../architecture/technology-options.md#路由与宿主)。

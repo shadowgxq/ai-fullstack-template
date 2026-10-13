@@ -10,14 +10,16 @@ from app.core.base import Base
 
 # 导入所有模型，使其注册到 Base.metadata，alembic autogenerate 才能发现。
 # 新增业务模型后，在此追加一行 import。
-from app.models.user import User  # noqa: F401
+import app.models  # noqa: F401
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 
 # Override sqlalchemy.url from app settings
-config.set_main_option("sqlalchemy.url", settings.database_url)
+# ConfigParser interpolates percent signs; encoded URL query/password bytes
+# must reach SQLAlchemy unchanged.
+config.set_main_option("sqlalchemy.url", settings.database_url.replace("%", "%%"))
 
 # Interpret the config file for Python logging.
 if config.config_file_name is not None:

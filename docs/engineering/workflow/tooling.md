@@ -25,7 +25,7 @@ openspec --version
 
 ## 项目初始化入口
 
-[project-init](../../../.agents/skills/project-init/SKILL.md) 是随本项目维护的轻量入口，只读取 [视觉初始化规范](../frontend/guides/project-bootstrap.md#复制模板后的视觉初始化) 并按范围执行，不是全局设计 Skill 的副本，也不参与普通需求的自动调度。
+[project-init](../../../.agents/skills/project-init/SKILL.md) 是随本项目维护的轻量入口，按 [项目初始化规范](../frontend/guides/project-bootstrap.md#复制模板后的项目初始化) 执行模板产品化清理或视觉重建，并按影响读取必要规范；不是全局设计 Skill 的副本，也不参与普通需求的自动调度。
 
 在 Codex 中使用 `$project-init` 显式调用；其 `agents/openai.yaml` 设置 `policy.allow_implicit_invocation: false`，不依赖描述文字阻止自动匹配。机制见 [官方 Skill 元数据](https://developers.openai.com/codex/skills/)。复制时保留 `.agents` 目录；入口未被客户端发现时先检查项目路径并重新加载，再核对可用性，不宣称仅写入文件就已加载。
 

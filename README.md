@@ -12,14 +12,15 @@
 
 模板提供前后端工程基座；AI 默认只运行 `echo.v1` 确定性 workflow，没有真实模型或付费请求。使用方的产品需求从 [产品入口](docs/product/README.md) 建立，不继承模板维护记录或演示业务 PRD。
 
-## 复制模板后的视觉初始化
+## 复制模板后的项目初始化
 
-默认沿用模板设计基线；需要清理或更换视觉体系时，在 Codex 中显式调用项目级 [project-init](.agents/skills/project-init/SKILL.md)。范围与执行规则见 [初始化指南](docs/engineering/frontend/guides/project-bootstrap.md#复制模板后的视觉初始化)，不自动同步上游代码。
+默认沿用模板设计基线；需要清理模板展示内容、收敛为业务项目或更换视觉体系时，在 Codex 中显式调用项目级 [project-init](.agents/skills/project-init/SKILL.md)。范围与执行规则见 [初始化指南](docs/engineering/frontend/guides/project-bootstrap.md#复制模板后的项目初始化)，不自动同步上游代码。
 
 调用示例（输入给 Agent，不是 Shell 命令）：
 
 ```text
 $project-init
+$project-init cleanup
 $project-init 仅清理未使用的模板业务设计示例和失效预览，保留现有可运行样式。
 $project-init 不沿用模板视觉风格，按提供的新视觉方向重建设计体系，保留功能与技术架构。
 ```

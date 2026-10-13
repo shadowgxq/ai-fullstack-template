@@ -21,3 +21,6 @@ manager/runtime/tmp/
 .tools/
 .browser-artifacts/
 manager/runtime/evidence/browser/
+
+# Local design source snapshots and implementation evidence.
+.design-cache/
