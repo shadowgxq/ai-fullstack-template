@@ -221,8 +221,8 @@
       "sha256": "b74cedf2ee37efd390c7bc02fe1e2801da9cf08bcb9cc570ffa86c6f3cb93d2e"
     },
     "src/features/auth/ui/AuthForm/AuthForm.tsx": {
-      "reason": "Authentication presentation follows enabled backend capabilities; a single login method has no tabs and the dialog title stays visible.",
-      "sha256": "34ac315c84de702ace32f52846f54a62dcb4f1fdf75f1baac3b97b60a742f521"
+      "reason": "Authentication presentation follows enabled backend capabilities; a single method has a centered title and multiple methods retain the template switcher.",
+      "sha256": "74b1c569762269baa3a94eff7bdc048c186fedc5496d393449bfaefc78b633d6"
     },
     "src/shared/api/requestClient.ts": {
       "reason": "Monorepo integration: proxy, error envelope, metadata or container",
@@ -297,8 +297,8 @@
       "sha256": "82cdd05dd730d5518f3cb873fda2c7937ca8eea6f19bf8c8b8329f7dbb957789"
     },
     "src/features/auth/ui/LoginModal/LoginModal.tsx": {
-      "reason": "Authentication presentation follows enabled backend capabilities; a single login method has no tabs and the dialog title stays visible.",
-      "sha256": "6af01bf91c981d8dcff06ba118661cbb10e6652f5db24a0e8b69d589d9390347"
+      "reason": "Authentication presentation follows enabled backend capabilities; a single method has a centered title and multiple methods retain the template switcher.",
+      "sha256": "c6df3ed67740067e1264b2c5d5dc7aea67d75c2af2a57022a64043ab2c8742bd"
     }
   },
   "added_integration_files": [

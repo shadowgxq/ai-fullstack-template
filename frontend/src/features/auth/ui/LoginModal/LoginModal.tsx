@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import { Dialog, DialogBody, DialogContent, DialogHeader, DialogTitle } from '@/shared/ui/dialog';
+import { authCapabilities } from '../../model/auth.capabilities';
 import { useLoginModal } from '../../model/login-modal.store';
 import { AuthForm } from '../AuthForm';
 
@@ -26,7 +27,8 @@ export function LoginModal() {
         closeLabel={t('auth.close')}
         className="max-h-[calc(100dvh-var(--space-8))] overflow-y-auto"
       >
-        <DialogHeader className="pr-[var(--space-6)]">
+        {/* 多方式沿用模板的切换栏；单方式用居中标题，不提供无意义的切换。 */}
+        <DialogHeader className={authCapabilities.emailCode ? 'sr-only' : 'text-center'}>
           <DialogTitle>{t('auth.login')}</DialogTitle>
         </DialogHeader>
 

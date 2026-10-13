@@ -517,7 +517,13 @@
                           "enabled": true,
                           "width": "fill_container",
                           "lineHeight": "$A:large-text-leading",
-                          "content": "登录"
+                          "content": "登录",
+                          "textAlign": "center"
+                        },
+                        "A:scXtI": {
+                          "layoutPosition": "absolute",
+                          "x": 420,
+                          "y": -4
                         },
                         "A:fxhvO": {
                           "enabled": false,
