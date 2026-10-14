@@ -22,5 +22,11 @@ manager/runtime/tmp/
 .browser-artifacts/
 manager/runtime/evidence/browser/
 
+# Acceptance run evidence, browser credentials and generated reports stay local.
+qa/**/runs/
+**/playwright/.auth/
+**/playwright-report/
+**/test-results/
+
 # Local design source snapshots and implementation evidence.
 .design-cache/

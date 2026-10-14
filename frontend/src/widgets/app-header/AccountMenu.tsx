@@ -34,7 +34,7 @@ export function AccountMenu({
       <DropdownMenuTrigger asChild>
         <button
           type="button"
-          className="group text-muted-foreground hover:bg-secondary hover:text-foreground data-[state=open]:bg-secondary data-[state=open]:text-foreground focus-visible:ring-ring inline-flex min-h-10 items-center gap-[7px] rounded-md border border-transparent bg-transparent px-2 py-0 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none"
+          className="group text-muted-foreground hover:bg-secondary hover:text-foreground data-[state=open]:bg-secondary data-[state=open]:text-foreground focus-visible:ring-ring inline-flex min-h-10 items-center gap-[7px] rounded-md border border-transparent bg-transparent px-2 py-0 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none max-md:min-h-[var(--control-hit-size)]"
           aria-label={displayName}
           title={displayName}
         >
@@ -77,7 +77,7 @@ export function AccountMenu({
         <div className="grid gap-0.5 pt-1.5">
           {authCapabilities.changePassword ? (
             <DropdownMenuItem
-              className="min-h-[38px] w-full cursor-pointer gap-[9px] rounded-sm px-2 py-0 text-left text-sm hover:bg-accent focus:bg-accent"
+              className="min-h-[38px] w-full cursor-pointer gap-[9px] rounded-sm px-2 py-0 text-left text-sm hover:bg-accent focus:bg-accent max-md:min-h-[var(--control-hit-size)]"
               onSelect={openChangePassword}
             >
               <KeyRound size={16} aria-hidden="true" />
@@ -90,7 +90,7 @@ export function AccountMenu({
           <DropdownMenuItem
             variant="destructive"
             disabled={logoutPending}
-            className="min-h-[38px] w-full cursor-pointer gap-[9px] rounded-sm px-2 py-0 text-left text-sm hover:bg-destructive/10 focus:bg-destructive/10"
+            className="min-h-[38px] w-full cursor-pointer gap-[9px] rounded-sm px-2 py-0 text-left text-sm hover:bg-destructive/10 focus:bg-destructive/10 max-md:min-h-[var(--control-hit-size)]"
             onSelect={onLogout}
           >
             <LogOut size={16} aria-hidden="true" />

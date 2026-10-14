@@ -11,3 +11,11 @@
 - 来源证据 `/home/gxq/.cache/codex-bookmarks-design/m2-headless/binding-evidence.json` 与同目录 `source-evidence.json`：七个 saved-file stream CAS v1，最终 contextHash `ec4260539296bec44d35e5f7d06993088fa47df08af6b5fb4533b389d5f70c55`，implementationStable=true；14 pins 已释放，activePins=0。公共库身份修正为实际 `docs/design/design-system/core.lib.pen`，使用新 fingerprint，不假称旧 editor 绑定有效。
 - 阶段集成复用本阶段真实 Bearer HTTP+PG 生命周期及联合筛选/恢复组件测试；稳定修复经独立复查，无未完成代码阻塞，释放 M3。
 - 未修改 Pen、启动 dev/build 或运行浏览器，人工产品验收仍在最终位置。
+
+## 2026-10-14 验收反馈修复
+
+- 用户授权处理当前失败项；本Change涉及F-001/F-003：复用公共按钮、名称字段及确认窗口的尺寸/焦点修复。只调整既有Token和控件样式，不改变业务/契约或重绘Pen。修复1轮；原验收失败与截图保留在本地QA run `20261014-101205-67c8a9/before-repair/`。
+- typecheck、定向ESLint（0 warnings）、Prettier通过；收藏/认证/顶栏8个测试文件61项通过。独立只读Reviewer `/root/acceptance_ui_fix_review` 对8个生产文件及最终暗色Token定向复查无阻塞发现。
+- 仅重建并更新已授权本地frontend容器，镜像 `sha256:0e2649f17adaa71d6c32435cd07ad9bec2016fe057f9ae2fbb71b9e1e00b3f9b`；backend/PostgreSQL/Redis容器ID不变。Playwright真实复验TC-029的8组手机流程和TC-032通过；实测按钮/字段/顶栏命中44px，暗色选择器边界3.231:1，错误焦点Light/Dark 5.126/6.483:1。
+- 本轮完整Playwright执行29通过、1次导航load超时、3个必需PG用例阻塞；超时TC-027按预算同版本定向复测1次通过，未修改其代码/预期。当前累计30用例通过、4阻塞（含Chrome真实200%缩放/文字放大）；不是整体产品通过。精确命令、当前源码摘要与清理见本地QA run的report/state及repair-1-version/proof。
+- 后端代码未变；本次未重跑缺连接的PG门禁，不把历史PG记录冒充本轮通过。代码修复已复验，human_acceptance仍pending；未提交、推送或归档。

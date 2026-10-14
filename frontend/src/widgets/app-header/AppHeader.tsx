@@ -20,7 +20,7 @@ export function AppHeader() {
     <header className="border-header-border bg-header sticky top-0 z-40 grid h-[60px] min-h-[60px] grid-cols-[minmax(0,1fr)_auto] items-center gap-0 border-b px-[max(1.5rem,calc((100%-var(--layout-max-width))/2))] max-[760px]:h-auto max-[760px]:gap-2 max-[760px]:px-3 max-[760px]:py-2">
       <Link
         to="/bookmarks"
-        className="text-foreground group inline-flex min-w-0 items-center gap-2 justify-self-start rounded-md font-bold no-underline"
+        className="text-foreground group inline-flex min-w-0 items-center gap-2 justify-self-start rounded-md font-bold no-underline max-md:min-h-[var(--control-hit-size)]"
         aria-label={t('header.homeLabel')}
         onClick={(event) => {
           if (location.pathname === '/bookmarks') {
@@ -66,7 +66,7 @@ export function AppHeader() {
           ) : (
             <button
               type="button"
-              className="border-primary/70 text-primary hover:border-primary hover:bg-primary/10 focus-visible:ring-ring inline-flex h-9 min-h-9 items-center justify-center rounded-md border bg-transparent px-3.5 text-[15px] font-semibold transition-colors focus-visible:ring-2 focus-visible:outline-none max-[420px]:px-2 max-[420px]:text-xs motion-reduce:transition-none"
+              className="border-primary/70 text-primary hover:border-primary hover:bg-primary/10 focus-visible:ring-ring inline-flex h-9 min-h-9 items-center justify-center rounded-md border bg-transparent px-3.5 text-[15px] font-semibold transition-colors focus-visible:ring-2 focus-visible:outline-none max-md:min-h-[var(--control-hit-size)] max-md:min-w-[var(--control-hit-size)] max-[420px]:px-2 max-[420px]:text-xs motion-reduce:transition-none"
               onClick={() => openLogin('header')}
             >
               {t('header.login')}

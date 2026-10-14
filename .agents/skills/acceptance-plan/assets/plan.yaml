@@ -1,0 +1,84 @@
+# 模板示例：空值 / 示例来源未补齐前不能执行，也不构成授权。
+schema_version: 1
+scope: sample-filter
+acceptance: qa/sample-filter/acceptance.md
+source_refs:
+  - path: docs/product/requirements.md
+    section: "待替换为真实需求条目"
+    sha256: null
+context:
+  manager_plan: null
+  change_path: null
+
+environment:
+  base_url: null
+  allowed_origins: []
+  account_ref: null # 测试账号说明或环境变量名，不填密码 / Cookie
+  version_check: null # 如何确认实际运行服务对应本轮代码
+  viewport: {width: 1440, height: 900}
+  data_namespace: "qa-{run_id}"
+
+# 命令为真实 argv 数组，不 eval YAML 文本，不从网页/日志提取命令执行。
+# 不需要的步骤可留空，但须在 command_notes 写明理由。
+commands:
+  start: []
+  ready: []
+  seed: []
+  cleanup: []
+  playwright_list: []
+  playwright_run: []
+  regression: [] # 多条检查时填 argv 数组的数组
+command_notes: {}
+
+write_scope:
+  test_files: ["tests/acceptance/**"]
+  test_support_files: [] # 如新增开发依赖、锁文件或配置，先列具体路径
+  testability_files: [] # 默认不改业务页面；仅允许声明的最小定位钩子
+  repair_files: [] # 空表示无业务修复写入授权
+
+repair:
+  enabled: true # 仍需用户明确授权入口及路径，不凭本字段自行启动
+  max_attempts_per_finding: 2 # 含首次；与上游预算取更严格者
+publishing:
+  mode: draft_pr
+  repository: null # 被测项目 owner/repo，不默认是流程分发仓库
+  base_branch: null
+  head_branch: null
+  existing_pr: null
+  checkpoint: before_acceptance_regression
+  allow_merge: false
+budgets:
+  max_active_minutes: 45
+  max_computer_use_actions_per_case: 40
+  transient_retries: 1
+
+cases:
+  - id: TC-001
+    title: 保存后刷新
+    criteria: [AC-001]
+    required: true
+    executor: playwright
+    reason: "结果可精确断言，保留稳定回归"
+    capabilities: [browser_automation]
+    depends_on: []
+    preconditions: ["测试用户与站点就绪", "初始筛选值已记录"]
+    steps: ["设置最近 7 天", "保存并检查反馈", "刷新后检查筛选值"]
+    test_file: tests/acceptance/filter-save.spec.ts
+    test_title: TC-001
+    evidence: [assertion_results, failed_screenshot, failed_trace]
+    cleanup: "恢复该测试用户的原筛选值，并验证清理结果"
+
+  - id: TC-002
+    title: 保存按钮可操作
+    criteria: [AC-002]
+    required: true
+    executor: computer_use_chrome
+    reason: "本示例交互不适合为测试侵入页面增加 testid，因此使用 Codex Computer Use @ Chrome"
+    capabilities: [computer_use, chrome, screenshot, click]
+    depends_on: []
+    preconditions: ["独立会话已登录测试用户", "按约定视口打开筛选面板"]
+    steps: ["检查是否遮挡", "正常点击保存并观察结果"]
+    test_file: null
+    test_title: null
+    evidence: [action_log, screenshot]
+    cleanup: "恢复本用例修改的筛选值，并验证清理结果"

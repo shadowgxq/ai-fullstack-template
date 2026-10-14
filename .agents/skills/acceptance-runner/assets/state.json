@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "scope": null,
+  "run": {
+    "id": null,
+    "status": "awaiting_review",
+    "stage": "preflight",
+    "outcome": null,
+    "started_at": null,
+    "updated_at": null
+  },
+  "review": {
+    "confirmation_ref": null,
+    "acceptance_sha256": null,
+    "plan_sha256": null,
+    "source_hashes": []
+  },
+  "authorization": {
+    "confirmation_ref": null,
+    "period_id": null,
+    "execute_tests": false,
+    "testability_changes": false,
+    "code_repairs": false,
+    "repair_intake_and_run": false,
+    "publish_draft_pr": false
+  },
+  "baseline": {
+    "head": null,
+    "workspace_snapshot": null,
+    "server_version_evidence": null,
+    "initial_changes": []
+  },
+  "budget_usage": {
+    "active_seconds": 0,
+    "computer_use_actions_by_case": {},
+    "transient_retries_by_operation": {},
+    "repair_budget_refs": []
+  },
+  "cases": [],
+  "findings": [],
+  "required_checks": [],
+  "side_effects": [],
+  "publication": {
+    "repository": null,
+    "head_branch": null,
+    "local_commit": null,
+    "remote_commit": null,
+    "pr_number": null,
+    "pr_url": null,
+    "pending_intent": null,
+    "error": null
+  },
+  "cleanup": {
+    "status": "pending",
+    "evidence": [],
+    "residuals": []
+  },
+  "next_action": null
+}

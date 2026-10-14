@@ -1,0 +1,6 @@
+interface:
+  display_name: "验收规划"
+  short_description: "从需求生成验收标准和测试计划，等待人工审核"
+  default_prompt: "使用 $acceptance-plan 生成当前范围的验收标准与计划，先停在人工 Review。"
+policy:
+  allow_implicit_invocation: false

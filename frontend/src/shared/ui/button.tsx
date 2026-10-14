@@ -27,7 +27,7 @@ const buttonVariants = cva(
         xs: 'min-h-[var(--button-height-sm)] gap-[var(--button-gap)] px-[var(--button-padding-x-sm)] py-[var(--button-padding-y-sm)]',
         sm: 'min-h-[var(--button-height-sm)] gap-[var(--button-gap)] px-[var(--button-padding-x-sm)] py-[var(--button-padding-y-sm)]',
         default:
-          'min-h-[var(--button-height-md)] gap-[var(--button-gap)] px-[var(--button-padding-x-md)] py-[var(--button-padding-y-md)]',
+          'min-h-[var(--button-height-md)] gap-[var(--button-gap)] px-[var(--button-padding-x-md)] py-[var(--button-padding-y-md)] max-md:min-h-[var(--control-hit-size)] max-md:min-w-[var(--control-hit-size)]',
         lg: 'min-h-[var(--button-height-lg)] gap-[var(--button-gap)] px-[var(--button-padding-x-lg)] py-[var(--button-padding-y-lg)]',
         icon: 'size-[var(--button-height-md)] gap-0 px-0',
         'icon-xs': 'size-[var(--button-height-sm)] gap-0 px-0',

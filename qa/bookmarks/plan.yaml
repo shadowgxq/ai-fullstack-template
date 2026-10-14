@@ -1,0 +1,1243 @@
+schema_version: 1
+scope: bookmarks
+acceptance: qa/bookmarks/acceptance.md
+source_refs:
+- path: docs/product/bookmarks-prd.md
+  section: 全文 §1–6
+  sha256: 25f9a29b72e6c693948b808e410690ac2a1ff1d01d64d2a8d2326ade1b08fe40
+- path: openspec/changes/bookmarks-save-and-find/specs/bookmark-core/spec.md
+  section: 全部 requirements / scenarios
+  sha256: f6f035147ed0fd1dc1797f0fddd64bc6a9810858b7921df2a8ec3c846dd5033a
+- path: openspec/changes/bookmarks-group-management/specs/bookmark-groups/spec.md
+  section: 全部 requirements / scenarios
+  sha256: 6de47d7ece781bba5a5954e8758491052c10c749de17b68e111f4bde7ef47cc7
+- path: openspec/changes/bookmarks-batch-organize/specs/bookmark-batch-organize/spec.md
+  section: 全部 requirements / scenarios
+  sha256: d69bbee316a422c7b7386591a6c8394d3e29113bd8a2ea2ee1bc10fcc12fd9ee
+- path: docs/design/bookmarks-design.md
+  section: 场景映射、当前应用壳、未登录欢迎页和桌面/手机交付；像素通过不预设
+  sha256: e208452a1f08257f10c115cdef1ebe69c58d5dbe1b464f94328583bb43028211
+- path: docs/architecture/bookmarks/overview.md
+  section: 数据/恢复/前端状态语义；历史UI引用按当前确认修订
+  sha256: 1feeef4197ec3cb97eb73e9dba3b5d2611c6c52d457ea3401ba2cfa2fa53ab1b
+- path: docs/engineering/frontend/guides/project-bootstrap.md
+  section: 复制模板后的项目初始化：cleanup边界及完成边界
+  sha256: 8d15d43506a29d7d2839baa0a995f1cbeeb71a51a0b665025577d748f86d4a99
+- path: docs/engineering/frontend/standards/accessibility-and-ui-states.md
+  section: 状态、焦点、键盘、主题/文字/触控
+  sha256: e774d9a3ccac3ea5bcbe696518c1565fad9ad37215e2f72a7cfe97f572f2e456
+- path: docs/contracts/generated/backend.openapi.json
+  section: 认证/收藏/分组/批量/operation公开契约
+  sha256: 6cc6e95a9f9b15434177afecdaf544dd4134ad4c380513f5402cb5f4c67036d5
+context:
+  manager_plan: manager/plan.yaml
+  change_path: null
+  change_paths:
+  - openspec/changes/bookmarks-save-and-find
+  - openspec/changes/bookmarks-group-management
+  - openspec/changes/bookmarks-batch-organize
+  requirement_id: REQ-BOOKMARKS-001
+  review_status: awaiting_review
+  candidate_head: 86947bb144cddbda1783764e6a0709dd344c5444
+  branch: codex/test-bookmarks
+  require_clean_business_code: true
+  known_unrelated_dirty_paths:
+  - .gitignore
+  - docs/engineering/workflow/tooling.md
+  - scripts/browser/README.md
+  - .agents/skills/acceptance-plan/
+  - .agents/skills/acceptance-runner/
+  dirty_policy: 逐文件核对并记录当前摘要，不清除或提交；相关业务源码/config变更须重新识别构建和影响证据。
+environment:
+  base_url: http://127.0.0.1:8080
+  allowed_origins:
+  - http://127.0.0.1:8080
+  - http://127.0.0.1:8000
+  account_ref: Runner通过真实注册创建 qa_{run_id}_a/b；仅本地私有fixture内存/已忽略run文件持有随机密码，不复用admin、不在此计划写入凭据。
+  version_check: 核对HEAD和相关工作区摘要；记录下面的候选镜像ID与frontend index hash。它们来自本会话以该HEAD构建启动的工具记录；不是镜像自证revision。若镜像/静态文件/相关源码任一不符或来源不能确认，先blocked并重新取得明确构建证据，不能只凭HTTP200或页面标题放行。
+  candidate_runtime:
+    frontend_image: sha256:813e283822739698bc2e0dab0dfe55eddb42958b352e663366960bffcb090d37
+    backend_image: sha256:5e5df978b1663443a886630ef18938e36015974eeb964019515ca07eeeed96ea
+    frontend_index_sha256: 9d676da2d1b5436e7df539804fb4a48a6224821af71782f88fb053a64a5c4979
+  viewport:
+    width: 1440
+    height: 900
+  data_namespace: qa-{run_id}
+  additional_viewports:
+  - width: 390
+    height: 844
+  - width: 390
+    height: 520
+  - width: 1024
+    height: 900
+  - width: 1280
+    height: 900
+  - width: 1920
+    height: 1080
+  themes:
+  - light
+  - dark
+  locales:
+  - zh
+  - en
+  read_only_external_origins:
+  - https://fonts.googleapis.com
+  - https://fonts.gstatic.com
+  external_origin_policy: 仅允许现有index声明的公开字体GET；不发送账号、token、输入值或截图到这些来源。外链用例只用loopback URL，其余外站访问取消并报告，不把allowlist文本当实际防火墙。
+  postgres_connection_ref: BOOKMARKS_TEST_DATABASE_URL；调用者预先安全配置的独立loopback test数据库，禁止输出连接串。
+commands:
+  start: []
+  ready:
+  - docker.exe
+  - --context
+  - desktop-linux
+  - ps
+  - --filter
+  - label=com.docker.compose.project=ai-fullstack
+  - --format
+  - '{{.Names}} {{.Status}}'
+  seed: []
+  cleanup: []
+  playwright_list:
+  - env
+  - NODE_PATH=.tools/browser/node_modules
+  - node
+  - --test
+  - --test-concurrency=1
+  - --test-name-pattern=^$
+  - --test-reporter=tap
+  - tests/acceptance/bookmarks/acceptance.test.cjs
+  playwright_run:
+  - env
+  - NODE_PATH=.tools/browser/node_modules
+  - node
+  - --test
+  - --test-concurrency=1
+  - --test-reporter=tap
+  - --test-reporter-destination=qa/bookmarks/runs/{run_id}/playwright.tap
+  - tests/acceptance/bookmarks/acceptance.test.cjs
+  regression:
+  - - pnpm
+    - --dir
+    - frontend
+    - typecheck
+  - - pnpm
+    - --dir
+    - frontend
+    - exec
+    - vitest
+    - run
+    - src/pages/bookmarks/BookmarksPage.test.tsx
+    - src/features/bookmarks/ui/BookmarksWorkspace/BookmarksWorkspace.test.tsx
+    - src/features/bookmarks/ui/BookmarksWorkspace/BookmarksGroups.test.tsx
+    - src/features/bookmarks/ui/BookmarksWorkspace/BookmarksBatch.test.tsx
+  - - uv
+    - run
+    - --project
+    - backend
+    - --locked
+    - pytest
+    - backend/tests/test_bookmarks_postgres.py
+    - backend/tests/test_bookmark_groups_postgres.py
+    - backend/tests/test_bookmark_batch_postgres.py
+    - -q
+    - --junitxml=qa/bookmarks/runs/{run_id}/postgres.xml
+command_notes:
+  environment: 全部CLI从WSL项目根执行，PATH沿用已核对的Node v22.22.1/pnpm及uv；Docker经实际可用docker.exe desktop-linux入口，不改主机WSL/Docker设置。
+  start: 复用当前已启动Docker Web栈，本Skill/计划不隐含重建、重启或安装系统库；服务不满足版本/健康要求时blocked，先取得具体环境处置授权。
+  ready: 此命令只提供容器元数据；Runner preflight还需在批准loopback内核对health/ready及前端资源，不能把running直接算业务通过。
+  seed: 不执行不存在的seed脚本；已批准后的测试fixture在自身prepare/before内经真实API创建两个run专用账号及逐case数据，并登记run账本。
+  cleanup: 不执行全库清空或SQL删除账号；fixture在finally按账本先删本用例收藏、再删组，并核对归零。不得清理admin及其他run。没有账号删除API，空账号/回执残留显式报告。
+  playwright_list: 这是经node --help核对的Node内置test runner发现模式，不执行case body。未来测试文件由Runner在批准路径生成，顶层只注册test(TC-ID)，不得在发现阶段建账号或启动浏览器；TAP中的SKIP仅用于发现，绝不计为通过。当前脚本尚不存在，prepare完成并核对33个唯一Playwright标题前不可进入execute。
+  playwright_run: Node内置test runner加载Playwright核心库，使用项目已有的assert思路，不新增@playwright/test或测试SDK。顶层唯一TC标题对应本cases，内部矩阵保存子项结果；断言失败不自动重试。
+  regression: 真实PostgreSQL回归为必需门禁，缺环境变量、意外skip或未收集到目标测试均blocked；不要用默认SQLite/fake Redis或以往报告替代当前证据。frontend回归与新用例分开记录。
+  evidence: 默认不录包含Authorization/Cookie/密码的原始trace或HAR；收集脱敏method/path/status/operation关联及合成数据断言。截图不得出现密码；浏览器认证状态不提交。
+preparation:
+  status: pending_review_and_prepare
+  commands_verified_without_running_tests:
+  - npm install --help
+  - node --help
+  - uv --help
+  dependency_setup:
+  - command:
+    - npm
+    - install
+    - --prefix
+    - .tools/browser
+    - --no-save
+    - --no-package-lock
+    - --ignore-scripts
+    - --no-audit
+    - --no-fund
+    - playwright@1.63.0
+    reason: 仓库浏览器README固定版本；当前未安装，只有现存Chromium缓存。仅审核后由Runner prepare执行；版本不存在或环境不兼容则blocked，不自动换最新版。
+  - command:
+    - .tools/browser/node_modules/.bin/playwright
+    - --help
+    reason: 安装后实际核对核心库CLI；不凭规划推断已可运行。
+  - command:
+    - .tools/browser/node_modules/.bin/playwright
+    - install
+    - chromium
+    reason: 仅在已批准prepare中为固定Playwright准备兼容浏览器；现有缓存不可冒认为兼容。不执行--with-deps、sudo或系统安装。
+  runtime_capability_checks:
+  - 实际加载Playwright并能启动与固定版本兼容的Chromium；失败为blocked，不切换执行器。
+  - Computer Use @ Chrome实际入口/真实缩放与字号能力；仅有in-app browser不满足TC-033。
+  - BOOKMARKS_TEST_DATABASE_URL已安全配置且通过现有loopback/test库守卫；无此配置不执行真实PG回归。
+  - 运行对象候选镜像/静态资源和源版本匹配；确认现有演示账号资源不在测试账本内。
+  - 按run创建证据目录和唯一ID账本，确认qa/**/runs被ignore；确认没有本轮并发写入者。
+  known_gaps:
+  - WSL项目当前无Playwright模块；需审核后prepare。
+  - Chrome入口与精确200%文字放大未确认；不得用页面zoom替代文字检查。
+  - 独立PostgreSQL测试连接未在此规划中读取或配置；需要执行环境提供。
+  abort_rules:
+  - 发生源码/需求/设计/计划摘要变化按原协议复核，不自更新批准hash继续。
+  - 清理失败影响隔离时阻塞依赖项，保留对象ID与真实残留；不以重建卷修复。
+write_scope:
+  test_files:
+  - tests/acceptance/bookmarks/acceptance.test.cjs
+  test_support_files:
+  - tests/acceptance/bookmarks/fixtures.cjs
+  - tests/acceptance/bookmarks/report.cjs
+  - .tools/browser/**
+  - qa/bookmarks/runs/**
+  testability_files: []
+  repair_files: []
+repair:
+  enabled: false
+  max_attempts_per_finding: 2
+  handoff_policy: 发现仅报告；需新的明确授权后，活动Change缺陷才交manager-bugfix，或明确使用既有repair-intake/repair-runner。当前不登记队列、不改业务、不自动修复。
+  manager_refs:
+  - manager/plan.yaml
+  - manager/progress.md
+  repair_refs:
+  - repairs/README.md
+  - repairs/list.yaml
+publishing:
+  mode: none
+  repository: shadowgxq/ai-fullstack-template
+  base_branch: main
+  head_branch: codex/test-bookmarks
+  existing_pr: null
+  checkpoint: null
+  allow_merge: false
+  authorization: 本计划无Git提交、push、PR、归档、合并、部署或Manager门禁回写授权。此前项目提交请求不视为本轮新增测试的发布授权。
+budgets:
+  max_active_minutes: 90
+  max_computer_use_actions_per_case: 60
+  transient_retries: 1
+required_gates:
+- 33个Playwright用例必须逐ID发现并执行，0 tests/skip/超时不得计通过；TC-033按独立Chrome记录。
+- 相关真实PostgreSQL测试不得skip：原子回滚/并发约束/稳定排序/resolve两时序需当前运行证据。
+- 每个必测AC至少有一个必测case；所有矩阵子项及必需能力/证据都齐全才允许本轮outcome=pass。
+- 缺必测能力/连接/证据且没有已知失败为incomplete；任何确定必测失败为fail；不得以completed代替pass。
+- 保留用户最终产品验收与设计接受；不改Manager pending为accepted。
+cases:
+- id: TC-001
+  title: 未登录桌面/手机入口
+  criteria:
+  - AC-001
+  - AC-027
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  depends_on: []
+  preconditions:
+  - 无会话；1440×900、390×844各一次
+  - 通用preflight通过
+  steps:
+  - 访问带 group/q 的收藏夹
+  - 检查欢迎内容、静态示例与登录入口
+  - 记录未登录私有 API 请求数
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-001
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-002
+  title: 注册、登录、退出与深链
+  criteria:
+  - AC-001
+  - AC-002
+  - AC-027
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  depends_on: []
+  preconditions:
+  - 本轮 A 账号；保留 group/q 参数
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 通过实际 UI 注册并登录
+  - 关闭/重开登录弹窗
+  - 退出并重访同一 URL
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-002
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-003
+  title: 最小保存、指定分组与重复URL
+  criteria:
+  - AC-003
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  depends_on: []
+  preconditions:
+  - A 登录；记录本用例创建ID
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 保存最小资料
+  - 保存相同URL不同标题
+  - 选择测试分组并填多行备注保存
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-003
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-004
+  title: 收藏字段边界矩阵
+  criteria:
+  - AC-004
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  depends_on: []
+  preconditions:
+  - 合成中英文、emoji、可构成2048字符的loopback URL
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 逐项提交边界值和非法输入
+  - 检查字段关联与输入保留
+  - 修正后保存并通过真实API读取
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-004
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-005
+  title: 编辑回填、取消与持久化
+  criteria:
+  - AC-002
+  - AC-005
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  depends_on: []
+  preconditions:
+  - 已有本用例多字段资料
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 编辑后取消并刷新
+  - 再次编辑四个字段并保存
+  - 退出后重新登录读取
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-005
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-006
+  title: 删除收藏的取消与确认
+  criteria:
+  - AC-006
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  depends_on: []
+  preconditions:
+  - 独立分组内两条测试资料
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 打开删除确认并取消
+  - 重新打开并确认
+  - 读取分组和另一条资料
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-006
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-007
+  title: 备注及真实新标签访问
+  criteria:
+  - AC-007
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  - new_tab_observation
+  depends_on: []
+  preconditions:
+  - 外链仅为 http://127.0.0.1:8000/health 的本轮查询参数变体
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 查看有/无备注
+  - 等待真实popup打开已保存URL
+  - 返回原标签核对原浏览位置并关闭本轮popup
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-007
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-008
+  title: 顺序、时间与无效更新
+  criteria:
+  - AC-008
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  - isolated_postgresql_regression
+  depends_on: []
+  preconditions:
+  - 由API布置资料并记录服务端时间；隔离PG回归门禁
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 比较新增/编辑/移动后的列表
+  - 执行同目标移动与分组改名
+  - 核对时间和排序证据
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-008
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-009
+  title: 十条分页及删除末页回退
+  criteria:
+  - AC-009
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  depends_on: []
+  preconditions:
+  - 恰好11条当前条件资料
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 浏览第一页和第二页
+  - 删除第二页唯一条目
+  - 重新读取页码和总数
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-009
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-010
+  title: 字面关键词和备注排除
+  criteria:
+  - AC-010
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  depends_on: []
+  preconditions:
+  - 标题、URL、仅备注关键词互不相同
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 搜索首尾空格及ASCII大小写变体
+  - 搜索含%/_的字面词
+  - 搜索仅备注包含的词
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-010
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-011
+  title: 分组联合查询与数量
+  criteria:
+  - AC-011
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  depends_on: []
+  preconditions:
+  - 两个独立测试组且关键词跨组
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 在组内搜索并检查计数语义
+  - 清空搜索后选择全部
+  - 改变条件并记录页码
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-011
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-012
+  title: URL刷新与浏览器历史
+  criteria:
+  - AC-011
+  - AC-016
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  depends_on: []
+  preconditions:
+  - 至少两页匹配数据
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 选择资料后改变q/group/page
+  - 刷新后前进和后退
+  - 核对选择和结果条件
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-012
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-013
+  title: 空分组、名称和固定入口
+  criteria:
+  - AC-012
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  depends_on: []
+  preconditions:
+  - A/B账号；名称长度与重名矩阵
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 创建空组
+  - 提交边界/重复/系统名称
+  - 使用B创建A同名分组并检查固定入口
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-013
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-014
+  title: 分组重命名与取消
+  criteria:
+  - AC-008
+  - AC-013
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  depends_on: []
+  preconditions:
+  - 记录组内资料ID/时间/顺序
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 改名后先取消
+  - 有效重命名
+  - 检查桌面侧栏/手机选项和资料归属
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-014
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-015
+  title: 删除分组后果与完整转移
+  criteria:
+  - AC-014
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  - isolated_postgresql_regression
+  depends_on: []
+  preconditions:
+  - 正在查看带q的测试组
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 读取影响数量并取消
+  - 重新确认删除
+  - 读取未分组、总数、时间与URL
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-015
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-016
+  title: 删除确认期间影响数量变化
+  criteria:
+  - AC-015
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  depends_on: []
+  preconditions:
+  - 第二上下文使用相同测试账号
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 打开分组删除窗口
+  - 第二上下文添加组内资料
+  - 尝试原确认后重新检查当前影响
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-016
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-017
+  title: 选择、全选、半选与取消
+  criteria:
+  - AC-016
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  depends_on: []
+  preconditions:
+  - 当前条件11条；当前页10条
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 单选、页内全选、取消一项
+  - 改变页/分组/搜索和历史
+  - 取消选择并检查零选择移动入口
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-017
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-018
+  title: 混合来源批量移动和同目标
+  criteria:
+  - AC-008
+  - AC-017
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  - isolated_postgresql_regression
+  depends_on: []
+  preconditions:
+  - 已选项中部分已在目标组
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 移动到测试组
+  - 重放同意图并执行同目标移动
+  - 再移动到未分组并读取服务端字段
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-018
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-019
+  title: 批量移空末页自动回退
+  criteria:
+  - AC-009
+  - AC-016
+  - AC-017
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  depends_on: []
+  preconditions:
+  - 恰好11条源组资料
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 第二页选择唯一条目
+  - 移动到另一个组
+  - 核对当前页面、计数及选择
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-019
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-020
+  title: 源/目标失效与有效选择保留
+  criteria:
+  - AC-018
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  depends_on: []
+  preconditions:
+  - 第二上下文仅可操作本轮对象
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 选多项后由第二上下文删除一个源
+  - 另测删除目标后提交
+  - 刷新后记录仍可操作选择并有效重试
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-020
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-021
+  title: 双账号逐资源API隔离
+  criteria:
+  - AC-019
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  depends_on: []
+  preconditions:
+  - A/B各持有自己的测试token，不写日志
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - B尝试A详情/更新/删除/目标分组
+  - 尝试混合批量及外来operation resolve
+  - 用A重读全部原资料
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-021
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-022
+  title: 换账号后迟到响应隔离
+  criteria:
+  - AC-020
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  - request_interception
+  - redacted_network_observation
+  depends_on: []
+  preconditions:
+  - 可延迟当前context的真实读/写响应
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - A打开表单并发起请求
+  - 退出A并登录B
+  - 释放A迟到响应并观察UI/缓存
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-022
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-023
+  title: 初始加载和三类空态
+  criteria:
+  - AC-021
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  - request_interception
+  - redacted_network_observation
+  depends_on: []
+  preconditions:
+  - 真实新账号/空组/无匹配词；延迟真实GET
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 观察loading后放行真实响应
+  - 分别进入首次空、空分组、无搜索结果
+  - 使用各状态的下一步动作
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-023
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-024
+  title: 首次读取失败与重试
+  criteria:
+  - AC-022
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  - request_interception
+  - redacted_network_observation
+  depends_on: []
+  preconditions:
+  - 故障注入只在本轮browser context
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 仅拦截首次列表GET使其失败
+  - 读取反馈后恢复网络
+  - 点击重试并核对真实返回
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-024
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-025
+  title: 旧内容刷新失败和保存后刷新失败
+  criteria:
+  - AC-022
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  - request_interception
+  - redacted_network_observation
+  depends_on: []
+  preconditions:
+  - 真实旧数据；仅后续GET注入错误
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 让已有列表刷新失败
+  - 真实保存成功后仅阻断后续刷新
+  - 恢复网络并重新读取资料数量
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-025
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-026
+  title: 明确错误、输入保留及重复提交
+  criteria:
+  - AC-004
+  - AC-023
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  - request_interception
+  - redacted_network_observation
+  depends_on: []
+  preconditions:
+  - 真实业务校验错误；延迟真实提交以观察pending
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 触发明确写入错误后纠正
+  - 连续点击/Enter提交一次意图
+  - 通过真实API重放同key和冲突内容
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-026
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-027
+  title: 已提交但丢响应的unknown
+  criteria:
+  - AC-024
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  - request_interception
+  - redacted_network_observation
+  depends_on: []
+  preconditions:
+  - route.fetch真实提交后只丢弃返回；收藏/分组/批量参数化
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 记录原意图key并让真实写入完成
+  - 丢响应并使用查看最新结果
+  - 比对恢复结果和实际数据，刷新后再查询
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-027
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-028
+  title: resolve先于迟到原请求
+  criteria:
+  - AC-024
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  - request_interception
+  - redacted_network_observation
+  depends_on: []
+  preconditions:
+  - 原写入尚未转发；每一类型使用独立key
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 截住原请求后制造unknown
+  - resolve该key并确认not_executed
+  - 再转发原请求，检查资料未改变
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-028
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-029
+  title: 手机主要流程与低高度浮层
+  criteria:
+  - AC-003
+  - AC-005
+  - AC-007
+  - AC-012
+  - AC-014
+  - AC-016
+  - AC-017
+  - AC-025
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  depends_on: []
+  preconditions:
+  - 390×844与390×520；zh/en×Light/Dark按矩阵串行
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 通过UI完成保存/编辑/分组/搜索/批量/删除
+  - 查看备注和所有关键浮层
+  - 滚动触达footer并测量命中容器
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-029
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-030
+  title: 桌面主题语言、长内容与字体回退
+  criteria:
+  - AC-025
+  - AC-026
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  - request_interception
+  - redacted_network_observation
+  depends_on: []
+  preconditions:
+  - 1440×900；另检查1024/1280/1920；合成最长资料
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 在设置切换主题和语言并刷新
+  - 记录有效颜色和长文案布局
+  - 仅当前context阻断声明字体请求检查回退
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-030
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-031
+  title: 键盘路径与焦点恢复
+  criteria:
+  - AC-026
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  depends_on: []
+  preconditions:
+  - 独立A账号；仅键盘完成主要路径
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - Tab/Enter打开添加并提交错误再纠正
+  - 键盘使用菜单、Select和删除取消
+  - Escape关闭并核对合理触发点焦点
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-031
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-032
+  title: 状态可辨识、对比度与命中
+  criteria:
+  - AC-025
+  - AC-026
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  - computed_style_and_bounds
+  - contrast_calculation
+  depends_on: []
+  preconditions:
+  - 两主题、两个主视口；使用真实渲染computed styles与边界
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - 测量控件/文本及实际背景配对
+  - 触发focus/disabled/invalid/selected/pending
+  - 核对透明背景合成及44px必要触控命中
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-032
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。
+- id: TC-033
+  title: Chrome真实缩放与文字可读
+  criteria:
+  - AC-025
+  - AC-026
+  required: true
+  executor: computer_use_chrome
+  reason: 真实浏览器缩放/文字设置及可读体验不通过新增页面testid或脚本改viewport模拟，交Computer Use @ Chrome取证。
+  capabilities:
+  - computer_use
+  - chrome
+  - screenshot
+  - keyboard
+  - browser_settings
+  depends_on: []
+  preconditions:
+  - 实际Chrome Computer Use可用；仅本轮浏览器会话
+  - 通用preflight通过
+  steps:
+  - 记录Chrome原缩放和字号设置
+  - 使用浏览器真实200%缩放检查欢迎/列表/浮层
+  - 单独验证200%文字放大能力；不支持时该项blocked，页面缩放不能替代文字检查
+  - 恢复原缩放、字号及本轮会话
+  test_file: null
+  test_title: null
+  evidence:
+  - action_log
+  - screenshots
+  - original_and_restored_browser_settings
+  cleanup: 恢复原缩放/字号，只关闭本轮Chrome会话；不修改用户已有标签页。
+- id: TC-034
+  title: 端到端保存查找整理再登录
+  criteria:
+  - AC-002
+  - AC-003
+  - AC-005
+  - AC-006
+  - AC-007
+  - AC-009
+  - AC-011
+  - AC-012
+  - AC-013
+  - AC-014
+  - AC-016
+  - AC-017
+  - AC-019
+  - AC-025
+  required: true
+  executor: playwright
+  reason: 已核对真实role/label/可访问名称及相邻组件测试；结果可由语义定位、真实API或浏览器事件精确断言，不需要页面testid。
+  capabilities:
+  - node
+  - playwright_chromium
+  - semantic_locators
+  - screenshot
+  - real_local_api
+  depends_on: []
+  preconditions:
+  - A/B本轮账号；明确记账的12条新资料
+  - 本轮独立测试账号/上下文；通用preflight通过
+  steps:
+  - A保存资料并搜索分页，B检查隔离
+  - A批量移动、改名和删组、回到有效页
+  - 重新登录后查找、编辑、备注、外链及删除，并核对总数
+  test_file: tests/acceptance/bookmarks/acceptance.test.cjs
+  test_title: TC-034
+  evidence:
+  - case_level_assertion_results
+  - failure_screenshot
+  - redacted_request_and_data_summary
+  cleanup: 释放本轮route/延迟和context；按run账本删除本用例收藏后删除空组，并核对本轮用户数据归零；保留不可变回执与空测试账号。

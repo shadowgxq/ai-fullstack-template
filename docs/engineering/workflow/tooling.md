@@ -29,6 +29,27 @@ openspec --version
 
 在 Codex 中使用 `$project-init` 显式调用；其 `agents/openai.yaml` 设置 `policy.allow_implicit_invocation: false`，不依赖描述文字阻止自动匹配。机制见 [官方 Skill 元数据](https://developers.openai.com/codex/skills/)。复制时保留 `.agents` 目录；入口未被客户端发现时先检查项目路径并重新加载，再核对可用性，不宣称仅写入文件就已加载。
 
+## 自动化验收入口
+
+项目通过 [automation-testing](https://github.com/shadowgxq/automation-testing) 自带的 `scripts/skills.sh` 管理两个项目级 Skill，完整保留其 assets、references 与 agents；不在项目内另写一套验收流程，也不手工修改受管目录：
+
+| 入口 | 用途 |
+|---|---|
+| [acceptance-plan](../../../.agents/skills/acceptance-plan/SKILL.md) | 从确认的需求与 OpenSpec 场景生成 `qa/<scope>/acceptance.md` 和 `plan.yaml`，供人工审核 |
+| [acceptance-runner](../../../.agents/skills/acceptance-runner/SKILL.md) | 按已审核计划串行执行 Playwright 或 Computer Use @ Chrome，保存证据并按授权衔接修复 |
+
+在项目会话中显式调用 `$acceptance-plan`；审核具体标准与计划后再调用 `$acceptance-runner`。两个入口禁用隐式调用；新增文件不证明当前会话已经发现入口，未显示时重新开启项目会话。安装不等于批准测试计划、启动服务、修复业务或提交 / 推送 PR，也不替代 Manager / Repair 的既有门禁和人工验收。
+
+验收规划优先核对并复用[浏览器 smoke](../../../scripts/browser/README.md)及已有测试。现有 smoke 使用独立工具目录中的 Playwright，不等于已配置 `@playwright/test` 用例运行器；需要的新依赖、测试文件和命令在具体计划中确定。验收标准和计划可版本化；`qa/**/runs/`、Playwright 登录态和生成报告由根 `.gitignore` 排除，原始运行证据保留本地。
+
+更新时先核对源仓库版本与目标目录差异，再从已更新的 automation-testing 仓库执行以下命令（路径按实际项目替换）：
+
+```bash
+bash scripts/skills.sh update /path/to/your-project
+```
+
+脚本仅覆盖 `acceptance-plan` 和 `acceptance-runner`；Manager、Repair、OpenSpec 与业务计划不随其更新。完整安装及使用说明见上游[接入文档](https://github.com/shadowgxq/automation-testing/blob/main/docs/adoption.md)。
+
 ## 执行与审查
 
 只保留执行与审查两个职责，不需要项目 `.codex/config.toml`、固定角色文件、模型路由或角色初始化器。当前会话协调实现，依赖已满足且写入范围互不冲突的工作可由原生通用 subagent 并行处理；共享文件和未确定契约按依赖顺序执行。协调会话核对真实 diff，单写 tasks、Plan 与进度。
