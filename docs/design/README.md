@@ -7,7 +7,7 @@
 | 内容 | 唯一正文 |
 |---|---|
 | 视觉方向、信息层级与布局 | [UI 规范](ui-spec.md) |
-| Token 选择、准入与设计投影 | [Token 政策](tokens.md)；数值、别名与主题值在 [global.css](../../frontend/src/shared/styles/global.css) |
+| Token 选择与设计同步 | [Token 政策](tokens.md)；运行时数值、别名与主题值在 [global.css](../../frontend/src/shared/styles/global.css) |
 | 平台、宿主适配与交付接口 | [设计交付约定](design-handoff.md) |
 | 组件复用、归属与拆分 | [组件治理](../engineering/frontend/components/components.md) |
 | 组件可见性与设计定位 | [组件清单](../engineering/frontend/components/component-inventory.md)；API 以源码 export/类型为准 |

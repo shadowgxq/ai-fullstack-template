@@ -10,7 +10,7 @@
 | Router | React Router 6，`app/router/routes.tsx` 同步导入页面，createBrowserRouter；不宣称路由已经懒加载 |
 | Provider | AppProviders → I18nextProvider / QueryClientProvider；ThemeInitializer、LocaleInitializer、AnalyticsProvider；启动时校验已有认证会话 |
 | 状态与请求 | TanStack Query 5、Zustand、Axios；共享 client，认证 gateway 适配本项目 code=0 信封 |
-| 样式与基础 UI | Tailwind 4 + CSS Variables，shadcn/radix-ui；cva 与 cn（clsx + tailwind-merge）；global.css 单一 token 来源 |
+| 样式与基础 UI | Tailwind 4 + CSS Variables，shadcn/radix-ui；cva 与 cn（clsx + tailwind-merge）；项目 Token 集中定义于 global.css |
 | 主题与文案 | Signal Teal 的 light/dark；i18next/react-i18next 的 en/zh 内置资源 |
 | 图标与动画 | Lucide/shared icons；GSAP page motion，尊重 reduced motion |
 | 日历与分享 | React DayPicker + date-fns；html-to-image 按分享操作加载 |

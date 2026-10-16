@@ -24,7 +24,7 @@
 
 归属同步须在设计修改获授权后执行：先核对主组件与直接实例依赖，再在实际归属文件中承接并更新引用；模板共用设计在公共库集中维护，公共库不能反向引用使用方的业务消费稿。同步后回读导入、主题、实例覆盖和受影响画面，再更新清单中的实际位置；规范中的目标归属不代表节点已经迁移。
 
-Token 按 [选择政策](tokens.md) 使用，值读 [global.css](../../frontend/src/shared/styles/global.css)。交接记录设计节点/角色 → 实际组件或组合 → API/语义 Token → 主题和适配。支持属性用真实绑定，解析值及 `metadata.token-map` 单独记录限制。
+Token 按 [选择政策](tokens.md) 使用，运行时定义在 [global.css](../../frontend/src/shared/styles/global.css)；设计与代码的对应关系见 [同步约定](tokens.md#设计与代码同步)。交接记录设计节点/角色 → 实际组件或组合 → API/语义 Token → 主题和适配。支持属性用真实绑定，解析值及 `metadata.token-map` 单独记录限制。
 
 设计默认 sans 投影为 Inter，技术参数使用 IBM Plex Mono；中文按画布可用字体回退。Web 沿用 `global.css` 的 `-apple-system, BlinkMacSystemFont, 'Inter', 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', 'Segoe UI', sans-serif`，不把整串 CSS fallback 写成画布字体名。画布字体投影不等于跨系统字形完全一致，也不证明运行时字体已加载。
 

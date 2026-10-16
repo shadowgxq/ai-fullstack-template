@@ -33,7 +33,7 @@ feature/widget 的“公共出口”仅表示模块可见性，不表示公共�
 
 | 对象 | 准入依据或未明确边界 | 当前维护方式 |
 |---|---|---|
-| Design Tokens | 正式值与语义来自 global.css，设计只投影所需集合 | core.lib.pen 的公共变量与 Foundations |
+| Design Tokens | 项目 Token 定义与设计同步见 [Token 政策](../../../design/tokens.md#设计与代码同步) | core.lib.pen 的公共变量与 Foundations |
 | Button | 操作呈现、变体、尺寸、禁用与 loading；不判断业务成功 | 公共主组件与实例状态 |
 | Input、Label、Textarea | 原生字段、关联、readonly / disabled / invalid；不承担领域校验 | 公共控件；Label + 控件 + helper 为普通用法示例，没有公共 Field API |
 | Switch | checked、禁用与键盘协议，不固定开关业务含义 | 公共主组件与状态 |
@@ -58,7 +58,7 @@ feature/widget 的“公共出口”仅表示模块可见性，不表示公共�
 
 | 公共库定位 | 映射或组合边界 |
 |---|---|
-| `MKpT9` Foundations；`KNJdR` Semantic colors | Foundations 保留 Light / Dark 并排概览；Semantic colors 单份完整公共颜色配对，通过 mode 轴切换主题，数值源为 global.css |
+| `MKpT9` Foundations；`KNJdR` Semantic colors | Foundations 保留 Light / Dark 并排概览；Semantic colors 单份完整公共颜色配对，通过 mode 轴切换主题 |
 | `lhFZv` Typography and spacing | 六种文字角色、表单标签、间距、圆角、布局与焦点参数；行高按正式字号/行高投影 |
 | `et1HX` Button；`HVHuZ` Input；`zhytp` Label | 变体、状态、尺寸与字段用法；用法容器不是公共主组件 |
 | `C0zvOR` Select；`U3VfEB` Tabs；`WUSkr` Switch | 选择与切换契约及必要状态 |

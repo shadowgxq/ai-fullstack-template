@@ -1,10 +1,10 @@
 # 换肤与 i18n（theming & i18n）
 
-本页维护 theme / i18n、样式和字体的运行接线。Signal Teal 只提供 light / dark 两套配色，几何共用。视觉见 [UI 规范](../../../design/ui-spec.md)，Token 选择/准入/投影见 [政策](../../../design/tokens.md)，设计适配见 [交付约定](../../../design/design-handoff.md)。
+本页维护 theme / i18n、样式和字体的运行接线。Signal Teal 只提供 light / dark 两套配色，几何共用。视觉见 [UI 规范](../../../design/ui-spec.md)，Token 选择与设计同步见 [政策](../../../design/tokens.md)，设计适配见 [交付约定](../../../design/design-handoff.md)。
 
 ## 样式事实源
 
-`src/shared/styles/global.css` 集中维护 Tailwind CSS 4 入口、Light / Dark 主题值、`@theme inline` 与 base reset；Token 的值源与选择规则由上述政策维护。
+`src/shared/styles/global.css` 集中维护 Tailwind CSS 4 入口、Light / Dark 主题值、`@theme inline` 与 base reset；Token 的选择与设计同步见上述政策。
 
 - 原始语义变量例如 `--foreground`、`--primary`；Tailwind 对应 `text-foreground`、`bg-primary`。CSS Modules 也引用这些变量。
 - reset 必须位于 `@layer base`，避免未分层样式覆盖 Tailwind utilities。
