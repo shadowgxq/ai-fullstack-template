@@ -50,4 +50,4 @@ API 事实、错误和授权由 backend 决定；客户端泛型不是运行时�
 
 各页面按真实实现组合 AppShell，后者装配 AppHeader、页脚策略与认证浮层；app 只装配 Provider/Router，不自动为每个路由包第二层壳。`/login` 重定向到首页，未认证时打开 LoginModal；不把它描述为独立登录页面。
 
-AppHeader 的桌面高度来自自身 `h-[60px]` / `min-h-[60px]`，窄屏按源码自适应；不能用未消费的 `--header-height` 推导当前尺寸。内容容器由各页维护，没有统一 `.page-container` 工具类。导航、账户和浮层行为核对 widget/feature 的实际公开 API，系统/浏览器 chrome 不属于页面。
+AppHeader 的桌面高度来自自身 `h-[60px]` / `min-h-[60px]`，窄屏按源码自适应；内容容器由各页维护，没有统一 `.page-container` 工具类。导航、账户和浮层行为核对 widget/feature 的实际公开 API，系统/浏览器 chrome 不属于页面。

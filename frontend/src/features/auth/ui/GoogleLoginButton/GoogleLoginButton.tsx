@@ -146,7 +146,7 @@ export function GoogleLoginButton({ disabled = false, onAuth }: GoogleLoginButto
       </Button>
       {googleError ? (
         <p
-          className="m-0 text-center text-[length:var(--font-size-xs)] leading-[var(--line-height-sm)] text-destructive"
+          className="m-0 text-center text-[length:var(--font-size-xs)] leading-[var(--caption-leading)] text-destructive"
           role="alert"
         >
           {googleError}

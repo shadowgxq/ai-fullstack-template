@@ -36,7 +36,7 @@ export function LoginModal() {
         <DialogBody className="min-h-0">
           <AuthForm
             onAuthenticated={() => closeLogin()}
-            className="gap-[calc(var(--content-gap)+var(--space-3))]"
+            className="gap-[calc(var(--space-4)+var(--space-3))]"
           />
         </DialogBody>
       </DialogContent>

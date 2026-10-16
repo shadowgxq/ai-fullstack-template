@@ -70,11 +70,11 @@ function escapeSvgText(value: string): string {
 const viewClass =
   'min-w-0 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-3 motion-safe:duration-500';
 const badgeClass =
-  'border-primary/25 bg-card/75 text-primary inline-flex items-center gap-2 rounded-full border px-3 py-1 font-sans text-xs font-semibold';
+  'border-primary/25 bg-card/75 text-foreground inline-flex items-center gap-2 rounded-full border px-3 py-1 font-sans text-xs font-semibold';
 const heroStatusClass =
-  'border-primary/30 bg-primary/10 text-primary inline-flex items-center justify-center rounded-full border px-5 py-2 font-sans text-base leading-none font-medium';
+  'border-primary/30 bg-primary/10 text-foreground inline-flex items-center justify-center rounded-full border px-5 py-2 font-sans text-base leading-none font-medium';
 const titleClass =
-  'text-foreground font-sans mt-6 max-w-[820px] text-[clamp(2.75rem,5.5vw,4.25rem)] leading-[1.06] font-bold tracking-[-0.015em] max-[480px]:text-[clamp(2.5rem,13vw,3.4rem)]';
+  'text-foreground font-sans mt-6 max-w-[820px] text-[clamp(2.75rem,5.5vw,4.25rem)] leading-[1.06] font-semibold tracking-[-0.015em] max-[480px]:text-[clamp(2.5rem,13vw,3.4rem)]';
 const descriptionClass =
   'text-muted-foreground mt-7 max-w-[650px] text-lg leading-[1.65] max-[480px]:text-base';
 const actionsClass = 'mt-8 flex flex-wrap items-center gap-4';
@@ -82,7 +82,7 @@ const ctaClass =
   'group bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-ring inline-flex items-center gap-2 rounded-md border border-transparent px-6 py-3 text-base font-medium no-underline shadow-md transition-all hover:shadow-lg focus-visible:ring-2 focus-visible:outline-none motion-safe:hover:-translate-y-0.5 motion-reduce:transition-none';
 const secondaryCtaClass =
   'group border-border bg-card text-foreground hover:border-primary hover:bg-primary/10 hover:text-primary focus-visible:ring-ring inline-flex items-center gap-2 rounded-md border px-6 py-3 text-base font-medium no-underline shadow-sm transition-all focus-visible:ring-2 focus-visible:outline-none motion-safe:hover:-translate-y-0.5 motion-reduce:transition-none';
-const eyebrowClass = 'text-primary font-mono text-xs tracking-[0.12em] uppercase';
+const eyebrowClass = 'text-foreground font-mono text-xs tracking-[0.12em] uppercase';
 const cardClass =
   'border-border bg-card hover:border-primary/40 rounded-xl border transition-all hover:shadow-md motion-safe:hover:-translate-y-0.5 motion-reduce:transition-none';
 const cardTitleClass = 'text-foreground font-sans mt-3 text-lg font-semibold';
@@ -95,13 +95,13 @@ function OverviewContent() {
 
   return (
     <div className={viewClass}>
-      <div className="relative">
+      <div className="relative pt-14 max-[760px]:pt-10 max-[480px]:pt-8">
         <div
-          className="pointer-events-none absolute inset-y-0 left-1/2 z-0 w-screen -translate-x-1/2 bg-hero"
+          className="pointer-events-none absolute inset-y-0 left-1/2 z-0 w-screen -translate-x-1/2 bg-primary-subtle"
           aria-hidden="true"
         />
         <div
-          className="pointer-events-none absolute bottom-0 left-1/2 z-0 h-28 w-screen -translate-x-1/2 bg-gradient-to-b from-transparent to-page"
+          className="pointer-events-none absolute bottom-0 left-1/2 z-0 h-28 w-screen -translate-x-1/2 bg-gradient-to-b from-transparent to-background"
           aria-hidden="true"
         />
         <div className="relative z-10">
@@ -114,7 +114,7 @@ function OverviewContent() {
 
               <h1 id="home-title" className={titleClass}>
                 <span className="block">{t('home.titleLead')}</span>
-                <span className="text-primary block">{t('home.titleAccent')}</span>
+                <span className="text-foreground block">{t('home.titleAccent')}</span>
               </h1>
               <p className={descriptionClass}>{t('home.description')}</p>
 
@@ -161,7 +161,12 @@ function OverviewContent() {
                     className="border-border/60 grid grid-cols-[28px_minmax(0,1fr)_auto] items-center gap-3 border-b px-4 py-3 last:border-b-0 max-[480px]:grid-cols-[24px_minmax(0,1fr)] max-[480px]:px-3"
                     key={key}
                   >
-                    <Icon className="text-primary" size={20} strokeWidth={1.8} aria-hidden="true" />
+                    <Icon
+                      className="text-foreground"
+                      size={20}
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
                     <div className="min-w-0">
                       <h3 className="text-foreground text-sm font-semibold">
                         {t(`home.capabilities.items.${key}.title`)}
@@ -201,7 +206,7 @@ function OverviewContent() {
                 <span className={eyebrowClass}>{String(index + 1).padStart(2, '0')}</span>
                 <div className="mt-5 flex items-start gap-5">
                   <span
-                    className="bg-primary/10 text-primary inline-grid size-12 shrink-0 place-items-center rounded-full"
+                    className="bg-primary/10 text-foreground inline-grid size-12 shrink-0 place-items-center rounded-full"
                     aria-hidden="true"
                   >
                     <Icon size={21} strokeWidth={1.8} />
@@ -210,7 +215,7 @@ function OverviewContent() {
                     <h2 className={cardTitleClass}>{t(`home.sections.${key}.title`)}</h2>
                     <p className={cardTextClass}>{t(`home.sections.${key}.text`)}</p>
                     <Link
-                      className="text-primary mt-5 inline-flex items-center gap-1 text-sm font-semibold no-underline transition-colors hover:text-primary/75"
+                      className="text-foreground mt-5 inline-flex items-center gap-1 text-sm font-semibold no-underline transition-colors hover:text-primary/75"
                       to="/foundation"
                     >
                       {t('home.learnMore')}
@@ -343,7 +348,7 @@ function FoundationContent() {
               >
                 <div className="flex items-center justify-between gap-3">
                   <span
-                    className="bg-primary/10 text-primary inline-grid size-10 place-items-center rounded-md"
+                    className="bg-primary/10 text-foreground inline-grid size-10 place-items-center rounded-md"
                     aria-hidden="true"
                   >
                     <Icon size={20} />
@@ -355,12 +360,12 @@ function FoundationContent() {
                 <h3 className={cardTitleClass}>{t(`home.foundation.modules.${key}.title`)}</h3>
                 <p className={cardTextClass}>{t(`home.foundation.modules.${key}.text`)}</p>
                 {isShareModule ? (
-                  <span className="text-primary mt-auto flex items-center gap-1 pt-6 text-xs font-semibold">
+                  <span className="text-foreground mt-auto flex items-center gap-1 pt-6 text-xs font-semibold">
                     {t('home.foundation.shareDemo.open')}
                     <ArrowRight size={14} aria-hidden="true" />
                   </span>
                 ) : (
-                  <code className="text-primary mt-auto pt-6 font-mono text-xs">{path}</code>
+                  <code className="text-foreground mt-auto pt-6 font-mono text-xs">{path}</code>
                 )}
               </article>
             );
@@ -377,18 +382,20 @@ function FoundationContent() {
         poster={
           <div className="border-border bg-card overflow-hidden rounded-xl border shadow-sm">
             <div className="from-primary/15 via-background to-background bg-gradient-to-br p-6 sm:p-10">
-              <span className="text-primary font-mono text-xs tracking-[0.12em] uppercase">
+              <span className="text-foreground font-mono text-xs tracking-[0.12em] uppercase">
                 {t('home.foundation.status')}
               </span>
-              <h3 className="text-foreground mt-8 text-3xl font-bold tracking-tight sm:text-5xl">
+              <h3 className="text-foreground mt-8 text-3xl font-semibold tracking-tight sm:text-5xl">
                 {shareTitle}
               </h3>
-              <p className="text-primary mt-3 text-2xl font-bold sm:text-4xl">{shareSlogan}</p>
+              <p className="text-foreground mt-3 text-2xl font-semibold sm:text-4xl">
+                {shareSlogan}
+              </p>
               <p className="text-muted-foreground mt-6 max-w-2xl text-base leading-relaxed sm:text-lg">
                 {shareResult}
               </p>
               <div className="mt-10 flex flex-wrap gap-2">
-                <span className="border-primary/20 bg-primary/10 text-primary rounded-full border px-3 py-1 text-xs font-semibold">
+                <span className="border-primary/20 bg-primary/10 text-foreground rounded-full border px-3 py-1 text-xs font-semibold">
                   H5
                 </span>
                 <span className="border-border bg-background text-muted-foreground rounded-full border px-3 py-1 text-xs font-semibold">
@@ -423,7 +430,7 @@ function FoundationContent() {
               className="border-border/60 grid grid-cols-[36px_minmax(0,1fr)] items-start gap-3 border-b pb-3 last:border-b-0 last:pb-0"
               key={key}
             >
-              <span className="text-primary font-mono text-xs">
+              <span className="text-foreground font-mono text-xs">
                 {String(index + 1).padStart(2, '0')}
               </span>
               <p className="text-foreground text-sm leading-relaxed">
@@ -446,21 +453,23 @@ export function HomePage() {
   return (
     <AppShell>
       <div
-        className="group/page bg-page text-foreground relative min-h-0 overflow-x-hidden"
+        className="group/page bg-background text-foreground relative min-h-0 overflow-x-hidden"
         data-view={isFoundation ? 'foundation' : 'overview'}
       >
         {/* Foundation 保留首屏底色；Overview 的 Hero 背景层在内容容器外全宽铺开。 */}
         {isFoundation ? (
           <div
-            className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[calc(100dvh-64px)] max-h-[760px] bg-hero max-[760px]:h-[calc(100dvh-60px)]"
+            className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[calc(100dvh-64px)] max-h-[760px] bg-primary-subtle max-[760px]:h-[calc(100dvh-60px)]"
             aria-hidden="true"
           />
         ) : null}
         <main
           id="main-content"
           className={cn(
-            'relative z-1 mx-auto w-[min(100%-3rem,var(--layout-max-width))] pt-14 max-[760px]:pt-10 max-[480px]:w-[min(100%-1.5rem,var(--layout-max-width))] max-[480px]:pt-8',
-            isFoundation ? 'pb-14 max-[760px]:pb-10 max-[480px]:pb-8' : 'pb-6',
+            'relative z-1 mx-auto w-[min(100%-3rem,var(--layout-max-width))] max-[480px]:w-[min(100%-1.5rem,var(--layout-max-width))]',
+            isFoundation
+              ? 'pt-14 pb-14 max-[760px]:pt-10 max-[760px]:pb-10 max-[480px]:pt-8 max-[480px]:pb-8'
+              : 'pb-6',
           )}
           tabIndex={-1}
         >

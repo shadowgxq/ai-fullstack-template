@@ -218,7 +218,7 @@
           "description": "A button for triggering an action"
         },
         "input": {
-          "description": "A text input control"
+          "description": "Clear input and restrained feedback, with boundaries, focus and text distinguishing each state."
         },
         "label": {
           "description": "A form label control"
@@ -323,51 +323,124 @@
           "statesTitle": "State examples",
           "statesDescription": "Make the focus and pressed feedback visible in the contract.",
           "focus": "Focus state",
-          "active": "Pressed state"
+          "active": "Pressed state",
+          "outline": "Outline action",
+          "link": "Text link",
+          "run": "Loading example",
+          "longLabel": "Confirm this action with a long label and an English identifier, then continue"
         },
         "input": {
-          "basicTitle": "Basic usage",
-          "label": "Name",
-          "placeholder": "Type something…",
-          "helper": "Supports letters, numbers, and spaces.",
-          "focus": "Focus state",
-          "focusValue": "Design system",
-          "disabled": "Disabled state",
-          "error": "Error state",
-          "errorMessage": "Enter a valid name."
+          "basicTitle": "01 / Default specimen",
+          "label": "Project name",
+          "placeholder": "Enter content",
+          "helper": "Use a clear, recognizable name.",
+          "focus": "Focus",
+          "focusValue": "Content being edited",
+          "disabled": "Disabled",
+          "error": "Invalid",
+          "readonly": "Readonly",
+          "readonlyValue": "Retained content",
+          "statesTitle": "02 / Interaction and constraints",
+          "statesDescription": "Consistent structure, distinct feedback. Focus preserves dimensions; errors include a message. Click a label or press Tab to focus.",
+          "hover": "Hover",
+          "parameters": "Inter · 14 / 20 · Default 1px · Focus / invalid 2px · Disabled opacity 48%",
+          "geometry": {
+            "height": "Default height",
+            "radius": "Radius",
+            "padding": "Horizontal padding"
+          },
+          "feedback": {
+            "hover": "A stronger boundary indicates an editable field.",
+            "focus": "2px focus border; dimensions remain unchanged.",
+            "disabled": "Currently unavailable; existing content is retained.",
+            "readonly": "Content can be read and copied, but cannot be edited.",
+            "error": "Invalid format. Check the value and try again."
+          }
         },
         "textarea": {
           "basicTitle": "Basic usage",
-          "label": "Notes",
-          "placeholder": "Add a note…",
-          "helper": "Use up to 500 characters.",
-          "counter": "{{count}} / 500",
-          "focus": "Focus state",
-          "focusValue": "This is a multiline input\nfor longer descriptions.",
+          "label": "Default",
+          "placeholder": "Enter content",
+          "helper": "Enter between 10 and 1000 characters.",
+          "counter": "{{count}} / 1000",
+          "focus": "Focus",
+          "focusValue": "Entering content…",
           "disabled": "Disabled state",
-          "disabledValue": "This value cannot be edited",
           "error": "Error state",
-          "errorMessage": "Add a little more context."
+          "errorMessage": "Enter valid content.",
+          "autoHeight": "Automatic height",
+          "heightHint": "Minimum height is 96px. The caller controls growth; there is no size variant.",
+          "basicDescription": "Examples of labels, character counts and automatic height. State examples follow below.",
+          "counterLabel": "Character count",
+          "counterValue": "Example text showing the character count.",
+          "autoValue": "The field grows with its content.\nNo manual resizing is needed.",
+          "autoHelper": "The caller adjusts the height as the value changes.",
+          "statesTitle": "States",
+          "keyboardHint": "Click the label or press Tab to focus. Enter adds a line; Tab moves to the next field.",
+          "disabledHelper": "Currently unavailable.",
+          "heightTitle": "Height constraints"
         },
         "label": {
           "basicTitle": "Basic usage",
           "label": "Email address",
           "placeholder": "name@example.com",
-          "required": "Required field",
           "optional": "Optional field",
           "helper": "We only use it for notifications.",
           "error": "Enter a valid email address."
         },
         "select": {
-          "basicTitle": "Basic usage",
+          "basicTitle": "01 Basic styles",
           "label": "Choose a component",
-          "placeholder": "Choose one",
-          "open": "Open state",
-          "disabled": "Disabled select",
+          "placeholder": "Select an option",
           "options": {
             "one": "First item",
             "two": "Second item",
             "three": "Third item"
+          },
+          "rich": "Expanded panel and option content",
+          "error": "Select an option",
+          "groups": {
+            "common": "Common settings",
+            "more": "More options"
+          },
+          "settings": {
+            "account": "Account settings",
+            "notifications": "Notifications",
+            "appearance": "System settings",
+            "organization": "Organization (unavailable)",
+            "advanced": "Advanced options",
+            "help": "Help center"
+          },
+          "descriptions": {
+            "account": "Manage account information and your profile",
+            "notifications": "Set notification preferences and delivery",
+            "appearance": "Adjust appearance, language and security"
+          },
+          "sizes": {
+            "lg": "Large lg",
+            "md": "Default md",
+            "sm": "Small sm"
+          },
+          "keyboardHint": "Click a label or press Tab to focus. ↑ ↓ changes options; Enter / Space confirms; Escape closes. Disabled options cannot be selected.",
+          "basicDescription": "Default, hover, focus, selected, disabled and validation states.",
+          "richHint": "Click to expand. Single selection; group labels are not selectable. A check marks the current value.",
+          "sizesTitle": "02 Sizes",
+          "sizesDescription": "Three trigger heights with consistent typography.",
+          "compositionTitle": "03 Composition",
+          "compositionDescription": "Label, Select and supporting text.",
+          "department": "Department",
+          "departmentHelper": "Choose the team responsible for this project. You can change it in settings.",
+          "states": {
+            "default": "Default",
+            "hover": "Hover",
+            "focus": "Focus",
+            "selected": "Selected",
+            "disabled": "Disabled",
+            "invalid": "Invalid"
+          },
+          "teams": {
+            "design": "Product design team",
+            "engineering": "Engineering team"
           }
         },
         "tabs": {
@@ -379,7 +452,9 @@
           "previewContent": "This is the preview content.",
           "codeContent": "This is the code content.",
           "featuresContent": "This is the feature content.",
-          "historyContent": "This is the version history content."
+          "historyContent": "This is the version history content.",
+          "segmented": "Segmented",
+          "underline": "Underline"
         },
         "dialog": {
           "basicTitle": "Three confirmation types",
@@ -433,15 +508,29 @@
           "edit": "Edit",
           "duplicate": "Duplicate",
           "delete": "Delete",
-          "shortcut": "⌘K"
+          "shortcut": "⌘K",
+          "unavailable": "Unavailable",
+          "grouped": "Grouped menu",
+          "more": "More actions",
+          "sort": "Sort order",
+          "sortOptions": {
+            "newest": "Newest first",
+            "oldest": "Oldest first",
+            "ascending": "Name A → Z",
+            "descending": "Name Z → A"
+          },
+          "actionFeedback": "Selected: {{value}}",
+          "selection": "Current order: {{value}}"
         },
         "popover": {
           "basicTitle": "Basic usage",
           "open": "Open Popover",
-          "title": "Popover content",
-          "description": "Use it for a small contextual action group.",
+          "title": "About this view",
+          "description": "These settings only affect this view and do not change the original content.",
           "action": "Apply settings",
-          "close": "Close popover"
+          "close": "Got it",
+          "compact": "Open compact popover",
+          "keyboardHint": "Click outside or press Esc to close. Focus returns to the trigger."
         },
         "tooltip": {
           "basicTitle": "Basic usage",
@@ -449,7 +538,9 @@
           "content": "This is a Tooltip",
           "top": "Top hint",
           "bottom": "Bottom hint",
-          "right": "Right hint"
+          "right": "Right hint",
+          "long": "Long tooltip",
+          "longContent": "Add useful context and keep the explanation brief. Long content wraps naturally. Put important errors and forms in the page or a popover."
         },
         "switch": {
           "basicTitle": "Basic usage",
@@ -457,8 +548,8 @@
           "interactive": "Interactive state: click to toggle",
           "disabled": "Disabled state",
           "states": {
-            "unchecked": "Off",
-            "checked": "On",
+            "unchecked": "Initially off",
+            "checked": "Initially on",
             "disabledOff": "Disabled off",
             "disabledOn": "Disabled on"
           }
@@ -474,11 +565,47 @@
         "skeleton": {
           "basicTitle": "Basic usage",
           "basicDescription": "Compose placeholder blocks to match the loaded content layout.",
-          "loadingLabel": "Content loading"
+          "loadingLabel": "Content loading",
+          "form": "Form placeholders",
+          "list": "List placeholders",
+          "cards": "Card placeholders",
+          "table": "Table placeholders",
+          "motionHint": "Shapes are hidden from assistive technology. Reduced motion disables the pulse."
         },
         "generic": {
           "basicTitle": "Basic preview",
           "description": "This component is connected to the template. Continue with Examples or Source to learn more."
+        },
+        "query": {
+          "mode": "Mode",
+          "scenario": "Search scenario",
+          "scenarios": {
+            "ready": "Matching results",
+            "empty": "No results",
+            "error": "Fail once, then recover on retry"
+          },
+          "multiline": "Multiline input",
+          "disabled": "Disable input",
+          "validation": "Show validation message",
+          "label": "Query",
+          "description": "Find a result, or use the current text when no result matches.",
+          "placeholder": "Enter “design” to find documents…",
+          "validationHint": "Check this input. This message alone does not prevent submission.",
+          "keyboardHint": "Use ↑ ↓ to select, Enter to confirm, and Esc to dismiss. Shift+Enter inserts a new line, up to 4 lines by default. Submission is blocked while searching.",
+          "items": {
+            "rules": {
+              "title": "Design system guidelines",
+              "description": "Example document · typography, spacing and controls"
+            },
+            "assets": {
+              "title": "Design asset inventory",
+              "description": "Example document · reusable components and handoff"
+            },
+            "unavailable": {
+              "title": "Design document (unavailable)",
+              "description": "This result cannot currently be selected"
+            }
+          }
         }
       },
       "examples": {
@@ -527,7 +654,9 @@
           "variant": "Controls the visual variant of the button.",
           "size": "Controls the button size.",
           "disabled": "Disables the button and its interactions.",
-          "asChild": "Merges the button behavior onto its child element."
+          "asChild": "Merges the button behavior onto its child element.",
+          "loading": "Show progress and prevent repeated actions, including asChild links.",
+          "loadingLabel": "Accessible name while loading."
         },
         "dialog": {
           "type": "The semantic dialog type for default, warning, and dangerous confirmation scenarios.",
@@ -543,6 +672,22 @@
         "generic": {
           "children": "Content rendered by the component.",
           "className": "Additional styling classes."
+        },
+        "textarea": {
+          "value": "Controlled text and native change events.",
+          "height": "Minimum height is 96px. Use rows, className or caller-controlled growth; size is not supported.",
+          "state": "Disabled blocks interaction. Read-only preserves selection and copying."
+        },
+        "select": {
+          "value": "Controlled single selection and change event.",
+          "size": "Trigger heights are 36 / 40 / 44px.",
+          "content": "Optional icon and description. Only the label appears in the selected trigger.",
+          "disabled": "Disabled options cannot be selected by pointer or keyboard."
+        },
+        "tabs": {
+          "variant": "Triggers inherit the list variant unless explicitly overridden.",
+          "value": "Active panel and change event.",
+          "disabled": "Disabled triggers are skipped during keyboard navigation."
         }
       },
       "source": {
@@ -566,11 +711,6 @@
       "empty": "No matching candidate. You can continue with natural language.",
       "searchError": "Candidate search is temporarily unavailable.",
       "retry": "Retry",
-      "candidateTypes": {
-        "stock": "Stock",
-        "crypto": "Crypto",
-        "commodity": "Commodity"
-      },
       "freeformTitle": "Continue with natural language",
       "freeformValue": "Submit “{{value}}” to the business resolver",
       "commitLabel": "Current commit",

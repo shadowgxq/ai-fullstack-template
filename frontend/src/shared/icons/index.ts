@@ -26,6 +26,7 @@ export {
   Palette,
   RefreshCw,
   Search,
+  SearchX,
   Share2,
   Settings,
   Trash2,

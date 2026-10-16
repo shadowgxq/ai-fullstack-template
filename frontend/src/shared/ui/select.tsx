@@ -33,7 +33,7 @@ const SelectTrigger = React.forwardRef<
       data-slot="select-trigger"
       data-size={size}
       className={cn(
-        'flex w-full min-w-0 items-center justify-between gap-[var(--input-icon-gap)] rounded-[var(--radius-control)] border-[length:var(--control-border-width)] border-input bg-background px-[var(--input-padding-x)] text-[length:var(--text-control-size)] leading-[var(--text-control-line)] text-foreground outline-none transition-[color,background-color,border-color,box-shadow] duration-[var(--duration-fast)] ease-[var(--ease-standard)] hover:border-border-strong focus-visible:border-ring data-[state=open]:border-ring disabled:cursor-not-allowed disabled:bg-muted disabled:opacity-[var(--disabled-opacity)] aria-invalid:border-[var(--control-invalid-border)] [&>span]:flex [&>span]:min-w-0 [&>span]:items-center [&>span]:gap-[var(--input-icon-gap)] [&>span]:truncate motion-reduce:transition-none',
+        'flex w-full min-w-0 items-center justify-between gap-[var(--space-2)] rounded-[var(--radius-control)] border-[length:var(--control-border-width)] border-input bg-background px-[calc(var(--space-3)-var(--control-border-width))] text-[length:var(--font-size-md)] leading-[var(--control-leading)] text-foreground font-normal data-[placeholder]:text-muted-foreground outline-none transition-[color,background-color,border-color,box-shadow] duration-[var(--duration-fast)] ease-[var(--ease-standard)] hover:border-border-strong focus-visible:border-ring data-[state=open]:border-ring disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground disabled:opacity-[calc(var(--disabled-opacity-percent)/100)] aria-invalid:border-[var(--control-invalid-border)] [&>span]:flex [&>span]:min-w-0 [&>span]:items-center [&>span]:gap-[var(--space-2)] [&>span]:truncate motion-reduce:transition-none',
         SELECT_SIZE_CLASSES[size],
         className,
       )}
@@ -63,20 +63,16 @@ const SelectContent = React.forwardRef<
         data-slot="select-content"
         position={position}
         className={cn(
-          'relative z-50 max-h-[var(--radix-select-content-available-height)] min-w-[var(--dropdown-min-width)] overflow-hidden rounded-[var(--radius-control)] border-[length:var(--control-border-width)] border-border-subtle bg-popover text-popover-foreground shadow-[var(--elevation-md)] outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+          'relative z-50 max-h-[var(--radix-select-content-available-height)] overflow-hidden rounded-[var(--radius-control)] border-[length:var(--control-border-width)] border-border-subtle bg-popover text-popover-foreground outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
           position === 'popper' &&
-            'data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1',
+            'w-[var(--radix-select-trigger-width)] max-w-[var(--radix-select-content-available-width)] data-[side=bottom]:translate-y-[var(--space-1)] data-[side=left]:-translate-x-[var(--space-1)] data-[side=right]:translate-x-[var(--space-1)] data-[side=top]:-translate-y-[var(--space-1)]',
           className,
         )}
         {...props}
       >
         <SelectScrollUpButton />
         <SelectPrimitive.Viewport
-          className={cn(
-            'p-[var(--space-1)]',
-            position === 'popper' &&
-              'h-[var(--radix-select-trigger-height)] min-w-[var(--radix-select-trigger-width)]',
-          )}
+          className="p-[calc(var(--space-1)-var(--control-border-width))]"
         >
           {children}
         </SelectPrimitive.Viewport>
@@ -96,7 +92,7 @@ function SelectLabel({
     <SelectPrimitive.Label
       data-slot="select-label"
       className={cn(
-        'px-[var(--dropdown-item-padding-x)] py-[var(--space-1)] text-[length:var(--text-caption-size)] leading-[var(--text-caption-line)] font-medium text-muted-foreground',
+        'px-[var(--space-3)] py-[var(--space-1)] text-[length:var(--font-size-xs)] leading-[var(--caption-leading)] font-medium text-muted-foreground',
         className,
       )}
       {...props}
@@ -104,26 +100,50 @@ function SelectLabel({
   )
 }
 
+type SelectItemProps = React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item> & {
+  icon?: React.ReactNode
+  description?: React.ReactNode
+}
+
 const SelectItem = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
->(function SelectItem({ className, children, ...props }, ref) {
+  SelectItemProps
+>(function SelectItem(
+  { className, children, icon, description, 'aria-describedby': describedBy, ...props },
+  ref,
+) {
+  const descriptionId = React.useId()
   return (
     <SelectPrimitive.Item
       ref={ref}
       data-slot="select-item"
+      aria-describedby={
+        [describedBy, description ? descriptionId : undefined].filter(Boolean).join(' ') || undefined
+      }
       className={cn(
-        'relative flex min-h-[var(--dropdown-item-height)] w-full cursor-default items-center rounded-[var(--radius-control)] px-[var(--dropdown-item-padding-x)] py-[var(--dropdown-item-padding-y)] [overflow-wrap:anywhere] pr-[calc(var(--dropdown-item-padding-x)+var(--control-icon-size)+var(--control-icon-gap))] text-[length:var(--text-control-size)] leading-[var(--text-control-line)] outline-none select-none focus:bg-surface-hover focus:text-foreground data-[state=checked]:bg-surface-selected data-[state=checked]:text-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-[var(--disabled-opacity)]',
+        'group/select-item relative flex gap-[var(--space-2)] min-h-[var(--dropdown-item-height)] w-full cursor-default items-center rounded-[var(--radius-control)] px-[var(--space-3)] py-[var(--space-2)] [overflow-wrap:anywhere] pr-[calc(var(--space-3)+var(--icon-size-md)+var(--space-2))] text-[length:var(--font-size-md)] leading-[var(--control-leading)] outline-none select-none focus:bg-surface-hover focus:text-foreground data-[state=checked]:bg-surface-selected data-[state=checked]:text-foreground data-[state=checked]:font-medium data-[disabled]:pointer-events-none data-[disabled]:opacity-[calc(var(--disabled-opacity-percent)/100)]',
         className,
       )}
       {...props}
     >
-      <span className="absolute right-[var(--dropdown-item-padding-x)] flex size-[var(--icon-size-md)] items-center justify-center">
+      <span className="absolute right-[var(--space-3)] flex size-[var(--icon-size-md)] items-center justify-center">
         <SelectPrimitive.ItemIndicator>
-          <Check className="size-[var(--icon-size-md)]" aria-hidden="true" />
+          <Check className="size-[var(--icon-size-md)] text-primary" aria-hidden="true" />
         </SelectPrimitive.ItemIndicator>
       </span>
-      <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+      {icon ? (
+        <span aria-hidden="true" className="flex size-[var(--icon-size-md)] shrink-0 items-center justify-center group-data-[state=checked]/select-item:text-primary [&_svg]:size-full">
+          {icon}
+        </span>
+      ) : null}
+      <span className="flex min-w-0 flex-1 flex-col gap-[var(--space-0-5)]">
+        <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+        {description ? (
+          <span id={descriptionId} className="text-muted-foreground text-[length:var(--font-size-xs)] leading-[var(--caption-leading)] font-normal">
+            {description}
+          </span>
+        ) : null}
+      </span>
     </SelectPrimitive.Item>
   )
 })
@@ -137,7 +157,7 @@ function SelectSeparator({
   return (
     <SelectPrimitive.Separator
       data-slot="select-separator"
-      className={cn('-mx-[var(--space-1)] my-[var(--space-1)] h-[var(--control-border-width)] bg-border-subtle', className)}
+      className={cn('my-[var(--space-1)] h-[var(--control-border-width)] bg-border-subtle', className)}
       {...props}
     />
   )

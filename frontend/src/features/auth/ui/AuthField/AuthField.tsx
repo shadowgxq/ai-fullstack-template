@@ -30,7 +30,7 @@ export type AuthFieldProps = {
 
 /**
  * 账户表单字段。Input、Label 与密码操作按钮均复用 shared/ui primitive，
- * 业务层只组合字段语义，不再复制尺寸、间距或状态样式。
+ * 认证字号与图标位置按认证组合覆盖，字段状态仍由 Input 提供。
  *
  * 无障碍语义：label 经 htmlFor 关联输入框，错误行 id 固定为 `${id}-error`
  * 并由 aria-describedby 指向，出错时 aria-invalid 置位。
@@ -59,7 +59,7 @@ export function AuthField({
     <div className="relative flex min-w-0 flex-1 items-center">
       {Icon ? (
         <Icon
-          className="pointer-events-none absolute left-[var(--input-padding-x)] z-10 size-[var(--icon-size-md)] text-muted-foreground"
+          className="pointer-events-none absolute left-[var(--space-3)] z-10 size-[var(--icon-size-md)] text-muted-foreground"
           aria-hidden="true"
         />
       ) : null}
@@ -75,8 +75,11 @@ export function AuthField({
         disabled={disabled}
         readOnly={readOnly}
         className={cn(
-          Icon && 'pl-[calc(var(--input-padding-x)+var(--icon-size-md)+var(--input-icon-gap))]',
-          isPassword && 'pr-[calc(var(--input-padding-x)+var(--button-height-sm)+var(--space-1))]',
+          'text-[length:var(--font-size-lg)] leading-[1.25]',
+          Icon &&
+            'pl-[calc(var(--space-3)+var(--icon-size-md)+var(--space-2)-var(--control-border-width))]',
+          isPassword &&
+            'pr-[calc(var(--space-3)+var(--icon-size-md)+var(--space-2)-var(--control-border-width))]',
           // 只读不是禁用：内容仍可选中复制、仍进 tab 序，只是不接受编辑。
           readOnly && 'bg-muted',
         )}
@@ -98,8 +101,10 @@ export function AuthField({
   );
 
   return (
-    <div className="flex flex-col gap-[var(--form-field-gap)]">
-      <Label htmlFor={id}>{label}</Label>
+    <div className="group flex flex-col gap-[var(--space-2)]" data-disabled={disabled || undefined}>
+      <Label htmlFor={id} className="text-[length:var(--font-size-lg)] leading-[1.25]">
+        {label}
+      </Label>
       {action ? (
         <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-start gap-[var(--space-2)]">
           {inputControl}
@@ -111,7 +116,7 @@ export function AuthField({
       {error ? (
         <p
           id={errorId}
-          className="text-[length:var(--helper-font-size)] leading-[var(--helper-line-height)] text-destructive"
+          className="text-[length:var(--font-size-xs)] leading-[var(--caption-leading)] text-destructive"
           role="alert"
         >
           {error}

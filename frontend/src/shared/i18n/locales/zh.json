@@ -218,7 +218,7 @@
           "description": "通用的按钮组件，支持多种状态与样式。"
         },
         "input": {
-          "description": "文本输入框，支持多种尺寸与校验状态。"
+          "description": "清晰输入，克制反馈。通过边界、焦点与文字说明区分交互状态。"
         },
         "label": {
           "description": "文本标签，用于信息标识与说明。"
@@ -323,51 +323,124 @@
           "statesTitle": "状态示例",
           "statesDescription": "展示焦点和按下状态的视觉反馈。",
           "focus": "聚焦状态",
-          "active": "按下状态"
+          "active": "按下状态",
+          "outline": "描边按钮",
+          "link": "文字链接",
+          "run": "加载示例",
+          "longLabel": "确认这项包含较长中文与 English identifier 的操作并继续"
         },
         "input": {
-          "basicTitle": "基础用法",
-          "label": "名称",
-          "placeholder": "输入内容…",
-          "helper": "支持中文、英文和数字。",
-          "focus": "聚焦状态",
-          "focusValue": "设计系统",
-          "disabled": "禁用状态",
-          "error": "错误状态",
-          "errorMessage": "请输入有效的名称。"
+          "basicTitle": "01 / 默认样张",
+          "label": "项目名称",
+          "placeholder": "输入内容",
+          "helper": "使用清晰、便于识别的名称。",
+          "focus": "焦点 / Focus",
+          "focusValue": "正在编辑的内容",
+          "disabled": "禁用 / Disabled",
+          "error": "错误 / Invalid",
+          "readonly": "只读 / Readonly",
+          "readonlyValue": "保留的内容",
+          "statesTitle": "02 / 交互与约束",
+          "statesDescription": "同一结构，不同反馈。焦点不改变尺寸；错误不只依赖颜色。点击标签或按 Tab 查看实际焦点。",
+          "hover": "悬停 / Hover",
+          "parameters": "Inter · 14 / 20　默认 1px　焦点 / 错误 2px　禁用透明度 48%",
+          "geometry": {
+            "height": "默认高度",
+            "radius": "圆角",
+            "padding": "水平内边距"
+          },
+          "feedback": {
+            "hover": "边界加深，提示可编辑。",
+            "focus": "ring / 2px；不改变控件尺寸。",
+            "disabled": "当前不可编辑；保留原有内容。",
+            "readonly": "内容可读，只限制编辑。",
+            "error": "格式不正确，请检查后重试。"
+          }
         },
         "textarea": {
-          "basicTitle": "基础用法",
-          "label": "备注",
-          "placeholder": "输入备注…",
-          "helper": "最多输入 500 个字符。",
-          "counter": "{{count}} / 500",
-          "focus": "聚焦状态",
-          "focusValue": "这里是多行文本输入\n支持换行，适用于较长的内容描述。",
+          "basicTitle": "基础用法 Basic usage",
+          "label": "默认状态",
+          "placeholder": "请输入内容",
+          "helper": "请输入 10–1000 字的内容。",
+          "counter": "{{count}} / 1000",
+          "focus": "焦点状态",
+          "focusValue": "正在输入内容…",
           "disabled": "禁用状态",
-          "disabledValue": "不可输入的内容",
           "error": "错误状态",
-          "errorMessage": "备注内容需要补充。"
+          "errorMessage": "请输入有效的内容。",
+          "autoHeight": "自适应高度",
+          "heightHint": "默认最小高度 96px；高度由调用方调整，不提供 size 变体。",
+          "basicDescription": "一组样例展示标签、计数和自动增高；状态差异见下方。",
+          "counterLabel": "带字数统计",
+          "counterValue": "这是一段示例文本，用于展示输入效果。",
+          "autoValue": "根据内容自动调整高度，\n无需手动拖拽右下角。",
+          "autoHelper": "由使用方监听输入并调整高度。",
+          "statesTitle": "状态 States",
+          "keyboardHint": "点击标签或按 Tab 聚焦；Enter 换行，Tab 移至下一项。",
+          "disabledHelper": "当前不可编辑。",
+          "heightTitle": "高度约束"
         },
         "label": {
           "basicTitle": "基础用法",
           "label": "邮箱地址",
           "placeholder": "name@example.com",
-          "required": "必填字段",
           "optional": "选填字段",
           "helper": "我们只会使用它发送通知。",
           "error": "邮箱格式不正确。"
         },
         "select": {
-          "basicTitle": "基础用法",
+          "basicTitle": "01 基础样式",
           "label": "选择组件",
-          "placeholder": "选择一项",
-          "open": "展开状态",
-          "disabled": "禁用选择",
+          "placeholder": "请选择",
           "options": {
             "one": "第一项",
             "two": "第二项",
             "three": "第三项"
+          },
+          "rich": "展开面板与选项内容",
+          "error": "请选择一个选项",
+          "groups": {
+            "common": "常用设置",
+            "more": "更多选项"
+          },
+          "settings": {
+            "account": "账户设置",
+            "notifications": "消息通知",
+            "appearance": "系统设置",
+            "organization": "组织管理（不可用）",
+            "advanced": "高级选项",
+            "help": "帮助中心"
+          },
+          "descriptions": {
+            "account": "管理账户信息与个人资料",
+            "notifications": "设置通知偏好与接收方式",
+            "appearance": "调整外观、语言与安全选项"
+          },
+          "sizes": {
+            "lg": "大号 lg",
+            "md": "默认 md",
+            "sm": "小号 sm"
+          },
+          "keyboardHint": "点击标签或按 Tab 查看焦点。↑ ↓ 切换选项，Enter / Space 确认，Esc 关闭；禁用项不可选。",
+          "basicDescription": "覆盖默认、悬停、聚焦、已选、禁用与校验反馈。",
+          "richHint": "点击展开；单选，分组标签不可选，勾选表示当前值。",
+          "sizesTitle": "02 尺寸规格",
+          "sizesDescription": "高度按当前组件 API 展示，字号保持统一。",
+          "compositionTitle": "03 组合应用",
+          "compositionDescription": "Label + Select + 辅助说明。",
+          "department": "所属部门",
+          "departmentHelper": "选择负责此项目的团队，后续可在设置中修改。",
+          "states": {
+            "default": "默认状态",
+            "hover": "悬停状态",
+            "focus": "聚焦状态",
+            "selected": "已选中",
+            "disabled": "禁用状态",
+            "invalid": "错误状态"
+          },
+          "teams": {
+            "design": "产品设计团队",
+            "engineering": "工程团队"
           }
         },
         "tabs": {
@@ -379,7 +452,9 @@
           "previewContent": "这里是预览内容。",
           "codeContent": "这里是代码内容。",
           "featuresContent": "这里是功能特性内容。",
-          "historyContent": "这里是版本记录内容。"
+          "historyContent": "这里是版本记录内容。",
+          "segmented": "分段式",
+          "underline": "下划线式"
         },
         "dialog": {
           "basicTitle": "三种确认类型",
@@ -433,15 +508,29 @@
           "edit": "编辑",
           "duplicate": "复制",
           "delete": "删除",
-          "shortcut": "⌘K"
+          "shortcut": "⌘K",
+          "unavailable": "暂不可用",
+          "grouped": "分组菜单",
+          "more": "更多操作",
+          "sort": "排序方式",
+          "sortOptions": {
+            "newest": "最新优先",
+            "oldest": "最早优先",
+            "ascending": "名称 A → Z",
+            "descending": "名称 Z → A"
+          },
+          "actionFeedback": "已选择：{{value}}",
+          "selection": "当前排序：{{value}}"
         },
         "popover": {
           "basicTitle": "基础用法",
           "open": "打开 Popover",
-          "title": "浮层内容",
-          "description": "承载与当前上下文相关的小块操作。",
+          "title": "关于当前视图",
+          "description": "这里的设置仅影响当前视图，不会更改原始内容。",
           "action": "应用设置",
-          "close": "关闭浮层"
+          "close": "知道了",
+          "compact": "打开 Compact 浮层",
+          "keyboardHint": "点击外部或按 Esc 关闭，关闭后焦点返回触发器。"
         },
         "tooltip": {
           "basicTitle": "基础用法",
@@ -449,7 +538,9 @@
           "content": "这是 Tooltip 提示",
           "top": "上方提示",
           "bottom": "下方提示",
-          "right": "右侧提示"
+          "right": "右侧提示",
+          "long": "长内容提示",
+          "longContent": "补充必要的上下文，保持说明简短。较长内容会自然换行；重要错误和操作表单应放在页面或浮层中。"
         },
         "switch": {
           "basicTitle": "基础用法",
@@ -457,8 +548,8 @@
           "interactive": "可交互状态：点击切换",
           "disabled": "禁用状态",
           "states": {
-            "unchecked": "关闭状态",
-            "checked": "开启状态",
+            "unchecked": "初始关闭",
+            "checked": "初始开启",
             "disabledOff": "禁用关闭",
             "disabledOn": "禁用开启"
           }
@@ -474,11 +565,47 @@
         "skeleton": {
           "basicTitle": "基础用法",
           "basicDescription": "通过组合多个占位块匹配内容加载完成后的布局。",
-          "loadingLabel": "内容加载中"
+          "loadingLabel": "内容加载中",
+          "form": "表单占位",
+          "list": "列表占位",
+          "cards": "卡片占位",
+          "table": "表格占位",
+          "motionHint": "占位形状对辅助技术隐藏；减少动态效果时停止脉冲。"
         },
         "generic": {
           "basicTitle": "基础预览",
           "description": "该组件已接入模板，可从示例与源码中继续了解。"
+        },
+        "query": {
+          "mode": "模式",
+          "scenario": "查询场景",
+          "scenarios": {
+            "ready": "正常候选",
+            "empty": "无候选",
+            "error": "首次失败，重试恢复"
+          },
+          "multiline": "多行输入",
+          "disabled": "禁用输入",
+          "validation": "显示校验提示",
+          "label": "查询内容",
+          "description": "查找候选，或在无匹配时使用当前文本。",
+          "placeholder": "输入“设计”查找文档…",
+          "validationHint": "请检查输入内容；此提示本身不阻止提交。",
+          "keyboardHint": "↑ ↓ 选择，Enter 确认，Esc 收起；多行模式用 Shift+Enter 换行，默认最多 4 行。查询中不可提交。",
+          "items": {
+            "rules": {
+              "title": "设计系统规范",
+              "description": "示例文档 · 字体、间距与基础控件"
+            },
+            "assets": {
+              "title": "设计资产清单",
+              "description": "示例文档 · 可复用组件与交付说明"
+            },
+            "unavailable": {
+              "title": "设计文档（不可用）",
+              "description": "此候选当前不可选择"
+            }
+          }
         }
       },
       "examples": {
@@ -527,7 +654,9 @@
           "variant": "控制按钮的视觉变体。",
           "size": "控制按钮尺寸。",
           "disabled": "禁用按钮及其交互。",
-          "asChild": "将按钮行为合并到子元素。"
+          "asChild": "将按钮行为合并到子元素。",
+          "loading": "显示加载状态并阻止重复操作，包含 asChild 链接。",
+          "loadingLabel": "加载期间的可访问名称。"
         },
         "dialog": {
           "type": "确认弹窗的语义类型，控制默认、警告和危险场景标识。",
@@ -543,6 +672,22 @@
         "generic": {
           "children": "组件需要渲染的内容。",
           "className": "追加样式类名。"
+        },
+        "textarea": {
+          "value": "受控文本与原生输入事件。",
+          "height": "最小高度 96px；使用 rows、className 或调用方自动增高，不提供 size。",
+          "state": "禁用阻止操作，只读保留选择和复制。"
+        },
+        "select": {
+          "value": "受控的单选值与变更事件。",
+          "size": "触发框高度为 36 / 40 / 44px。",
+          "content": "选项的图标和辅助描述；选中后触发框只显示标签。",
+          "disabled": "禁用项不能通过鼠标或键盘选择。"
+        },
+        "tabs": {
+          "variant": "列表设置的视觉变体由内部触发项继承，可单独覆盖。",
+          "value": "当前面板与切换事件。",
+          "disabled": "禁用项不参与键盘切换。"
         }
       },
       "source": {
@@ -566,11 +711,6 @@
       "empty": "没有匹配的候选，可以继续使用自然语言。",
       "searchError": "候选搜索暂时失败。",
       "retry": "重试",
-      "candidateTypes": {
-        "stock": "股票",
-        "crypto": "加密资产",
-        "commodity": "大宗商品"
-      },
       "freeformTitle": "继续使用自然语言",
       "freeformValue": "提交“{{value}}”给业务 resolver",
       "commitLabel": "当前 commit",

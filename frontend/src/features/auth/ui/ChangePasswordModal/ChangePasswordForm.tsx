@@ -131,7 +131,7 @@ export function ChangePasswordForm({ onDone }: ChangePasswordFormProps) {
   if (!user) {
     return (
       <p
-        className="text-[length:var(--font-size-md)] leading-[var(--line-height-base)] text-muted-foreground"
+        className="text-[length:var(--font-size-md)] leading-[var(--body-leading)] text-muted-foreground"
         role="alert"
       >
         {t('auth.changePassword.authRequired')}
@@ -142,7 +142,7 @@ export function ChangePasswordForm({ onDone }: ChangePasswordFormProps) {
   if (!accountEmail) {
     return (
       <p
-        className="text-[length:var(--font-size-md)] leading-[var(--line-height-base)] text-muted-foreground"
+        className="text-[length:var(--font-size-md)] leading-[var(--body-leading)] text-muted-foreground"
         role="alert"
       >
         {t('auth.changePassword.noEmail')}
@@ -154,13 +154,13 @@ export function ChangePasswordForm({ onDone }: ChangePasswordFormProps) {
     return (
       <div className="flex flex-col items-start gap-[var(--space-3)]">
         <p
-          className="text-[length:var(--font-size-md)] leading-[var(--line-height-base)] text-success"
+          className="text-[length:var(--font-size-md)] leading-[var(--body-leading)] text-success"
           role="status"
         >
           {t('auth.changePassword.done')}
         </p>
         {/* 已知限制明写出来，不藏：后端不失效已签发 token，改密不会踢掉其它设备。 */}
-        <p className="text-[length:var(--font-size-md)] leading-[var(--line-height-base)] text-muted-foreground">
+        <p className="text-[length:var(--font-size-md)] leading-[var(--body-leading)] text-muted-foreground">
           {t('auth.changePassword.sessionNotice')}
         </p>
         <Button type="button" variant="outline" onClick={onDone}>
@@ -171,7 +171,7 @@ export function ChangePasswordForm({ onDone }: ChangePasswordFormProps) {
   }
 
   return (
-    <form className="flex flex-col gap-[var(--form-group-gap)]" onSubmit={handleSubmit} noValidate>
+    <form className="flex flex-col gap-[var(--space-5)]" onSubmit={handleSubmit} noValidate>
       <AuthField
         id="change-password-email"
         type="email"
@@ -211,10 +211,10 @@ export function ChangePasswordForm({ onDone }: ChangePasswordFormProps) {
           className="flex flex-col gap-[var(--space-1)] rounded-[var(--radius-control)] bg-muted px-[var(--space-3)] py-[var(--space-2)]"
           role="status"
         >
-          <p className="text-[length:var(--font-size-md)] leading-[var(--line-height-base)] text-foreground [overflow-wrap:anywhere]">
+          <p className="text-[length:var(--font-size-md)] leading-[var(--body-leading)] text-foreground [overflow-wrap:anywhere]">
             {t('auth.codeSent', { email: accountEmail })}
           </p>
-          <p className="text-[length:var(--font-size-xs)] leading-[var(--line-height-sm)] text-muted-foreground">
+          <p className="text-[length:var(--font-size-xs)] leading-[var(--caption-leading)] text-muted-foreground">
             {t('auth.codeExpiresIn', { minutes: expireMinutes })}
           </p>
         </div>
@@ -248,7 +248,7 @@ export function ChangePasswordForm({ onDone }: ChangePasswordFormProps) {
 
       {message ? (
         <p
-          className="text-[length:var(--font-size-md)] leading-[var(--line-height-base)] text-destructive"
+          className="text-[length:var(--font-size-md)] leading-[var(--body-leading)] text-destructive"
           role="alert"
         >
           {message}

@@ -1,16 +1,25 @@
-import { createElement, useMemo, useState, type ReactNode } from 'react';
+import { createElement, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   ArrowUpRight,
+  Bell,
+  Ban,
+  BookOpen,
   Check,
   ChevronDown,
+  CircleAlert,
   Code2,
   Copy,
   Eye,
+  FileText,
+  CornerDownLeft,
   Layers3,
   MoreHorizontal,
   Pencil,
   Search,
+  Settings,
+  SlidersHorizontal,
+  UserRound,
   Share2,
   Trash2,
 } from 'lucide-react';
@@ -33,6 +42,9 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuLabel,
   DropdownMenuItem,
   DropdownMenuSeparator,
@@ -51,7 +63,16 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from '@/shared/ui/popover';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectLabel,
+  SelectSeparator,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/select';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { Switch } from '@/shared/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
@@ -91,7 +112,7 @@ const buttonApiRows: readonly ApiRow[] = [
   },
   {
     name: 'size',
-    type: "'default' | 'xs' | 'sm' | 'lg' | 'icon'",
+    type: "'sm' | 'default' | 'lg' | 'icon-sm' | 'icon' | 'icon-lg'",
     defaultValue: "'default'",
     descriptionKey: 'components.detail.api.button.size',
   },
@@ -100,6 +121,18 @@ const buttonApiRows: readonly ApiRow[] = [
     type: 'boolean',
     defaultValue: 'false',
     descriptionKey: 'components.detail.api.button.disabled',
+  },
+  {
+    name: 'loading',
+    type: 'boolean',
+    defaultValue: 'false',
+    descriptionKey: 'components.detail.api.button.loading',
+  },
+  {
+    name: 'loadingLabel',
+    type: 'string',
+    defaultValue: '—',
+    descriptionKey: 'components.detail.api.button.loadingLabel',
   },
   {
     name: 'asChild',
@@ -157,29 +190,94 @@ const dialogApiRows: readonly ApiRow[] = [
   },
 ];
 
+const textareaApiRows: readonly ApiRow[] = [
+  {
+    name: 'value / onChange',
+    type: 'string / ChangeEventHandler<HTMLTextAreaElement>',
+    defaultValue: '—',
+    descriptionKey: 'components.detail.api.textarea.value',
+  },
+  {
+    name: 'rows / className',
+    type: 'number / string',
+    defaultValue: '—',
+    descriptionKey: 'components.detail.api.textarea.height',
+  },
+  {
+    name: 'disabled / readOnly',
+    type: 'boolean',
+    defaultValue: 'false',
+    descriptionKey: 'components.detail.api.textarea.state',
+  },
+];
+const selectApiRows: readonly ApiRow[] = [
+  {
+    name: 'value / onValueChange',
+    type: 'string / (value: string) => void',
+    defaultValue: '—',
+    descriptionKey: 'components.detail.api.select.value',
+  },
+  {
+    name: 'SelectTrigger.size',
+    type: "'sm' | 'md' | 'lg'",
+    defaultValue: "'md'",
+    descriptionKey: 'components.detail.api.select.size',
+  },
+  {
+    name: 'SelectItem.icon / description',
+    type: 'ReactNode',
+    defaultValue: '—',
+    descriptionKey: 'components.detail.api.select.content',
+  },
+  {
+    name: 'SelectItem.disabled',
+    type: 'boolean',
+    defaultValue: 'false',
+    descriptionKey: 'components.detail.api.select.disabled',
+  },
+];
+const tabsApiRows: readonly ApiRow[] = [
+  {
+    name: 'TabsList.variant',
+    type: "'segmented' | 'underline'",
+    defaultValue: "'segmented'",
+    descriptionKey: 'components.detail.api.tabs.variant',
+  },
+  {
+    name: 'value / onValueChange',
+    type: 'string / (value: string) => void',
+    defaultValue: '—',
+    descriptionKey: 'components.detail.api.tabs.value',
+  },
+  {
+    name: 'TabsTrigger.disabled',
+    type: 'boolean',
+    defaultValue: 'false',
+    descriptionKey: 'components.detail.api.tabs.disabled',
+  },
+];
+
 const apiRowsBySlug: Record<string, readonly ApiRow[]> = {
   button: buttonApiRows,
+  textarea: textareaApiRows,
+  select: selectApiRows,
+  tabs: tabsApiRows,
   dialog: dialogApiRows,
   skeleton: skeletonApiRows,
 };
 
-type QueryPreviewItem = Readonly<{
-  id: string;
-  symbol: string;
-  name: string;
-  type: 'stock' | 'crypto' | 'commodity';
-}>;
-
+type QueryPreviewItem = Readonly<{ id: 'rules' | 'assets' | 'unavailable'; disabled?: boolean }>;
 const queryPreviewItems: readonly QueryPreviewItem[] = [
-  { id: 'apple', symbol: 'AAPL', name: 'Apple', type: 'stock' },
-  { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin', type: 'crypto' },
-  { id: 'gold', symbol: 'XAU', name: 'Gold', type: 'commodity' },
+  { id: 'rules' },
+  { id: 'assets' },
+  { id: 'unavailable', disabled: true },
 ];
 
 const tooltipPreviewPositions = [
-  { side: 'top', labelKey: 'components.detail.preview.tooltip.top' },
-  { side: 'bottom', labelKey: 'components.detail.preview.tooltip.bottom' },
-  { side: 'right', labelKey: 'components.detail.preview.tooltip.right' },
+  { side: 'top', labelKey: 'components.detail.preview.tooltip.top', long: false },
+  { side: 'bottom', labelKey: 'components.detail.preview.tooltip.bottom', long: false },
+  { side: 'right', labelKey: 'components.detail.preview.tooltip.right', long: false },
+  { side: 'left', labelKey: 'components.detail.preview.tooltip.long', long: true },
 ] as const;
 
 const switchPreviewStates = [
@@ -201,14 +299,6 @@ const dialogSizeOptions = [
   { value: 'lg', labelKey: 'components.detail.preview.dialog.sizes.large' },
 ] as const satisfies readonly { value: DialogSize; labelKey: string }[];
 
-const dialogActionClassNames: Record<DialogType, string> = {
-  default: '',
-  warning:
-    'bg-warning text-warning-foreground hover:bg-warning/90 active:bg-warning/80 focus-visible:ring-warning',
-  danger:
-    'bg-destructive text-primary-foreground hover:bg-destructive/90 active:bg-destructive/80 focus-visible:ring-destructive',
-};
-
 export function ComponentDetailPage() {
   const { componentName } = useParams<{ componentName: string }>();
   const item = getCatalogItem(componentName);
@@ -225,7 +315,7 @@ function ComponentDetail({ item }: { item: ComponentCatalogItem }) {
   const [activeTab, setActiveTab] = useState<DetailTab>('preview');
   const [copiedValue, setCopiedValue] = useState('');
   const [inputValue, setInputValue] = useState('');
-  const [selectValue, setSelectValue] = useState('one');
+  const [selectValue, setSelectValue] = useState('');
   const [switchValue, setSwitchValue] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date(2026, 8, 8));
 
@@ -259,7 +349,7 @@ function ComponentDetail({ item }: { item: ComponentCatalogItem }) {
 
   return (
     <AppShell>
-      <div className="bg-page relative isolate min-h-full overflow-hidden">
+      <div className="bg-background relative isolate min-h-full overflow-hidden">
         <div
           className="from-primary/8 pointer-events-none absolute inset-x-0 top-[-20rem] mx-auto h-[34rem] w-[min(100%,90rem)] bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-from),transparent_70%)] blur-3xl dark:opacity-30"
           aria-hidden="true"
@@ -293,14 +383,14 @@ function ComponentDetail({ item }: { item: ComponentCatalogItem }) {
 
             <header className="mt-5 flex items-start justify-between gap-8 max-[620px]:flex-col">
               <div className="min-w-0">
-                <h1 className="text-foreground text-[length:var(--text-page-title-size)] leading-[var(--text-page-title-line)] font-bold tracking-[-0.045em]">
+                <h1 className="text-foreground text-[length:var(--text-page-title-size)] leading-[var(--page-title-leading)] font-semibold tracking-[-0.045em]">
                   {item.name}
                 </h1>
                 <p className="text-muted-foreground mt-3 max-w-2xl text-base leading-relaxed">
                   {t(item.descriptionKey)}
                 </p>
               </div>
-              <span className="bg-secondary/70 text-primary inline-flex shrink-0 items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-semibold">
+              <span className="bg-secondary/70 text-foreground inline-flex shrink-0 items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-semibold">
                 <span className="bg-success size-1.5 rounded-full" aria-hidden="true" />
                 {t('components.detail.ready')}
               </span>
@@ -312,17 +402,15 @@ function ComponentDetail({ item }: { item: ComponentCatalogItem }) {
               onValueChange={(value) => setActiveTab(value as DetailTab)}
               className="mt-5"
             >
-              <TabsList className="h-auto w-full justify-start gap-7 overflow-x-auto rounded-none border-b border-border/70 bg-transparent p-0 max-[520px]:gap-5">
-                {detailTabs.map((tab) => (
-                  <TabsTrigger
-                    key={tab.value}
-                    value={tab.value}
-                    className="text-muted-foreground hover:text-foreground h-10 rounded-none border-b-2 border-transparent px-0 text-sm data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
-                  >
-                    {t(tab.labelKey)}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
+              <div className="-m-[calc(var(--focus-ring-width)+var(--space-0-5))] overflow-x-auto p-[calc(var(--focus-ring-width)+var(--space-0-5))]">
+                <TabsList variant="underline" className="w-full min-w-max">
+                  {detailTabs.map((tab) => (
+                    <TabsTrigger key={tab.value} value={tab.value}>
+                      {t(tab.labelKey)}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </div>
 
               <TabsContent value="preview" className="mt-5">
                 <ComponentPreview
@@ -371,7 +459,7 @@ function ComponentDetail({ item }: { item: ComponentCatalogItem }) {
             <section id="source" className="border-border mt-10 border-t pt-7">
               <div className="flex flex-wrap items-start justify-between gap-5">
                 <div>
-                  <p className="text-primary font-sans text-xs tracking-[0.12em] uppercase">
+                  <p className="text-foreground font-sans text-xs tracking-[0.12em] uppercase">
                     {t('components.detail.source.eyebrow')}
                   </p>
                   <h2 className="text-foreground mt-2 text-lg font-semibold">
@@ -439,7 +527,7 @@ function ComponentSidebar({ item }: { item: ComponentCatalogItem }) {
         <Input
           aria-label={t('components.detail.sidebarSearch')}
           placeholder={t('components.detail.sidebarSearch')}
-          className="h-11 rounded-lg bg-background pl-9 text-[15px] shadow-none"
+          className="pl-[calc(var(--space-3)+var(--icon-size-md)+var(--space-2)-var(--control-border-width))]"
         />
       </div>
 
@@ -451,7 +539,7 @@ function ComponentSidebar({ item }: { item: ComponentCatalogItem }) {
 
           return (
             <div key={category} className="min-w-[248px]">
-              <h2 className="text-foreground mb-2 px-4 text-[15px] font-bold">
+              <h2 className="text-foreground mb-2 px-4 text-[15px] font-semibold">
                 {t(`components.catalog.categories.${category}.label`)}
               </h2>
               <div className="grid gap-0.5">
@@ -465,7 +553,7 @@ function ComponentSidebar({ item }: { item: ComponentCatalogItem }) {
                       aria-current={isActive ? 'page' : undefined}
                       className={cn(
                         'text-muted-foreground hover:bg-accent hover:text-foreground flex min-h-10 items-center gap-3 rounded-lg px-4 text-[15px] no-underline transition-colors focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none',
-                        isActive && 'bg-secondary text-primary font-semibold',
+                        isActive && 'bg-secondary text-foreground font-semibold',
                       )}
                     >
                       {createElement(getCatalogIcon(candidate.slug), {
@@ -600,12 +688,18 @@ function ButtonPreview({
   onCopy: (value: string) => void;
 }) {
   const Icon = getCatalogIcon(item.slug);
+  const [isPending, setIsPending] = useState(false);
+  useEffect(() => {
+    if (!isPending) return;
+    const timer = window.setTimeout(() => setIsPending(false), 1200);
+    return () => window.clearTimeout(timer);
+  }, [isPending]);
 
   return (
     <div className="space-y-4">
       <section className="border-border/70 bg-card rounded-xl border p-5 shadow-sm sm:p-6">
         <header className="flex items-start gap-4 border-b border-border/70 pb-4">
-          <span className="bg-secondary/65 text-primary inline-grid size-14 shrink-0 place-items-center rounded-xl">
+          <span className="bg-secondary/65 text-foreground inline-grid size-14 shrink-0 place-items-center rounded-xl">
             {createElement(Icon, {
               size: 25,
               strokeWidth: 2.1,
@@ -613,10 +707,10 @@ function ButtonPreview({
             })}
           </span>
           <div className="min-w-0">
-            <h2 className="text-foreground text-xl leading-7 font-bold tracking-[-0.03em]">
+            <h2 className="text-foreground text-xl leading-7 font-semibold tracking-[-0.03em]">
               {t('components.detail.preview.button.cardTitle')}
             </h2>
-            <p className="text-muted-foreground mt-1 text-sm leading-5">
+            <p className="text-muted-foreground mt-[var(--space-4)] text-sm leading-[var(--body-leading)]">
               {t('components.detail.preview.button.cardDescription')}
             </p>
           </div>
@@ -630,15 +724,23 @@ function ButtonPreview({
             >
               {t('components.detail.preview.button.basicTitle')}
             </h3>
-            <div className="mt-3 grid grid-cols-4 gap-3 max-[640px]:grid-cols-2 max-[420px]:grid-cols-1">
-              <Button className="w-full">{t('components.detail.preview.button.primary')}</Button>
-              <Button variant="secondary" className="w-full">
+            <div className="mt-3 grid grid-cols-3 gap-3 max-[640px]:grid-cols-2 max-[420px]:grid-cols-1">
+              <Button type="button" className="w-full">
+                {t('components.detail.preview.button.primary')}
+              </Button>
+              <Button type="button" variant="secondary" className="w-full">
                 {t('components.detail.preview.button.secondary')}
               </Button>
-              <Button variant="outline" className="w-full">
+              <Button type="button" variant="outline" className="w-full">
+                {t('components.detail.preview.button.outline')}
+              </Button>
+              <Button type="button" variant="ghost" className="w-full">
                 {t('components.detail.preview.button.ghost')}
               </Button>
-              <Button variant="destructive" className="w-full">
+              <Button type="button" variant="link" className="w-full">
+                {t('components.detail.preview.button.link')}
+              </Button>
+              <Button type="button" variant="destructive" className="w-full">
                 {t('components.detail.preview.button.destructive')}
               </Button>
             </div>
@@ -652,19 +754,29 @@ function ButtonPreview({
               {t('components.detail.preview.button.statesTitle')}
             </h3>
             <div className="mt-3 grid max-w-[20rem] grid-cols-2 gap-3 max-[420px]:max-w-none max-[420px]:grid-cols-1">
-              <Button variant="secondary" disabled className="w-full">
+              <Button type="button" variant="secondary" disabled className="w-full">
                 {t('components.detail.preview.button.disabled')}
               </Button>
               <Button
-                loading
+                type="button"
+                loading={isPending}
+                onClick={() => setIsPending(true)}
                 loadingLabel={t('components.detail.preview.button.loading')}
                 className="w-full"
               >
-                {t('components.detail.preview.button.loading')}
+                {t(
+                  isPending
+                    ? 'components.detail.preview.button.loading'
+                    : 'components.detail.preview.button.run',
+                )}
               </Button>
             </div>
           </section>
 
+          {/* 此样例按设计使用内容高度，允许长标签自然撑开。 */}
+          <Button type="button" className="w-full min-h-0 max-w-[400px]">
+            {t('components.detail.preview.button.longLabel')}
+          </Button>
           <section aria-labelledby="button-sizes-title">
             <h3
               id="button-sizes-title"
@@ -673,11 +785,13 @@ function ButtonPreview({
               {t('components.detail.preview.button.sizesTitle')}
             </h3>
             <div className="mt-3 flex flex-wrap items-center gap-3">
-              <Button size="sm" variant="outline">
+              <Button type="button" size="sm" variant="outline">
                 {t('components.detail.preview.button.small')}
               </Button>
-              <Button>{t('components.detail.preview.button.defaultSize')}</Button>
-              <Button size="lg">{t('components.detail.preview.button.large')}</Button>
+              <Button type="button">{t('components.detail.preview.button.defaultSize')}</Button>
+              <Button type="button" size="lg">
+                {t('components.detail.preview.button.large')}
+              </Button>
             </div>
           </section>
         </div>
@@ -710,20 +824,15 @@ function InputPreview({
   onChange: (value: string) => void;
 }) {
   return (
-    <div className="space-y-7">
-      <DetailIntro
-        eyebrow={t('components.detail.preview.eyebrow')}
-        title={t('components.detail.preview.title')}
-        description={t('components.detail.preview.description')}
-      />
-      <PreviewBlock title={t('components.detail.preview.input.basicTitle')}>
-        <div className="grid max-w-3xl gap-5 md:grid-cols-2">
-          <div className="grid gap-2">
+    <div className="space-y-[var(--space-6)]">
+      <section className="grid gap-[var(--space-6)] rounded-[var(--radius-surface)] border border-border-subtle bg-card p-[calc(var(--space-6)-var(--control-border-width))]">
+        <h2 className="text-xs text-muted-foreground">
+          {t('components.detail.preview.input.basicTitle')}
+        </h2>
+        <div className="grid items-center gap-[var(--space-8)] md:grid-cols-[minmax(0,1fr)_224px]">
+          <div className="grid gap-[var(--space-2)]">
             <Label htmlFor="component-detail-input">
               {t('components.detail.preview.input.label')}
-              <span className="text-destructive" aria-hidden="true">
-                *
-              </span>
             </Label>
             <Input
               id="component-detail-input"
@@ -732,143 +841,221 @@ function InputPreview({
               aria-describedby="component-detail-input-helper"
               onChange={(event) => onChange(event.target.value)}
             />
-            <p id="component-detail-input-helper" className="text-muted-foreground text-xs">
+            <p id="component-detail-input-helper" className="text-xs text-muted-foreground">
               {t('components.detail.preview.input.helper')}
             </p>
           </div>
-          <div className="grid gap-2">
-            <Label htmlFor="component-detail-input-focus">
-              {t('components.detail.preview.input.focus')}
-            </Label>
-            <Input
-              id="component-detail-input-focus"
-              data-preview-state="focus"
-              defaultValue={t('components.detail.preview.input.focusValue')}
-              className="border-ring ring-[var(--control-focus-stroke)] ring-ring ring-offset-[var(--focus-ring-offset)]"
-            />
-            <p className="text-muted-foreground text-xs">
-              {t('components.detail.preview.input.helper')}
-            </p>
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="component-detail-input-disabled">
-              {t('components.detail.preview.input.disabled')}
-            </Label>
-            <Input
-              id="component-detail-input-disabled"
-              value={t('components.detail.preview.input.placeholder')}
-              disabled
-              readOnly
-              aria-describedby="component-detail-input-disabled-helper"
-            />
-            <p
-              id="component-detail-input-disabled-helper"
-              className="text-muted-foreground text-xs"
-            >
-              {t('components.detail.preview.input.helper')}
-            </p>
-          </div>
-          <div className="grid gap-2 md:col-span-2">
-            <Label htmlFor="component-detail-input-error">
-              {t('components.detail.preview.input.error')}
-            </Label>
-            <Input
-              id="component-detail-input-error"
-              defaultValue="invalid@"
-              aria-invalid="true"
-              aria-describedby="component-detail-input-error-message"
-            />
-            <p
-              id="component-detail-input-error-message"
-              className="text-destructive text-xs"
-              role="alert"
-            >
-              {t('components.detail.preview.input.errorMessage')}
-            </p>
-          </div>
+          <dl className="grid gap-[var(--space-3)] border-t border-border-subtle pt-[var(--space-6)] text-xs md:border-t-0 md:border-l md:pt-0 md:pl-[calc(var(--space-6)-var(--control-border-width))]">
+            {(['height', 'radius', 'padding'] as const).map((parameter) => (
+              <div key={parameter} className="flex justify-between gap-[var(--space-3)]">
+                <dt className="text-muted-foreground">
+                  {t(`components.detail.preview.input.geometry.${parameter}`)}
+                </dt>
+                <dd className="font-mono">
+                  {{ height: '40px', radius: '8px', padding: '12px' }[parameter]}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </div>
-      </PreviewBlock>
+      </section>
+      <section className="space-y-[var(--space-3)]" aria-labelledby="input-states-title">
+        <h2
+          id="input-states-title"
+          className="text-lg font-medium leading-[var(--card-title-leading)]"
+        >
+          {t('components.detail.preview.input.statesTitle')}
+        </h2>
+        <p className="text-xs text-muted-foreground">
+          {t('components.detail.preview.input.statesDescription')}
+        </p>
+        <div>
+          {(['hover', 'focus', 'disabled', 'readonly', 'error'] as const).map((state) => (
+            <div
+              key={state}
+              className="grid items-center gap-[var(--space-2)] border-b border-border-subtle pt-[var(--space-3)] pb-[calc(var(--space-3)-var(--control-border-width))] md:grid-cols-[136px_minmax(0,1fr)_224px] md:gap-[var(--space-6)]"
+            >
+              <Label
+                htmlFor={`component-detail-input-${state}`}
+                className="font-normal leading-[var(--control-leading)]"
+              >
+                {t(`components.detail.preview.input.${state}`)}
+              </Label>
+              <Input
+                id={`component-detail-input-${state}`}
+                placeholder={t('components.detail.preview.input.placeholder')}
+                defaultValue={
+                  state === 'focus'
+                    ? t('components.detail.preview.input.focusValue')
+                    : state === 'readonly'
+                      ? t('components.detail.preview.input.readonlyValue')
+                      : undefined
+                }
+                disabled={state === 'disabled'}
+                readOnly={state === 'readonly'}
+                aria-invalid={state === 'error' || undefined}
+                aria-describedby={`component-detail-input-${state}-message`}
+              />
+              <p
+                id={`component-detail-input-${state}-message`}
+                className={cn(
+                  'text-xs text-muted-foreground',
+                  state === 'error' && 'text-destructive',
+                )}
+                role={state === 'error' ? 'alert' : undefined}
+              >
+                {t(`components.detail.preview.input.feedback.${state}`)}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+      <p className="text-xs text-muted-foreground">
+        {t('components.detail.preview.input.parameters')}
+      </p>
     </div>
   );
 }
 
 function TextareaPreview({ t }: { t: (key: string, options?: Record<string, unknown>) => string }) {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(t('components.detail.preview.textarea.counterValue'));
+  const [autoValue, setAutoValue] = useState(t('components.detail.preview.textarea.autoValue'));
 
   return (
-    <div className="space-y-7">
-      <DetailIntro
-        eyebrow={t('components.detail.preview.eyebrow')}
-        title={t('components.detail.preview.title')}
-        description={t('components.detail.preview.description')}
-      />
-      <PreviewBlock title={t('components.detail.preview.textarea.basicTitle')}>
-        <div className="grid max-w-lg gap-2">
-          <Label htmlFor="component-detail-textarea">
-            {t('components.detail.preview.textarea.label')}
-          </Label>
-          <Textarea
-            id="component-detail-textarea"
-            value={value}
-            maxLength={500}
-            placeholder={t('components.detail.preview.textarea.placeholder')}
-            aria-describedby="component-detail-textarea-helper"
-            onChange={(event) => setValue(event.target.value)}
-          />
-          <div
-            id="component-detail-textarea-helper"
-            className="text-muted-foreground flex items-center justify-between gap-3 text-xs"
-          >
-            <span>{t('components.detail.preview.textarea.helper')}</span>
-            <span aria-live="polite">
+    <div className="space-y-[var(--space-4)]">
+      <SpecimenSection
+        title={t('components.detail.preview.textarea.basicTitle')}
+        description={t('components.detail.preview.textarea.basicDescription')}
+      >
+        <div className="grid gap-[var(--space-6)] lg:grid-cols-3">
+          <div className="grid content-start gap-[var(--space-2)]">
+            <Label htmlFor="component-detail-textarea">
+              {t('components.detail.preview.textarea.label')}
+            </Label>
+            <Textarea
+              id="component-detail-textarea"
+              placeholder={t('components.detail.preview.textarea.placeholder')}
+              aria-describedby="component-detail-textarea-helper"
+            />
+            <p id="component-detail-textarea-helper" className="text-xs text-muted-foreground">
+              {t('components.detail.preview.textarea.helper')}
+            </p>
+          </div>
+          <div className="grid content-start gap-[var(--space-2)]">
+            <Label
+              htmlFor="component-detail-textarea-counter"
+              className="font-semibold leading-[var(--body-leading)]"
+            >
+              {t('components.detail.preview.textarea.counterLabel')}
+            </Label>
+            <Textarea
+              id="component-detail-textarea-counter"
+              value={value}
+              maxLength={1000}
+              aria-describedby="component-detail-textarea-counter-message"
+              onChange={(event) => setValue(event.target.value)}
+            />
+            <p
+              id="component-detail-textarea-counter-message"
+              className="text-right text-xs text-muted-foreground"
+              aria-live="polite"
+            >
               {t('components.detail.preview.textarea.counter', { count: value.length })}
-            </span>
+            </p>
+          </div>
+          <div className="grid content-start gap-[var(--space-2)]">
+            <Label
+              htmlFor="component-detail-textarea-auto"
+              className="font-semibold leading-[var(--body-leading)]"
+            >
+              {t('components.detail.preview.textarea.autoHeight')}
+            </Label>
+            <Textarea
+              id="component-detail-textarea-auto"
+              value={autoValue}
+              className="resize-none overflow-hidden"
+              aria-describedby="component-detail-textarea-auto-helper"
+              onChange={(event) => {
+                setAutoValue(event.target.value);
+                const field = event.currentTarget;
+                field.style.height = 'auto';
+                field.style.height = `${field.scrollHeight + field.offsetHeight - field.clientHeight}px`;
+              }}
+            />
+            <p id="component-detail-textarea-auto-helper" className="text-xs text-muted-foreground">
+              {t('components.detail.preview.textarea.autoHelper')}
+            </p>
           </div>
         </div>
-        <div className="mt-5 grid max-w-lg gap-2">
-          <Label htmlFor="component-detail-textarea-focus">
-            {t('components.detail.preview.textarea.focus')}
-          </Label>
-          <Textarea
-            id="component-detail-textarea-focus"
-            data-preview-state="focus"
-            defaultValue={t('components.detail.preview.textarea.focusValue')}
-            className="border-ring ring-[var(--control-focus-stroke)] ring-ring ring-offset-[var(--focus-ring-offset)]"
-          />
-          <p className="text-muted-foreground text-xs">
-            {t('components.detail.preview.textarea.helper')}
-          </p>
+      </SpecimenSection>
+      <SpecimenSection title={t('components.detail.preview.textarea.statesTitle')}>
+        <div className="grid gap-[var(--space-6)] lg:grid-cols-3">
+          <div className="grid content-start gap-[var(--space-2)]">
+            <Label
+              htmlFor="component-detail-textarea-focus"
+              className="font-semibold leading-[var(--body-leading)]"
+            >
+              {t('components.detail.preview.textarea.focus')}
+            </Label>
+            <Textarea
+              id="component-detail-textarea-focus"
+              defaultValue={t('components.detail.preview.textarea.focusValue')}
+              aria-describedby="component-detail-textarea-focus-helper"
+            />
+            <p
+              id="component-detail-textarea-focus-helper"
+              className="text-xs text-muted-foreground"
+            >
+              {t('components.detail.preview.textarea.keyboardHint')}
+            </p>
+          </div>
+          <div className="grid content-start gap-[var(--space-2)]">
+            <Label
+              htmlFor="component-detail-textarea-error"
+              className="font-semibold leading-[var(--body-leading)]"
+            >
+              {t('components.detail.preview.textarea.error')}
+            </Label>
+            <Textarea
+              id="component-detail-textarea-error"
+              aria-invalid="true"
+              aria-describedby="component-detail-textarea-error-message"
+              placeholder={t('components.detail.preview.textarea.placeholder')}
+            />
+            <p
+              id="component-detail-textarea-error-message"
+              className="text-xs text-destructive"
+              role="alert"
+            >
+              {t('components.detail.preview.textarea.errorMessage')}
+            </p>
+          </div>
+          <div className="grid content-start gap-[var(--space-2)]">
+            <Label
+              htmlFor="component-detail-textarea-disabled"
+              className="font-semibold leading-[var(--body-leading)]"
+            >
+              {t('components.detail.preview.textarea.disabled')}
+            </Label>
+            <Textarea
+              id="component-detail-textarea-disabled"
+              disabled
+              placeholder={t('components.detail.preview.textarea.placeholder')}
+              aria-describedby="component-detail-textarea-disabled-helper"
+            />
+            <p
+              id="component-detail-textarea-disabled-helper"
+              className="text-xs text-muted-foreground"
+            >
+              {t('components.detail.preview.textarea.disabledHelper')}
+            </p>
+          </div>
         </div>
-        <div className="mt-5 grid max-w-lg gap-2">
-          <Label htmlFor="component-detail-textarea-disabled">
-            {t('components.detail.preview.textarea.disabled')}
-          </Label>
-          <Textarea
-            id="component-detail-textarea-disabled"
-            disabled
-            defaultValue={t('components.detail.preview.textarea.disabledValue')}
-          />
-        </div>
-        <div className="mt-5 grid max-w-lg gap-2">
-          <Label htmlFor="component-detail-textarea-error">
-            {t('components.detail.preview.textarea.error')}
-          </Label>
-          <Textarea
-            id="component-detail-textarea-error"
-            defaultValue=""
-            aria-invalid="true"
-            aria-describedby="component-detail-textarea-error-message"
-            placeholder={t('components.detail.preview.textarea.placeholder')}
-          />
-          <p
-            id="component-detail-textarea-error-message"
-            className="text-destructive text-xs"
-            role="alert"
-          >
-            {t('components.detail.preview.textarea.errorMessage')}
-          </p>
-        </div>
-      </PreviewBlock>
+      </SpecimenSection>
+      <SpecimenSection
+        title={t('components.detail.preview.textarea.heightTitle')}
+        description={t('components.detail.preview.textarea.heightHint')}
+      />
     </div>
   );
 }
@@ -886,20 +1073,59 @@ function SkeletonPreview({ t }: { t: (key: string, options?: Record<string, unkn
         description={t('components.detail.preview.skeleton.basicDescription')}
       >
         <div
-          className="max-w-lg space-y-4"
+          className="grid gap-6 sm:grid-cols-2"
           role="status"
           aria-busy="true"
           aria-label={t('components.detail.preview.skeleton.loadingLabel')}
         >
-          <div className="flex items-center gap-3">
-            <Skeleton className="size-10 rounded-full" />
-            <div className="min-w-0 flex-1 space-y-2">
-              <Skeleton className="h-4 w-1/3" />
-              <Skeleton className="h-3 w-2/3" />
+          <div className="space-y-[var(--space-2)]">
+            <h3>{t('components.detail.preview.skeleton.form')}</h3>
+            {[0, 1].map((n) => (
+              <div key={n} className="space-y-[var(--space-1)]">
+                <Skeleton className="h-1.5 w-14" />
+                <Skeleton className="h-6 w-full" />
+              </div>
+            ))}
+            <Skeleton className="h-5 w-24" />
+          </div>
+          <div className="space-y-[var(--space-2)]">
+            <h3>{t('components.detail.preview.skeleton.list')}</h3>
+            {[0, 1, 2].map((n) => (
+              <div key={n} className="flex items-center gap-3">
+                <Skeleton className="size-7 rounded-[var(--radius-pill)]" />
+                <div className="flex-1 space-y-[var(--space-1)]">
+                  <Skeleton className="h-2 w-[88px]" />
+                  <Skeleton className="h-1.5 w-full" />
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="space-y-[var(--space-2)]">
+            <h3>{t('components.detail.preview.skeleton.cards')}</h3>
+            <div className="grid grid-cols-3 gap-[var(--space-2)]">
+              {[0, 1, 2].map((n) => (
+                <div key={n} className="space-y-[var(--space-2)]">
+                  <Skeleton className="h-[66px] w-full" />
+                  <Skeleton className="h-2 w-full" />
+                  <Skeleton className="h-1.5 w-10" />
+                </div>
+              ))}
             </div>
           </div>
-          <Skeleton className="h-28 w-full rounded-[var(--radius-card)]" />
+          <div className="space-y-[var(--space-2)]">
+            <h3>{t('components.detail.preview.skeleton.table')}</h3>
+            {[0, 1, 2, 3, 4].map((n) => (
+              <div key={n} className="flex items-center gap-3">
+                <Skeleton className="h-1.5 w-5" />
+                <Skeleton className="h-1.5 flex-1" />
+                <Skeleton className="h-1.5 w-10" />
+              </div>
+            ))}
+          </div>
         </div>
+        <p className="text-muted-foreground mt-5 text-xs">
+          {t('components.detail.preview.skeleton.motionHint')}
+        </p>
       </PreviewBlock>
     </div>
   );
@@ -912,6 +1138,12 @@ function QueryComposerPreview({
 }) {
   const [value, setValue] = useState('');
   const [committed, setCommitted] = useState('');
+  const [mode, setMode] = useState<'remote_only' | 'natural_language_only' | 'hybrid'>('hybrid');
+  const [scenario, setScenario] = useState<'ready' | 'empty' | 'error'>('ready');
+  const [isMultiline, setIsMultiline] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [showValidation, setShowValidation] = useState(false);
+  const failNextSearch = useRef(false);
   const messages = useMemo(
     () => ({
       clearInput: t('components.input.clearInput'),
@@ -928,18 +1160,70 @@ function QueryComposerPreview({
       minChars: 1,
       debounceMs: 120,
       maxResults: 6,
-      search: (query: string) => {
-        const normalizedQuery = query.trim().toLowerCase();
-        return queryPreviewItems.filter(
-          (item) =>
-            item.symbol.toLowerCase().includes(normalizedQuery) ||
-            item.name.toLowerCase().includes(normalizedQuery),
+      search: async (query: string, { signal }: { signal: AbortSignal }) => {
+        await new Promise<void>((resolve) => {
+          const timer = window.setTimeout(resolve, 400);
+          signal.addEventListener(
+            'abort',
+            () => {
+              window.clearTimeout(timer);
+              resolve();
+            },
+            { once: true },
+          );
+        });
+        if (signal.aborted || scenario === 'empty') return [];
+        if (scenario === 'error' && failNextSearch.current) {
+          failNextSearch.current = false;
+          throw new Error('Preview search failed');
+        }
+        const normalized = query.trim().toLocaleLowerCase();
+        return queryPreviewItems.filter((item) =>
+          t(`components.detail.preview.query.items.${item.id}.title`)
+            .toLocaleLowerCase()
+            .includes(normalized),
         );
       },
     }),
-    [],
+    [scenario, t],
   );
-
+  const previewKey = `${mode}:${scenario}`;
+  const common = {
+    value,
+    label: t('components.detail.preview.query.label'),
+    description: t('components.detail.preview.query.description'),
+    placeholder: t('components.detail.preview.query.placeholder'),
+    messages,
+    onValueChange: setValue,
+    isMultiline,
+    isDisabled,
+    validationMessage: showValidation
+      ? t('components.detail.preview.query.validationHint')
+      : undefined,
+  };
+  const remote = {
+    remoteSearch,
+    getItemKey: (item: QueryPreviewItem) => item.id,
+    isItemDisabled: (item: QueryPreviewItem) => Boolean(item.disabled),
+    onCommitItem: (item: QueryPreviewItem) =>
+      setCommitted(t(`components.detail.preview.query.items.${item.id}.title`)),
+    renderItem: (item: QueryPreviewItem, state: { isActive: boolean; isDisabled: boolean }) => (
+      <span className="flex min-w-0 flex-1 items-center gap-3">
+        <FileText className="text-muted-foreground size-5 shrink-0" aria-hidden="true" />
+        <span className="flex min-w-0 flex-1 flex-col gap-1">
+          <strong className="font-medium">
+            {t(`components.detail.preview.query.items.${item.id}.title`)}
+          </strong>
+          <span className="text-muted-foreground text-xs">
+            {t(`components.detail.preview.query.items.${item.id}.description`)}
+          </span>
+        </span>
+        {state.isActive ? (
+          <CornerDownLeft className="text-muted-foreground size-4 shrink-0" aria-hidden="true" />
+        ) : null}
+      </span>
+    ),
+  };
   return (
     <div className="space-y-7">
       <DetailIntro
@@ -948,47 +1232,103 @@ function QueryComposerPreview({
         description={t('components.input.description')}
       />
       <PreviewBlock title={t('components.input.contractTitle')}>
-        <QueryComposer<QueryPreviewItem>
-          mode="hybrid"
-          value={value}
-          label={t('components.input.label')}
-          description={t('components.input.helper')}
-          placeholder={t('components.input.placeholder')}
-          messages={messages}
-          remoteSearch={remoteSearch}
-          getItemKey={(item) => item.id}
-          renderItem={(item, state) => (
-            <span
-              className={cn(
-                'flex min-w-0 flex-1 items-center gap-3',
-                state.isDisabled && 'opacity-[var(--disabled-opacity)]',
-              )}
+        <div className="mb-6 flex flex-wrap items-end gap-4">
+          <div className="grid gap-2">
+            <Label htmlFor="query-preview-mode">{t('components.detail.preview.query.mode')}</Label>
+            <Select
+              value={mode}
+              onValueChange={(next) => {
+                if (next === 'hybrid' || next === 'remote_only' || next === 'natural_language_only')
+                  setMode(next);
+              }}
             >
-              <span
-                className="bg-secondary text-secondary-foreground inline-grid size-8 shrink-0 place-items-center rounded-md font-mono text-xs font-semibold uppercase"
-                aria-hidden="true"
-              >
-                {item.symbol.charAt(0)}
-              </span>
-              <span className="min-w-0">
-                <strong className="text-foreground block truncate text-sm leading-5 font-semibold">
-                  {item.symbol}
-                </strong>
-                <span className="text-muted-foreground block truncate text-xs leading-5">
-                  {item.name} · {t(`components.input.candidateTypes.${item.type}`)}
-                </span>
-              </span>
-            </span>
-          )}
-          renderFreeform={(query) => t('components.input.freeformValue', { value: query })}
-          onValueChange={setValue}
-          onCommitItem={(item) => setCommitted(`${item.symbol} · ${item.name}`)}
-          onCommitQuery={setCommitted}
-        />
+              <SelectTrigger id="query-preview-mode">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {['hybrid', 'remote_only', 'natural_language_only'].map((item) => (
+                  <SelectItem key={item} value={item}>
+                    {item}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="query-preview-scenario">
+              {t('components.detail.preview.query.scenario')}
+            </Label>
+            <Select
+              value={scenario}
+              onValueChange={(next) => {
+                if (next === 'ready' || next === 'empty' || next === 'error') {
+                  failNextSearch.current = next === 'error';
+                  setScenario(next);
+                }
+              }}
+            >
+              <SelectTrigger id="query-preview-scenario">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {['ready', 'empty', 'error'].map((item) => (
+                  <SelectItem key={item} value={item}>
+                    {t(`components.detail.preview.query.scenarios.${item}`)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex flex-wrap gap-4">
+            {[
+              { id: 'multiline', value: isMultiline, change: setIsMultiline },
+              { id: 'disabled', value: isDisabled, change: setIsDisabled },
+              { id: 'validation', value: showValidation, change: setShowValidation },
+            ].map((option) => (
+              <div key={option.id} className="flex items-center gap-2">
+                <Switch
+                  id={`query-preview-${option.id}`}
+                  checked={option.value}
+                  onCheckedChange={option.change}
+                />
+                <Label htmlFor={`query-preview-${option.id}`}>
+                  {t(`components.detail.preview.query.${option.id}`)}
+                </Label>
+              </div>
+            ))}
+          </div>
+        </div>
+        {mode === 'natural_language_only' ? (
+          <QueryComposer
+            key={previewKey}
+            {...common}
+            mode="natural_language_only"
+            onCommitQuery={setCommitted}
+          />
+        ) : mode === 'remote_only' ? (
+          <QueryComposer<QueryPreviewItem>
+            key={previewKey}
+            {...common}
+            {...remote}
+            mode="remote_only"
+          />
+        ) : (
+          <QueryComposer<QueryPreviewItem>
+            key={previewKey}
+            {...common}
+            {...remote}
+            mode="hybrid"
+            onCommitQuery={setCommitted}
+            renderFreeform={(query) => t('components.input.freeformValue', { value: query })}
+          />
+        )}
         <p className="text-muted-foreground mt-4 text-sm" aria-live="polite">
           {committed
             ? t('components.input.committed', { value: committed })
             : t('components.input.commitEmpty')}
+        </p>
+        <p className="text-muted-foreground mt-3 text-xs">
+          {t('components.detail.preview.query.keyboardHint')}
         </p>
       </PreviewBlock>
     </div>
@@ -1008,12 +1348,13 @@ function LabelPreview({ t }: { t: (key: string) => string }) {
           <div className="grid gap-2">
             <Label htmlFor="component-detail-label-input">
               {t('components.detail.preview.label.label')}
-              <span className="text-muted-foreground text-xs font-normal">
-                {t('components.detail.preview.label.required')}
+              <span className="text-destructive" aria-hidden="true">
+                *
               </span>
             </Label>
             <Input
               id="component-detail-label-input"
+              required
               placeholder={t('components.detail.preview.label.placeholder')}
               aria-describedby="component-detail-label-helper"
             />
@@ -1066,74 +1407,200 @@ function SelectPreview({
   value: string;
   onChange: (value: string) => void;
 }) {
+  const [setting, setSetting] = useState('account');
+  const [recoveredValue, setRecoveredValue] = useState('');
+  const settings = [
+    { value: 'account', icon: UserRound, group: 'common', description: true },
+    { value: 'notifications', icon: Bell, group: 'common', description: true },
+    { value: 'appearance', icon: Settings, group: 'common', description: true },
+    { value: 'advanced', icon: SlidersHorizontal, group: 'more', description: false },
+    { value: 'help', icon: BookOpen, group: 'more', description: false },
+    { value: 'organization', icon: Ban, group: 'more', description: false, disabled: true },
+  ];
+  const optionItems = (['one', 'two', 'three'] as const).map((option) => (
+    <SelectItem key={option} value={option}>
+      {t(`components.detail.preview.select.options.${option}`)}
+    </SelectItem>
+  ));
   return (
-    <div className="space-y-7">
-      <DetailIntro
-        eyebrow={t('components.detail.preview.eyebrow')}
-        title={t('components.detail.preview.title')}
-        description={t('components.detail.preview.description')}
-      />
-      <PreviewBlock title={t('components.detail.preview.select.basicTitle')}>
-        <div className="grid max-w-4xl gap-5 md:grid-cols-3">
-          <div className="grid gap-2">
-            <Label htmlFor="component-detail-select">
-              {t('components.detail.preview.select.label')}
-            </Label>
-            <Select value={value} onValueChange={onChange}>
-              <SelectTrigger id="component-detail-select">
-                <SelectValue placeholder={t('components.detail.preview.select.placeholder')} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="one">
-                  {t('components.detail.preview.select.options.one')}
-                </SelectItem>
-                <SelectItem value="two">
-                  {t('components.detail.preview.select.options.two')}
-                </SelectItem>
-                <SelectItem value="three">
-                  {t('components.detail.preview.select.options.three')}
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="component-detail-select-open">
-              {t('components.detail.preview.select.open')}
-            </Label>
-            <Select defaultOpen defaultValue="one">
-              <SelectTrigger id="component-detail-select-open">
-                <SelectValue placeholder={t('components.detail.preview.select.placeholder')} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="one">
-                  {t('components.detail.preview.select.options.one')}
-                </SelectItem>
-                <SelectItem value="two">
-                  {t('components.detail.preview.select.options.two')}
-                </SelectItem>
-                <SelectItem value="three">
-                  {t('components.detail.preview.select.options.three')}
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="component-detail-select-disabled">
-              {t('components.detail.preview.select.disabled')}
-            </Label>
-            <Select disabled>
-              <SelectTrigger id="component-detail-select-disabled">
-                <SelectValue placeholder={t('components.detail.preview.select.placeholder')} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="one">
-                  {t('components.detail.preview.select.options.one')}
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+    <div className="space-y-[var(--space-6)]">
+      <div className="grid items-start gap-[var(--space-6)] xl:grid-cols-[minmax(0,1.8fr)_minmax(240px,1fr)]">
+        <div className="grid gap-[var(--space-4)]">
+          <SpecimenSection
+            compact
+            className="gap-[var(--space-5)]"
+            title={t('components.detail.preview.select.basicTitle')}
+            description={t('components.detail.preview.select.basicDescription')}
+          >
+            <div className="grid items-start gap-[var(--space-6)] md:grid-cols-2">
+              {(['default', 'hover', 'focus', 'selected', 'disabled', 'invalid'] as const).map(
+                (state) => (
+                  <div key={state} className="grid gap-[var(--space-2)]">
+                    <Label
+                      htmlFor={`component-detail-select-${state}`}
+                      className={
+                        state === 'default'
+                          ? undefined
+                          : 'font-normal leading-[var(--body-leading)]'
+                      }
+                    >
+                      {t(`components.detail.preview.select.states.${state}`)}
+                    </Label>
+                    <Select
+                      disabled={state === 'disabled'}
+                      defaultValue={state === 'selected' ? 'one' : undefined}
+                      value={
+                        state === 'default'
+                          ? value
+                          : state === 'invalid'
+                            ? recoveredValue
+                            : undefined
+                      }
+                      onValueChange={
+                        state === 'default'
+                          ? onChange
+                          : state === 'invalid'
+                            ? setRecoveredValue
+                            : undefined
+                      }
+                    >
+                      <SelectTrigger
+                        id={`component-detail-select-${state}`}
+                        aria-invalid={(state === 'invalid' && !recoveredValue) || undefined}
+                        aria-describedby={
+                          state === 'invalid' && !recoveredValue ? 'select-validation' : undefined
+                        }
+                      >
+                        <SelectValue
+                          placeholder={t('components.detail.preview.select.placeholder')}
+                        />
+                      </SelectTrigger>
+                      <SelectContent>{optionItems}</SelectContent>
+                    </Select>
+                    {state === 'invalid' && !recoveredValue ? (
+                      <p
+                        id="select-validation"
+                        className="flex items-center gap-[var(--space-1)] text-xs text-destructive leading-[var(--body-leading)]"
+                        role="alert"
+                      >
+                        <CircleAlert
+                          aria-hidden="true"
+                          className="size-[var(--icon-size-sm)] shrink-0"
+                        />
+                        {t('components.detail.preview.select.error')}
+                      </p>
+                    ) : null}
+                  </div>
+                ),
+              )}
+            </div>
+          </SpecimenSection>
+          <SpecimenSection
+            compact
+            title={t('components.detail.preview.select.sizesTitle')}
+            description={t('components.detail.preview.select.sizesDescription')}
+          >
+            <div className="grid gap-[var(--space-3)] md:grid-cols-3">
+              {(['lg', 'md', 'sm'] as const).map((size) => (
+                <div key={size} className="grid content-start gap-[var(--space-3)]">
+                  <Label
+                    htmlFor={`select-size-${size}`}
+                    className="text-xs font-normal leading-[var(--body-leading)]"
+                  >
+                    {t(`components.detail.preview.select.sizes.${size}`)}
+                  </Label>
+                  <Select>
+                    <SelectTrigger id={`select-size-${size}`} size={size}>
+                      <SelectValue
+                        placeholder={t('components.detail.preview.select.placeholder')}
+                      />
+                    </SelectTrigger>
+                    <SelectContent>{optionItems}</SelectContent>
+                  </Select>
+                  <p className="text-xs text-muted-foreground leading-[var(--body-leading)]">
+                    {{ lg: 44, md: 40, sm: 36 }[size]}px / 14px
+                  </p>
+                </div>
+              ))}
+            </div>
+          </SpecimenSection>
+          <SpecimenSection
+            compact
+            title={t('components.detail.preview.select.compositionTitle')}
+            description={t('components.detail.preview.select.compositionDescription')}
+          >
+            <div className="grid gap-[var(--space-4)]">
+              <Label
+                htmlFor="select-department"
+                className="font-normal leading-[var(--body-leading)]"
+              >
+                {t('components.detail.preview.select.department')}
+              </Label>
+              <Select defaultValue="design">
+                <SelectTrigger id="select-department" aria-describedby="select-department-helper">
+                  <UserRound
+                    className="size-[var(--icon-size-md)] shrink-0 text-muted-foreground"
+                    aria-hidden="true"
+                  />
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {(['design', 'engineering'] as const).map((team) => (
+                    <SelectItem key={team} value={team}>
+                      {t(`components.detail.preview.select.teams.${team}`)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p id="select-department-helper" className="text-xs text-muted-foreground">
+                {t('components.detail.preview.select.departmentHelper')}
+              </p>
+            </div>
+          </SpecimenSection>
         </div>
-      </PreviewBlock>
+        <section className="grid gap-[var(--space-4)]" aria-labelledby="select-rich-title">
+          <Label id="select-rich-title" htmlFor="component-detail-select-rich">
+            {t('components.detail.preview.select.rich')}
+          </Label>
+          <Select value={setting} onValueChange={setSetting}>
+            <SelectTrigger id="component-detail-select-rich">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {['common', 'more'].map((group, index) => (
+                <SelectGroup key={group}>
+                  {index > 0 ? <SelectSeparator /> : null}
+                  <SelectLabel>{t(`components.detail.preview.select.groups.${group}`)}</SelectLabel>
+                  {settings
+                    .filter((option) => option.group === group)
+                    .map((option) => (
+                      <SelectItem
+                        key={option.value}
+                        value={option.value}
+                        textValue={t(`components.detail.preview.select.settings.${option.value}`)}
+                        icon={createElement(option.icon)}
+                        description={
+                          option.description
+                            ? t(`components.detail.preview.select.descriptions.${option.value}`)
+                            : undefined
+                        }
+                        disabled={option.disabled}
+                      >
+                        {t(`components.detail.preview.select.settings.${option.value}`)}
+                      </SelectItem>
+                    ))}
+                </SelectGroup>
+              ))}
+            </SelectContent>
+          </Select>
+          <p className="text-xs text-muted-foreground">
+            {t('components.detail.preview.select.richHint')}
+          </p>
+        </section>
+      </div>
+      <p className="border-t border-border-subtle pt-[var(--space-4)] text-xs text-muted-foreground">
+        {t('components.detail.preview.select.keyboardHint')}
+      </p>
     </div>
   );
 }
@@ -1147,28 +1614,36 @@ function TabsPreview({ t }: { t: (key: string) => string }) {
         description={t('components.detail.preview.description')}
       />
       <PreviewBlock title={t('components.detail.preview.tabs.basicTitle')}>
-        <Tabs defaultValue="preview">
-          <TabsList>
-            <TabsTrigger value="preview">{t('components.detail.preview.tabs.preview')}</TabsTrigger>
-            <TabsTrigger value="code">{t('components.detail.preview.tabs.code')}</TabsTrigger>
-            <TabsTrigger value="features">
-              {t('components.detail.preview.tabs.features')}
-            </TabsTrigger>
-            <TabsTrigger value="history">{t('components.detail.preview.tabs.history')}</TabsTrigger>
-          </TabsList>
-          <TabsContent value="preview" className="text-muted-foreground text-sm">
-            {t('components.detail.preview.tabs.previewContent')}
-          </TabsContent>
-          <TabsContent value="code" className="text-muted-foreground text-sm">
-            {t('components.detail.preview.tabs.codeContent')}
-          </TabsContent>
-          <TabsContent value="features" className="text-muted-foreground text-sm">
-            {t('components.detail.preview.tabs.featuresContent')}
-          </TabsContent>
-          <TabsContent value="history" className="text-muted-foreground text-sm">
-            {t('components.detail.preview.tabs.historyContent')}
-          </TabsContent>
-        </Tabs>
+        <div className="space-y-6">
+          {(['segmented', 'underline'] as const).map((variant) => (
+            <section key={variant} className="space-y-3">
+              <h3>{t(`components.detail.preview.tabs.${variant}`)}</h3>
+              <Tabs defaultValue="preview">
+                <div className="-m-[calc(var(--focus-ring-width)+var(--space-0-5))] overflow-x-auto p-[calc(var(--focus-ring-width)+var(--space-0-5))]">
+                  <TabsList
+                    variant={variant}
+                    className="w-full min-w-max"
+                    aria-label={t(`components.detail.preview.tabs.${variant}`)}
+                  >
+                    {['preview', 'code', 'features'].map((value) => (
+                      <TabsTrigger key={value} value={value} className="flex-1">
+                        {t(`components.detail.preview.tabs.${value}`)}
+                      </TabsTrigger>
+                    ))}
+                    <TabsTrigger value="history" className="flex-1" disabled>
+                      {t('components.detail.preview.tabs.history')}
+                    </TabsTrigger>
+                  </TabsList>
+                </div>
+                {['preview', 'code', 'features'].map((value) => (
+                  <TabsContent key={value} value={value} className="text-muted-foreground text-sm">
+                    {t(`components.detail.preview.tabs.${value}Content`)}
+                  </TabsContent>
+                ))}
+              </Tabs>
+            </section>
+          ))}
+        </div>
       </PreviewBlock>
     </div>
   );
@@ -1181,6 +1656,7 @@ type DialogSelection = Readonly<{
 
 function DialogPreview({ t }: { t: (key: string) => string }) {
   const [activeDialog, setActiveDialog] = useState<DialogSelection | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
   const activeCopyKey = activeDialog
     ? `components.detail.preview.dialog.types.${activeDialog.type}`
     : 'components.detail.preview.dialog.types.default';
@@ -1202,7 +1678,10 @@ function DialogPreview({ t }: { t: (key: string) => string }) {
               key={type}
               type="button"
               size="sm"
-              onClick={() => setActiveDialog({ type, size: 'sm' })}
+              onClick={(event) => {
+                triggerRef.current = event.currentTarget;
+                setActiveDialog({ type, size: 'md' });
+              }}
             >
               {t(`${copyKey}.open`)}
             </Button>
@@ -1214,7 +1693,10 @@ function DialogPreview({ t }: { t: (key: string) => string }) {
             type="button"
             size="sm"
             variant="outline"
-            onClick={() => setActiveDialog({ type: 'default', size: value })}
+            onClick={(event) => {
+              triggerRef.current = event.currentTarget;
+              setActiveDialog({ type: 'default', size: value });
+            }}
           >
             {t(labelKey)}
           </Button>
@@ -1229,21 +1711,25 @@ function DialogPreview({ t }: { t: (key: string) => string }) {
       >
         <DialogContent
           type={activeType}
-          size={activeDialog?.size ?? 'sm'}
+          size={activeDialog?.size ?? 'md'}
+          onCloseAutoFocus={(event) => {
+            event.preventDefault();
+            triggerRef.current?.focus();
+          }}
           closeLabel={t('components.detail.preview.dialog.close')}
         >
-          <DialogHeader className="pr-10">
+          <DialogHeader>
             <DialogTitle>{t(`${activeCopyKey}.title`)}</DialogTitle>
             <DialogDescription>{t(`${activeCopyKey}.description`)}</DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <DialogClose asChild>
-              <Button type="button" variant="outline" size="sm">
+              <Button type="button" variant="outline">
                 {t(`${activeCopyKey}.cancel`)}
               </Button>
             </DialogClose>
             <DialogClose asChild>
-              <Button type="button" size="sm" className={dialogActionClassNames[activeType]}>
+              <Button type="button" variant={activeType === 'danger' ? 'destructive' : 'default'}>
                 {t(`${activeCopyKey}.action`)}
               </Button>
             </DialogClose>
@@ -1254,7 +1740,10 @@ function DialogPreview({ t }: { t: (key: string) => string }) {
   );
 }
 
-function DropdownPreview({ t }: { t: (key: string) => string }) {
+function DropdownPreview({ t }: { t: (key: string, options?: Record<string, unknown>) => string }) {
+  const [selection, setSelection] = useState('newest');
+  const [lastAction, setLastAction] = useState('');
+  const action = (key: string) => setLastAction(t(`components.detail.preview.dropdown.${key}`));
   return (
     <div className="space-y-7">
       <DetailIntro
@@ -1263,39 +1752,95 @@ function DropdownPreview({ t }: { t: (key: string) => string }) {
         description={t('components.detail.preview.description')}
       />
       <PreviewBlock title={t('components.detail.preview.dropdown.basicTitle')}>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline">
-              {t('components.detail.preview.dropdown.open')}
-              <ChevronDown size={15} aria-hidden="true" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start">
-            <DropdownMenuLabel>{t('components.detail.preview.dropdown.group')}</DropdownMenuLabel>
-            <DropdownMenuItem>
-              <Eye aria-hidden="true" />
-              {t('components.detail.preview.dropdown.first')}
-              <DropdownMenuShortcut>⌘1</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Pencil aria-hidden="true" />
-              {t('components.detail.preview.dropdown.edit')}
-              <DropdownMenuShortcut>⌘2</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Copy aria-hidden="true" />
-              {t('components.detail.preview.dropdown.duplicate')}
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem variant="destructive">
-              <Trash2 aria-hidden="true" />
-              {t('components.detail.preview.dropdown.delete')}
-              <DropdownMenuShortcut>
-                {t('components.detail.preview.dropdown.shortcut')}
-              </DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex flex-wrap gap-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button type="button" variant="outline">
+                {t('components.detail.preview.dropdown.open')}
+                <ChevronDown aria-hidden="true" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuItem onSelect={() => action('first')}>
+                <Eye aria-hidden="true" />
+                {t('components.detail.preview.dropdown.first')}
+                <DropdownMenuShortcut>⌘1</DropdownMenuShortcut>
+              </DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => action('edit')}>
+                <Pencil aria-hidden="true" />
+                {t('components.detail.preview.dropdown.edit')}
+                <DropdownMenuShortcut>⌘2</DropdownMenuShortcut>
+              </DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => action('duplicate')}>
+                <Copy aria-hidden="true" />
+                {t('components.detail.preview.dropdown.duplicate')}
+              </DropdownMenuItem>
+              <DropdownMenuItem disabled>
+                {t('components.detail.preview.dropdown.unavailable')}
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem variant="destructive" onSelect={() => action('delete')}>
+                <Trash2 aria-hidden="true" />
+                {t('components.detail.preview.dropdown.delete')}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button type="button" variant="outline">
+                {t('components.detail.preview.dropdown.grouped')}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuGroup>
+                <DropdownMenuLabel>
+                  {t('components.detail.preview.dropdown.group')}
+                </DropdownMenuLabel>
+                {['first', 'edit', 'duplicate'].map((key) => (
+                  <DropdownMenuItem key={key} onSelect={() => action(key)}>
+                    {t(`components.detail.preview.dropdown.${key}`)}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuLabel>
+                  {t('components.detail.preview.dropdown.more')}
+                </DropdownMenuLabel>
+                <DropdownMenuItem disabled>
+                  {t('components.detail.preview.dropdown.unavailable')}
+                </DropdownMenuItem>
+                <DropdownMenuItem variant="destructive" onSelect={() => action('delete')}>
+                  {t('components.detail.preview.dropdown.delete')}
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button type="button" variant="outline">
+                {t('components.detail.preview.dropdown.sort')}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuLabel>{t('components.detail.preview.dropdown.sort')}</DropdownMenuLabel>
+              <DropdownMenuRadioGroup value={selection} onValueChange={setSelection}>
+                {['newest', 'oldest', 'ascending', 'descending'].map((value) => (
+                  <DropdownMenuRadioItem key={value} value={value}>
+                    {t(`components.detail.preview.dropdown.sortOptions.${value}`)}
+                  </DropdownMenuRadioItem>
+                ))}
+              </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+        <p className="text-muted-foreground mt-4 text-sm" role="status">
+          {lastAction
+            ? t('components.detail.preview.dropdown.actionFeedback', { value: lastAction })
+            : t('components.detail.preview.dropdown.selection', {
+                value: t(`components.detail.preview.dropdown.sortOptions.${selection}`),
+              })}
+        </p>
       </PreviewBlock>
     </div>
   );
@@ -1310,36 +1855,37 @@ function PopoverPreview({ t }: { t: (key: string) => string }) {
         description={t('components.detail.preview.description')}
       />
       <PreviewBlock title={t('components.detail.preview.popover.basicTitle')}>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant="outline">{t('components.detail.preview.popover.open')}</Button>
-          </PopoverTrigger>
-          <PopoverContent align="start">
-            <PopoverHeader>
-              <PopoverTitle>{t('components.detail.preview.popover.title')}</PopoverTitle>
-              <PopoverDescription>
-                {t('components.detail.preview.popover.description')}
-              </PopoverDescription>
-            </PopoverHeader>
-            <div className="flex items-center justify-end gap-2 border-t border-border-subtle pt-3">
-              <PopoverClose asChild>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  aria-label={t('components.detail.preview.popover.close')}
-                >
-                  {t('components.detail.preview.popover.close')}
+        <div className="flex flex-wrap gap-4">
+          {(['default', 'compact'] as const).map((variant) => (
+            <Popover key={variant}>
+              <PopoverTrigger asChild>
+                <Button type="button" variant="outline">
+                  {t(
+                    variant === 'default'
+                      ? 'components.detail.preview.popover.open'
+                      : 'components.detail.preview.popover.compact',
+                  )}
                 </Button>
-              </PopoverClose>
-              <PopoverClose asChild>
-                <Button type="button" size="sm">
-                  {t('components.detail.preview.popover.action')}
-                </Button>
-              </PopoverClose>
-            </div>
-          </PopoverContent>
-        </Popover>
+              </PopoverTrigger>
+              <PopoverContent variant={variant} align="start">
+                <PopoverHeader>
+                  <PopoverTitle>{t('components.detail.preview.popover.title')}</PopoverTitle>
+                  <PopoverDescription>
+                    {t('components.detail.preview.popover.description')}
+                  </PopoverDescription>
+                </PopoverHeader>
+                <PopoverClose asChild>
+                  <Button type="button" variant="outline">
+                    {t('components.detail.preview.popover.close')}
+                  </Button>
+                </PopoverClose>
+              </PopoverContent>
+            </Popover>
+          ))}
+        </div>
+        <p className="text-muted-foreground mt-4 text-xs">
+          {t('components.detail.preview.popover.keyboardHint')}
+        </p>
       </PreviewBlock>
     </div>
   );
@@ -1356,17 +1902,21 @@ function TooltipPreview({ t }: { t: (key: string) => string }) {
       <PreviewBlock title={t('components.detail.preview.tooltip.basicTitle')}>
         <TooltipProvider delayDuration={0}>
           <div className="flex flex-wrap items-center gap-10 px-4 py-8">
-            {tooltipPreviewPositions.map(({ side, labelKey }) => (
+            {tooltipPreviewPositions.map(({ side, labelKey, long }) => (
               <div key={side} className="grid justify-items-center gap-2 pt-8">
-                <Tooltip open>
+                <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="outline" size="sm">
+                    <Button type="button" variant="outline" size="sm">
                       <MoreHorizontal size={17} aria-hidden="true" />
                       {t(labelKey)}
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent side={side}>
-                    {t('components.detail.preview.tooltip.content')}
+                    {t(
+                      long
+                        ? 'components.detail.preview.tooltip.longContent'
+                        : 'components.detail.preview.tooltip.content',
+                    )}
                   </TooltipContent>
                 </Tooltip>
               </div>
@@ -1401,7 +1951,7 @@ function SwitchPreview({
               <div key={key} className="grid justify-items-start gap-2">
                 <Switch
                   data-preview-state={key}
-                  checked={stateChecked}
+                  defaultChecked={stateChecked}
                   disabled={disabled}
                   aria-label={t(`components.detail.preview.switch.states.${key}`)}
                 />
@@ -1535,8 +2085,8 @@ function ShareDialogPreview({
         title={t('components.detail.sharePreview.title')}
         description={t('components.detail.sharePreview.description')}
         poster={
-          <div className="border-border bg-card rounded-[var(--radius-card)] border p-[var(--panel-padding-md)]">
-            <p className="text-primary font-sans text-xs tracking-[0.12em] uppercase">
+          <div className="border-border bg-card rounded-[var(--radius-surface)] border p-[var(--space-5)]">
+            <p className="text-foreground font-sans text-xs tracking-[0.12em] uppercase">
               {t('components.detail.sharePreview.status')}
             </p>
             <h3 className="text-foreground mt-3 text-xl font-semibold">{item.name}</h3>
@@ -1560,7 +2110,7 @@ function GenericPreview({ item, t }: { item: ComponentCatalogItem; t: (key: stri
       />
       <PreviewBlock title={t('components.detail.preview.generic.basicTitle')}>
         <div className="border-border/70 bg-muted/25 flex min-h-40 flex-col items-center justify-center rounded-lg border border-dashed px-6 text-center">
-          <span className="bg-primary/10 text-primary inline-grid size-10 place-items-center rounded-lg">
+          <span className="bg-primary/10 text-foreground inline-grid size-10 place-items-center rounded-lg">
             <Layers3 size={18} aria-hidden="true" />
           </span>
           <strong className="text-foreground mt-3 text-sm">{item.name}</strong>
@@ -1584,10 +2134,56 @@ function DetailIntro({
 }) {
   return (
     <div>
-      <p className="text-primary font-sans text-xs tracking-[0.12em] uppercase">{eyebrow}</p>
+      <p className="text-foreground font-sans text-xs tracking-[0.12em] uppercase">{eyebrow}</p>
       <h2 className="text-foreground mt-2 text-xl font-semibold tracking-[-0.02em]">{title}</h2>
       <p className="text-muted-foreground mt-2 max-w-2xl text-sm leading-relaxed">{description}</p>
     </div>
+  );
+}
+
+function SpecimenSection({
+  children,
+  title,
+  description,
+  compact = false,
+  className,
+}: {
+  children?: ReactNode;
+  title: string;
+  description?: string;
+  compact?: boolean;
+  className?: string;
+}) {
+  return (
+    <section
+      className={cn(
+        'grid gap-[var(--space-4)] rounded-[var(--radius-surface)] border border-border-subtle bg-card',
+        compact
+          ? 'p-[calc(var(--space-5)-var(--control-border-width))]'
+          : 'p-[calc(var(--space-6)-var(--control-border-width))]',
+        className,
+      )}
+    >
+      <h3
+        className={cn(
+          'font-semibold text-foreground',
+          compact ? 'text-lg leading-[var(--body-leading)]' : 'text-xl',
+        )}
+      >
+        {title}
+      </h3>
+      {description ? (
+        <p
+          className={cn(
+            'text-muted-foreground leading-[var(--body-leading)]',
+            compact ? 'text-xs' : 'text-sm',
+          )}
+        >
+          {description}
+        </p>
+      ) : null}
+      {children}
+    </section>
   );
 }
 
@@ -1601,7 +2197,7 @@ function PreviewBlock({
   description?: string;
 }) {
   return (
-    <section className="border-border/70 bg-card rounded-xl border px-4 py-3 shadow-sm sm:px-4">
+    <section className="border-border-subtle bg-card rounded-[var(--radius-surface)] border px-4 py-3 sm:px-4">
       <h3 className="text-foreground text-base leading-5 font-semibold">{title}</h3>
       {description ? (
         <p className="text-muted-foreground mt-1 text-sm leading-5">{description}</p>
@@ -1643,11 +2239,13 @@ function CodeBlock({
       <div className="flex items-start justify-between gap-4 px-4 pt-4">
         <div className="min-w-0">
           <div className="text-foreground flex items-center gap-2 text-base font-semibold">
-            <Code2 className="text-primary" size={16} aria-hidden="true" />
+            <Code2 className="text-foreground" size={16} aria-hidden="true" />
             <span>{title}</span>
           </div>
           {description ? (
-            <p className="text-muted-foreground mt-1 text-sm leading-5">{description}</p>
+            <p className="text-muted-foreground mt-[var(--space-4)] text-sm leading-[var(--body-leading)]">
+              {description}
+            </p>
           ) : null}
         </div>
         <Button
@@ -1678,7 +2276,7 @@ function CodeBlock({
       {sourcePath ? (
         <div className="text-muted-foreground flex items-center justify-between gap-4 px-4 py-3 text-xs">
           <span className="flex min-w-0 items-center gap-2">
-            <Code2 className="text-primary shrink-0" size={15} aria-hidden="true" />
+            <Code2 className="text-foreground shrink-0" size={15} aria-hidden="true" />
             <span className="shrink-0">{sourceLabel}</span>
             <code className="truncate font-mono">{sourcePath}</code>
           </span>
@@ -1745,7 +2343,9 @@ export function ButtonExample() {
     <div className="flex items-center gap-3">
       <Button>${t('components.detail.codeSamples.button.primary')}</Button>
       <Button variant="secondary">${t('components.detail.codeSamples.button.secondary')}</Button>
-      <Button variant="ghost">${t('components.detail.preview.button.text')}</Button>
+      <Button variant="outline">${t('components.detail.preview.button.outline')}</Button>
+      <Button variant="link">${t('components.detail.preview.button.link')}</Button>
+      <Button variant="ghost">${t('components.detail.preview.button.ghost')}</Button>
       <Button variant="destructive">${t('components.detail.codeSamples.button.destructive')}</Button>
     </div>
   )
@@ -1758,41 +2358,91 @@ export function ButtonExample() {
 <Textarea placeholder="${t('components.detail.codeSamples.input.placeholder')}" />`,
     skeleton: `import { Skeleton } from '@/shared/ui/skeleton'
 
-<div className="space-y-3">
+<div className="space-y-3" role="status" aria-busy="true" aria-label="${t('components.detail.preview.skeleton.loadingLabel')}">
   <Skeleton className="h-4 w-1/3" />
   <Skeleton className="h-4 w-2/3" />
-  <Skeleton className="h-24 w-full rounded-[var(--radius-card)]" />
+  <Skeleton className="h-24 w-full rounded-[var(--radius-surface)]" />
 </div>`,
     label: `import { Label } from '@/shared/ui/label'
 
 <Label htmlFor="email">${t('components.detail.codeSamples.label.label')}</Label>`,
-    select: `import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select'
+    select: `import { Select, SelectContent, SelectGroup, SelectLabel, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select'
 
-<Select>
-  <SelectTrigger><SelectValue placeholder="${t('components.detail.codeSamples.select.placeholder')}" /></SelectTrigger>
+<Select defaultValue="one">
+  <SelectTrigger aria-label="${t('components.detail.preview.select.label')}"><SelectValue /></SelectTrigger>
+  <SelectContent>
+    <SelectGroup>
+      <SelectLabel>${t('components.detail.preview.select.groups.common')}</SelectLabel>
+      <SelectItem value="one" description="${t('components.detail.preview.select.descriptions.account')}">${t('components.detail.preview.select.options.one')}</SelectItem>
+      <SelectItem value="two">${t('components.detail.preview.select.options.two')}</SelectItem>
+      <SelectItem value="three" disabled>${t('components.detail.preview.select.options.three')}</SelectItem>
+    </SelectGroup>
+  </SelectContent>
 </Select>`,
-    tabs: `import { Tabs, TabsList, TabsTrigger } from '@/shared/ui/tabs'
+    tabs: `import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs'
 
 <Tabs defaultValue="preview">
-  <TabsList>
+  <TabsList variant="underline">
     <TabsTrigger value="preview">${t('components.detail.codeSamples.tabs.preview')}</TabsTrigger>
+    <TabsTrigger value="code">${t('components.detail.preview.tabs.code')}</TabsTrigger>
   </TabsList>
+  <TabsContent value="preview">${t('components.detail.preview.tabs.previewContent')}</TabsContent>
+  <TabsContent value="code">${t('components.detail.preview.tabs.codeContent')}</TabsContent>
 </Tabs>`,
     dialog: `import { Button } from '@/shared/ui/button'
-import { Dialog, DialogContent, DialogTrigger } from '@/shared/ui/dialog'
+import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/shared/ui/dialog'
 
 <Dialog>
   <DialogTrigger asChild><Button>${t('components.detail.codeSamples.dialog.open')}</Button></DialogTrigger>
-  <DialogContent type="warning">
-    ${t('components.detail.codeSamples.dialog.content')}
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>${t('components.detail.preview.dialog.types.default.title')}</DialogTitle>
+      <DialogDescription>${t('components.detail.preview.dialog.types.default.description')}</DialogDescription>
+    </DialogHeader>
+    <DialogClose asChild><Button variant="outline">${t('components.detail.preview.dialog.close')}</Button></DialogClose>
   </DialogContent>
 </Dialog>`,
+    'dropdown-menu': `import { Button } from '@/shared/ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/shared/ui/dropdown-menu'
+
+<DropdownMenu>
+  <DropdownMenuTrigger asChild><Button variant="outline">${t('components.detail.preview.dropdown.open')}</Button></DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem onSelect={onEdit}>${t('components.detail.preview.dropdown.edit')}</DropdownMenuItem>
+    <DropdownMenuItem disabled>${t('components.detail.preview.dropdown.unavailable')}</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>`,
+    popover: `import { Button } from '@/shared/ui/button'
+import { Popover, PopoverClose, PopoverContent, PopoverTitle, PopoverTrigger } from '@/shared/ui/popover'
+
+<Popover>
+  <PopoverTrigger asChild><Button variant="outline">${t('components.detail.preview.popover.open')}</Button></PopoverTrigger>
+  <PopoverContent>
+    <PopoverTitle>${t('components.detail.preview.popover.title')}</PopoverTitle>
+    <PopoverClose asChild><Button variant="outline">${t('components.detail.preview.popover.close')}</Button></PopoverClose>
+  </PopoverContent>
+</Popover>`,
+    tooltip: `import { Button } from '@/shared/ui/button'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shared/ui/tooltip'
+
+<TooltipProvider>
+  <Tooltip>
+    <TooltipTrigger asChild><Button variant="outline">${t('components.detail.preview.tooltip.top')}</Button></TooltipTrigger>
+    <TooltipContent>${t('components.detail.preview.tooltip.content')}</TooltipContent>
+  </Tooltip>
+</TooltipProvider>`,
+    switch: `import { Switch } from '@/shared/ui/switch'
+
+<Switch aria-label="${t('components.detail.preview.switch.label')}" defaultChecked />`,
+    calendar: `import { Calendar } from '@/shared/ui/calendar'
+
+<Calendar mode="single" selected={date} onSelect={setDate} />`,
     'query-composer': `import { QueryComposer } from '@/shared/ui/QueryComposer'
 
 <QueryComposer
   mode="natural_language_only"
   value={query}
-  label="${t('components.input.label')}"
+  label="${t('components.detail.preview.query.label')}"
   messages={messages}
   onValueChange={setQuery}
   onCommitQuery={resolveQuery}

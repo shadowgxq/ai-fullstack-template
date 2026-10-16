@@ -45,13 +45,13 @@ const TooltipContent = React.forwardRef<
         data-slot="tooltip-content"
         sideOffset={sideOffset}
         className={cn(
-          'z-50 inline-flex w-fit max-w-[var(--tooltip-max-width)] origin-(--radix-tooltip-content-transform-origin) items-center gap-[var(--space-1)] rounded-[var(--radius-control)] bg-foreground px-[var(--tooltip-padding-x)] py-[var(--tooltip-padding-y)] text-[length:var(--font-size-xs)] leading-[var(--line-height-sm)] text-background shadow-[var(--elevation-sm)] data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 motion-reduce:duration-0',
+          'z-50 inline-flex w-fit max-w-[var(--tooltip-max-width)] origin-(--radix-tooltip-content-transform-origin) items-center gap-[var(--space-1)] text-center [overflow-wrap:anywhere] rounded-[var(--radius-control)] bg-foreground px-[var(--space-3)] py-[var(--space-2)] text-[length:var(--font-size-xs)] leading-[var(--caption-leading)] text-background shadow-[var(--elevation-sm)] data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 motion-reduce:duration-0',
           className,
         )}
         {...props}
       >
         {children}
-        <TooltipPrimitive.Arrow className="z-50 size-[var(--space-2)] rotate-45 bg-foreground fill-foreground" />
+        <TooltipPrimitive.Arrow width={12} height={6} className="fill-foreground" />
       </TooltipPrimitive.Content>
     </TooltipPrimitive.Portal>
   )

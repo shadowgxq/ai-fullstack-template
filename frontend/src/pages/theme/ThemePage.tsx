@@ -67,7 +67,7 @@ export function ThemePage() {
           >
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <span className="text-primary font-sans text-xs tracking-[0.1em] uppercase">
+                <span className="text-foreground font-sans text-xs tracking-[0.1em] uppercase">
                   {t('theme.catalogEyebrow')}
                 </span>
                 <h2
@@ -77,7 +77,7 @@ export function ThemePage() {
                   {t('theme.catalogTitle')}
                 </h2>
               </div>
-              <span className="border-primary/30 bg-primary/10 text-primary inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium">
+              <span className="border-primary/30 bg-primary/10 text-foreground inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium">
                 <Check size={14} aria-hidden="true" />
                 {t('theme.current', {
                   mode: t(`theme.modes.${mode}.label`),
@@ -104,7 +104,7 @@ export function ThemePage() {
                     <ThemePreview mode={modeKey} />
                     <div className="mt-5 flex items-start justify-between gap-4">
                       <div>
-                        <span className="text-primary font-sans text-xs tracking-[0.08em] uppercase">
+                        <span className="text-foreground font-sans text-xs tracking-[0.08em] uppercase">
                           {modeKey}
                         </span>
                         <h3 className="text-foreground font-sans mt-2 text-xl font-semibold">
@@ -132,7 +132,7 @@ export function ThemePage() {
 
           <section className="border-border/70 bg-muted/40 mt-12 grid grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-8 rounded-xl border p-8 max-[760px]:grid-cols-1 max-[480px]:p-6">
             <div>
-              <span className="text-primary font-sans text-xs tracking-[0.1em] uppercase">
+              <span className="text-foreground font-sans text-xs tracking-[0.1em] uppercase">
                 {t('theme.modeEyebrow')}
               </span>
               <h2 className="text-foreground font-sans mt-2 text-2xl font-semibold">
@@ -143,7 +143,7 @@ export function ThemePage() {
               </p>
             </div>
             <div className="border-border bg-card flex items-center gap-4 rounded-lg border p-5">
-              <span className="bg-primary/10 text-primary inline-grid size-10 place-items-center rounded-md">
+              <span className="bg-primary/10 text-foreground inline-grid size-10 place-items-center rounded-md">
                 <Moon size={20} aria-hidden="true" />
               </span>
               <div>

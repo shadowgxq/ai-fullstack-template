@@ -54,12 +54,12 @@ function Calendar({
         ),
         button_previous: cn(
           buttonVariants({ variant: buttonVariant, size: "icon" }),
-          "size-[var(--cell-size)] p-0 select-none aria-disabled:opacity-[var(--disabled-opacity)]",
+          "size-[var(--cell-size)] p-0 select-none aria-disabled:opacity-[calc(var(--disabled-opacity-percent)/100)]",
           defaultClassNames.button_previous
         ),
         button_next: cn(
           buttonVariants({ variant: buttonVariant, size: "icon" }),
-          "size-[var(--cell-size)] p-0 select-none aria-disabled:opacity-[var(--disabled-opacity)]",
+          "size-[var(--cell-size)] p-0 select-none aria-disabled:opacity-[calc(var(--disabled-opacity-percent)/100)]",
           defaultClassNames.button_next
         ),
         month_caption: cn(
@@ -81,7 +81,7 @@ function Calendar({
         caption_label: cn(
           "font-medium select-none",
           captionLayout === "label"
-            ? "text-[length:var(--font-size-sm)] leading-[var(--line-height-sm)]"
+            ? "text-[length:var(--font-size-sm)] leading-[var(--calendar-caption-leading)]"
             : "flex items-center gap-[var(--space-1)] rounded-[var(--cell-radius)] text-[length:var(--font-size-md)] [&>svg]:size-[var(--icon-size-sm)] [&>svg]:text-muted-foreground",
           defaultClassNames.caption_label
         ),
@@ -125,7 +125,7 @@ function Calendar({
           defaultClassNames.outside
         ),
         disabled: cn(
-          "text-muted-foreground opacity-[var(--disabled-opacity)]",
+          "text-muted-foreground opacity-[calc(var(--disabled-opacity-percent)/100)]",
           defaultClassNames.disabled
         ),
         hidden: cn("invisible", defaultClassNames.hidden),

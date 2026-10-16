@@ -26,9 +26,9 @@
 
 Token 按 [选择政策](tokens.md) 使用，运行时定义在 [global.css](../../frontend/src/shared/styles/global.css)；设计与代码的对应关系见 [同步约定](tokens.md#设计与代码同步)。交接记录设计节点/角色 → 实际组件或组合 → API/语义 Token → 主题和适配。支持属性用真实绑定，解析值及 `metadata.token-map` 单独记录限制。
 
-设计默认 sans 投影为 Inter，技术参数使用 IBM Plex Mono；中文按画布可用字体回退。Web 沿用 `global.css` 的 `-apple-system, BlinkMacSystemFont, 'Inter', 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', 'Segoe UI', sans-serif`，不把整串 CSS fallback 写成画布字体名。画布字体投影不等于跨系统字形完全一致，也不证明运行时字体已加载。
+设计默认 sans 为 Inter，技术参数使用 IBM Plex Mono；Web 以相同字体为首选，并保留系统与中文 fallback。字体接线在主题指南维护；fallback 不代表跨系统字形完全一致，也不证明运行时字体已加载。
 
-基础 Button 和菜单项使用最小高度、Token Padding 与自然换行；纯图标按钮保持方形尺寸。设计稿表达默认几何和允许的内容增长，字体放大、触控几何及必要边界仍按真实消费者核验，规范要求不等于浏览器验收已完成。尺寸在当前工具中采用 CSS 解析值并记录 `token-map`；opacity 使用 CSS 比例到画布百分数的投影，均不冒充自动 CSS 联动。
+基础 Button 和菜单项使用最小高度、Token Padding 与自然换行；纯图标按钮保持方形尺寸。设计稿表达默认几何和允许的内容增长，字体放大、触控几何及必要边界仍按真实消费者核验，规范要求不等于浏览器验收已完成。组件尺寸读取实际节点；设计 opacity 百分数在 CSS 中转换为比例，`token-map` 仅帮助定位，不冒充自动联动。
 
 ## 布局与宿主
 
@@ -36,7 +36,7 @@ Token 按 [选择政策](tokens.md) 使用，运行时定义在 [global.css](../
 
 模板示例只组合已有能力：LoginModal 是当前页面上的认证浮层，`/login` 重定向并打开它；ShareDialog 消费调用方提供的 poster，窄屏可采用实际实现的底部浮层。不可把画布中的反馈当作真实请求或浏览器能力证明。
 
-认证设计在 `design-system/core.lib.pen` 的 `bzlJA` 维护，展示可选的邮箱验证码、双方式登录与邮箱注册；字段组合公共 Label / Input，浮层复用 Dialog。该展示不改变默认生产能力开关，当前设计覆盖见 [组件清单](../engineering/frontend/components/component-inventory.md#pencil-定位与映射)。认证字段、操作和提示使用现有 `font-size-lg` 的 16px 设计投影；运行时仍使用原有字号契约，需在获授权实现时核对。认证卡片及浮层底部的文字按钮使用 `primary`，hover 使用 `primary-hover`；保持普通文字的 `foreground`。认证源码仍由 `features/auth` 拥有。
+认证设计在 `design-system/core.lib.pen` 的 `bzlJA` 维护，展示可选的邮箱验证码、双方式登录与邮箱注册；字段组合公共 Label / Input，浮层复用 Dialog。该展示不改变默认生产能力开关，当前设计覆盖见 [组件清单](../engineering/frontend/components/component-inventory.md#pencil-定位与映射)。认证字段、操作、切换和记住我使用认证节点的 `font-size-lg` 与行高覆盖；辅助说明和请求反馈使用各自的文字角色。认证卡片及浮层底部的文字按钮使用 `primary`，hover 使用 `primary-hover`；保持普通文字的 `foreground`。认证源码仍由 `features/auth` 拥有。
 
 比较时固定主题、状态、平台、逻辑尺寸与已批准适配，注明整页、内容区和宿主边界；不裁剪隐藏重复顶栏、缺失区块或溢出。
 

@@ -23,7 +23,7 @@ export function ErrorPage({ eyebrow, title, description, reloadLabel, homeLabel 
         className="border-destructive w-[min(100%,640px)] border-t-4 py-12 max-[480px]:pt-8"
         role="alert"
       >
-        <p className="text-destructive mt-4 mb-0 font-sans text-sm font-bold">{eyebrow}</p>
+        <p className="text-destructive mt-4 mb-0 font-sans text-sm font-semibold">{eyebrow}</p>
         <h1 id="app-error-title" className="mt-4 mb-0 text-3xl leading-tight font-semibold">
           {title}
         </h1>

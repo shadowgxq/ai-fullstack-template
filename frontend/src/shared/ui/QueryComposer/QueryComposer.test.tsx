@@ -32,6 +32,7 @@ type RemoteHarnessProps = {
   remoteSearch: QueryComposerRemoteSearch<string>;
   onCommitItem?: (item: string) => void;
   onCommitQuery?: (query: string) => void;
+  isItemDisabled?: (item: string) => boolean;
 };
 
 function RemoteHarness({
@@ -39,6 +40,7 @@ function RemoteHarness({
   remoteSearch,
   onCommitItem = () => undefined,
   onCommitQuery = () => undefined,
+  isItemDisabled,
 }: RemoteHarnessProps) {
   const [value, setValue] = useState('');
   const commonProps = {
@@ -50,6 +52,7 @@ function RemoteHarness({
     renderItem: (item: string) => <span>{item}</span>,
     onValueChange: setValue,
     onCommitItem,
+    isItemDisabled,
   } as const;
 
   if (mode === 'remote_only') {
@@ -319,5 +322,133 @@ describe('QueryComposer', () => {
 
     fireEvent.keyDown(input, { key: 'Enter' });
     expect(onCommitQuery).toHaveBeenCalledWith('第一行\n第二行\n第三行\n第四行');
+  });
+  it('查询进行中不提交，完成后才允许无候选的自由文本提交', async () => {
+    vi.useFakeTimers();
+    const request = deferred<readonly string[]>();
+    const onCommitQuery = vi.fn();
+    render(
+      <RemoteHarness
+        mode="hybrid"
+        remoteSearch={{ search: () => request.promise, minChars: 1, debounceMs: 0 }}
+        onCommitQuery={onCommitQuery}
+      />,
+    );
+    const input = screen.getByRole('combobox');
+    fireEvent.change(input, { target: { value: 'design' } });
+    await act(async () => {
+      vi.advanceTimersByTime(0);
+      await Promise.resolve();
+    });
+    fireEvent.keyDown(input, { key: 'Enter' });
+    expect(onCommitQuery).not.toHaveBeenCalled();
+    await act(async () => request.resolve([]));
+    fireEvent.keyDown(input, { key: 'Enter' });
+    expect(onCommitQuery).toHaveBeenCalledWith('design');
+  });
+
+  it('重试保留原查询并恢复候选，不自动提交', async () => {
+    vi.useFakeTimers();
+    const search = vi
+      .fn()
+      .mockRejectedValueOnce(new Error('offline'))
+      .mockResolvedValueOnce(['Design guide']);
+    const onCommitItem = vi.fn();
+    render(
+      <RemoteHarness
+        mode="remote_only"
+        remoteSearch={{ search, minChars: 1, debounceMs: 0 }}
+        onCommitItem={onCommitItem}
+      />,
+    );
+    const input = screen.getByRole('combobox');
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { value: 'design' } });
+    await act(async () => {
+      vi.advanceTimersByTime(0);
+      await Promise.resolve();
+    });
+    expect(screen.getByText(MESSAGES.searchError)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: MESSAGES.retry }));
+    await act(async () => {
+      vi.advanceTimersByTime(0);
+      await Promise.resolve();
+    });
+    expect(input).toHaveValue('design');
+    expect(screen.getByRole('option', { name: 'Design guide' })).toBeInTheDocument();
+    expect(search).toHaveBeenCalledTimes(2);
+    expect(onCommitItem).not.toHaveBeenCalled();
+  });
+
+  it('remote_only 无候选时不能提交自由文本', async () => {
+    vi.useFakeTimers();
+    const onCommitItem = vi.fn();
+    render(
+      <RemoteHarness
+        mode="remote_only"
+        remoteSearch={{ search: () => [], minChars: 1, debounceMs: 0 }}
+        onCommitItem={onCommitItem}
+      />,
+    );
+    const input = screen.getByRole('combobox');
+    fireEvent.change(input, { target: { value: 'unknown' } });
+    await act(async () => {
+      vi.advanceTimersByTime(0);
+      await Promise.resolve();
+    });
+    fireEvent.keyDown(input, { key: 'Enter' });
+    expect(screen.queryByRole('option')).not.toBeInTheDocument();
+    expect(onCommitItem).not.toHaveBeenCalled();
+    expect(input).toHaveValue('unknown');
+  });
+
+  it('键盘选择跳过禁用候选', async () => {
+    vi.useFakeTimers();
+    const onCommitItem = vi.fn();
+    render(
+      <RemoteHarness
+        mode="remote_only"
+        remoteSearch={{ search: () => ['Locked', 'Available'], minChars: 1, debounceMs: 0 }}
+        isItemDisabled={(item) => item === 'Locked'}
+        onCommitItem={onCommitItem}
+      />,
+    );
+    const input = screen.getByRole('combobox');
+    fireEvent.change(input, { target: { value: 'result' } });
+    await act(async () => {
+      vi.advanceTimersByTime(0);
+      await Promise.resolve();
+    });
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
+    fireEvent.keyDown(input, { key: 'Enter' });
+    expect(onCommitItem).toHaveBeenCalledWith('Available');
+  });
+  it('把边框计入多行高度，在上限处保留完整末行并仅在溢出时滚动', () => {
+    const common = {
+      mode: 'natural_language_only',
+      isMultiline: true,
+      maxLines: 3,
+      label: 'Query',
+      messages: MESSAGES,
+      onValueChange: vi.fn(),
+      onCommitQuery: vi.fn(),
+    } as const;
+    const { rerender } = render(<QueryComposer {...common} value="One" />);
+    const input = screen.getByRole('textbox');
+    Object.assign(input.style, {
+      lineHeight: '24px',
+      paddingTop: '11px',
+      paddingBottom: '11px',
+      borderTopWidth: '1px',
+      borderBottomWidth: '1px',
+    });
+    Object.defineProperty(input, 'scrollHeight', { configurable: true, value: 94 });
+    rerender(<QueryComposer {...common} value={'One\nTwo\nThree'} />);
+    expect(input.style.height).toBe('96px');
+    expect(input.style.overflowY).toBe('hidden');
+    Object.defineProperty(input, 'scrollHeight', { configurable: true, value: 118 });
+    rerender(<QueryComposer {...common} value={'One\nTwo\nThree\nFour'} />);
+    expect(input.style.height).toBe('96px');
+    expect(input.style.overflowY).toBe('auto');
   });
 });

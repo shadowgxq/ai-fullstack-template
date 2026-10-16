@@ -322,7 +322,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
   }
 
   const rememberCheckbox = (
-    <label className="inline-flex items-center gap-[var(--space-2)] text-[length:var(--font-size-md)] leading-[var(--line-height-md)] text-foreground">
+    <label className="inline-flex items-center gap-[var(--space-2)] text-[length:var(--font-size-lg)] leading-[1.25] text-foreground">
       <input
         type="checkbox"
         checked={remember}
@@ -379,10 +379,10 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
           className="flex flex-col gap-[var(--space-1)] rounded-[var(--radius-control)] bg-muted px-[var(--space-3)] py-[var(--space-2)]"
           role="status"
         >
-          <p className="text-[length:var(--font-size-md)] leading-[var(--line-height-base)] text-foreground [overflow-wrap:anywhere]">
+          <p className="text-[length:var(--font-size-md)] leading-[var(--body-leading)] text-foreground [overflow-wrap:anywhere]">
             {t('auth.codeSent', { email: sentTo })}
           </p>
-          <p className="text-[length:var(--font-size-xs)] leading-[var(--line-height-sm)] text-muted-foreground">
+          <p className="text-[length:var(--font-size-xs)] leading-[var(--caption-leading)] text-muted-foreground">
             {t('auth.codeExpiresIn', { minutes: expireMinutes })}
           </p>
         </div>
@@ -394,7 +394,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
     <>
       {message ? (
         <p
-          className="text-[length:var(--font-size-md)] leading-[var(--line-height-base)] text-destructive"
+          className="text-[length:var(--font-size-md)] leading-[var(--body-leading)] text-destructive"
           role="alert"
         >
           {message}
@@ -403,7 +403,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
 
       {firstLogin ? (
         <p
-          className="text-[length:var(--font-size-md)] leading-[var(--line-height-base)] text-success"
+          className="text-[length:var(--font-size-md)] leading-[var(--body-leading)] text-success"
           role="status"
         >
           {t('auth.welcomeNew')}
@@ -412,7 +412,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
 
       {resetDone ? (
         <p
-          className="text-[length:var(--font-size-md)] leading-[var(--line-height-base)] text-success"
+          className="text-[length:var(--font-size-md)] leading-[var(--body-leading)] text-success"
           role="status"
         >
           {t('auth.forgot.done')}
@@ -455,7 +455,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
 
         {googleMessage ? (
           <p
-            className="text-[length:var(--font-size-md)] leading-[var(--line-height-base)] text-destructive"
+            className="text-[length:var(--font-size-md)] leading-[var(--body-leading)] text-destructive"
             role="alert"
           >
             {googleMessage}
@@ -473,19 +473,37 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
       )}
     >
       {mode === 'password' && authCapabilities.passwordReset ? (
-        <Button type="button" variant="link" size="sm" onClick={() => switchMode('forgot')}>
+        <Button
+          type="button"
+          variant="link"
+          size="sm"
+          className="text-primary hover:text-primary-hover no-underline hover:no-underline"
+          onClick={() => switchMode('forgot')}
+        >
           {t('auth.forgot.entry')}
         </Button>
       ) : null}
 
       {mode === 'code' || mode === 'password' ? (
-        <Button type="button" variant="link" size="sm" onClick={() => switchMode('register')}>
+        <Button
+          type="button"
+          variant="link"
+          size="sm"
+          className="text-primary hover:text-primary-hover no-underline hover:no-underline"
+          onClick={() => switchMode('register')}
+        >
           {t('auth.register.entry')}
         </Button>
       ) : null}
 
       {mode === 'register' || mode === 'forgot' ? (
-        <Button type="button" variant="link" size="sm" onClick={() => switchMode(DEFAULT_MODE)}>
+        <Button
+          type="button"
+          variant="link"
+          size="sm"
+          className="text-primary hover:text-primary-hover no-underline hover:no-underline"
+          onClick={() => switchMode(DEFAULT_MODE)}
+        >
           {t(`auth.${mode}.back`)}
         </Button>
       ) : null}
@@ -496,7 +514,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
     if (mode === 'password') {
       return (
         <form
-          className="flex flex-col gap-[var(--form-group-gap)]"
+          className="flex flex-col gap-[var(--space-5)]"
           onSubmit={handlePasswordSubmit}
           noValidate
         >
@@ -543,7 +561,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
     if (mode === 'register') {
       return (
         <form
-          className="flex flex-col gap-[var(--form-group-gap)]"
+          className="flex flex-col gap-[var(--space-5)]"
           onSubmit={handleRegisterSubmit}
           noValidate
         >
@@ -609,11 +627,11 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
     if (mode === 'forgot') {
       return (
         <form
-          className="flex flex-col gap-[var(--form-group-gap)]"
+          className="flex flex-col gap-[var(--space-5)]"
           onSubmit={handleForgotSubmit}
           noValidate
         >
-          <p className="text-[length:var(--font-size-sm)] leading-[var(--line-height-sm)] text-muted-foreground">
+          <p className="text-[length:var(--font-size-xs)] leading-[var(--caption-leading)] text-muted-foreground">
             {t('auth.forgot.hint')}
           </p>
 
@@ -661,7 +679,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
 
     return (
       <form
-        className="flex flex-col gap-[var(--form-group-gap)]"
+        className="flex flex-col gap-[var(--space-5)]"
         onSubmit={handleCodeFormSubmit}
         noValidate
       >
@@ -684,7 +702,12 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
   }
 
   return (
-    <div className={cn('flex flex-col gap-[var(--content-gap)]', className)}>
+    <div
+      className={cn(
+        'flex flex-col gap-[calc(var(--space-4)+var(--space-3))] [&_[data-slot=button]]:text-[length:var(--font-size-lg)] [&_[data-slot=button]]:leading-[1.25] [&_[data-slot=tabs-trigger]]:text-[length:var(--font-size-lg)] [&_[data-slot=tabs-trigger]]:leading-[1.25]',
+        className,
+      )}
+    >
       {LOGIN_MODES.length > 1 && (mode === 'code' || mode === 'password') ? tabs : null}
       {renderForm()}
       {googleBlock}

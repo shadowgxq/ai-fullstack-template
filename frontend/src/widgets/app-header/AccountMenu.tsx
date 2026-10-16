@@ -54,9 +54,9 @@ export function AccountMenu({
         sideOffset={8}
         collisionPadding={12}
         aria-label={accountMenuLabel}
-        className="w-[min(232px,calc(100vw-24px))] min-w-0 rounded-lg border border-border bg-popover p-2 text-popover-foreground shadow-lg ring-0"
+        className="w-[min(232px,calc(100vw-24px))] min-w-0"
       >
-        <DropdownMenuLabel className="grid min-w-0 gap-[3px] border-border/50 border-b p-0 px-[7px] pt-[5px] pb-[10px] font-normal">
+        <DropdownMenuLabel className="grid min-w-0 gap-[3px] border-border-subtle border-b p-0 px-[7px] pt-[5px] pb-[10px] font-normal">
           {/* 标签靠左、角色徽章靠右，中间留白由 justify-between 撑开；
               两者相邻排列时会挤在一起，读起来像一个词组。 */}
           <span className="flex min-w-0 items-center justify-between gap-2">
@@ -76,21 +76,18 @@ export function AccountMenu({
 
         <div className="grid gap-0.5 pt-1.5">
           {authCapabilities.changePassword ? (
-            <DropdownMenuItem
-              className="min-h-[38px] w-full cursor-pointer gap-[9px] rounded-sm px-2 py-0 text-left text-sm hover:bg-accent focus:bg-accent"
-              onSelect={openChangePassword}
-            >
+            <DropdownMenuItem className="w-full text-left" onSelect={openChangePassword}>
               <KeyRound size={16} aria-hidden="true" />
               <span>{t('header.changePassword')}</span>
             </DropdownMenuItem>
           ) : null}
 
-          <DropdownMenuSeparator className="mx-1 my-1 bg-border/50" />
+          <DropdownMenuSeparator />
 
           <DropdownMenuItem
             variant="destructive"
             disabled={logoutPending}
-            className="min-h-[38px] w-full cursor-pointer gap-[9px] rounded-sm px-2 py-0 text-left text-sm hover:bg-destructive/10 focus:bg-destructive/10"
+            className="w-full text-left"
             onSelect={onLogout}
           >
             <LogOut size={16} aria-hidden="true" />

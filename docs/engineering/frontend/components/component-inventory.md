@@ -7,7 +7,7 @@
 | 组件族 | 真实入口 | 可见性与边界 |
 |---|---|---|
 | Button | `shared/ui/button.tsx` | 公共 primitive；variant/size/loading/asChild，调用方负责提交幂等 |
-| Input、Label、Textarea | `shared/ui/{input,label,textarea}.tsx` | 公共 primitive；原生表单语义与状态样式 |
+| Input、Label、Textarea | `shared/ui/{input,label,textarea}.tsx` | 公共 primitive；原生表单语义与状态样式；Textarea 的计数和自动增高由调用方组合 |
 | Select、Switch、Tabs | `shared/ui/{select,switch,tabs}.tsx` | 公共 primitive；可控选择和键盘交互 |
 | Dialog | `shared/ui/dialog.tsx` | 公共 primitive；Portal、遮罩、焦点、尺寸、Header/Body/Footer |
 | DropdownMenu、Popover、Tooltip | `shared/ui/{dropdown-menu,popover,tooltip}.tsx` | 公共 primitive；浮层与焦点协议 |
@@ -35,10 +35,10 @@ feature/widget 的“公共出口”仅表示模块可见性，不表示公共�
 |---|---|---|
 | Design Tokens | 项目 Token 定义与设计同步见 [Token 政策](../../../design/tokens.md#设计与代码同步) | core.lib.pen 的公共变量与 Foundations |
 | Button | 操作呈现、变体、尺寸、禁用与 loading；不判断业务成功 | 公共主组件与实例状态 |
-| Input、Label、Textarea | 原生字段、关联、readonly / disabled / invalid；不承担领域校验 | 公共控件；Label + 控件 + helper 为普通用法示例，没有公共 Field API |
-| Switch | checked、禁用与键盘协议，不固定开关业务含义 | 公共主组件与状态 |
-| Select | 单选、受控值、键盘、触发框和选项面板；选项由调用方提供 | 公共交互组件，含完整展开态；当前代码不提供搜索或多选 |
-| Tabs、Dialog | 内容切换或浮层焦点/关闭契约；选项、内容与提交流程归消费者 | 公共交互组件与必要示例，不按原子化程度拆分 |
+| Input、Label、Textarea | 原生字段、关联、readonly / disabled / invalid；Input 不提供视觉 size 变体，不承担领域校验 | 公共控件；Label + 控件 + helper 为普通用法示例，没有公共 Field API |
+| Switch | checked、禁用与键盘协议，不固定开关业务含义 | 公共主组件与状态；实际命中区域包含较矮的视觉轨道 |
+| Select | 单选、受控值、键盘、触发框和选项面板；选项由调用方提供 | 公共交互组件，含图标、描述、分组、完整展开态和禁用项；选中触发框只显示标签，不提供搜索或多选 |
+| Tabs、Dialog | 内容切换或浮层焦点/关闭契约；选项、内容与提交流程归消费者 | 公共交互组件与必要示例；Tabs 触发项继承列表的视觉变体；Dialog 在 viewport 内滚动，不按原子化程度拆分 |
 | DropdownMenu、Popover、Tooltip | 菜单或浮层的触发、焦点、关闭与状态；操作及内容由调用方提供 | 公共壳层与中性示例，不固定筛选、分享或导出流程 |
 | Skeleton | 无业务的占位形状；内容尺寸与布局归使用方 | 基础主组件在 core，头像/文字/内容组合为普通用法示例 |
 | Calendar | 模板共用日期选择；月份、选中、禁用和 locale 由调用方配置 | 保留当前 DayPicker 包装；公共库未登记对应设计主稿 |
@@ -50,7 +50,7 @@ feature/widget 的“公共出口”仅表示模块可见性，不表示公共�
 
 目录页仍列出 `componentCatalog.ts` 的 15 个入口。“13 个基础 + 2 个高级”是展示分类，不是 13 个公共设计组件的批准记录。Calendar / QueryComposer 的运行时契约以现有源码为准。
 
-设计稿中的通用 Button/link、underline Tabs 及淡底徽标、导航小字使用 `foreground`，按 [颜色配对](../../../design/tokens.md#公共颜色契约) 满足当前浅色背景的文字对比要求；通用 link 文字保留下划线以识别操作；认证卡片与浮层底部的文字按钮单独使用 `primary` / `primary-hover`，与普通正文区分。React 的 Button/link、underline Tabs 和部分目录/详情文字仍使用 `text-primary`，link 下划线仅在 hover 显示；这项设计目标尚未同步到运行时代码，不能将 Pen 渲染检查视为代码已通过对比度验收。
+通用 Button/link、underline Tabs 及淡底小字使用 `foreground`；link 始终显示下划线。认证卡片与浮层底部文字按钮使用 `primary / primary-hover` 且不显示下划线。源码映射遵循 [Token 政策](../../../design/tokens.md)，静态映射不代表浏览器对比度或交互已经验收。
 
 ## Pencil 定位与映射
 
@@ -59,7 +59,7 @@ feature/widget 的“公共出口”仅表示模块可见性，不表示公共�
 | 公共库定位 | 映射或组合边界 |
 |---|---|
 | `MKpT9` Foundations；`KNJdR` Semantic colors | Foundations 保留 Light / Dark 并排概览；Semantic colors 单份完整公共颜色配对，通过 mode 轴切换主题 |
-| `lhFZv` Typography and spacing | 六种文字角色、表单标签、间距、圆角、布局与焦点参数；行高按正式字号/行高投影 |
+| `lhFZv` Typography and spacing | 六种文字角色、表单标签、间距、圆角、布局与焦点参数；行高使用无单位比例 |
 | `et1HX` Button；`HVHuZ` Input；`zhytp` Label | 变体、状态、尺寸与字段用法；用法容器不是公共主组件 |
 | `C0zvOR` Select；`U3VfEB` Tabs；`WUSkr` Switch | 选择与切换契约及必要状态 |
 | `tv1M5` Textarea；`KJiwo` Dialog；`zIN7D` DropdownMenu | 输入状态、浮层关系与菜单协议 |

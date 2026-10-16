@@ -5,6 +5,7 @@ import type { LucideIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import { AppShell } from '../../widgets/app-shell';
+import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 import { Tabs, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 import {
@@ -44,7 +45,7 @@ export function ComponentsPage() {
 
   return (
     <AppShell>
-      <div className="bg-page relative isolate min-h-full overflow-hidden">
+      <div className="bg-background relative isolate min-h-full overflow-hidden">
         <div
           className="from-primary/8 pointer-events-none absolute inset-x-0 top-[-22rem] mx-auto h-[38rem] w-[min(100%,90rem)] bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-from),transparent_68%)] blur-3xl dark:opacity-35"
           aria-hidden="true"
@@ -56,7 +57,7 @@ export function ComponentsPage() {
         >
           <header className="flex items-start justify-between gap-12 max-[980px]:gap-8 max-[760px]:flex-col">
             <div className="min-w-0 max-w-3xl pt-1">
-              <h1 className="text-foreground text-[clamp(2.5rem,4.2vw,3.35rem)] leading-none font-bold tracking-[-0.055em]">
+              <h1 className="text-foreground text-[clamp(2.5rem,4.2vw,3.35rem)] leading-none font-semibold tracking-[-0.055em]">
                 {t('components.title')}
               </h1>
               <p className="text-muted-foreground mt-3 max-w-2xl text-base leading-relaxed sm:text-lg">
@@ -84,7 +85,7 @@ export function ComponentsPage() {
           </header>
 
           <section
-            className="border-border/70 bg-surface mt-10 rounded-2xl border p-3 shadow-sm sm:p-3.5"
+            className="border-border/70 bg-card mt-10 rounded-2xl border p-3 shadow-sm sm:p-3.5"
             aria-labelledby="component-catalog-title"
           >
             <h2 id="component-catalog-title" className="sr-only">
@@ -96,65 +97,70 @@ export function ComponentsPage() {
                 {t('components.catalog.searchLabel')}
               </label>
               <Search
-                className="text-muted-foreground pointer-events-none absolute top-1/2 left-4 -translate-y-1/2"
-                size={19}
+                className="text-muted-foreground pointer-events-none absolute top-1/2 left-[var(--space-3)] -translate-y-1/2"
+                size={16}
                 aria-hidden="true"
               />
               <Input
                 id="component-catalog-search"
                 value={query}
                 placeholder={t('components.catalog.searchPlaceholder')}
-                className="h-12 rounded-xl border-border/80 bg-background pl-11 text-sm shadow-none placeholder:text-muted-foreground/75 sm:text-base"
+                className="pl-[calc(var(--space-3)+var(--icon-size-md)+var(--space-2)-var(--control-border-width))]"
                 onChange={(event) => setQuery(event.target.value)}
               />
             </div>
 
             <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
-              <Tabs value={filter} onValueChange={(value) => setFilter(value as CatalogFilter)}>
-                <TabsList
-                  aria-label={t('components.catalog.filterLabel')}
-                  className="h-11 gap-1 overflow-x-auto rounded-xl bg-muted/45 p-1 max-[520px]:w-full"
-                >
-                  {categoryFilters.map((category) => (
-                    <TabsTrigger
-                      key={category}
-                      value={category}
-                      className="text-muted-foreground hover:text-foreground h-9 rounded-lg px-4 text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm sm:px-5"
-                    >
-                      {category === 'all'
-                        ? t('components.catalog.all')
-                        : t(`components.catalog.categories.${category}.label`)}
-                      <span className="text-[11px] opacity-60">
+              <Tabs
+                value={filter}
+                onValueChange={(value) => setFilter(value as CatalogFilter)}
+                className="min-w-0 max-w-full"
+              >
+                <div className="-m-[calc(var(--focus-ring-width)+var(--space-0-5))] overflow-x-auto p-[calc(var(--focus-ring-width)+var(--space-0-5))]">
+                  <TabsList
+                    aria-label={t('components.catalog.filterLabel')}
+                    className="min-w-max max-[520px]:w-full"
+                  >
+                    {categoryFilters.map((category) => (
+                      <TabsTrigger key={category} value={category}>
                         {category === 'all'
-                          ? componentCatalog.length
-                          : t(`components.catalog.categories.${category}.count`)}
-                      </span>
-                    </TabsTrigger>
-                  ))}
-                </TabsList>
+                          ? t('components.catalog.all')
+                          : t(`components.catalog.categories.${category}.label`)}
+                        <span className="text-xs">
+                          {category === 'all'
+                            ? componentCatalog.length
+                            : t(`components.catalog.categories.${category}.count`)}
+                        </span>
+                      </TabsTrigger>
+                    ))}
+                  </TabsList>
+                </div>
               </Tabs>
               <div
-                className="border-border/60 bg-muted/35 flex items-center gap-1 rounded-xl border p-1"
+                className="flex items-center gap-[var(--space-1)] rounded-[var(--radius-control)] bg-muted p-[var(--space-0-5)]"
                 aria-label={t('components.catalog.viewLabel')}
+                role="group"
               >
-                <button
+                <Button
                   type="button"
                   aria-label={t('components.catalog.gridView')}
                   aria-pressed={viewMode === 'grid'}
-                  className="text-muted-foreground inline-grid size-9 place-items-center rounded-lg transition-colors hover:text-foreground aria-pressed:bg-secondary aria-pressed:text-primary"
+                  variant={viewMode === 'grid' ? 'default' : 'ghost'}
+                  size="icon-sm"
                   onClick={() => setViewMode('grid')}
                 >
-                  <Grid2X2 size={18} aria-hidden="true" />
-                </button>
-                <button
+                  <Grid2X2 aria-hidden="true" />
+                </Button>
+                <Button
                   type="button"
                   aria-label={t('components.catalog.listView')}
                   aria-pressed={viewMode === 'list'}
-                  className="text-muted-foreground inline-grid size-9 place-items-center rounded-lg transition-colors hover:text-foreground aria-pressed:bg-secondary aria-pressed:text-primary"
+                  variant={viewMode === 'list' ? 'default' : 'ghost'}
+                  size="icon-sm"
                   onClick={() => setViewMode('list')}
                 >
-                  <List size={18} aria-hidden="true" />
-                </button>
+                  <List aria-hidden="true" />
+                </Button>
               </div>
             </div>
 
@@ -200,11 +206,11 @@ export function ComponentsPage() {
 function Stat({ value, label, Icon }: { value: string; label: string; Icon: LucideIcon }) {
   return (
     <div className="border-border/70 bg-card flex min-w-[128px] items-center gap-3 rounded-xl border px-3 py-3 shadow-sm max-[980px]:min-w-0 max-[560px]:min-w-0">
-      <span className="bg-secondary/70 text-primary inline-grid size-10 shrink-0 place-items-center rounded-xl">
+      <span className="bg-secondary/70 text-foreground inline-grid size-10 shrink-0 place-items-center rounded-xl">
         <Icon size={21} strokeWidth={2.2} aria-hidden="true" />
       </span>
       <span className="min-w-0">
-        <strong className="text-foreground block text-lg leading-none font-bold tracking-[-0.03em]">
+        <strong className="text-foreground block text-lg leading-none font-semibold tracking-[-0.03em]">
           {value}
         </strong>
         <span className="text-muted-foreground mt-1 block truncate text-xs">{label}</span>
@@ -228,7 +234,7 @@ function CardContent({
         viewMode === 'list' ? 'flex w-full items-center gap-4' : 'flex w-full items-center gap-4'
       }
     >
-      <span className="bg-secondary/65 text-primary inline-grid size-14 shrink-0 place-items-center rounded-xl">
+      <span className="bg-secondary/65 text-foreground inline-grid size-14 shrink-0 place-items-center rounded-xl">
         {createElement(getCatalogIcon(item.slug), {
           size: 25,
           strokeWidth: 2.1,
@@ -237,10 +243,10 @@ function CardContent({
       </span>
       <div className="min-w-0 flex-1">
         <div className="flex items-center justify-between gap-3">
-          <h3 className="text-foreground truncate text-base font-bold tracking-[-0.02em]">
+          <h3 className="text-foreground truncate text-base font-semibold tracking-[-0.02em]">
             {item.name}
           </h3>
-          <span className="bg-secondary/65 text-primary inline-flex shrink-0 items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium">
+          <span className="bg-secondary/65 text-foreground inline-flex shrink-0 items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium">
             <span className="bg-success size-1.5 rounded-full" aria-hidden="true" />
             {t('components.catalog.ready')}
           </span>

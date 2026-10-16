@@ -10,13 +10,11 @@ import {
   Link2,
   LoaderCircle,
   Share2,
-  X,
 } from '@/shared/icons';
 import { Button } from '@/shared/ui/button';
 import {
   Dialog,
   DialogBody,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -50,7 +48,7 @@ export type ShareDialogProps = {
   posterStatus?: SharePosterStatus;
   onOpenChange: (open: boolean) => void;
   surface?: ShareSurface;
-  /** Keep the platform menu aligned with ai-berkshire by default. */
+  /** Include the browser's native share action when it is available. */
   includeNativeShare?: boolean;
   title?: ReactNode;
   description?: ReactNode;
@@ -217,17 +215,18 @@ function ActionIcon({ action }: { action: ShareActionName }) {
 function PlatformIcon({ platform }: { platform: SharePlatform }) {
   return (
     <span
-      className="grid size-[var(--popover-tile-icon-box)] place-items-center"
+      className="grid size-[var(--popover-tile-icon-box)] shrink-0 place-items-center"
       aria-hidden="true"
     >
-      <img
-        src={`/brand-icons/${platform}.svg`}
-        alt=""
-        className={cn(
-          'size-[var(--popover-tile-icon-size)] object-contain',
-          platform === 'x' && 'dark:invert',
-        )}
-      />
+      {platform === 'x' ? (
+        <span className="size-[var(--icon-size-lg)] bg-foreground [mask-image:url('/brand-icons/x.svg')] [mask-position:center] [mask-repeat:no-repeat] [mask-size:contain]" />
+      ) : (
+        <img
+          src={`/brand-icons/${platform}.svg`}
+          alt=""
+          className="size-[var(--icon-size-lg)] object-contain"
+        />
+      )}
     </span>
   );
 }
@@ -258,7 +257,7 @@ function ActionButton({
       : variant === 'secondary'
         ? 'min-h-[var(--share-action-height)] min-w-[var(--share-action-secondary-min-width)]'
         : variant === 'platform'
-          ? 'h-auto min-h-[var(--popover-tile-height)] min-w-0 w-full flex-col px-[var(--popover-tile-padding-x)] text-[length:var(--font-size-xs)]'
+          ? 'h-[var(--popover-tile-height)] min-h-[var(--popover-tile-height)] min-w-0 w-full flex-col px-[calc(var(--space-3)-var(--control-border-width))] text-[length:var(--font-size-xs)] leading-[var(--caption-leading)]'
           : 'min-h-[var(--share-action-height)] min-w-0 w-full justify-start text-left';
 
   return (
@@ -270,7 +269,7 @@ function ActionButton({
       className={cn(
         actionClassName,
         variant === 'platform' ? 'hover:bg-surface-hover hover:text-foreground' : null,
-        variant === 'primary' || variant === 'secondary' ? 'shrink-0' : null,
+        variant === 'primary' || variant === 'secondary' ? 'shrink-0 font-normal' : null,
         className,
       )}
       onClick={onClick}
@@ -342,10 +341,10 @@ function ShareControl({
           variant="default"
           disabled={Boolean(pendingAction)}
           loading={isPending}
-          aria-haspopup="menu"
+          aria-haspopup="dialog"
           aria-expanded={hoverPopover.open}
           data-action-variant="primary"
-          className="min-h-[var(--share-action-height)] min-w-[var(--share-action-primary-min-width)] shrink-0"
+          className="min-h-[var(--share-action-height)] min-w-[var(--share-action-primary-min-width)] shrink-0 font-normal"
           onPointerEnter={hoverPopover.openOnPointerEnter}
           onPointerLeave={hoverPopover.closeOnPointerLeave}
         >
@@ -356,7 +355,6 @@ function ShareControl({
       </PopoverTrigger>
       <PopoverContent
         variant="compact"
-        role="group"
         side="top"
         align="end"
         sideOffset={8}
@@ -451,10 +449,10 @@ function CopyControl({
           variant="outline"
           disabled={Boolean(pendingAction)}
           loading={isPending}
-          aria-haspopup="menu"
+          aria-haspopup="dialog"
           aria-expanded={hoverPopover.open}
           data-action-variant="secondary"
-          className="min-h-[var(--share-action-height)] min-w-[var(--share-action-secondary-min-width)] shrink-0"
+          className="min-h-[var(--share-action-height)] min-w-[var(--share-action-secondary-min-width)] shrink-0 font-normal"
           onPointerEnter={hoverPopover.openOnPointerEnter}
           onPointerLeave={hoverPopover.closeOnPointerLeave}
         >
@@ -467,7 +465,6 @@ function CopyControl({
       </PopoverTrigger>
       <PopoverContent
         variant="compact"
-        role="group"
         side="top"
         align="end"
         sideOffset={8}
@@ -630,34 +627,20 @@ export function ShareDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        showCloseButton={false}
         size="lg"
         variant="flush"
         closeLabel={closeLabel ?? t('share.close')}
         className="max-h-[calc(100dvh-var(--space-8))] max-[720px]:bottom-0 max-[720px]:top-auto max-[720px]:translate-y-0 max-[720px]:rounded-b-none"
       >
-        <DialogHeader className="flex shrink-0 flex-row items-start justify-between gap-[var(--space-4)] border-b border-border-subtle px-[var(--dialog-padding)] py-[var(--dialog-padding)]">
-          <div className="min-w-0">
-            <DialogTitle>{title ?? t('share.title')}</DialogTitle>
-            <DialogDescription className="mt-[var(--space-1)]">
-              {description ?? t('share.description')}
-            </DialogDescription>
-          </div>
-          <DialogClose asChild>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon-sm"
-              className="shrink-0"
-              aria-label={closeLabel ?? t('share.close')}
-            >
-              <X className="size-[var(--icon-size-md)]" aria-hidden="true" />
-            </Button>
-          </DialogClose>
+        <DialogHeader className="shrink-0 gap-[var(--space-2)] border-b border-border-subtle px-[calc(var(--space-6)-var(--control-border-width))] py-[calc(var(--space-6)-var(--control-border-width))]">
+          <DialogTitle>{title ?? t('share.title')}</DialogTitle>
+          <DialogDescription className="leading-[1.5]">
+            {description ?? t('share.description')}
+          </DialogDescription>
         </DialogHeader>
 
         <DialogBody
-          className="min-h-0 flex-1 overflow-y-auto bg-muted/25 p-[var(--space-4)] sm:p-[var(--space-6)]"
+          className="min-h-0 flex-1 overflow-y-auto bg-background px-[calc(var(--space-4)-var(--control-border-width))] py-[var(--space-4)] sm:px-[calc(var(--space-6)-var(--control-border-width))] sm:py-[var(--space-6)]"
           data-share-scroll-area
         >
           <div ref={posterRef} className="mx-auto w-full" data-share-poster>
@@ -665,52 +648,54 @@ export function ShareDialog({
           </div>
         </DialogBody>
 
-        <DialogFooter className="mt-0 shrink-0 flex-col border-t border-border-subtle bg-popover px-[var(--dialog-padding)] pt-[var(--space-4)] pb-[var(--dialog-padding)] sm:flex-row sm:items-center sm:justify-between">
-          {imageIsPreparing ? (
-            <p
-              className="text-muted-foreground mb-[var(--space-3)] flex items-center gap-[var(--button-gap)] text-[length:var(--font-size-sm)] leading-[var(--line-height-sm)]"
-              role="status"
-            >
-              <LoaderCircle
-                className="size-[var(--icon-size-md)] animate-spin"
-                aria-hidden="true"
-              />
-              {preparingImageLabel ?? t('share.preparingImage')}
-            </p>
-          ) : imageIsUnavailable ? (
-            <p
-              className="text-destructive mb-[var(--space-3)] text-[length:var(--font-size-sm)] leading-[var(--line-height-sm)]"
-              role="alert"
-            >
-              {imageUnavailableLabel ?? t('share.imageUnavailable')}
-            </p>
-          ) : null}
-
-          <div className="flex w-full flex-col gap-[var(--space-3)] sm:flex-row sm:items-center sm:justify-between">
-            {feedback ? (
-              <p
-                className={cn(
-                  'shrink-0 text-[length:var(--font-size-sm)] leading-[var(--line-height-sm)]',
-                  share.error ? 'text-destructive' : 'text-success',
-                )}
-                role={share.error ? 'alert' : 'status'}
-              >
-                {share.error ? (
-                  feedback
-                ) : (
-                  <>
-                    <Check
-                      className="mr-[var(--space-1)] inline size-[var(--icon-size-md)]"
+        <DialogFooter className="shrink-0 bg-popover px-[calc(var(--space-6)-var(--control-border-width))] pb-[calc(var(--space-6)-var(--control-border-width))]">
+          <div className="flex w-full flex-col gap-[var(--space-3)] sm:flex-row sm:items-center sm:gap-[var(--space-6)]">
+            {imageIsPreparing || imageIsUnavailable || feedback ? (
+              <div className="min-w-0 flex-1 space-y-[var(--space-2)]">
+                {imageIsPreparing ? (
+                  <p
+                    className="text-muted-foreground flex items-center gap-[var(--space-2)] text-[length:var(--font-size-xs)] leading-[var(--caption-leading)]"
+                    role="status"
+                  >
+                    <LoaderCircle
+                      className="size-[var(--icon-size-md)] animate-spin"
                       aria-hidden="true"
                     />
-                    {feedback}
-                  </>
-                )}
-              </p>
+                    {preparingImageLabel ?? t('share.preparingImage')}
+                  </p>
+                ) : imageIsUnavailable ? (
+                  <p
+                    className="text-destructive text-[length:var(--font-size-xs)] leading-[var(--caption-leading)]"
+                    role="alert"
+                  >
+                    {imageUnavailableLabel ?? t('share.imageUnavailable')}
+                  </p>
+                ) : null}
+                {feedback ? (
+                  <p
+                    className={cn(
+                      'shrink-0 text-[length:var(--font-size-xs)] leading-[var(--caption-leading)]',
+                      share.error ? 'text-destructive' : 'text-success',
+                    )}
+                    role={share.error ? 'alert' : 'status'}
+                  >
+                    {share.error ? (
+                      feedback
+                    ) : (
+                      <>
+                        <Check
+                          className="mr-[var(--space-1)] inline size-[var(--icon-size-md)]"
+                          aria-hidden="true"
+                        />
+                        {feedback}
+                      </>
+                    )}
+                  </p>
+                ) : null}
+              </div>
             ) : null}
-
             <div
-              className="flex flex-col justify-end gap-[var(--button-gap)] sm:ml-auto sm:flex-row sm:items-center"
+              className="flex flex-col justify-end gap-[var(--space-2)] sm:ml-auto sm:flex-row sm:items-center"
               aria-label={actionsLabel ?? t('share.actionsLabel')}
               data-share-actions
             >
@@ -737,7 +722,7 @@ export function ShareDialog({
                 </ActionButton>
               ) : null}
               {shareActions.length === 0 && copyActions.length === 0 && !downloadAction ? (
-                <p className="text-muted-foreground text-[length:var(--font-size-sm)] leading-[var(--line-height-sm)]">
+                <p className="text-muted-foreground text-[length:var(--font-size-xs)] leading-[var(--caption-leading)]">
                   {imageIsPreparing
                     ? (preparingImageLabel ?? t('share.preparingImage'))
                     : (noActionsLabel ?? t('share.noActions'))}

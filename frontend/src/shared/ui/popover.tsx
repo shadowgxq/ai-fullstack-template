@@ -50,10 +50,10 @@ const PopoverContent = React.forwardRef<
         align={align}
         sideOffset={sideOffset}
         className={cn(
-          'z-50 flex max-w-[calc(100vw-var(--space-8))] origin-(--radix-popover-content-transform-origin) flex-col border-[length:var(--control-border-width)] border-border-subtle bg-popover text-[length:var(--text-control-size)] leading-[var(--text-control-line)] text-popover-foreground outline-none duration-[var(--duration-fast)] data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 motion-reduce:duration-0',
+          'z-50 flex max-w-[calc(100vw-var(--space-8))] origin-(--radix-popover-content-transform-origin) flex-col border-[length:var(--control-border-width)] border-border-subtle bg-popover text-[length:var(--font-size-md)] leading-[var(--control-leading)] text-popover-foreground outline-none duration-[var(--duration-fast)] data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 motion-reduce:duration-0',
           variant === 'compact'
-            ? 'w-[min(var(--popover-compact-width),calc(100vw-var(--space-8)))] gap-[var(--popover-compact-gap)] rounded-[var(--radius-control)] p-[var(--popover-compact-padding)] shadow-[var(--elevation-md)]'
-            : 'w-[min(var(--popover-width),calc(100vw-var(--space-8)))] gap-[var(--space-2)] rounded-[var(--radius-panel)] p-[var(--popover-padding)] shadow-[var(--elevation-md)]',
+            ? 'w-[min(var(--popover-compact-width),calc(100vw-var(--space-8)))] gap-[var(--space-2-5)] rounded-[var(--radius-control)] p-[calc(var(--space-2)-var(--control-border-width))] shadow-[var(--elevation-md)]'
+            : 'w-[min(var(--popover-width),calc(100vw-var(--space-8)))] gap-[var(--space-2)] rounded-[var(--radius-surface)] p-[calc(var(--space-4)-var(--control-border-width))] shadow-[var(--elevation-md)]',
           className,
         )}
         data-variant={variant}
@@ -73,7 +73,7 @@ function PopoverHeader({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="popover-header"
-      className={cn('flex flex-col gap-[var(--space-1)] text-[length:var(--font-size-md)]', className)}
+      className={cn('flex flex-col gap-[var(--space-2)] text-[length:var(--font-size-md)]', className)}
       {...props}
     />
   )
@@ -84,7 +84,7 @@ function PopoverTitle({ className, ...props }: React.ComponentProps<'h2'>) {
     <h2
       data-slot="popover-title"
       className={cn(
-        'text-[length:var(--text-control-size)] leading-[var(--text-control-line)] font-semibold',
+        'text-[length:var(--font-size-md)] leading-[var(--control-leading)] font-semibold',
         className,
       )}
       {...props}
@@ -97,7 +97,7 @@ function PopoverDescription({ className, ...props }: React.ComponentProps<'p'>) 
     <p
       data-slot="popover-description"
       className={cn(
-        'text-[length:var(--text-body-size)] leading-[var(--text-body-line)] text-muted-foreground',
+        'text-[length:var(--font-size-md)] leading-[var(--body-leading)] text-muted-foreground',
         className,
       )}
       {...props}

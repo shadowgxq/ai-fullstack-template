@@ -5,27 +5,28 @@ import { cn } from '@/shared/utils/cn'
 
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SwitchPrimitive.Root> & {
-    /** Kept for source compatibility; geometry is intentionally one contract. */
-    size?: 'sm' | 'default' | 'lg'
-  }
->(function Switch({ className, size = 'default', ...props }, ref) {
-
+  React.ComponentPropsWithoutRef<typeof SwitchPrimitive.Root>
+>(function Switch({ className, ...props }, ref) {
   return (
     <SwitchPrimitive.Root
       ref={ref}
       data-slot="switch"
-      data-size={size}
       className={cn(
-        'peer relative inline-flex h-[var(--switch-track-height)] w-[var(--switch-track-width)] shrink-0 touch-manipulation items-center rounded-[var(--radius-pill)] border-[length:var(--control-border-width)] border-transparent bg-input p-[calc(var(--space-0-5)-var(--control-border-width))] outline-none transition-[background-color,border-color,box-shadow,opacity] duration-[var(--duration-fast)] ease-[var(--ease-standard)] after:absolute after:inset-x-0 after:top-1/2 after:h-[var(--control-hit-size)] after:-translate-y-1/2 after:content-[\'\'] focus-visible:ring-[length:var(--focus-ring-width)] focus-visible:ring-offset-[length:var(--focus-ring-offset)] focus-visible:border-ring focus-visible:ring-ring focus-visible:ring-offset-background data-[state=checked]:bg-primary data-[state=checked]:hover:bg-primary-hover data-[state=unchecked]:hover:bg-border-strong data-disabled:cursor-not-allowed data-disabled:opacity-[var(--disabled-opacity)] motion-reduce:transition-none',
+        'group/switch inline-flex h-[var(--control-hit-size)] w-[var(--switch-track-width)] shrink-0 touch-manipulation items-center justify-center bg-transparent p-0 outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-[calc(var(--disabled-opacity-percent)/100)]',
         className,
       )}
       {...props}
     >
-      <SwitchPrimitive.Thumb
-        data-slot="switch-thumb"
-        className="pointer-events-none block size-[var(--switch-thumb-size)] rounded-[var(--radius-pill)] bg-background shadow-[var(--elevation-sm)] transition-transform duration-[var(--duration-fast)] ease-[var(--ease-standard)] data-[state=checked]:translate-x-[var(--switch-thumb-offset)] motion-reduce:transition-none"
-      />
+      {/* The real 44px hit area contains the 24px track; focus follows the track. */}
+      <span
+        data-slot="switch-track"
+        className="pointer-events-none flex h-[var(--switch-track-height)] w-full items-center rounded-[var(--radius-pill)] border-[length:var(--control-border-width)] border-transparent bg-input p-[calc(var(--space-0-5)-var(--control-border-width))] transition-[background-color,border-color,box-shadow] duration-[var(--duration-fast)] ease-[var(--ease-standard)] group-data-[state=checked]/switch:bg-primary group-data-[state=checked]/switch:group-hover/switch:bg-primary-hover group-data-[state=unchecked]/switch:group-hover/switch:bg-border-strong group-focus-visible/switch:ring-[length:var(--focus-ring-width)] group-focus-visible/switch:ring-ring group-focus-visible/switch:ring-offset-[length:var(--space-0-5)] group-focus-visible/switch:ring-offset-background motion-reduce:transition-none"
+      >
+        <SwitchPrimitive.Thumb
+          data-slot="switch-thumb"
+          className="block size-[var(--switch-thumb-size)] shrink-0 rounded-[var(--radius-pill)] bg-background transition-transform duration-[var(--duration-fast)] ease-[var(--ease-standard)] data-[state=checked]:translate-x-[var(--switch-thumb-offset)] motion-reduce:transition-none"
+        />
+      </span>
     </SwitchPrimitive.Root>
   )
 })

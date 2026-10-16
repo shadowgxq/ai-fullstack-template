@@ -2,480 +2,240 @@
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
 
-/* 让 shadcn 的 dark: 变体跟随项目既有的 data-theme 机制。 */
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
+/* Visual source: docs/design/design-system/core.lib.pen, mode=light/dark. */
 :root,
 [data-theme='light'] {
   color-scheme: light;
-
-  /* =========================================================
-   * 01. Typography — two family roles: UI sans + technical mono
-   * ======================================================= */
-  --font-family-sans:
-    -apple-system, BlinkMacSystemFont, 'Inter', 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei',
-    'Segoe UI', sans-serif;
-  --font-family-mono: 'SFMono-Regular', 'IBM Plex Mono', 'Cascadia Code', Consolas, monospace;
-
-  --font-size-xs: 12px;
-  --font-size-sm: 13px;
-  --font-size-md: 14px;
-  --font-size-base: 15px;
-  --font-size-lg: 16px;
-  --font-size-xl: 18px;
-  --font-size-2xl: 24px;
-  --font-size-3xl: 32px;
-  --font-size-4xl: 40px;
-
-  --line-height-xs: 16px;
-  --line-height-sm: 18px;
-  --line-height-md: 20px;
-  --line-height-base: 22px;
-  --line-height-lg: 24px;
-  --line-height-xl: 28px;
-  --line-height-2xl: 32px;
-  --line-height-3xl: 40px;
-  --line-height-4xl: 48px;
-
-  --font-weight-regular: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
-
-  /* 推荐语义字号：组件库/文档页面统一使用 sans；技术信息使用 mono。 */
-  --text-page-title-size: var(--font-size-2xl);
-  --text-page-title-line: var(--line-height-2xl);
-  --text-section-title-size: 20px;
-  --text-section-title-line: var(--line-height-xl);
-  --text-card-title-size: var(--font-size-lg);
-  --text-card-title-line: var(--line-height-base);
-  --text-body-size: var(--font-size-md);
-  --text-body-line: var(--line-height-base);
-  --text-control-size: var(--font-size-md);
-  --text-control-line: var(--line-height-md);
-  --text-caption-size: var(--font-size-xs);
-  --text-caption-line: var(--line-height-sm);
-
-  /* =========================================================
-   * 02. Spacing — 4px base grid
-   * ======================================================= */
-  --space-0: 0;
-  --space-0-5: 2px;
-  --space-1: 4px;
-  --space-1-5: 6px;
-  --space-2: 8px;
-  --space-2-5: 10px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 20px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-10: 40px;
-  --space-12: 48px;
-  --space-16: 64px;
-  --space-20: 80px;
-
-  /* 页面级节奏：1440 与 2K 共用同一组尺寸，不依赖大量媒体查询。 */
-  --layout-max-width: 1336px;
-  --layout-gutter: var(--space-8);
-  --header-height: 56px;
-  --page-padding-top: var(--space-10);
-  --page-padding-bottom: var(--space-16);
-  --hero-padding-top: var(--space-10);
-  --hero-padding-bottom: var(--space-8);
-  --section-gap: var(--space-10);
-  --subsection-gap: var(--space-6);
-  --content-gap: var(--space-4);
-  --compact-gap: var(--space-2);
-  --toolbar-gap: var(--space-3);
-  --grid-gap: var(--space-4);
-
-  /* Docs / Component Library */
-  --docs-sidebar-width: 236px;
-  --docs-sidebar-gap: var(--space-8);
-  --docs-content-max-width: 1040px;
-  --docs-nav-item-height: 36px;
-  --docs-nav-item-padding-x: var(--space-3);
-  --docs-nav-group-gap: var(--space-5);
-
-  /* =========================================================
-   * 03. Radius
-   * ======================================================= */
-  --radius: 0.5rem;
-  --radius-control: 8px;
-  --radius-surface: 12px;
-  --radius-card: var(--radius-surface);
-  --radius-panel: var(--radius-surface);
-  --radius-dialog: var(--radius-surface);
-  --radius-pill: 999px;
-
-  /* Component contract state primitives. */
-  --control-border-width: 1px;
-  /* 2px keyboard ring preserves the visible focus affordance. Form controls
-   * add a 1.5px inner stroke to match the component reference sheets. */
-  --focus-ring-width: 2px;
-  --control-focus-stroke: 1.5px;
-  --focus-ring-offset: 2px;
-  --disabled-opacity: 0.48;
-  --control-invalid-border: #c93645;
-  --control-hit-size: 44px;
-  --control-icon-size: var(--icon-size-md);
-  --control-icon-gap: var(--space-2);
-  --form-field-gap: var(--space-2);
-  --form-group-gap: var(--space-5);
-  --label-font-size: var(--font-size-md);
-  --label-line-height: var(--line-height-sm);
-  --helper-font-size: var(--font-size-xs);
-  --helper-line-height: var(--line-height-sm);
-
-  /* =========================================================
-   * 04. Sizing / Controls
-   * ======================================================= */
-  --control-height-xs: 28px;
-  --control-height-sm: 32px;
-  --control-height-md: 36px;
-  --control-height-lg: 40px;
-  --control-height-xl: 44px;
-  --control-height-2xl: 48px;
-
-  --control-padding-x-sm: var(--space-2-5);
-  --control-padding-x-md: var(--space-3);
-  --control-padding-x-lg: var(--space-4);
-
-  --icon-size-xs: 12px;
-  --icon-size-sm: 14px;
-  --icon-size-md: 16px;
-  --icon-size-lg: 20px;
-  --icon-size-xl: 24px;
-  --icon-stroke-width: 1.75;
-
-  /* Button */
-  --button-height-sm: var(--control-height-sm);
-  --button-height-md: var(--control-height-lg);
-  --button-height-lg: var(--control-height-2xl);
-  --button-padding-x-sm: var(--space-3);
-  /* 14px preserves the compact default button; it is not another spacing scale. */
-  --button-padding-x-md: 14px;
-  --button-padding-x-lg: var(--space-4);
-  --button-padding-y-sm: var(--space-1);
-  --button-padding-y-md: var(--space-2);
-  --button-padding-y-lg: var(--space-3);
-  --button-gap: var(--space-2);
-
-  /* Input / Select / Search */
-  --input-height-sm: var(--control-height-md);
-  --input-height-md: var(--control-height-lg);
-  --input-height-lg: var(--control-height-xl);
-  --input-padding-x: var(--space-3);
-  --input-icon-gap: var(--space-2);
-  --textarea-min-height: 96px;
-
-  /* QueryComposer keeps its larger search surface; other geometry reuses the scale. */
-  --query-composer-min-height: 56px;
-  --query-composer-panel-max-height: 448px;
-
-  /* Switch track stays below the 24px interaction-weight ceiling. */
-  --switch-track-height: 24px;
-  --switch-track-width: 44px;
-  --switch-thumb-size: 20px;
-  --switch-thumb-offset: 20px;
-
-  /* Tabs / Segmented control */
-  --tabs-height: 36px;
-  --tabs-trigger-height: 32px;
-  --tabs-padding: var(--space-0-5);
-  --tabs-gap: var(--space-1);
-
-  /* Badge / Chip */
-  --badge-height: 22px;
-  --badge-padding-x: var(--space-2);
-  --badge-gap: 5px;
-  --badge-font-size: var(--font-size-xs);
-
-  /* Component gallery card */
-  --component-card-min-height: 104px;
-  --component-card-padding-x: var(--space-5);
-  --component-card-padding-y: 18px;
-  --component-card-gap: var(--space-3);
-  --component-card-icon-box: 40px;
-
-  /* Generic panel / demo */
-  --panel-padding-sm: var(--space-4);
-  --panel-padding-md: var(--space-5);
-  --panel-padding-lg: var(--space-6);
-  --demo-block-gap: var(--space-4);
-
-  /* Overlay components */
-  --tooltip-max-width: 280px;
-  --tooltip-padding-x: var(--space-3);
-  --tooltip-padding-y: var(--space-2);
-  --popover-width: 320px;
-  --popover-padding: var(--space-4);
-  --popover-compact-width: 288px;
-  --popover-compact-padding: var(--space-2);
-  --popover-compact-gap: var(--space-2-5);
-  --popover-tile-height: 64px;
-  --popover-tile-padding-x: var(--space-3);
-  --popover-tile-icon-box: 28px;
-  --popover-tile-icon-size: var(--icon-size-lg);
-  --dropdown-min-width: 220px;
-  --dropdown-item-height: 36px;
-  --dropdown-item-padding-x: var(--space-2-5);
-  --dropdown-item-padding-y: var(--space-2);
-  --dialog-width-sm: 440px;
-  --dialog-width-md: 480px;
-  --dialog-width-lg: 720px;
-  --dialog-padding: var(--space-6);
-  --calendar-width: 320px;
-  --drawer-width: 420px;
-
-  /* Share action group — preserves the established desktop action rhythm. */
-  --share-action-height: var(--control-height-xl);
-  --share-action-primary-min-width: 152px;
-  --share-action-secondary-min-width: 136px;
-
-  /* Table / Code */
-  --table-row-height: 44px;
-  --table-cell-padding-x: var(--space-3);
-  --code-font-size: var(--font-size-sm);
-  --code-line-height: var(--line-height-md);
-  --code-padding: 18px;
-
-  /* =========================================================
-   * 05. Elevation / Motion
-   * ======================================================= */
-  --elevation-xs: 0 1px 2px rgb(16 24 40 / 0.06);
-  --elevation-sm: 0 1px 2px rgb(16 24 40 / 0.08);
-  --elevation-md: 0 4px 12px rgb(16 24 40 / 0.12);
-  --elevation-lg: 0 12px 32px rgb(16 24 40 / 0.16);
-
-  --duration-fast: 150ms;
-  --duration-normal: 200ms;
-  --duration-slow: 240ms;
-  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
-  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1.2);
-
-  /* =========================================================
-   * 06. Semantic color — Signal Teal / Light
-   * ======================================================= */
   --background: #f8fafc;
   --foreground: #10213d;
   --card: #ffffff;
   --card-foreground: #10213d;
   --popover: #ffffff;
   --popover-foreground: #10213d;
-
-  --header-bg: #ffffff;
-  --hero-bg: #f2faf8;
-  --page-bg: #f8fafc;
-  --surface-bg: #ffffff;
-  --surface-hover: #f4f8fa;
-  --surface-selected: #eaf8f6;
-
-  --border-subtle: #e3eaf1;
-  --border: #d8e1ea;
-  --border-strong: #6d7c92;
-  --header-border: #e3eaf1;
-  --input: #7d8ba0;
-
   --primary: #00857c;
   --primary-hover: #007b73;
   --primary-active: #006f68;
   --primary-foreground: #ffffff;
-  --primary-subtle: #eaf8f6;
-  --primary-subtle-hover: #ddf3ef;
-
   --secondary: #f3f6f8;
   --secondary-foreground: #10213d;
   --muted: #eef2f6;
   --muted-foreground: #5f6d84;
-  --accent: #f4f8fa;
-  --accent-foreground: #10213d;
-
+  --border-subtle: #e3eaf1;
+  --border: #d8e1ea;
+  --border-strong: #6d7c92;
+  --input: #7d8ba0;
+  --ring: #00958c;
   --destructive: #c93645;
   --destructive-subtle: #fff0f2;
+  --control-invalid-border: #c93645;
   --success: #127749;
   --success-subtle: #e8f6ee;
-  --success-foreground: #ffffff;
   --warning: #996007;
   --warning-subtle: #fff5df;
+  --surface-hover: #f4f8fa;
+  --surface-selected: #eaf8f6;
+  --header-bg: #ffffff;
+  --header-border: #e3eaf1;
+  --overlay: #10213d70;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --radius-control: 8px;
+  --radius-pill: 999px;
+  --control-border-width: 1px;
+  --focus-ring-width: 2px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xs: 12px;
+  --text-page-title-size: 24px;
+  --text-section-title-size: 20px;
+  --button-padding-x-md: 14px;
+  --font-family-sans:
+    'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei',
+    'Segoe UI', sans-serif;
+  --font-family-mono: 'IBM Plex Mono', 'SFMono-Regular', 'Cascadia Code', Consolas, monospace;
+  --body-leading: 1.5714285714285714;
+  --control-leading: 1.4285714285714286;
+  --caption-leading: 1.5;
+  --page-title-leading: 1.3333333333333333;
+  --section-title-leading: 1.4;
+  --disabled-opacity-percent: 48;
+  --success-foreground: #ffffff;
   --warning-foreground: #ffffff;
+  --space-1: 4px;
+  --space-5: 20px;
+  --label-leading: 1.2857142857142858;
+  --card-title-leading: 1.375;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --primary-subtle: #eaf8f6;
+  --primary-subtle-hover: #ddf3ef;
+  --accent: #f4f8fa;
+  --accent-foreground: #10213d;
+  --font-size-sm: 13px;
+  --font-weight-regular: 400;
+  --space-2-5: 10px;
+  --space-10: 40px;
+  --space-16: 64px;
+  --space-0-5: 2px;
+  --radius-surface: 12px;
+  --large-text-leading: 1.5;
+  --calendar-caption-leading: 1.3846153846153846;
 
-  --ring: #00958c;
-  --overlay: rgb(16 33 61 / 0.44);
-
-  --code-bg: #151b1f;
-  --code-foreground: #e8eeec;
-  --code-muted: #9aa6a1;
-
-  --chart-1: #00857c;
-  --chart-2: #16814f;
-  --chart-3: #a76c07;
-  --chart-4: #c93645;
-  --chart-5: #66758d;
-
-  --sidebar: #f8fafc;
-  --sidebar-foreground: #10213d;
-  --sidebar-primary: #00857c;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f4f8fa;
-  --sidebar-accent-foreground: #10213d;
-  --sidebar-border: #e3eaf1;
-  --sidebar-ring: #00958c;
+  /* Component geometry from the design; runtime limits and motion serve existing interactions. */
+  --layout-max-width: 1336px;
+  --control-hit-size: 44px;
+  --control-height-md: 36px;
+  --control-height-xl: 44px;
+  --control-height-2xl: 48px;
+  --icon-size-sm: 14px;
+  --icon-size-md: 16px;
+  --icon-size-lg: 20px;
+  --button-height-sm: 32px;
+  --button-height-md: 40px;
+  --button-height-lg: 48px;
+  --input-height-sm: 36px;
+  --input-height-md: 40px;
+  --input-height-lg: 44px;
+  --textarea-min-height: 96px;
+  --query-composer-min-height: 56px;
+  --query-composer-panel-max-height: 448px;
+  --switch-track-height: 24px;
+  --switch-track-width: 44px;
+  --switch-thumb-size: 20px;
+  --switch-thumb-offset: 20px;
+  --tabs-height: 36px;
+  --tabs-trigger-height: 32px;
+  --tooltip-max-width: 280px;
+  --popover-width: 320px;
+  --popover-compact-width: 288px;
+  --popover-tile-height: 64px;
+  --popover-tile-icon-box: 28px;
+  --dropdown-min-width: 220px;
+  --dropdown-item-height: 36px;
+  --dialog-width-sm: 440px;
+  --dialog-width-md: 480px;
+  --dialog-width-lg: 720px;
+  --calendar-width: 320px;
+  --share-action-height: 44px;
+  --share-action-primary-min-width: 152px;
+  --share-action-secondary-min-width: 136px;
+  --query-composer-shadow: 0 8px 24px #00000014;
+  --elevation-sm: 0 1px 2px #10182814;
+  --elevation-md: 0 4px 12px #1018281f;
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
 }
 
 @theme inline {
-  --font-mono: var(--font-family-mono);
   --font-sans: var(--font-family-sans);
-
+  --font-mono: var(--font-family-mono);
+  --font-weight-normal: var(--font-weight-regular);
+  --text-xs: var(--font-size-xs);
+  --text-xs--line-height: var(--caption-leading);
+  --text-sm: var(--font-size-md);
+  --text-sm--line-height: var(--control-leading);
+  --text-base: var(--font-size-md);
+  --text-base--line-height: var(--body-leading);
+  --text-lg: var(--font-size-lg);
+  --text-lg--line-height: var(--large-text-leading);
+  --text-xl: var(--text-section-title-size);
+  --text-xl--line-height: var(--section-title-leading);
+  --text-2xl: var(--text-page-title-size);
+  --text-2xl--line-height: var(--page-title-leading);
+  --radius-sm: var(--radius-control);
+  --radius-md: var(--radius-control);
+  --radius-lg: var(--radius-surface);
+  --radius-xl: var(--radius-surface);
+  --radius-2xl: var(--radius-surface);
+  --radius-3xl: var(--radius-surface);
+  --radius-4xl: var(--radius-surface);
+  --shadow-sm: var(--elevation-sm);
+  --shadow-md: var(--elevation-md);
+  --shadow-lg: var(--elevation-md);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
-
-  --color-header: var(--header-bg);
-  --color-hero: var(--hero-bg);
-  --color-page: var(--page-bg);
-  --color-surface: var(--surface-bg);
-  --color-surface-hover: var(--surface-hover);
-  --color-surface-selected: var(--surface-selected);
-
-  --color-border-subtle: var(--border-subtle);
-  --color-border: var(--border);
-  --color-border-strong: var(--border-strong);
-  --color-header-border: var(--header-border);
-  --color-input: var(--input);
-
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
   --color-primary-active: var(--primary-active);
   --color-primary-foreground: var(--primary-foreground);
-  --color-primary-subtle: var(--primary-subtle);
-  --color-primary-subtle-hover: var(--primary-subtle-hover);
-
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-
+  --color-border-subtle: var(--border-subtle);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
   --color-destructive: var(--destructive);
   --color-destructive-subtle: var(--destructive-subtle);
+  --color-control-invalid-border: var(--control-invalid-border);
   --color-success: var(--success);
   --color-success-subtle: var(--success-subtle);
-  --color-success-foreground: var(--success-foreground);
   --color-warning: var(--warning);
   --color-warning-subtle: var(--warning-subtle);
+  --color-surface-hover: var(--surface-hover);
+  --color-surface-selected: var(--surface-selected);
+  --color-header-bg: var(--header-bg);
+  --color-header-border: var(--header-border);
+  --color-overlay: var(--overlay);
+  --color-success-foreground: var(--success-foreground);
   --color-warning-foreground: var(--warning-foreground);
-
-  --color-ring: var(--ring);
-  --color-code: var(--code-bg);
-  --color-code-foreground: var(--code-foreground);
-  --color-code-muted: var(--code-muted);
-
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
-
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --color-primary-subtle: var(--primary-subtle);
+  --color-primary-subtle-hover: var(--primary-subtle-hover);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
 }
 
-/* =========================================================
- * 07. Signal Teal / Dark
- * ======================================================= */
 [data-theme='dark'] {
   color-scheme: dark;
-
   --background: #0d1211;
   --foreground: #f2f5f4;
   --card: #151b19;
   --card-foreground: #f2f5f4;
   --popover: #1c2522;
   --popover-foreground: #f2f5f4;
-
-  --header-bg: #151b19;
-  --hero-bg: #111c18;
-  --page-bg: #0d1211;
-  --surface-bg: #151b19;
-  --surface-hover: #1d2824;
-  --surface-selected: #183a34;
-
-  --border-subtle: #34413d;
-  --border: #34413d;
-  --border-strong: #7b8c85;
-  --header-border: #2b3834;
-  --input: #66766f;
-
   --primary: #56cdbc;
   --primary-hover: #78dec9;
   --primary-active: #4dc5ad;
   --primary-foreground: #052d28;
-  --primary-subtle: #183a34;
-  --primary-subtle-hover: #1c493f;
-
   --secondary: #183a34;
   --secondary-foreground: #f2f5f4;
   --muted: #24302c;
   --muted-foreground: #9ca8a4;
-  --accent: #1d2824;
-  --accent-foreground: #f2f5f4;
-
+  --border-subtle: #34413d;
+  --border: #34413d;
+  --border-strong: #7b8c85;
+  --input: #66766f;
+  --ring: #56cdbc;
   --destructive: #ff8179;
   --destructive-subtle: #44211f;
   --control-invalid-border: #ff8179;
   --success: #6bd597;
   --success-subtle: #183627;
-  --success-foreground: #052d28;
   --warning: #e9b55c;
   --warning-subtle: #3f321a;
+  --surface-hover: #1d2824;
+  --surface-selected: #183a34;
+  --header-bg: #151b19;
+  --header-border: #2b3834;
+  --overlay: #00000094;
+  --success-foreground: #052d28;
   --warning-foreground: #052d28;
-
-  --ring: #56cdbc;
-  --overlay: rgb(0 0 0 / 0.58);
-
-  --code-bg: #090d0c;
-  --code-foreground: #e8eeec;
-  --code-muted: #8e9b96;
-
-  --chart-1: #56cdbc;
-  --chart-2: #6bd597;
-  --chart-3: #e9b55c;
-  --chart-4: #ff8179;
-  --chart-5: #9ca8a4;
-
-  --sidebar: #151b19;
-  --sidebar-foreground: #f2f5f4;
-  --sidebar-primary: #56cdbc;
-  --sidebar-primary-foreground: #052d28;
-  --sidebar-accent: #1d2824;
-  --sidebar-accent-foreground: #f2f5f4;
-  --sidebar-border: #34413d;
-  --sidebar-ring: #56cdbc;
-
-  --elevation-xs: 0 1px 2px rgb(0 0 0 / 0.24);
-  --elevation-sm: 0 1px 2px rgb(0 0 0 / 0.24), 0 4px 12px rgb(0 0 0 / 0.16);
-  --elevation-md: 0 10px 28px rgb(0 0 0 / 0.28);
-  --elevation-lg: 0 18px 48px rgb(0 0 0 / 0.36);
+  --primary-subtle: #183a34;
+  --primary-subtle-hover: #1c493f;
+  --accent: #1d2824;
+  --accent-foreground: #f2f5f4;
 }
 
 /*
@@ -496,6 +256,7 @@
     background: var(--background);
     color: var(--foreground);
     font-family: var(--font-family-sans);
+    line-height: var(--body-leading);
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -513,6 +274,7 @@
     min-width: 320px;
     min-height: 100dvh;
     margin: 0;
+    font-size: var(--font-size-md);
   }
 
   button,
@@ -546,7 +308,7 @@
 
   button:focus-visible,
   a:focus-visible {
-    outline: var(--focus-ring-width) solid color-mix(in srgb, var(--ring) 28%, transparent);
-    outline-offset: var(--focus-ring-offset);
+    outline: var(--focus-ring-width) solid var(--ring);
+    outline-offset: var(--space-0-5);
   }
 }
