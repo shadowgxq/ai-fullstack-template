@@ -20,8 +20,8 @@
 
 ```text
 $project-init
-$project-init 仅清理未使用的模板业务设计示例和失效预览，保留现有可运行样式。
-$project-init 不沿用模板视觉风格，按提供的新视觉方向重建设计体系，保留功能与技术架构。
+$project-init cleanup，仅清理公共库中获授权移除的 Examples 设计示例和失效预览，保留公共组件、页面代码与现有样式。
+$project-init rebuild，按提供的新视觉方向重建设计体系，保留功能与技术架构。
 ```
 
 ## 启动全部服务

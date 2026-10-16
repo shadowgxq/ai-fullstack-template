@@ -21,3 +21,7 @@ manager/runtime/tmp/
 .tools/
 .browser-artifacts/
 manager/runtime/evidence/browser/
+
+# Local design cache and QA run artifacts.
+.design-cache/
+/qa/*/runs/

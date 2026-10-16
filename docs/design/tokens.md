@@ -49,7 +49,7 @@ Signal Teal 的 Light / Dark 共用以下语义；三块色样只适合作为主
 | 状态反馈 | `success`、`warning`、`destructive` 与各自 `*-subtle`；实心成功/警告使用对应 `*-foreground` | 淡底反馈使用状态色文字；状态同时有说明或图标，错误不能只改红色 |
 | 交互表面与遮罩 | `surface-hover`、`surface-selected`、`overlay`；顶栏用 `header-bg / header-border` | 区分悬停、选中、阻断层和壳层；遮罩透明度来自正式 CSS |
 
-先确定用途，再确定配对与状态，最后选择主题值。普通文字及必要反馈按 UI 状态的对比度要求核验实际背景；不能用主色充当成功色，也不能把淡底与实心底的前景混用。当前 Light 的 `primary` 在 `background`、`primary-subtle`、`primary-subtle-hover` 上约为 4.32、4.14、3.90，不满足普通小字的 4.5 要求；这些背景上的小字采用 `foreground`，主色仍可表达满足图形对比要求的图标、选中指示及大字。颜色、间距、字体和组件参数共用一份事实源，不为 Light / Dark 维护两套命名。
+先确定用途，再确定配对与状态，最后选择主题值。普通文字及必要反馈按 UI 状态的对比度要求核验实际背景；不能用主色充当成功色，也不能把淡底与实心底的前景混用。当前 Light 的 `primary` 在 `background`、`primary-subtle`、`primary-subtle-hover` 上约为 4.32、4.14、3.90，不满足普通小字的 4.5 要求；这些背景上的小字采用 `foreground`。认证卡片及浮层底部的文字按钮位于 `card` / `popover` 表面，使用 `primary`，hover 使用 `primary-hover`，按各自真实背景核验对比度。主色仍可表达满足图形对比要求的图标、选中指示及大字。颜色、间距、字体和组件参数共用一份事实源，不为 Light / Dark 维护两套命名。
 
 图表、侧栏、代码和特定业务状态不进入默认选择面。它们仍可按真实消费者使用源码已有 Token；缺少业务语义时在所属模块讨论，不把所有业务类别预建成公共颜色。
 
@@ -77,7 +77,7 @@ CSS `mode=light/dark` 对应设计库的同名轴；固定几何共用，不为 
 
 CSS 别名尽量保持同类型；需要转换颜色格式、字体映射为设计可用名称、px 行高转成 `lineHeight` 比例时，记录投影与舍入。`*-leading` 是由正式行高/字号计算的设计投影，不是新增 CSS Token。阴影、easing 和不能绑定的属性记录解析来源与限制，metadata 不能冒充变量联动。
 
-公共库提供 74 个设计变量：37 个颜色角色、19 个字体投影、11 个间距、7 个几何与状态参数。间距只投影已使用的公共尺度；CSS 中其他有消费者的尺度继续保留。组件 Padding / Gap 直接绑定公共间距，卡片、面板和对话框直接绑定 `radius-surface`，不把 CSS 的每个组件别名重复投影到变量面板。仅 Calendar 使用的 `calendar-caption-leading` 在业务稿局部投影，仍由正式 `line-height-sm ÷ font-size-sm` 计算。
+公共库提供 75 个设计变量：37 个颜色角色、20 个字体投影、11 个间距、7 个几何与状态参数。间距只投影已使用的公共尺度；CSS 中其他有消费者的尺度继续保留。组件 Padding / Gap 直接绑定公共间距，卡片、面板和对话框直接绑定 `radius-surface`，不把 CSS 的每个组件别名重复投影到变量面板。Calendar 的 `calendar-caption-leading` 在公共库投影，由正式 `line-height-sm ÷ font-size-sm` 计算。
 
 字号共用尺度，角色保留各自的行高配对。示例内容槽、实例覆盖与业务组合中的文字也使用以下绑定：
 
@@ -87,11 +87,11 @@ CSS 别名尽量保持同类型；需要转换颜色格式、字体映射为设�
 | 卡片标题 | `font-size-lg` | `card-title-leading` |
 | 正文 / 控件 / 标签 | `font-size-md` | `body-leading` / `control-leading` / `label-leading` |
 | 辅助说明 | `font-size-xs` | `caption-leading` |
-| Calendar 月份标题（业务稿） | 导入的 `font-size-sm` | 局部 `calendar-caption-leading` |
+| Calendar 月份标题 | `font-size-sm` | `calendar-caption-leading` |
 | DialogTitle / QueryComposer 输入 | `font-size-lg` | `large-text-leading` |
 
 `large-text-leading` 共用正式 `line-height-lg ÷ font-size-lg` 的投影；辅助说明仍配对自己的字号与行高，不能只因比例相同互换角色。字体集合还包括 sans / mono 和 regular / medium / semibold 字重；其他源码尺度按真实需要投影，不预建全集。
 
 几何支持绑定时使用公共变量；宽高属性无法保留变量时使用正式 CSS 的解析值，并在对应组件 context 或 token-map 记录来源，不为无法绑定的宽高保留闲置设计变量。日历日期格的实际宽高由可用宽度与七列布局决定，`control-height-md` 是最小命中尺寸。
 
-消费稿不复制导入变量。变量名、值、主题或库变化后检查对应主组件、允许覆盖和直接消费者。74 是 Pencil 的公共选择面，不是 CSS 声明总数；业务局部投影不成为第二份数值源，源码语义契约与基础尺度仍由真实消费者决定。
+消费稿不复制导入变量。变量名、值、主题或库变化后检查对应主组件、允许覆盖和直接消费者。75 是 Pencil 的公共选择面，不是 CSS 声明总数；业务局部投影不成为第二份数值源，源码语义契约与基础尺度仍由真实消费者决定。

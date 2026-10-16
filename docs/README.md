@@ -49,4 +49,4 @@ AGENTS.md                         公共协作约束与任务路由
 
 使用方项目通过 [显式归档](engineering/workflow/tooling.md#显式归档与剪枝) 使用真实 OpenSpec 命令同步生效规格并封存 change；归档、合并和发布分别决定，不手工移动目录或改写旧归档。历史不作为默认任务上下文，剪枝前必须保留依赖可解析的完成证据。模板自身的维护来源与验证记录通过 Git/PR 历史追溯，删除工作树副本不改写历史。
 
-工作流工具来源、全局接入与更新边界见 [工具入口](engineering/workflow/tooling.md)；不存在旧控制器兼容模式。标准前端代码来源与本仓库文档归属见 [前端基线](engineering/frontend/architecture/technology-options.md)。
+工作流工具来源、全局接入与更新边界见 [工具入口](engineering/workflow/tooling.md)。标准前端代码来源与本仓库文档归属见 [前端基线](engineering/frontend/architecture/technology-options.md)。

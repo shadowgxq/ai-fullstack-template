@@ -25,13 +25,13 @@ CI 除既有检查外，在 `uv build` 后安装生成的 wheel，不重新解�
 
 | 变化 | 必要证据 |
 |---|---|
-| 仅 Markdown / 文档导航 | 根 `make docs`；不启动业务服务或运行付费 Evals |
+| 仅 Markdown / 文档导航 | 按 [公共验证范围](../../common/README.md#验证范围) 只检查 diff，不启动业务服务或运行付费 Evals |
 | 纯规则、解析、State 更新、reducer | 相邻确定性单测；覆盖分支、非法输入、重复/乱序，而非静态文案 |
 | Graph routing、完成条件 | 固定输入 + fake/内存 Checkpointer 的图级测试，验证结果与退出，不锁死无关内部轨迹 |
 | 公共 DTO / API | schema 导出与漂移检查、真实 HTTP 契约和直接消费者回归 |
 | Store / Worker / 迁移 / Checkpoint | 专用 PostgreSQL integration；必要时独立进程重启 smoke，不能用 SQLite/内存替代 |
 | 模型 adapter、prompt、工具 | deterministic/recorded 回归；质量结论另附范围匹配的 Evals |
-| 依赖、初始化或跨端实现 | 根 `make check`；相关服务启动后按范围执行 smoke；包入口/资源变化追加安装包验证 |
+| 依赖、初始化或跨端实现 | 按 [公共验证范围](../../common/README.md#验证范围) 选择直接相关检查；包入口/资源变化追加安装包验证，不因任务名称默认运行根 `make check` 或启动服务 |
 
 对新增或修改的 Python 文件执行配置中的 Ruff 检查。普通局部修改不无条件全量测试或 build；共享协议、恢复或工具链影响无法收窄时扩大到直接相关检查。不要为测试覆盖率新增只断言常量或第三方初始化的用例。
 
