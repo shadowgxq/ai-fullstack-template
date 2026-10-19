@@ -80,7 +80,16 @@ const results = [];
   await check('components-button', async page => {
     await page.goto(base+'/components/button'); await page.getByRole('heading', { name: 'Button', exact: true, level: 1 }).waitFor();
     assert(await page.locator('button:disabled').count() >= 1, 'disabled control example missing');
-    assert(await page.locator('button[aria-busy="true"]').count() >= 1, 'loading control missing'); await noOverflow(page);
+    const text = JSON.parse(fs.readFileSync('frontend/src/shared/i18n/locales/en.json','utf8')).components.detail.preview.button.run;
+    const trigger = page.getByRole('button', { name: text, exact: true });
+    await trigger.click();
+    const loading = page.locator('button[aria-busy="true"]');
+    await loading.waitFor();
+    assert(await loading.isDisabled(), 'loading control should be disabled');
+    await loading.waitFor({ state: 'hidden' });
+    await trigger.waitFor();
+    assert.equal(await trigger.isDisabled(), false, 'loading control did not recover');
+    await noOverflow(page);
   });
   await check('dialog-keyboard', async page => {
     await page.goto(base+'/components/dialog');
