@@ -20,9 +20,24 @@ export default defineAppConfig({
     backgroundColor: '@tabBackground',
     borderStyle: 'white',
     list: [
-      { pagePath: 'pages/home/index', text: '首页' },
-      { pagePath: 'pages/components/index', text: '组件' },
-      { pagePath: 'pages/settings/index', text: '设置' },
+      {
+        pagePath: 'pages/home/index',
+        text: '首页',
+        iconPath: '@tabHomeIcon',
+        selectedIconPath: '@tabHomeSelectedIcon',
+      },
+      {
+        pagePath: 'pages/components/index',
+        text: '组件',
+        iconPath: '@tabComponentsIcon',
+        selectedIconPath: '@tabComponentsSelectedIcon',
+      },
+      {
+        pagePath: 'pages/settings/index',
+        text: '我的',
+        iconPath: '@tabProfileIcon',
+        selectedIconPath: '@tabProfileSelectedIcon',
+      },
     ],
   },
   lazyCodeLoading: 'requiredComponents',

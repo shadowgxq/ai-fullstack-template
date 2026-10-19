@@ -16,4 +16,5 @@ export default {
   setNavigationBarColor: vi.fn(() => Promise.resolve({})),
   setBackgroundColor: vi.fn(() => Promise.resolve({})),
   setTabBarStyle: vi.fn(() => Promise.resolve({})),
+  setTabBarItem: vi.fn(() => Promise.resolve({})),
 };

@@ -1,6 +1,7 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import postcss from 'postcss';
+import { renderTabIcon, tabIconNames, tabIconPaths } from './tab-icons.mjs';
 
 export const colorNames = [
   'background',
@@ -95,6 +96,7 @@ export async function syncTokens(check = false) {
         tabText: p['muted-foreground'],
         tabSelected: p.primary,
         tabBorder: mode === 'dark' ? 'black' : 'white',
+        ...tabIconPaths(mode),
       },
     ]),
   );
@@ -108,15 +110,27 @@ export async function syncTokens(check = false) {
         ' as const;\n',
     ],
   ];
-  for (const [path, text] of outputs) {
+  for (const [mode, palette] of Object.entries(colors)) {
+    for (const name of tabIconNames) {
+      for (const selected of [false, true]) {
+        outputs.push([
+          `../src/assets/tabbar/${name}-${mode}${selected ? '-selected' : ''}.png`,
+          renderTabIcon(name, palette[selected ? 'primary' : 'muted-foreground'], selected),
+        ]);
+      }
+    }
+  }
+  for (const [path, content] of outputs) {
     const target = new URL(path, import.meta.url);
+    const bytes = Buffer.isBuffer(content) ? content : Buffer.from(content);
     if (check) {
-      if ((await readFile(target, 'utf8').catch(() => '')) !== text) {
+      const existing = await readFile(target).catch(() => null);
+      if (!existing?.equals(bytes)) {
         throw new Error(`Token output is stale: ${path}. Run pnpm tokens.`);
       }
     } else {
       await mkdir(new URL('.', target), { recursive: true });
-      await writeFile(target, text);
+      await writeFile(target, bytes);
     }
   }
 }
