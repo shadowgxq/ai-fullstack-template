@@ -18,7 +18,7 @@ export default defineAppConfig({
     color: '@tabText',
     selectedColor: '@tabSelected',
     backgroundColor: '@tabBackground',
-    borderStyle: '@tabBorder',
+    borderStyle: 'white',
     list: [
       {
         pagePath: 'pages/home/index',

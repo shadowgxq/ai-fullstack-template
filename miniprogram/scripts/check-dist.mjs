@@ -11,7 +11,7 @@ for (const page of app.pages) {
 }
 const theme = JSON.parse(await readFile(new URL(app.themeLocation, root), 'utf8'));
 assert.ok(theme.light.navigationBackground && theme.dark.navigationBackground);
-assert.equal(app.tabBar.borderStyle, '@tabBorder');
+assert.equal(app.tabBar.borderStyle, 'white');
 for (const mode of ['light', 'dark']) {
   assert.ok(['white', 'black'].includes(theme[mode].tabBorder));
   for (const item of app.tabBar.list) {

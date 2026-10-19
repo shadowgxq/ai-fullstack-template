@@ -27,18 +27,18 @@ WSL2 中的源码与 Windows 开发者工具跨文件系统时，需要实际确
 
 小程序不直接调用 `ai-service`。Backend/AI 凭据、AppSecret 与数据库连接绝不放入客户端环境变量。模拟器的 localhost 与真机不是同一设备：真机需可访问的 HTTPS 开发域名，配置小程序合法域名及服务网络。只为本地调试临时关闭开发工具域名检查，不修改模板默认 `urlCheck: true`，更不能当作线上配置。
 
-现有页面包含首页、组件、设置和账户登录。账户登录消费当前 Backend 的用户名密码接口；先在 Backend 注册测试账户。`requestWeChatLoginCode()` 只获取一次性 code，不等于已完成微信登录。微信身份交换、账户绑定、上传业务接口仍需产品需求和服务端契约；本地选图预览不会自动上传。
+现有页面包含首页、组件、我的（账户与设置）和账户登录；“我的”沿用 `pages/settings/index` 路由。账户登录消费当前 Backend 的用户名密码接口；先在 Backend 注册测试账户。`requestWeChatLoginCode()` 只获取一次性 code，不等于已完成微信登录。微信身份交换、账户绑定、上传业务接口仍需产品需求和服务端契约；本地选图预览不会自动上传。
 
 ## 检查与构建
 
 ```bash
 pnpm check          # 生成物漂移、类型、Lint、单测与格式
-pnpm build:weapp    # 生成契约/颜色，生产编译到 dist
-pnpm check:dist     # 检查微信产物、页面、原生导航与主题
+pnpm build:weapp    # 生成契约/颜色/图标，生产编译到 dist
+pnpm check:dist     # 检查微信产物、页面、原生导航、两主题图标
 ```
 
 根目录有 `make install-miniprogram / dev-miniprogram / check-miniprogram / build-miniprogram`。现有 `make install / check / up` 保持原含义，均不强制加入小程序；小程序 CI 按路径触发，独立 frozen-lockfile 安装。
 
-类型来源为根 `docs/contracts/generated/backend.openapi.json`。Provider 变化后先在根执行 `make contracts`，再 `pnpm contracts`；不要编辑 `schema.generated.ts`。颜色变化用 `pnpm tokens`；完整重生成用 `pnpm generate`。
+类型来源为根 `docs/contracts/generated/backend.openapi.json`。Provider 变化后先在根执行 `make contracts`，再 `pnpm contracts`；不要编辑 `schema.generated.ts`。颜色变化用 `pnpm tokens`，同时更新同源 TabBar 图标；完整重生成用 `pnpm generate`。图标形状、主题映射与生成物归属见 [移动 Token](../docs/design/mobile/tokens.md)，不要手工改生成 PNG 的颜色。
 
 单测使用显式 Taro mock，构建检查只证明产物结构。原生导航/胶囊、触控、输入键盘、安全区、选图隐私授权、真实登录、断网恢复与 iOS/Android 真机体验，按 [运行验收](../docs/engineering/miniprogram/guides/runtime-and-verification.md) 单独记录，不能由 mock、编译成功或代码截图替代。模板不包含微信上传/发布凭据，也不会自动发布。

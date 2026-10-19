@@ -10,6 +10,7 @@ frontend/src/shared/styles/global.css   现有共享品牌/状态色值（Light/
 miniprogram/src/shared/styles/palette.generated.scss  Reference colors
 miniprogram/src/shared/theme/native.generated.ts      原生导航/TabBar 同源映射
 miniprogram/src/theme.generated.json                  微信系统主题初始化
+miniprogram/src/assets/tabbar/*.png                   两主题普通/选中图标
 
 miniprogram/src/shared/styles/tokens.scss
   Reference dimensions → Semantic aliases → Component aliases
@@ -37,8 +38,12 @@ PageShell / Button / Field / Card / Notice / StatePanel
 
 原生配置中需要实色的字段由生成器输出，不把 `var(...)` 当成 JSON 色值。navigationBar 前景与边框仅接受平台黑/白枚举，不创造第三种值。系统/浅色/深色偏好存储在本端，存储失败可见，不宣称已保存。系统主题初始化与用户覆盖分开。
 
+原生 TabBar 使用本地 PNG 图标，不使用字体字符或远程图片。形状由 [tab-icons.mjs](../../../miniprogram/scripts/tab-icons.mjs) 维护，`sync-tokens.mjs` 使用 `muted-foreground` / `primary` 生成普通/选中状态；两主题共 12 个资产。选中态同时改变轮廓/填充。生成尺寸是资源像素，不是 TabBar 高度或触控尺寸，显示几何与安全区仍由微信管理。
+
+`app.config.ts` 通过主题键选择启动图标；运行时以 `setTabBarItem` 和 `setTabBarStyle` 同步用户偏好。边框配置保留 Taro 支持的 `white` 默认值，再由运行时切换为对应黑/白值。连续原生外观更新按调用顺序执行，避免旧图标迟到覆盖新主题；个别 API 失败不阻断其余更新。配置显式复制两主题资源，产物检查核对引用和文件，不能仅凭源码路径存在判断包内资源可达。
+
 长度默认逻辑 px、行高无单位、动画时长 ms、透明度 0–1。关闭自动 pxtransform，避免在窄屏缩小可触区域；安全区为运行时 `env()`，不参与品牌色或固定设备 Token。UI 层仅通过组件 Props 调状态，不能用任意局部颜色覆盖全局主题。
 
 ## 变更与验证
 
-颜色修改先更新既有源/设计表达，再 `pnpm --dir miniprogram tokens`；移动几何直接改 `tokens.scss` 与相关组件。检查两主题、必要状态、生成漂移和涉及布局；真实触控/键盘/原生主题仍需单独验收。当前 Web `.pen` 没有移动变量绑定，不能仅因生成了 SCSS 就记录 Pencil 同步完成。
+颜色修改先更新既有源/设计表达，再 `pnpm --dir miniprogram tokens`；移动几何直接改 `tokens.scss` 与相关组件。图标生成物同样提交并检查漂移，不单独手改 PNG 颜色。检查两主题、必要状态、生成漂移和涉及布局；真实触控/键盘/原生主题仍需单独验收。当前 Web `.pen` 没有移动变量绑定，不能仅因生成了 SCSS 或图标就记录 Pencil 同步完成。
