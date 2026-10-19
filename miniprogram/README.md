@@ -17,6 +17,8 @@ pnpm dev:weapp
 
 保存 TSX/SCSS → Taro Watch 增量编译 → 开发者工具检测产物并刷新。不承诺跨页面/组件状态保留；工程配置、依赖或环境变量变化后重启 Watch。共享配色变化需运行 `pnpm tokens`，它不由 Taro 的源码监听自动触发。没有 H5 代理，也不运行浏览器开发服务器。
 
+Webpack 关闭依赖预打包（`compiler.prebundle.enable: false`），开发与生产均使用普通打包，避免开发者工具跨 WSL 读取 `prebundle` 分块时出现失效文件引用；源码 Watch 仍然启用。
+
 WSL2 中的源码与 Windows 开发者工具跨文件系统时，需要实际确认文件访问与刷新；不稳定时，将整个业务工作区放到 Windows 可访问路径并用 Windows Node/pnpm 编译，不在两个位置维护手工同步的源码副本。
 
 ## 后端连接

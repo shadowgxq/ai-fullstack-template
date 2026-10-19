@@ -9,7 +9,11 @@ export default defineConfig<'webpack5'>({
   sourceRoot: 'src',
   outputRoot: 'dist',
   framework: 'react',
-  compiler: 'webpack5',
+  compiler: {
+    type: 'webpack5',
+    // 避免开发者工具跨 WSL 读取依赖预打包分块时沿用失效的文件索引。
+    prebundle: { enable: false },
+  },
   plugins: ['@tarojs/plugin-platform-weapp'],
   cache: { enable: true },
   defineConstants: {
