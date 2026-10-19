@@ -5,16 +5,17 @@
 | 边界 | 拥有的能力 | 不承担 |
 |---|---|---|
 | `frontend/` | 页面、路由、主题/i18n、状态与 HTTP 消费 | 服务密钥、数据库操作、Agent 执行 |
+| `miniprogram/`（可选） | 微信页面、平台适配、移动主题与 HTTP 消费 | Web DOM/UI、服务密钥、直接调用 AI 或数据库 |
 | `backend/` | 用户认证、业务资源、授权、事务与公开 API | LangGraph workflow 执行、直接访问 AI 库 |
 | `ai-service/` | Run 命令、快照、持久执行与 LangGraph Checkpoint 恢复 | 业务用户账户、前端页面、业务产品定义 |
 
-三端是同一仓库的独立应用，不是三份独立项目模板。共用 Git、规范、产品需求、契约与交付流程，保留独立依赖锁和运行环境。只有一个 JS 应用，不引入额外 workspace/构建平台；两个 Python 服务不互相导入源码。
+各端是同一仓库的独立应用，不是多份完整项目模板。共用 Git、规范、产品需求、契约与交付流程，保留独立依赖锁和运行环境。Web 与可选小程序是两个 JS 应用；当前没有共享运行时包，不为目录数量引入 workspace/构建平台。两客户端不互相导入 UI，两个 Python 服务不互相导入源码。小程序技术边界见 [技术基线](../engineering/miniprogram/architecture/technology-options.md)。
 
 主题、认证、Run 协议属于模板；具体实体、页面、工作流、提示词、评估属于业务。只做 CRUD 的业务仅启动前后端；需要持久化任务执行时再接入 AI 服务。
 
 ## 工程规范的总分边界
 
-规范组织与运行时架构分开：[公共代码质量](../engineering/common/code-quality.md) 定义命名、注释、复用与准确性；[公共 Python](../engineering/common/python.md) 只覆盖两服务的语言共性；[前端](../engineering/frontend/README.md)、[后端](../engineering/backend/README.md)、[AI](../engineering/ai-service/README.md) 分别拥有组件/状态、业务事务、持久执行的专项规则。
+规范组织与运行时架构分开：[公共代码质量](../engineering/common/code-quality.md) 定义命名、注释、复用与准确性；[公共 Python](../engineering/common/python.md) 只覆盖两服务的语言共性；[Web 前端](../engineering/frontend/README.md)、[小程序](../engineering/miniprogram/README.md)、[后端](../engineering/backend/README.md)、[AI](../engineering/ai-service/README.md) 分别拥有组件/状态、业务事务、持久执行的专项规则。
 
 该划分不新增共享运行时包，不要求每个项目安装全部技术或实现所有目标能力。规则归属和冲突处理见 [文档地图](../README.md#规则归属)；各端公开类型、组件清单与当前能力仍以对应代码和事实源核对。
 
@@ -22,9 +23,9 @@
 
 ## 数据流与所有权
 
-目标业务链路：浏览器 → backend（用户/资源授权）→ AI API（受信服务身份）→ PostgreSQL-backed Command Queue → Worker → LangGraph → 结果。
+目标业务链路：Web / 微信客户端 → backend（用户/资源授权）→ AI API（受信服务身份）→ PostgreSQL-backed Command Queue → Worker → LangGraph → 结果。
 
-当前实际：标准前端 AuthForm/LoginModal 通过 gateway 与代理接入 backend 用户名密码认证；AI 由 smoke 客户端直接调用。尚无业务 Run 页面和 backend→AI 用户授权转发，不把服务都启动等同于业务贯通。
+当前实际：标准前端 AuthForm/LoginModal 通过 gateway 与代理接入 backend 用户名密码认证；小程序 gateway 也消费相同用户名密码接口；微信 code2session 和上传后端尚未接入。AI 由 smoke 客户端直接调用。尚无业务 Run 页面和 backend→AI 用户授权转发，不把服务都启动等同于业务贯通。
 
 后端为同步 FastAPI → service → repository → model；API 装配鉴权依赖，service 拥有事务，repository 只 flush/query。core 只提供业务无关基础设施。Redis 缓存故障可回源，认证限流/撤销检查故障拒绝请求。
 

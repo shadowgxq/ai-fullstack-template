@@ -1,0 +1,19 @@
+import { vi } from 'vitest';
+export default {
+  request: vi.fn(),
+  getStorageSync: vi.fn(),
+  setStorageSync: vi.fn(),
+  removeStorageSync: vi.fn(),
+  login: vi.fn(),
+  chooseMedia: vi.fn(),
+  uploadFile: vi.fn(),
+  getAppBaseInfo: vi.fn(() => ({ theme: 'light' })),
+  onNetworkStatusChange: vi.fn(),
+  offNetworkStatusChange: vi.fn(),
+  getNetworkType: vi.fn(),
+  onThemeChange: vi.fn(),
+  offThemeChange: vi.fn(),
+  setNavigationBarColor: vi.fn(() => Promise.resolve({})),
+  setBackgroundColor: vi.fn(() => Promise.resolve({})),
+  setTabBarStyle: vi.fn(() => Promise.resolve({})),
+};

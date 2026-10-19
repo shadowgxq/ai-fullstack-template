@@ -5,6 +5,7 @@
 | 目录 | 责任 | 技术基线 |
 |---|---|---|
 | frontend | 页面、主题、国际化、HTTP 消费者 | React 18、TypeScript、Vite、pnpm |
+| miniprogram（可选） | 微信页面、原生平台能力、HTTP 消费者 | Taro 4.3、React 18、Webpack 5、独立 pnpm |
 | backend | 身份、业务 API、事务 | FastAPI、SQLAlchemy、Alembic、PostgreSQL、Redis、uv |
 | ai-service | 持久化 Run、workflow、Checkpoint、事件 | FastAPI、LangGraph、PostgreSQL、独立 Worker、uv |
 | docs | 需求入口、架构、契约、工程规范 | [文档地图](docs/README.md) |
@@ -73,6 +74,12 @@ make up && make smoke # 启动三端、迁移、Worker 后验证 HTTP 行为
 CI 使用真实 PostgreSQL 验证 AI 幂等、scope 隔离、Checkpoint 恢复、排他；Compose 验证前端资源/代理、后端认证/Redis 登出、AI API→Worker→结果。`/health` 仅存活，`/ready` 检查依赖及已迁移表。
 
 业务 Run 页面、后端到 AI 的用户鉴权转发、SSE、人工中断、取消、预算/Operation Ledger、Artifact Store、真实模型尚未实现。测试客户端闭环不代表业务页面已接通，详见 [实现与目标](docs/architecture/README.md)。
+
+## 可选微信小程序
+
+[小程序 README](miniprogram/README.md) 维护安装、Watch 编译、开发者工具导入和后端连接；[专项导航](docs/engineering/miniprogram/README.md) 维护 AI 开发入口，[移动 UI](docs/design/mobile/ui-spec.md) 与 [移动 Token](docs/design/mobile/tokens.md) 独立维护适配规则。小程序与 Web 共用根需求/架构/契约/Plan/OpenSpec，但分别实现 UI、依赖与构建。
+
+默认 `make install / check / up` 不安装或启动小程序。按需使用 `make install-miniprogram / dev-miniprogram / check-miniprogram / build-miniprogram`；微信发布单独授权。当前账户页消费已有用户名密码 API，微信身份交换、上传业务和真机联调不因新增客户端自动完成。
 
 ## 不需要 AI 的业务
 

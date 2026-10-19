@@ -1,0 +1,16 @@
+{
+  "miniprogramRoot": "dist/",
+  "projectname": "ai-fullstack-miniprogram",
+  "description": "Optional WeChat client",
+  "appid": "touristappid",
+  "compileType": "miniprogram",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "minified": false,
+    "enhance": true,
+    "compileHotReLoad": false
+  },
+  "condition": {}
+}
