@@ -1,0 +1,46 @@
+name: Verify miniprogram
+on:
+  pull_request:
+    paths:
+      - 'miniprogram/**'
+      - 'frontend/src/shared/styles/global.css'
+      - 'docs/contracts/generated/**'
+      - 'docs/design/mobile/**'
+      - 'docs/engineering/miniprogram/**'
+      - '.github/workflows/miniprogram.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'miniprogram/**'
+      - 'frontend/src/shared/styles/global.css'
+      - 'docs/contracts/generated/**'
+      - '.github/workflows/miniprogram.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: miniprogram-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  miniprogram:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: pnpm/action-setup@v4
+        with: {package_json_file: miniprogram/package.json}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Resolve initial miniprogram lockfile
+        working-directory: miniprogram
+        run: pnpm install --lockfile-only --no-frozen-lockfile --ignore-scripts
+      - name: Save source snapshot for review
+        run: git archive --format=tar HEAD > /tmp/miniprogram-source.tar
+      - uses: actions/upload-artifact@v4
+        with:
+          name: miniprogram-bootstrap
+          path: |
+            miniprogram/pnpm-lock.yaml
+            /tmp/miniprogram-source.tar
+          retention-days: 3
