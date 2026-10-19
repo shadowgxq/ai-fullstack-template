@@ -11,6 +11,25 @@ for (const page of app.pages) {
 }
 const theme = JSON.parse(await readFile(new URL(app.themeLocation, root), 'utf8'));
 assert.ok(theme.light.navigationBackground && theme.dark.navigationBackground);
+assert.equal(app.tabBar.borderStyle, '@tabBorder');
+for (const mode of ['light', 'dark']) {
+  assert.ok(['white', 'black'].includes(theme[mode].tabBorder));
+  for (const item of app.tabBar.list) {
+    for (const property of ['iconPath', 'selectedIconPath']) {
+      const reference = item[property];
+      assert.ok(typeof reference === 'string' && reference.startsWith('@'));
+      const path = theme[mode][reference.slice(1)];
+      assert.ok(typeof path === 'string' && path.endsWith('.png'));
+      const url = new URL(path, root);
+      assert.ok(url.href.startsWith(new URL('assets/tabbar/', root).href));
+      const bytes = await readFile(url);
+      assert.ok(bytes.length > 24 && bytes.length < 40 * 1024);
+      assert.deepEqual(bytes.subarray(0, 8), Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
+      assert.equal(bytes.readUInt32BE(16), 81);
+      assert.equal(bytes.readUInt32BE(20), 81);
+    }
+  }
+}
 // Taro 可将 app.wxss 拆成引用，检查实际可达样式而非假定单个文件包含全部内容。
 async function readStyles(url, seen = new Set()) {
   assert.ok(url.href.startsWith(root.href), 'WXSS import escapes dist');
@@ -27,4 +46,4 @@ assert.ok(styles.includes('--mp-ref-color-primary'));
 assert.ok(styles.includes('--mp-button-min-height'));
 assert.ok(styles.includes('.theme-dark'));
 assert.ok(styles.includes('safe-area-inset-bottom'));
-console.log('Verified WeChat build: pages, native navigation, themes and mobile tokens.');
+console.log('Verified WeChat build: pages, native navigation, themed icons and mobile tokens.');
