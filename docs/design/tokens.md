@@ -1,12 +1,12 @@
-# Token 使用政策
+# Web Token 使用政策与共享配色
 
-[global.css](../../frontend/src/shared/styles/global.css) 集中定义运行时 Token、Light / Dark 主题值与 CSS / Tailwind 映射。本页维护选择范围与用途，不维护第二份值表。视觉关系见 [UI 规范](ui-spec.md)，运行接线见 [主题指南](../engineering/frontend/guides/theming-and-i18n.md)，设计资产见 [资产登记](README.md#资产登记)。
+[global.css](../../frontend/src/shared/styles/global.css) 集中定义运行时 Token、Light / Dark 主题值与 CSS / Tailwind 映射。本页维护 Web 选择范围与用途，不维护第二份值表。小程序仅由生成器提取其中的 Light/Dark 色值，独立几何和分层见 [移动 Token](mobile/tokens.md)，不直接引入此 Web CSS。视觉关系见 [UI 规范](ui-spec.md)，运行接线见 [主题指南](../engineering/frontend/guides/theming-and-i18n.md)，设计资产见 [资产登记](README.md#资产登记)。
 
 ## 设计与代码同步
 
 设计稿中的变量、组件样式与项目 Token、组件实现保持一致。设计变更同步到受影响的项目 Token 和组件；项目中的共享视觉调整也同步到对应设计表达。
 
-代码中的颜色、字体、间距与公共几何统一引用项目 Token，运行时定义和主题值由 `global.css` 集中维护。
+Web 代码中的颜色、字体、间距与公共几何统一引用项目 Token，Web 运行时定义和共享色值由 `global.css` 集中维护。共享色值变化后同步小程序生成物并检查漂移；移动几何只由本端 tokens.scss 维护。
 
 ## 选择与使用
 

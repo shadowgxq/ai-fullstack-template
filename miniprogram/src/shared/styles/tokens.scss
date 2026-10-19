@@ -1,0 +1,78 @@
+/* Reference → Semantic → Component. Color reference values are generated, not copied here. */
+page,
+.mp-theme-root {
+  --mp-ref-space-1: 4px;
+  --mp-ref-space-2: 8px;
+  --mp-ref-space-3: 12px;
+  --mp-ref-space-4: 16px;
+  --mp-ref-space-5: 20px;
+  --mp-ref-space-6: 24px;
+  --mp-ref-space-8: 32px;
+  --mp-ref-font-1: 12px;
+  --mp-ref-font-2: 14px;
+  --mp-ref-font-3: 16px;
+  --mp-ref-font-4: 20px;
+  --mp-ref-font-5: 24px;
+  --mp-ref-radius-1: 8px;
+  --mp-ref-radius-2: 12px;
+  --mp-ref-radius-3: 16px;
+  --mp-ref-touch: 48px;
+  --mp-ref-line-body: 1.5;
+  --mp-ref-line-title: 1.3;
+  --mp-ref-weight-medium: 500;
+  --mp-ref-weight-semibold: 600;
+  --mp-ref-duration: 150ms;
+
+  --mp-surface-page: var(--mp-ref-color-background);
+  --mp-surface-card: var(--mp-ref-color-card);
+  --mp-surface-muted: var(--mp-ref-color-muted);
+  --mp-surface-selected: var(--mp-ref-color-surface-selected);
+  --mp-text-primary: var(--mp-ref-color-foreground);
+  --mp-text-secondary: var(--mp-ref-color-muted-foreground);
+  --mp-action-primary: var(--mp-ref-color-primary);
+  --mp-action-pressed: var(--mp-ref-color-primary-active);
+  --mp-text-on-action: var(--mp-ref-color-primary-foreground);
+  --mp-border-subtle: var(--mp-ref-color-border-subtle);
+  --mp-border-control: var(--mp-ref-color-input);
+  --mp-focus: var(--mp-ref-color-ring);
+  --mp-error: var(--mp-ref-color-destructive);
+  --mp-error-surface: var(--mp-ref-color-destructive-subtle);
+  --mp-success: var(--mp-ref-color-success);
+  --mp-success-surface: var(--mp-ref-color-success-subtle);
+  --mp-page-gutter: var(--mp-ref-space-4);
+  --mp-inline-gap: var(--mp-ref-space-2);
+  --mp-stack-gap: var(--mp-ref-space-3);
+  --mp-section-title-size: var(--mp-ref-font-4);
+  --mp-weight-medium: var(--mp-ref-weight-medium);
+  --mp-weight-semibold: var(--mp-ref-weight-semibold);
+  --mp-section-gap: var(--mp-ref-space-6);
+  --mp-content-max-width: 600px;
+  --mp-touch-min: var(--mp-ref-touch);
+  --mp-body-size: var(--mp-ref-font-3);
+  --mp-body-leading: var(--mp-ref-line-body);
+  --mp-caption-size: var(--mp-ref-font-2);
+  --mp-title-size: var(--mp-ref-font-5);
+  --mp-title-leading: var(--mp-ref-line-title);
+  --mp-control-radius: var(--mp-ref-radius-1);
+  --mp-surface-radius: var(--mp-ref-radius-2);
+  --mp-font-sans:
+    -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+  --mp-disabled-opacity: 0.48;
+  --mp-safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  --mp-button-min-height: var(--mp-touch-min);
+  --mp-button-padding-x: var(--mp-ref-space-4);
+  --mp-button-padding-y: var(--mp-ref-space-3);
+  --mp-button-bg: var(--mp-action-primary);
+  --mp-button-text: var(--mp-text-on-action);
+  --mp-button-pressed-bg: var(--mp-action-pressed);
+  --mp-input-min-height: var(--mp-touch-min);
+  --mp-input-padding: var(--mp-ref-space-3);
+  --mp-input-bg: var(--mp-surface-card);
+  --mp-input-border: var(--mp-border-control);
+  --mp-input-label-gap: var(--mp-ref-space-2);
+  --mp-card-padding: var(--mp-ref-space-4);
+  --mp-card-bg: var(--mp-surface-card);
+  --mp-card-radius: var(--mp-surface-radius);
+  --mp-skeleton-bg: var(--mp-surface-muted);
+}

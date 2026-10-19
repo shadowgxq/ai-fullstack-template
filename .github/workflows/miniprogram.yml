@@ -3,7 +3,19 @@ on:
   pull_request:
     paths:
       - 'miniprogram/**'
+      - 'frontend/src/shared/styles/global.css'
+      - 'docs/contracts/generated/backend.openapi.json'
+      - 'docs/design/mobile/**'
+      - 'docs/engineering/miniprogram/**'
       - '.github/workflows/miniprogram.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'miniprogram/**'
+      - 'frontend/src/shared/styles/global.css'
+      - 'docs/contracts/generated/backend.openapi.json'
+      - '.github/workflows/miniprogram.yml'
+  workflow_dispatch:
 permissions:
   contents: read
 concurrency:
@@ -11,34 +23,30 @@ concurrency:
   cancel-in-progress: true
 jobs:
   miniprogram:
-    if: github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'feat/miniprogram-mobile-template'
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v4
         with: {persist-credentials: false}
       - uses: pnpm/action-setup@v4
         with: {package_json_file: miniprogram/package.json}
       - uses: actions/setup-node@v4
-        with: {node-version: '22'}
-      - name: Resolve initial miniprogram dependencies
+        with:
+          node-version: '22'
+          cache: pnpm
+          cache-dependency-path: miniprogram/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
         working-directory: miniprogram
-        run: pnpm install --no-frozen-lockfile
-      - name: Export generated lockfile as an unattached Git object
+      - run: pnpm check
+        working-directory: miniprogram
+      - run: pnpm build:weapp && pnpm check:dist
+        working-directory: miniprogram
         env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          node -e 'const fs=require("fs"); fs.writeFileSync("/tmp/lock-blob.json", JSON.stringify({content: fs.readFileSync("miniprogram/pnpm-lock.yaml", "utf8"), encoding: "utf-8"}))'
-          gh api --method POST "repos/$GITHUB_REPOSITORY/git/blobs" --input /tmp/lock-blob.json --jq .sha | tee /tmp/lock-blob-sha.txt
-      - name: Package isolated verification dependencies
-        run: tar -czf /tmp/miniprogram-dependencies.tar.gz -C miniprogram node_modules
+          TARO_APP_API_BASE_URL: https://api.example.test
+      - name: Verify generators did not change tracked files
+        run: git diff --exit-code -- miniprogram
       - uses: actions/upload-artifact@v4
         with:
-          name: miniprogram-bootstrap
-          path: |
-            miniprogram/pnpm-lock.yaml
-            /tmp/miniprogram-dependencies.tar.gz
-            /tmp/lock-blob-sha.txt
-          retention-days: 1
+          name: miniprogram-weapp-build
+          path: miniprogram/dist/
+          retention-days: 3

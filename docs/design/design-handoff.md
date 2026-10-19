@@ -1,12 +1,12 @@
 # 设计交付约定
 
-本页提供模板的平台与适配参数。任务路由见 [前端导航](../engineering/frontend/README.md#任务路径)，通用读取、制稿、实现与验证动作由全局安装、同一来源的 `DESIGN-WORKFLOW.md` 和四个正式入口维护，读取入口见 [工具入口](../engineering/workflow/tooling.md#安装与唯一机制)。
+本页提供模板的平台与适配参数。任务路由按平台选择 [Web 导航](../engineering/frontend/README.md#任务路径) / [小程序导航](../engineering/miniprogram/README.md#任务路径)，通用读取、制稿、实现与验证动作由全局安装、同一来源的 `DESIGN-WORKFLOW.md` 和四个正式入口维护，读取入口见 [工具入口](../engineering/workflow/tooling.md#安装与唯一机制)。
 
 ## 适用项目
 
-目标包为 `frontend/`，React/Vite Web；手机画布是触控布局。框架、Provider、路由和宿主以 [技术基线](../engineering/frontend/architecture/technology-options.md) 与真实源码为准。
+目标包在设计输入中明确：`frontend/` 为 React/Vite Web，手机画布仍是 Web；`miniprogram/` 为微信小程序，原生导航/胶囊/TabBar 边界独立。框架、Provider、路由和宿主以对应 [Web 技术基线](../engineering/frontend/architecture/technology-options.md) / [小程序技术基线](../engineering/miniprogram/architecture/technology-options.md) 与真实源码为准。
 
-读取从 [根 AGENTS](../../AGENTS.md)、[文档地图](../README.md)、[frontend/AGENTS](../../frontend/AGENTS.md) 进入。新页面和关键交互按任务路径准备设计；已有适用稿复用，轻量修改沿用同一套视觉、Token、组件与状态规则。
+读取从 [根 AGENTS](../../AGENTS.md)、[文档地图](../README.md)、受影响端 [frontend/AGENTS](../../frontend/AGENTS.md) 或 [miniprogram/AGENTS](../../miniprogram/AGENTS.md) 进入。新页面和关键交互按任务路径准备设计；已有适用稿复用，轻量修改沿用同一套视觉、Token、组件与状态规则。
 
 ## 来源与目标
 
@@ -14,7 +14,7 @@
 
 代码目标由真实页面和路由定位。业务需求由使用方 [产品入口](../product/README.md) 与 [契约](../contracts/README.md) 提供，模板例稿不构成新业务 PRD 或已批准实现。
 
-## 组件与 Token
+## Web 组件与 Token
 
 按 [组件治理](../engineering/frontend/components/components.md) 选择；[组件清单](../engineering/frontend/components/component-inventory.md) 只负责发现/可见性，实际 import 必须核对 export、类型与必要调用点。Pen 变体、模式和 Frame 不要求逐一生成 React 组件。
 
@@ -30,7 +30,7 @@ Token 按 [选择政策](tokens.md) 使用，运行时定义在 [global.css](../
 
 基础 Button 和菜单项使用最小高度、Token Padding 与自然换行；纯图标按钮保持方形尺寸。设计稿表达默认几何和允许的内容增长，字体放大、触控几何及必要边界仍按真实消费者核验，规范要求不等于浏览器验收已完成。组件尺寸读取实际节点；设计 opacity 百分数在 CSS 中转换为比例，`token-map` 仅帮助定位，不冒充自动联动。
 
-## 布局与宿主
+## Web 布局与宿主
 
 应用标题、导航、设置与账户由 AppHeader / AppShell 承担；页面负责自己的内容。当前 AppShell 的 props 和路由用法需核对源码；不能按手机稿统一删除应用顶栏。系统时间、电池和浏览器 chrome 不重绘。
 
@@ -39,6 +39,10 @@ Token 按 [选择政策](tokens.md) 使用，运行时定义在 [global.css](../
 认证设计在 `design-system/core.lib.pen` 的 `bzlJA` 维护，展示可选的邮箱验证码、双方式登录与邮箱注册；字段组合公共 Label / Input，浮层复用 Dialog。该展示不改变默认生产能力开关，当前设计覆盖见 [组件清单](../engineering/frontend/components/component-inventory.md#pencil-定位与映射)。认证字段、操作、切换和记住我使用认证节点的 `font-size-lg` 与行高覆盖；辅助说明和请求反馈使用各自的文字角色。认证卡片及浮层底部的文字按钮使用 `primary`，hover 使用 `primary-hover`；保持普通文字的 `foreground`。认证源码仍由 `features/auth` 拥有。
 
 比较时固定主题、状态、平台、逻辑尺寸与已批准适配，注明整页、内容区和宿主边界；不裁剪隐藏重复顶栏、缺失区块或溢出。
+
+## 小程序组件与宿主
+
+小程序使用 [本端组件清单](../engineering/miniprogram/components/component-inventory.md)、[移动 UI](mobile/ui-spec.md) 与 [移动 Token](mobile/tokens.md)，不继承以上 Web 字体、Dialog/Popover、AppHeader 或桌面布局参数。交接记录原生/自定义导航、TabBar、安全区归属、375 逻辑 px 基准、键盘及必要平台能力；同品牌色不等于同组件实现。当前 Web core.lib.pen 不证明移动设计或绑定完成。
 
 ## 深浅主题的设计表达
 
@@ -59,7 +63,7 @@ Token 绑定不等于主题正确。受影响组件与页面需核对两主题�
 
 ## 验证接口
 
-命令只在 [根 Makefile](../../Makefile)、[公共验证范围](../engineering/common/README.md#验证范围) 与 [前端 README](../../frontend/README.md) 维护。Lint/类型检查不能自动证明组件复用、Token 语义或设计一致性。
+命令只在 [根 Makefile](../../Makefile)、[公共验证范围](../engineering/common/README.md#验证范围) 、[Web README](../../frontend/README.md) 与 [小程序 README](../../miniprogram/README.md) 维护。Lint/类型检查不能自动证明组件复用、Token 语义或设计一致性。
 
 `.pen` 定位、读写、库导入、保存、截图与回读使用实际 Pencil MCP / `pen interactive` 能力，不使用 Computer Use 或普通文件工具编辑序列化内容。库须通过正式创建/导入机制建立连接，普通复制和改后缀不构成库复用；持久化后重开消费者检查主题及覆盖。
 

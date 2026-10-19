@@ -12,7 +12,7 @@ def active_files(root):
     files = set(root.glob("*.md"))
     for folder in ("docs", "openspec/changes", "openspec/specs", "repairs", "manager", ".agents/skills", ".claude/skills", ".codex/skills"):
         files.update((root / folder).rglob("*.md"))
-    for service in ("frontend", "backend", "ai-service"):
+    for service in ("frontend", "miniprogram", "backend", "ai-service"):
         files.update((root / service).glob("*.md"))
     return sorted(p for p in files if "archive" not in p.relative_to(root).parts)
 
@@ -71,6 +71,8 @@ def hygiene_errors(root):
         "examples/personal-bookkeeping", "scripts/ralph",
         ".codex/skills", "frontend/.codex", "frontend/.claude",
         "frontend/docs", "backend/docs", "ai-service/docs",
+        "miniprogram/docs", "miniprogram/manager", "miniprogram/openspec",
+        "miniprogram/.agents", "miniprogram/.codex", "miniprogram/.claude",
         "frontend/manager", "frontend/openspec", "backend/openspec", "ai-service/openspec",
     )
     for name in legacy:
@@ -104,7 +106,10 @@ def validate(root):
     for path in active_files(root):
         errors.extend(link_errors(root, path))
         errors.extend(prose_errors(root, path))
-    for name in ("AGENTS.md", "frontend/AGENTS.md", "backend/AGENTS.md", "ai-service/AGENTS.md"):
+    entries = ["AGENTS.md", "frontend/AGENTS.md", "backend/AGENTS.md", "ai-service/AGENTS.md"]
+    if (root / "miniprogram").exists():
+        entries.append("miniprogram/AGENTS.md")
+    for name in entries:
         path = root / name
         if not path.exists():
             errors.append(f"missing {name}")

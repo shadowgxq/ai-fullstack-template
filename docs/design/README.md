@@ -1,12 +1,14 @@
 # 设计规范与资产
 
-目标包为 `frontend/`，平台为 React/Vite Web，覆盖桌面键盘/鼠标与手机触控。任务选择见 [前端导航](../engineering/frontend/README.md#任务路径)。模板提供通用设计基础与现有能力示例；使用方业务由自己的需求和契约定义。
+目标包按任务选择 `frontend/`（React/Vite Web）或 `miniprogram/`（微信小程序）。Web 手机触控布局与微信宿主不是同一平台。任务选择见 [Web 导航](../engineering/frontend/README.md#任务路径) / [小程序导航](../engineering/miniprogram/README.md#任务路径)。模板提供通用设计基础与现有能力示例；使用方业务由自己的需求和契约定义。
 
 ## 规则归属
 
 | 内容 | 唯一正文 |
 |---|---|
-| 视觉方向、信息层级与布局 | [UI 规范](ui-spec.md) |
+| Web 视觉、信息层级与布局 | [Web UI 规范](ui-spec.md) |
+| 微信移动布局、宿主与触控 | [移动 UI](mobile/ui-spec.md) |
+| 小程序 Token 与双主题生成 | [移动 Token](mobile/tokens.md)；颜色来自现有 Web 源，本端维护几何和别名 |
 | Token 选择与设计同步 | [Token 政策](tokens.md)；运行时数值、别名与主题值在 [global.css](../../frontend/src/shared/styles/global.css) |
 | 平台、宿主适配与交付接口 | [设计交付约定](design-handoff.md) |
 | 组件复用、归属与拆分 | [组件治理](../engineering/frontend/components/components.md) |
@@ -21,7 +23,7 @@
 
 ## 资产登记
 
-模板仅维护一个可编辑设计文件：`design-system/core.lib.pen`。公共库包含 Design Tokens、基础控件、认证、分享和 QueryComposer 及其必要状态；业务项目出现真实需求后再创建自己的业务消费稿，不预留空业务设计文件。
+当前可编辑资产仅覆盖 Web，共一个设计文件：`design-system/core.lib.pen`。公共库包含 Design Tokens、基础控件、认证、分享和 QueryComposer 及其必要状态；业务项目出现真实需求后再创建自己的业务消费稿，不预留空业务设计文件。
 
 | 资产 | 用途 |
 |---|---|
@@ -34,6 +36,6 @@
 
 仅 `MKpT9` Foundations 保留 Light / Dark 并排概览。`KNJdR` Semantic colors、组件规范与组合示例使用单份结构，选中画板后切换 `mode=light/dark` 查看主题，不另设关键状态对照板。操作、焦点、校验、选中与透明遮罩在各组件规范区维护。默认保留 Light 主稿；必要的 Dark 预览从同一 Frame 导出，预览随受影响主稿同步。两主题渲染与运行时验证的边界见 [设计交付约定](design-handoff.md#深浅主题的设计表达)。
 
-页面设计遵循 [桌面布局基准](ui-spec.md#布局与宿主)；组件规范板的总宽度不决定页面或控件尺寸。节点 ID、变量、主题、实例覆盖和库连接在使用前通过设计工具回读；预览与路径只能定位，不能代替当前源稿。
+当前 Web 页面设计遵循 [桌面布局基准](ui-spec.md#布局与宿主)；小程序遵循 [移动布局](mobile/ui-spec.md)，尚未登记移动 `.pen` 资产，不把 Web 稿视为已完成移动设计。组件规范板的总宽度不决定页面或控件尺寸。节点 ID、变量、主题、实例覆盖和库连接在使用前通过设计工具回读；预览与路径只能定位，不能代替当前源稿。
 
 示例数据和操作反馈是设计表达，不能证明登录、权限、剪贴板、图片导出、投递或人工验收。实际进度与验证证据放在对应 change / PR / 交接中，不维护另一套长期执行台账。

@@ -4,7 +4,7 @@
 
 ## 规则归属
 
-工程规范采用“公共原则 + 语言共性 + 各端差异”，不是把三端实现规则统一成一个框架：
+工程规范采用“公共原则 + 语言共性 + 各端差异”，不是把各端实现规则统一成一个框架：
 
 ```text
 AGENTS.md                         公共协作约束与任务路由
@@ -21,11 +21,12 @@ AGENTS.md                         公共协作约束与任务路由
 | [根 AGENTS.md](../AGENTS.md) | 所有 Agent；沟通、改动范围、命令授权与文档路由 |
 | [公共工程细则](engineering/common/README.md) | [代码质量](engineering/common/code-quality.md) 覆盖变量/注释/复用/准确性；[Python](engineering/common/python.md) 与数据/运行/验证按需补读 |
 | [交付流程](engineering/workflow/delivery.md) | PRD 确认、UI/UX 设计交付、正式技术方案、垂直 change 与验收；[工具入口](engineering/workflow/tooling.md) 统一维护 Skill 版本、安装与检查 |
+| [小程序规范](engineering/miniprogram/README.md) | 微信宿主、移动布局、Taro 请求/主题与独立构建；入口为 [miniprogram/AGENTS.md](../miniprogram/AGENTS.md) |
 | [前端规范](engineering/frontend/README.md) | UI、状态、路由、工具链；入口为 [frontend/AGENTS.md](../frontend/AGENTS.md) |
 | [后端规范](engineering/backend/README.md) | 认证、CRUD、迁移、Redis；入口为 [backend/AGENTS.md](../backend/AGENTS.md) |
 | [AI 服务规范](engineering/ai-service/README.md) | 技术基线、分层、Workflow/State、恢复、模型/工具、API/产物与 Evals；入口为 [ai-service/AGENTS.md](../ai-service/AGENTS.md) |
 | [产品需求](product/README.md) | 使用方的真实产品范围与验收；模板不预装业务 PRD |
-| [设计规范与资产](design/README.md) | Web 视觉、Token 选择与设计交付；组件和状态归前端工程规范 |
+| [设计规范与资产](design/README.md) | 按 Web / 微信平台选择视觉、Token 与交付；移动规则见 [mobile](design/mobile/ui-spec.md)，不继承桌面几何 |
 | [架构与 ADR](architecture/README.md) | 系统基线及按需业务总/专项技术方案；批准内容由 change 引用，不复制成另一份 design |
 | [跨端契约](contracts/README.md) | DTO、状态、错误语义；生成 schema 的事实源在提供方代码 |
 | [项目计划](../manager/plan.yaml) | 已登记需求、批次与 change 记录；新计划按当前 Manager 格式维护 |

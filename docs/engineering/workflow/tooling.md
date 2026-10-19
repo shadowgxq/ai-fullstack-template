@@ -39,7 +39,7 @@ openspec --version
 
 [项目计划](../../../manager/plan.yaml)、progress、tasks、runtime 证据和归档保留既有记录。旧计划不会因全局工具更新被改写，也不作为 docs/CI 的 Manager 版本门禁；新建或实质修订计划时按全局 `manager-plan-from-doc/references/plan-format.md` 使用其只读结构检查。该检查不证明业务实现或人工验收通过。
 
-`make docs architecture` 校验项目导航、规则与边界。`make check` 保留三端静态检查、业务测试与契约校验；`make up-web && make smoke-web` 验证前后端，`make up && make smoke` 验证完整栈。实际验证范围遵守根 AGENTS 和当前授权；文档与 Skill 说明变更按 [文档检查范围](../common/README.md#验证范围) 验证，不因此启动业务服务或全栈验收。
+`make docs architecture` 校验项目导航、规则与边界。`make check` 保留 Web/Backend/AI 静态检查、业务测试与契约校验；可选小程序独立使用 `make check-miniprogram / build-miniprogram`，不复制 Manager 或设计机制；`make up-web && make smoke-web` 验证前后端，`make up && make smoke` 验证完整栈。实际验证范围遵守根 AGENTS 和当前授权；文档与 Skill 说明变更按 [文档检查范围](../common/README.md#验证范围) 验证，不因此启动业务服务或全栈验收。
 
 CI 的 Manager job 使用固定版本 OpenSpec 校验当前 changes 与 specs：`openspec validate --all --strict --no-interactive`。它不依赖开发者的全局 Skills，不解析 Manager 计划，也不重新验收归档任务。
 

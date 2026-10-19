@@ -21,7 +21,7 @@
 
 ## 配置与运行环境
 
-- 环境变量在服务配置边界校验；`VITE_*` 会进入浏览器，只能配置可公开的信息。
+- 环境变量在服务配置边界校验；`VITE_*` 与小程序 `TARO_APP_*` 会进入客户端产物，只能配置可公开的信息。
 - 根 Compose 仅用于本地，绑定 loopback；生产环境另需逐资源授权、配额、TLS、备份与观测。
 - 日志不记录 token、密码、完整请求或供应商原始响应。
 - 真实模型/工具调用在获得授权后，还需显式配置凭证和预算；初始化默认零外部调用。
@@ -41,4 +41,4 @@
 
 `make docs`、`make check` 和 smoke 是可按明确请求或实际验证需要选择的命令，不是非运行时变更的默认门禁。smoke 依赖的服务启动仍须有当前授权；浏览器与浏览器自动化仅在当前任务明确要求时使用。
 
-检查命令不隐式修改代码；格式修复和迁移使用独立命令。命令定义以 [根 Makefile](../../../Makefile)、[前端 README](../../../frontend/README.md)、[后端 README](../../../backend/README.md) 和 [AI README](../../../ai-service/README.md) 为准。
+检查命令不隐式修改代码；格式修复和迁移使用独立命令。命令定义以 [根 Makefile](../../../Makefile)、[前端 README](../../../frontend/README.md)、[后端 README](../../../backend/README.md) 、[AI README](../../../ai-service/README.md) 和 [小程序 README](../../../miniprogram/README.md) 为准。

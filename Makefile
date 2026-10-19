@@ -46,3 +46,15 @@ smoke-web:
 	python3 scripts/smoke.py --skip-ai
 architecture:
 	python3 scripts/check_architecture.py
+
+# 微信客户端独立启用，不改变 Web/Backend/AI 的默认生命周期。
+.PHONY: install-miniprogram dev-miniprogram check-miniprogram build-miniprogram
+install-miniprogram:
+	pnpm --dir miniprogram install --frozen-lockfile
+dev-miniprogram:
+	pnpm --dir miniprogram dev:weapp
+check-miniprogram:
+	pnpm --dir miniprogram check
+build-miniprogram:
+	pnpm --dir miniprogram build:weapp
+	pnpm --dir miniprogram check:dist

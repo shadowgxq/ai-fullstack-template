@@ -66,3 +66,26 @@ class DocumentationChecks(unittest.TestCase):
             self.assertTrue(any("archived change still present" in e for e in module.hygiene_errors(root)))
             active.rmdir()
             self.assertFalse(module.hygiene_errors(root))
+
+
+class MiniprogramDocumentationChecks(unittest.TestCase):
+    def test_optional_app_requires_short_routing_and_root_owned_docs(self):
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name)
+            (root / "miniprogram").mkdir()
+            self.assertTrue(any("missing miniprogram/AGENTS.md" in e for e in module.validate(root)))
+            entry = root / "miniprogram/AGENTS.md"
+            entry.write_text("# Routing\n")
+            self.assertIn(entry, module.active_files(root))
+            (root / "miniprogram/docs").mkdir()
+            self.assertTrue(any("miniprogram/docs" in e for e in module.hygiene_errors(root)))
+
+    def test_app_readme_links_are_checked(self):
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name)
+            app = root / "miniprogram"
+            app.mkdir()
+            readme = app / "README.md"
+            readme.write_text("[missing](../docs/missing.md)\n")
+            self.assertIn(readme, module.active_files(root))
+            self.assertTrue(any("broken link" in e for e in module.validate(root)))

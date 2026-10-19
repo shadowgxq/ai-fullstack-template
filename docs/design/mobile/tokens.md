@@ -1,0 +1,44 @@
+# 移动端 Token 架构
+
+采用 **Reference → Semantic → Component** 三层别名，命名使用 `--mp-` 隔离平台运行时。该分层借鉴 [DTCG 2025.10 Format](https://www.designtokens.org/tr/2025.10/format/) 的命名引用与单一来源原则；当前实现为 CSS/SCSS，不宣称完整实现 DTCG JSON 格式，也不把 Community Group 报告称为 W3C Standard。
+
+## 唯一来源与生成方向
+
+```text
+frontend/src/shared/styles/global.css   现有共享品牌/状态色值（Light/Dark）
+                  ↓ sync-tokens.mjs（只提取允许的颜色，不提取 Web 尺寸）
+miniprogram/src/shared/styles/palette.generated.scss  Reference colors
+miniprogram/src/shared/theme/native.generated.ts      原生导航/TabBar 同源映射
+miniprogram/src/theme.generated.json                  微信系统主题初始化
+
+miniprogram/src/shared/styles/tokens.scss
+  Reference dimensions → Semantic aliases → Component aliases
+                  ↓
+PageShell / Button / Field / Card / Notice / StatePanel
+```
+
+色值仍归现有 `global.css`，不增加手写色板或另一个 `tokens.json`。生成器按白名单读取两主题，缺失、重复或不支持的值直接报错，不回退到另一份颜色。生成物提交并由 `tokens:check` 检查漂移；CI 不自动修复漂移。Web 源码不导入小程序生成物，小程序运行时也不引入 Web CSS/Tailwind。
+
+`tokens.scss` 是移动端尺寸与别名事实源。本页维护职责和选择方法，不复制完整值表；源码中的当前值可以通过组件页观察。需要脱离 Web 的独立品牌时先显式迁移所有者，不悄悄停止生成或在局部覆写品牌值。
+
+## 分层与消费
+
+| 层 | 示例 | 拥有者与规则 |
+|---|---|---|
+| Reference | `mp-ref-color-primary`、`mp-ref-space-4`、`mp-ref-font-3` | 颜色自动生成；尺寸由本端维护。原始值不散落在页面 |
+| Semantic | `mp-surface-page`、`mp-text-primary`、`mp-action-primary`、`mp-page-gutter`、`mp-touch-min` | 页面与跨组件角色；同值不意味着同用途，页面优先使用这一层 |
+| Component | `mp-button-bg`、`mp-button-min-height`、`mp-input-border`、`mp-card-padding` | 控件内部职责；优先引用 Semantic，组件变体覆盖组件职责而非全局值 |
+
+例如 `mp-ref-color-primary → mp-action-primary → mp-button-bg`。颜色变化不改变移动几何，移动字号/间距变化不影响 Web。版面约束、文字角色、最小触控和表面圆角各有语义，不机械把所有数值都抽成无限 Token。
+
+## 主题、单位与原生映射
+
+两主题共用结构和尺寸，只替换 Reference colors。每个 `PageShell` 具有 `mp-theme-root theme-light/dark`；Reference 与依赖它们的 Semantic/Component 别名在同一主题根重新声明，避免 CSS 自定义属性在父级求值后继承导致局部暗色失效。切换主题同时更新原生 navigationBar/background/TabBar，返回保留的页面时重新同步；非 Tab 页不更新 TabBar。
+
+原生配置中需要实色的字段由生成器输出，不把 `var(...)` 当成 JSON 色值。navigationBar 前景与边框仅接受平台黑/白枚举，不创造第三种值。系统/浅色/深色偏好存储在本端，存储失败可见，不宣称已保存。系统主题初始化与用户覆盖分开。
+
+长度默认逻辑 px、行高无单位、动画时长 ms、透明度 0–1。关闭自动 pxtransform，避免在窄屏缩小可触区域；安全区为运行时 `env()`，不参与品牌色或固定设备 Token。UI 层仅通过组件 Props 调状态，不能用任意局部颜色覆盖全局主题。
+
+## 变更与验证
+
+颜色修改先更新既有源/设计表达，再 `pnpm --dir miniprogram tokens`；移动几何直接改 `tokens.scss` 与相关组件。检查两主题、必要状态、生成漂移和涉及布局；真实触控/键盘/原生主题仍需单独验收。当前 Web `.pen` 没有移动变量绑定，不能仅因生成了 SCSS 就记录 Pencil 同步完成。
