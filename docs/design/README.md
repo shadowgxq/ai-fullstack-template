@@ -28,10 +28,10 @@
 | 资产 | 用途 |
 |---|---|
 | [design-system/core.lib.pen](design-system/core.lib.pen) | Signal Teal 的 75 个设计变量、公共组件、模板共用能力及必要状态 |
-| [design-system/mobile.lib.pen](design-system/mobile.lib.pen) | 微信小程序的 8 个维护单元：Foundations、UI Components、Interaction Patterns 与首页/组件中心/详情/我的/登录五页；定位、可选扩展及验证范围见 [移动设计交接](mobile/design-handoff.md) |
-| `design-system/previews/` | Web 同名 Frame 的 Light 导出图，`dark/` 为同源主题预览；`mobile-template/` 保留移动资产整体图及首页、组件中心、详情代表预览 |
+| [design-system/mobile.lib.pen](design-system/mobile.lib.pen) | 按“版本 C”三屏参考还原首页、组件库、我的，另保留基础组件演示与简版视觉规范；规范不陈列控件，素材精度、引用和静态样例边界见 [移动设计交接](mobile/design-handoff.md) |
+| `design-system/previews/` | Web 同名 Frame 的 Light 导出图，`dark/` 为同源主题预览；当前移动提案预览见 `mobile-light-native/`，包含四页、独立规范页与整体图 |
 
-Web 公共组件按维护单元独立定位，认证、分享和查询组合保留各自真实契约。移动模板只维护必要基础 UI 和交互，不要求与 Web 等量；Select / Calendar 仅保留为非默认扩展参考，QueryComposer 与分享不进入移动默认资产。设计主组件和展示画板不决定 React 的模块位置或公开 API，当前设计覆盖与源码映射见 [组件清单](../engineering/frontend/components/component-inventory.md#pencil-定位与映射)。
+Web 公共组件按维护单元独立定位，认证、分享和查询组合保留各自真实契约。移动提案只维护必要基础 UI 与交互，不要求与 Web 等量；复杂 Select / Calendar、QueryComposer、分享不因 Web 已有而自动进入移动默认资产。新几何与柔光是设计候选，未自动同步运行时代码。设计主组件和展示画板不决定 React 的模块位置或公开 API，当前设计覆盖与源码映射见 [组件清单](../engineering/frontend/components/component-inventory.md#pencil-定位与映射)。
 
 公共库独立维护变量与组件，不依赖业务设计资产。后续业务消费稿通过正式导入复用公共库，负责实际业务页面、流程、文案与数据；不复制公共色板，也不为每次需求新增设计文件。公共准入与运行时归属见 [组件治理](../engineering/frontend/components/components.md)。
 
