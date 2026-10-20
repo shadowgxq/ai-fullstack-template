@@ -46,4 +46,4 @@ PageShell / Button / Field / Card / Notice / StatePanel
 
 ## 变更与验证
 
-颜色修改先更新既有源/设计表达，再 `pnpm --dir miniprogram tokens`；移动几何直接改 `tokens.scss` 与相关组件。图标生成物同样提交并检查漂移，不单独手改 PNG 颜色。检查两主题、必要状态、生成漂移和涉及布局；真实触控/键盘/原生主题仍需单独验收。当前 Web `.pen` 没有移动变量绑定，不能仅因生成了 SCSS 或图标就记录 Pencil 同步完成。
+颜色修改先更新既有源/设计表达，再 `pnpm --dir miniprogram tokens`；移动几何直接改 `tokens.scss` 与相关组件。图标生成物同样提交并检查漂移，不单独手改 PNG 颜色。检查两主题、必要状态、生成漂移和涉及布局；真实触控/键盘/原生主题仍需单独验收。移动设计变量在 `../design-system/mobile.lib.pen` 维护，实际绑定及检查范围见 [移动设计交接](design-handoff.md)。生成 SCSS 或图标不等于设计同步或设备视觉验收。

@@ -23,11 +23,12 @@
 
 ## 资产登记
 
-当前可编辑资产仅覆盖 Web，共一个设计文件：`design-system/core.lib.pen`。公共库包含 Design Tokens、基础控件、认证、分享和 QueryComposer 及其必要状态；业务项目出现真实需求后再创建自己的业务消费稿，不预留空业务设计文件。
+当前可编辑资产分为 Web 与微信小程序两个独立设计库。Web 库包含 Design Tokens、基础控件、认证、分享和 QueryComposer；移动库维护移动变量、基础控件和模板页面示例。使用方的业务消费稿在出现真实业务需求后创建。
 
 | 资产 | 用途 |
 |---|---|
 | [design-system/core.lib.pen](design-system/core.lib.pen) | Signal Teal 的 75 个设计变量、公共组件、模板共用能力及必要状态 |
+| [design-system/mobile.lib.pen](design-system/mobile.lib.pen) | 微信小程序的移动 Token、基础组件、四页模板及必要状态；页面覆盖及评审范围见 [移动设计交接](mobile/design-handoff.md) |
 | `design-system/previews/` | 同名 Frame 的 Light 导出图；`dark/` 为同一结构切换主题后的预览 |
 
 公共组件按维护单元独立定位，认证、分享和查询组合保留各自真实契约。设计主组件和展示画板不决定 React 的模块位置或公开 API，当前设计覆盖与源码映射见 [组件清单](../engineering/frontend/components/component-inventory.md#pencil-定位与映射)。
@@ -36,6 +37,6 @@
 
 仅 `MKpT9` Foundations 保留 Light / Dark 并排概览。`KNJdR` Semantic colors、组件规范与组合示例使用单份结构，选中画板后切换 `mode=light/dark` 查看主题，不另设关键状态对照板。操作、焦点、校验、选中与透明遮罩在各组件规范区维护。默认保留 Light 主稿；必要的 Dark 预览从同一 Frame 导出，预览随受影响主稿同步。两主题渲染与运行时验证的边界见 [设计交付约定](design-handoff.md#深浅主题的设计表达)。
 
-当前 Web 页面设计遵循 [桌面布局基准](ui-spec.md#布局与宿主)；小程序遵循 [移动布局](mobile/ui-spec.md)，尚未登记移动 `.pen` 资产，不把 Web 稿视为已完成移动设计。组件规范板的总宽度不决定页面或控件尺寸。节点 ID、变量、主题、实例覆盖和库连接在使用前通过设计工具回读；预览与路径只能定位，不能代替当前源稿。
+当前 Web 页面设计遵循 [桌面布局基准](ui-spec.md#布局与宿主)；小程序遵循 [移动布局](mobile/ui-spec.md)，移动 `.pen` 的覆盖范围独立登记，不把 Web 稿视为已完成移动设计。组件规范板的总宽度不决定页面或控件尺寸。节点 ID、变量、主题、实例覆盖和库连接在使用前通过设计工具回读；预览与路径只能定位，不能代替当前源稿。
 
 示例数据和操作反馈是设计表达，不能证明登录、权限、剪贴板、图片导出、投递或人工验收。实际进度与验证证据放在对应 change / PR / 交接中，不维护另一套长期执行台账。
