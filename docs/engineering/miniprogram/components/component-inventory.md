@@ -16,4 +16,8 @@
 
 新增能力先复用现有出口，再就近补充；只有稳定共享职责才抽取，不能为当前仅一个示例而删除模板基础组件。复杂日期/选择器等在有真实需求后评估官方/第三方组件的版本、主题和平台边界。
 
-`core.lib.pen` 是 **Web 设计资产**；小程序使用独立的 [mobile.lib.pen](../../../design/design-system/mobile.lib.pen)，覆盖范围、节点和映射见 [移动设计交接](../../../design/mobile/design-handoff.md)。设计中的 Cell 尚无当前代码出口；设计覆盖不代表代码已实现，原生视觉与交互仍需开发者工具/真机验收。
+`core.lib.pen` 是 **Web 设计资产**；小程序使用独立的 [mobile.lib.pen](../../../design/design-system/mobile.lib.pen)。设计由 Foundations、UI Components、Interaction Patterns 和五个模板页面组成；覆盖范围、稳定 Frame ID、状态定位与映射见 [移动设计交接](../../../design/mobile/design-handoff.md)。
+
+设计中的 Cell/Search、Tabs、Switch、Textarea、Dialog/ActionSheet/Disclosure 尚无当前 shared/ui 公共出口，不能根据设计名称臆造 import。Button、Field、Notice、StatePanel 与页面基础排版沿用本表现有接口。Select / Calendar 没有当前小程序消费者，仅保留在交互规范的非默认扩展参考中；不因存在主组件就成为模板公共 API。QueryComposer、分享预览不进入移动默认设计资产，Web 实现不受影响。
+
+默认组件目录核心优先，交互及可选参考按分类进入；目录/详情仍为设计目标，不代表新增运行时路由。设计覆盖不等于代码已实现，原生视觉与交互仍需开发者工具/真机验收。
