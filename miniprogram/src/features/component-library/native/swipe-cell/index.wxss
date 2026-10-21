@@ -1,0 +1,14 @@
+.swipe-cell {
+  position: relative;
+  overflow: hidden;
+}
+.swipe-cell__wrapper {
+  position: relative;
+  will-change: transform;
+}
+.swipe-cell__right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 100%;
+}

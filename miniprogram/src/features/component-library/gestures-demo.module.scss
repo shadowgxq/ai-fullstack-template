@@ -1,0 +1,150 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  border-radius: var(--mp-card-radius);
+  background: var(--mp-surface-card);
+}
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.reset {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0;
+  background: transparent;
+  color: var(--mp-action-primary);
+  font-size: 14px;
+}
+.swipeList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.swipeRow {
+  position: relative;
+  overflow: hidden;
+  min-height: 76px;
+  border-radius: 12px;
+  background: var(--mp-surface-muted);
+}
+.swipeActions {
+  display: flex;
+  width: 128px;
+  height: 100%;
+}
+.swipeActions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  min-width: 64px;
+  padding: 0 4px;
+  border-radius: 0;
+  background: var(--mp-action-primary);
+  color: var(--mp-text-on-action);
+  font-size: 14px;
+  white-space: normal;
+  line-height: 1.5;
+}
+.swipeActions button:last-child {
+  background: var(--mp-error);
+}
+.swipeInner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 76px;
+  padding: 12px;
+  background: var(--mp-surface-muted);
+}
+.swipeInner > image {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+.rowCopy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.rowTitleLine {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.rowTitle {
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--mp-text-primary);
+  overflow-wrap: anywhere;
+}
+.rowDescription {
+  display: block;
+  color: var(--mp-text-secondary);
+  font-size: 12px;
+  line-height: 1.5;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.saved {
+  font-size: 11px;
+  color: var(--mp-action-primary);
+}
+.sortList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sortRow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 76px;
+  padding: 8px 0 8px 12px;
+  border: 1px solid var(--mp-border-subtle);
+  border-radius: 12px;
+  background: var(--mp-surface-card);
+}
+.order {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--mp-surface-selected);
+  color: var(--mp-action-primary);
+  font-size: 12px;
+}
+.grip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  min-height: 48px;
+  flex-shrink: 0;
+}
+.dragging {
+  z-index: 5;
+  border-color: var(--mp-action-primary);
+  box-shadow: 0 8px 20px var(--mp-ref-color-overlay);
+}
+
+.shifting {
+  transition: transform 160ms ease-out;
+}

@@ -9,6 +9,16 @@ for (const page of app.pages) {
   for (const ext of ['js', 'json', 'wxml'])
     assert.ok((await stat(new URL(`${page}.${ext}`, root))).size > 0);
 }
+const demoConfigUrl = new URL('pages/demo/index.json', root);
+const demoConfig = JSON.parse(await readFile(demoConfigUrl, 'utf8'));
+const swipePath = demoConfig.usingComponents?.['library-swipe-cell'];
+assert.equal(typeof swipePath, 'string', 'Swipe cell is not registered on the demo page');
+const swipeUrl = new URL(swipePath, demoConfigUrl);
+assert.ok(swipeUrl.href.startsWith(root.href), 'Native component escapes dist');
+for (const extension of ['.js', '.json', '.wxml', '.wxss'])
+  assert.ok((await stat(new URL(`${swipeUrl.href}${extension}`))).size > 0);
+assert.equal(JSON.parse(await readFile(new URL(`${swipeUrl.href}.json`), 'utf8')).component, true);
+assert.ok((await readFile(new URL('LICENSE.txt', swipeUrl), 'utf8')).includes('Youzan'));
 const theme = JSON.parse(await readFile(new URL(app.themeLocation, root), 'utf8'));
 assert.ok(theme.light.navigationBackground && theme.dark.navigationBackground);
 assert.equal(app.tabBar.borderStyle, 'white');
@@ -46,4 +56,6 @@ assert.ok(styles.includes('--mp-ref-color-primary'));
 assert.ok(styles.includes('--mp-button-min-height'));
 assert.ok(styles.includes('.theme-dark'));
 assert.ok(styles.includes('safe-area-inset-bottom'));
-console.log('Verified WeChat build: pages, native navigation, themed icons and mobile tokens.');
+console.log(
+  'Verified WeChat build: pages, native navigation, themed icons, mobile tokens and native swipe cell.',
+);

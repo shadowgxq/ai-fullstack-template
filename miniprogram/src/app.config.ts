@@ -4,6 +4,8 @@ export default defineAppConfig({
     'pages/components/index',
     'pages/settings/index',
     'pages/login/index',
+    'pages/demo/index',
+    'pages/preferences/index',
   ],
   darkmode: true,
   themeLocation: 'theme.generated.json',

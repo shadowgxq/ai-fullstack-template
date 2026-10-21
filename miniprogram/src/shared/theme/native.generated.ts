@@ -2,8 +2,10 @@
 export const nativeThemes = {
   "light": {
     "navigationBackground": "#ffffff",
+    "tintedNavigationBackground": "#eaf8f6",
     "navigationText": "black",
     "background": "#f8fafc",
+    "progressTrack": "#eef2f6",
     "tabBackground": "#ffffff",
     "tabText": "#5f6d84",
     "tabSelected": "#00857c",
@@ -17,8 +19,10 @@ export const nativeThemes = {
   },
   "dark": {
     "navigationBackground": "#151b19",
+    "tintedNavigationBackground": "#183a34",
     "navigationText": "white",
     "background": "#0d1211",
+    "progressTrack": "#24302c",
     "tabBackground": "#151b19",
     "tabText": "#9ca8a4",
     "tabSelected": "#56cdbc",

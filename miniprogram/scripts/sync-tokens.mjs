@@ -1,7 +1,13 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import postcss from 'postcss';
-import { renderTabIcon, tabIconNames, tabIconPaths } from './tab-icons.mjs';
+import {
+  renderTabIcon,
+  tabIconNames,
+  tabIconPaths,
+  renderLibraryIcon,
+  libraryIconNames,
+} from './tab-icons.mjs';
 
 export const colorNames = [
   'background',
@@ -90,8 +96,10 @@ export async function syncTokens(check = false) {
       mode,
       {
         navigationBackground: p['header-bg'],
+        tintedNavigationBackground: p['surface-selected'],
         navigationText: mode === 'dark' ? 'white' : 'black',
         background: p.background,
+        progressTrack: p.muted,
         tabBackground: p.card,
         tabText: p['muted-foreground'],
         tabSelected: p.primary,
@@ -111,6 +119,18 @@ export async function syncTokens(check = false) {
     ],
   ];
   for (const [mode, palette] of Object.entries(colors)) {
+    for (const name of libraryIconNames) {
+      for (const [tone, color] of Object.entries({
+        text: palette.foreground,
+        muted: palette['muted-foreground'],
+        primary: palette.primary,
+      })) {
+        outputs.push([
+          `../src/assets/library-icons/${name}-${mode}-${tone}.png`,
+          renderLibraryIcon(name, color),
+        ]);
+      }
+    }
     for (const name of tabIconNames) {
       for (const selected of [false, true]) {
         outputs.push([

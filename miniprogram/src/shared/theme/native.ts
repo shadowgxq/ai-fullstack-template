@@ -4,20 +4,26 @@ import { nativeThemes } from './native.generated';
 
 let appearanceQueue: Promise<void> = Promise.resolve();
 
-export async function syncNativeTheme(mode: ThemeMode, withTabBar: boolean): Promise<void> {
+export async function syncNativeTheme(
+  mode: ThemeMode,
+  withTabBar: boolean,
+  headerSurface: 'default' | 'tinted' = 'default',
+): Promise<void> {
   const apply = async () => {
     const theme = nativeThemes[mode];
+    const navigationBackground =
+      headerSurface === 'tinted' ? theme.tintedNavigationBackground : theme.navigationBackground;
     const updates = [
       Promise.resolve().then(() =>
         Taro.setNavigationBarColor({
           frontColor: mode === 'dark' ? '#ffffff' : '#000000',
-          backgroundColor: theme.navigationBackground,
+          backgroundColor: navigationBackground,
         }),
       ),
       Promise.resolve().then(() =>
         Taro.setBackgroundColor({
           backgroundColor: theme.background,
-          backgroundColorTop: theme.background,
+          backgroundColorTop: headerSurface === 'tinted' ? navigationBackground : theme.background,
           backgroundColorBottom: theme.background,
         }),
       ),

@@ -1,1 +1,1 @@
-export default definePageConfig({ navigationBarTitleText: '基础组件' });
+export default definePageConfig({ navigationBarTitleText: '组件库' });

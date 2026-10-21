@@ -1,0 +1,123 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-radius: var(--mp-card-radius);
+  background: var(--mp-surface-card);
+}
+.examples {
+  display: flex;
+  flex-direction: column;
+}
+.example {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 48px;
+  font-size: 14px;
+}
+.example + .example {
+  border-top: 1px solid var(--mp-border-subtle);
+}
+.muted {
+  color: var(--mp-text-secondary);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+/* 位于 PageShell 之外，避免内容容器的间距、宽度或裁切限制整页遮罩。 */
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  margin: 0;
+  font-family: var(--mp-font-sans);
+  color: var(--mp-text-primary);
+  font-size: 16px;
+  line-height: 1.5;
+}
+.backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--mp-ref-color-overlay);
+}
+.sheet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: calc(100% - 24px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 16px calc(20px + var(--mp-safe-bottom));
+  border-radius: 20px 20px 0 0;
+  background: var(--mp-surface-card);
+  box-shadow: 0 -8px 24px var(--mp-ref-color-overlay);
+}
+.dragHandle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  flex-shrink: 0;
+}
+.dragHandle > view {
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--mp-text-secondary);
+}
+.sheetTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  min-height: 48px;
+  padding: 0;
+  background: transparent;
+}
+.choices {
+  display: flex;
+  gap: 12px;
+}
+.choice {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--mp-text-secondary);
+  background: var(--mp-surface-muted);
+}
+.selected {
+  color: var(--mp-text-primary);
+  background: var(--mp-surface-selected);
+  font-weight: 600;
+}
+.actions {
+  display: flex;
+  gap: 12px;
+}
+.actions > view:first-child {
+  flex: 1;
+  min-width: 0;
+}
+.actions > view:last-child {
+  flex: 2;
+  min-width: 0;
+}

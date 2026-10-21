@@ -28,6 +28,11 @@ export default defineConfig<'webpack5'>({
       { from: 'src/theme.generated.json', to: 'dist/theme.generated.json' },
       // theme.json 与运行时路径不会进入普通 TS 图片 import 图，显式保留两主题资源。
       { from: 'src/assets/tabbar', to: 'dist/assets/tabbar' },
+      { from: 'src/assets/library-icons', to: 'dist/assets/library-icons' },
+      {
+        from: 'src/features/component-library/native/swipe-cell/LICENSE',
+        to: 'dist/features/component-library/native/swipe-cell/LICENSE.txt',
+      },
     ],
   },
   mini: {

@@ -1,6 +1,10 @@
 import { vi } from 'vitest';
 export default {
   request: vi.fn(),
+  switchTab: vi.fn(() => Promise.resolve({})),
+  navigateTo: vi.fn(() => Promise.resolve({})),
+  showToast: vi.fn(() => Promise.resolve({})),
+  showModal: vi.fn(() => Promise.resolve({})),
   getStorageSync: vi.fn(),
   setStorageSync: vi.fn(),
   removeStorageSync: vi.fn(),

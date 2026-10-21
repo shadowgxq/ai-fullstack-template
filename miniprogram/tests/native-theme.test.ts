@@ -83,3 +83,17 @@ it('applies the latest theme after an in-flight native update, not concurrently'
     selectedIconPath: nativeThemes.dark.tabProfileSelectedIcon,
   });
 });
+
+it.each(['light', 'dark'] as const)(
+  'restores the default header after leaving the %s profile',
+  async (mode) => {
+    await syncNativeTheme(mode, true, 'tinted');
+    expect(Taro.setNavigationBarColor).toHaveBeenLastCalledWith(
+      expect.objectContaining({ backgroundColor: nativeThemes[mode].tintedNavigationBackground }),
+    );
+    await syncNativeTheme(mode, false);
+    expect(Taro.setNavigationBarColor).toHaveBeenLastCalledWith(
+      expect.objectContaining({ backgroundColor: nativeThemes[mode].navigationBackground }),
+    );
+  },
+);

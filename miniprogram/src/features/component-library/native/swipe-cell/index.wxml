@@ -1,0 +1,10 @@
+<view class="swipe-cell" catchtap="onCellTap" bindtouchstart="startDrag"
+  capture-bind:touchmove="onDrag" catchtouchmove="{{ catchMove ? 'noop' : '' }}"
+  bindtouchend="endDrag" bindtouchcancel="cancelDrag">
+  <view class="swipe-cell__wrapper" style="{{ wrapperStyle }}">
+    <slot />
+    <view class="swipe-cell__right" style="width:{{rightWidth}}px;" catchtap="noop">
+      <slot name="right" />
+    </view>
+  </view>
+</view>
