@@ -26,14 +26,15 @@
             "sampleHeight": 44
           },
           "width": "fill_container",
-          "height": 44,
+          "height": 40,
           "fill": "$z:header-bg",
           "padding": [
-            0,
-            24
+            18,
+            24,
+            7.50725,
+            32
           ],
           "justifyContent": "space_between",
-          "alignItems": "center",
           "children": [
             {
               "type": "text",
@@ -41,47 +42,83 @@
               "name": "系统时间 · 示例",
               "fill": "$z:foreground",
               "content": "9:41",
-              "lineHeight": "$z:control-leading",
-              "fontFamily": "$z:font-family-sans",
-              "fontSize": "$z:font-size-md",
+              "lineHeight": 1,
+              "fontFamily": "Inter",
+              "fontSize": 14,
               "fontWeight": "600"
             },
             {
               "type": "frame",
               "id": "CbCzc",
               "name": "系统状态指示 · 示例",
-              "gap": 5,
-              "alignItems": "center",
+              "width": 65.2175,
+              "height": 14.49275,
+              "layout": "none",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "Iqpqg",
-                  "name": "蜂窝信号",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "signal",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "wc57P",
+                  "x": 0,
+                  "y": 0,
+                  "name": "蜂窝信号 · 模板原始轮廓",
+                  "geometry": "M609.688 40.7608c0-1.0005 0.811-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v12.6812c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1.001 0-1.812-0.8111-1.812-1.8116v-12.6812z m-9.058 4.5293c0-1.0005 0.812-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v8.1522c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.812-0.8111-1.812-1.8116v-8.1522z m-9.057 3.6231c0-1.0006 0.811-1.8116 1.811-1.8116h2.717c1.001 0 1.812 0.811 1.812 1.8116v4.5289c0 1.0006-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.811-0.811-1.811-1.8116v-4.5289z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "z4wbt",
-                  "name": "无线网络",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "wifi",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "InPO8",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Wi-Fi · 模板原始轮廓",
+                  "geometry": "M652.85 51.2483c0.117-0.1152 0.182-0.2736 0.179-0.438-0.004-0.1643-0.075-0.32-0.196-0.4302-2.421-2.0498-5.967-2.0498-8.388 0-0.122 0.1101-0.193 0.2658-0.196 0.4301-0.004 0.1644 0.061 0.3229 0.178 0.4381l3.791 3.8294c0.111 0.1126 0.263 0.1759 0.421 0.1759 0.158 0 0.309-0.0633 0.42-0.1759l3.791-3.8294z m-4.212-5.2897c2.311-0.0002 4.539 0.8596 6.252 2.4121 0.232 0.2204 0.597 0.2156 0.822-0.0107l2.192-2.2165c0.115-0.1163 0.179-0.274 0.178-0.4379-0.002-0.1639-0.069-0.3203-0.187-0.4341-5.216-4.8568-13.293-4.8568-18.509 0-0.118 0.1138-0.185 0.2703-0.187 0.4342-0.001 0.164 0.063 0.3217 0.179 0.4378l2.191 2.2165c0.225 0.2263 0.59 0.2311 0.822 0.0107 1.712-1.5515 3.938-2.4112 6.247-2.4121z m0.001-7.2121c4.205 0.0002 8.25 1.6178 11.298 4.5185 0.229 0.2239 0.596 0.2211 0.822-0.0064l2.194-2.2165c0.115-0.1153 0.178-0.2716 0.177-0.4342 0-0.1626-0.066-0.3181-0.182-0.4321-8-7.6745-20.62-7.6745-28.62 0-0.116 0.1139-0.182 0.2694-0.183 0.432-0.001 0.1626 0.063 0.3189 0.177 0.4343l2.195 2.2165c0.225 0.2278 0.593 0.2306 0.822 0.0064 3.048-2.9009 7.094-4.5185 11.3-4.5185z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "falDX",
-                  "name": "电池电量",
-                  "width": 22,
-                  "height": 16,
-                  "icon": "battery-full",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "o3gUu",
+                  "x": 0,
+                  "y": 0,
+                  "name": "电池 · 模板原始轮廓",
+                  "geometry": "M674 39.4022c0-1.2507 1.014-2.2645 2.264-2.2645h1.359v15.3985h-1.359c-1.25 0-2.264-1.0138-2.264-2.2644v-10.8696z m3.623-2.2645h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.624v15.3985h-3.624v-15.3985z m3.624 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m7.246 2.2645c0-1.2507-1.013-2.2645-2.264-2.2645h-1.359v15.3985h1.359c1.251 0 2.264-1.0138 2.264-2.2644v-10.8696z m-32.608-0.4528c0-3.0015 2.433-5.4348 5.435-5.4348h32.608c3.002 0 5.435 2.4333 5.435 5.4348v11.7754c0 3.0015-2.433 5.4348-5.435 5.4348h-32.608c-3.002 0-5.435-2.4333-5.435-5.4348v-11.7754z m5.435-3.6232c-2.001 0-3.624 1.6222-3.624 3.6232v11.7754c0 2.001 1.623 3.6232 3.624 3.6232h32.608c2.001 0 3.623-1.6222 3.623-3.6232v-11.7754c0-2.001-1.622-3.6232-3.623-3.6232h-32.608z m39.855 13.663c1.599-0.6989 2.717-2.2949 2.717-4.1521 0-1.8572-1.118-3.4533-2.717-4.1521v8.3042z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 0.905795,
+                  "id": "fJYsF",
+                  "x": 14.0395,
+                  "y": 2.71725,
+                  "name": "信号第四格 · 模板原始轮廓",
+                  "fill": "$z:foreground",
+                  "width": 3.17029,
+                  "height": 10.41665
                 }
               ]
             }
@@ -92,9 +129,8 @@
           "id": "G33l2a",
           "name": "小程序自定义导航 · 预留系统胶囊",
           "width": "fill_container",
-          "height": 56,
+          "height": 40,
           "fill": "$z:header-bg",
-          "gap": 8,
           "padding": [
             0,
             16
@@ -105,11 +141,14 @@
               "type": "frame",
               "id": "XMwCQ",
               "name": "全局账户入口",
-              "width": 44,
-              "height": 44,
+              "width": 88,
+              "height": 40,
               "layout": "vertical",
+              "padding": [
+                0,
+                9
+              ],
               "justifyContent": "center",
-              "alignItems": "center",
               "children": [
                 {
                   "type": "icon",
@@ -131,9 +170,10 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "今日穿搭",
-              "lineHeight": 1.4,
+              "lineHeight": 1.5,
+              "textAlign": "center",
               "fontFamily": "Noto Sans SC",
-              "fontSize": 20,
+              "fontSize": 16,
               "fontWeight": "600"
             },
             {
@@ -141,11 +181,11 @@
               "id": "Cbiej",
               "name": "微信系统胶囊 · 宿主示意",
               "width": 88,
-              "height": 32,
-              "cornerRadius": 16,
-              "stroke": "$z:header-border",
+              "height": 30,
+              "cornerRadius": 15,
+              "stroke": "$z:border-subtle",
               "strokeWidth": 1,
-              "gap": 10,
+              "gap": 12,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -155,27 +195,30 @@
                   "name": "ellipsis",
                   "width": 20,
                   "height": 20,
-                  "icon": "ellipsis",
-                  "library": "lucide",
+                  "icon": "more_horiz",
+                  "library": "Material Symbols Rounded",
+                  "weight": 700,
                   "fill": "$z:foreground"
                 },
                 {
                   "type": "frame",
                   "id": "XVpLQ",
                   "name": "胶囊分隔",
+                  "opacity": 0.16,
                   "width": 1,
-                  "height": 18,
-                  "fill": "$z:header-border",
+                  "height": 16,
+                  "fill": "$z:foreground",
                   "layout": "vertical"
                 },
                 {
                   "type": "icon",
                   "id": "CiaKz",
                   "name": "circle-dot",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "circle-dot",
-                  "library": "lucide",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "radio_button_checked",
+                  "library": "Material Symbols Rounded",
+                  "weight": 600,
                   "fill": "$z:foreground"
                 }
               ]
@@ -279,14 +322,16 @@
           "id": "b5s2x",
           "name": "固定底部 Tab Bar",
           "width": "fill_container",
-          "height": 60,
+          "height": 54,
           "fill": "$z:header-bg",
           "stroke": "$z:header-border",
           "strokeWidth": {
-            "top": 1
+            "top": 0.5
           },
           "padding": [
-            4,
+            6,
+            12,
+            0,
             12
           ],
           "children": [
@@ -295,9 +340,9 @@
               "id": "vKu8F",
               "name": "Tab 衣柜",
               "width": "fill_container",
-              "height": "fill_container",
+              "height": 48,
               "layout": "vertical",
-              "gap": 4,
+              "gap": 2,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -317,9 +362,9 @@
                   "name": "Tab 名称",
                   "fill": "$z:muted-foreground",
                   "content": "衣柜",
-                  "lineHeight": "$z:caption-leading",
+                  "lineHeight": 1.4,
                   "fontFamily": "Noto Sans SC",
-                  "fontSize": "$wardrobe-mobile-tab-label-size",
+                  "fontSize": 11,
                   "fontWeight": "normal"
                 }
               ]
@@ -329,9 +374,9 @@
               "id": "sVPMO",
               "name": "Tab 穿搭",
               "width": "fill_container",
-              "height": "fill_container",
+              "height": 48,
               "layout": "vertical",
-              "gap": 4,
+              "gap": 2,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -367,9 +412,9 @@
                   "name": "Tab 名称",
                   "fill": "$z:primary",
                   "content": "穿搭",
-                  "lineHeight": "$z:caption-leading",
+                  "lineHeight": 1.4,
                   "fontFamily": "Noto Sans SC",
-                  "fontSize": "$wardrobe-mobile-tab-label-size",
+                  "fontSize": 11,
                   "fontWeight": "600"
                 }
               ]
@@ -379,9 +424,9 @@
               "id": "FNScQ",
               "name": "Tab 记录",
               "width": "fill_container",
-              "height": "fill_container",
+              "height": 48,
               "layout": "vertical",
-              "gap": 4,
+              "gap": 2,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -401,12 +446,43 @@
                   "name": "Tab 名称",
                   "fill": "$z:muted-foreground",
                   "content": "记录",
-                  "lineHeight": "$z:caption-leading",
+                  "lineHeight": 1.4,
                   "fontFamily": "Noto Sans SC",
-                  "fontSize": "$wardrobe-mobile-tab-label-size",
+                  "fontSize": 11,
                   "fontWeight": "normal"
                 }
               ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "KNHzV",
+          "name": "底部安全区 · 仅宿主展示",
+          "metadata": {
+            "type": "host-preview",
+            "owner": "System home indicator; preview only, runtime inset must have a single owner"
+          },
+          "width": "fill_container",
+          "height": 20,
+          "fill": "$z:header-bg",
+          "layout": "vertical",
+          "padding": [
+            9,
+            0,
+            7,
+            0
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 2,
+              "id": "I46yZg",
+              "name": "Home Indicator · 非业务控件",
+              "fill": "$z:foreground",
+              "width": 128,
+              "height": 4
             }
           ]
         }
@@ -2263,14 +2339,15 @@
             "sampleHeight": 44
           },
           "width": "fill_container",
-          "height": 44,
+          "height": 40,
           "fill": "$z:header-bg",
           "padding": [
-            0,
-            24
+            18,
+            24,
+            7.50725,
+            32
           ],
           "justifyContent": "space_between",
-          "alignItems": "center",
           "children": [
             {
               "type": "text",
@@ -2278,47 +2355,83 @@
               "name": "系统时间 · 示例",
               "fill": "$z:foreground",
               "content": "9:41",
-              "lineHeight": "$z:control-leading",
-              "fontFamily": "$z:font-family-sans",
-              "fontSize": "$z:font-size-md",
+              "lineHeight": 1,
+              "fontFamily": "Inter",
+              "fontSize": 14,
               "fontWeight": "600"
             },
             {
               "type": "frame",
               "id": "lvFuN",
               "name": "系统状态指示 · 示例",
-              "gap": 5,
-              "alignItems": "center",
+              "width": 65.2175,
+              "height": 14.49275,
+              "layout": "none",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "aKaYN",
-                  "name": "蜂窝信号",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "signal",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "PEnsx",
+                  "x": 0,
+                  "y": 0,
+                  "name": "蜂窝信号 · 模板原始轮廓",
+                  "geometry": "M609.688 40.7608c0-1.0005 0.811-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v12.6812c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1.001 0-1.812-0.8111-1.812-1.8116v-12.6812z m-9.058 4.5293c0-1.0005 0.812-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v8.1522c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.812-0.8111-1.812-1.8116v-8.1522z m-9.057 3.6231c0-1.0006 0.811-1.8116 1.811-1.8116h2.717c1.001 0 1.812 0.811 1.812 1.8116v4.5289c0 1.0006-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.811-0.811-1.811-1.8116v-4.5289z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "C2NvY",
-                  "name": "无线网络",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "wifi",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "c7IdC",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Wi-Fi · 模板原始轮廓",
+                  "geometry": "M652.85 51.2483c0.117-0.1152 0.182-0.2736 0.179-0.438-0.004-0.1643-0.075-0.32-0.196-0.4302-2.421-2.0498-5.967-2.0498-8.388 0-0.122 0.1101-0.193 0.2658-0.196 0.4301-0.004 0.1644 0.061 0.3229 0.178 0.4381l3.791 3.8294c0.111 0.1126 0.263 0.1759 0.421 0.1759 0.158 0 0.309-0.0633 0.42-0.1759l3.791-3.8294z m-4.212-5.2897c2.311-0.0002 4.539 0.8596 6.252 2.4121 0.232 0.2204 0.597 0.2156 0.822-0.0107l2.192-2.2165c0.115-0.1163 0.179-0.274 0.178-0.4379-0.002-0.1639-0.069-0.3203-0.187-0.4341-5.216-4.8568-13.293-4.8568-18.509 0-0.118 0.1138-0.185 0.2703-0.187 0.4342-0.001 0.164 0.063 0.3217 0.179 0.4378l2.191 2.2165c0.225 0.2263 0.59 0.2311 0.822 0.0107 1.712-1.5515 3.938-2.4112 6.247-2.4121z m0.001-7.2121c4.205 0.0002 8.25 1.6178 11.298 4.5185 0.229 0.2239 0.596 0.2211 0.822-0.0064l2.194-2.2165c0.115-0.1153 0.178-0.2716 0.177-0.4342 0-0.1626-0.066-0.3181-0.182-0.4321-8-7.6745-20.62-7.6745-28.62 0-0.116 0.1139-0.182 0.2694-0.183 0.432-0.001 0.1626 0.063 0.3189 0.177 0.4343l2.195 2.2165c0.225 0.2278 0.593 0.2306 0.822 0.0064 3.048-2.9009 7.094-4.5185 11.3-4.5185z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "OnF46",
-                  "name": "电池电量",
-                  "width": 22,
-                  "height": 16,
-                  "icon": "battery-full",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "l5fJ4s",
+                  "x": 0,
+                  "y": 0,
+                  "name": "电池 · 模板原始轮廓",
+                  "geometry": "M674 39.4022c0-1.2507 1.014-2.2645 2.264-2.2645h1.359v15.3985h-1.359c-1.25 0-2.264-1.0138-2.264-2.2644v-10.8696z m3.623-2.2645h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.624v15.3985h-3.624v-15.3985z m3.624 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m7.246 2.2645c0-1.2507-1.013-2.2645-2.264-2.2645h-1.359v15.3985h1.359c1.251 0 2.264-1.0138 2.264-2.2644v-10.8696z m-32.608-0.4528c0-3.0015 2.433-5.4348 5.435-5.4348h32.608c3.002 0 5.435 2.4333 5.435 5.4348v11.7754c0 3.0015-2.433 5.4348-5.435 5.4348h-32.608c-3.002 0-5.435-2.4333-5.435-5.4348v-11.7754z m5.435-3.6232c-2.001 0-3.624 1.6222-3.624 3.6232v11.7754c0 2.001 1.623 3.6232 3.624 3.6232h32.608c2.001 0 3.623-1.6222 3.623-3.6232v-11.7754c0-2.001-1.622-3.6232-3.623-3.6232h-32.608z m39.855 13.663c1.599-0.6989 2.717-2.2949 2.717-4.1521 0-1.8572-1.118-3.4533-2.717-4.1521v8.3042z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 0.905795,
+                  "id": "hK2ao",
+                  "x": 14.0395,
+                  "y": 2.71725,
+                  "name": "信号第四格 · 模板原始轮廓",
+                  "fill": "$z:foreground",
+                  "width": 3.17029,
+                  "height": 10.41665
                 }
               ]
             }
@@ -2329,9 +2442,8 @@
           "id": "f642JN",
           "name": "小程序自定义导航 · 预留系统胶囊",
           "width": "fill_container",
-          "height": 56,
+          "height": 40,
           "fill": "$z:header-bg",
-          "gap": 8,
           "padding": [
             0,
             16
@@ -2342,11 +2454,14 @@
               "type": "frame",
               "id": "ek2Q8",
               "name": "全局账户入口",
-              "width": 44,
-              "height": 44,
+              "width": 88,
+              "height": 40,
               "layout": "vertical",
+              "padding": [
+                0,
+                9
+              ],
               "justifyContent": "center",
-              "alignItems": "center",
               "children": [
                 {
                   "type": "icon",
@@ -2368,9 +2483,10 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "我的衣柜",
-              "lineHeight": 1.4,
+              "lineHeight": 1.5,
+              "textAlign": "center",
               "fontFamily": "Noto Sans SC",
-              "fontSize": 20,
+              "fontSize": 16,
               "fontWeight": "600"
             },
             {
@@ -2378,11 +2494,11 @@
               "id": "xpLad",
               "name": "微信系统胶囊 · 宿主示意",
               "width": 88,
-              "height": 32,
-              "cornerRadius": 16,
-              "stroke": "$z:header-border",
+              "height": 30,
+              "cornerRadius": 15,
+              "stroke": "$z:border-subtle",
               "strokeWidth": 1,
-              "gap": 10,
+              "gap": 12,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -2392,27 +2508,30 @@
                   "name": "ellipsis",
                   "width": 20,
                   "height": 20,
-                  "icon": "ellipsis",
-                  "library": "lucide",
+                  "icon": "more_horiz",
+                  "library": "Material Symbols Rounded",
+                  "weight": 700,
                   "fill": "$z:foreground"
                 },
                 {
                   "type": "frame",
                   "id": "h8hnO",
                   "name": "胶囊分隔",
+                  "opacity": 0.16,
                   "width": 1,
-                  "height": 18,
-                  "fill": "$z:header-border",
+                  "height": 16,
+                  "fill": "$z:foreground",
                   "layout": "vertical"
                 },
                 {
                   "type": "icon",
                   "id": "ft0j3",
                   "name": "circle-dot",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "circle-dot",
-                  "library": "lucide",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "radio_button_checked",
+                  "library": "Material Symbols Rounded",
+                  "weight": 600,
                   "fill": "$z:foreground"
                 }
               ]
@@ -2465,14 +2584,16 @@
           "id": "Y1iQu",
           "name": "固定底部 Tab Bar",
           "width": "fill_container",
-          "height": 60,
+          "height": 54,
           "fill": "$z:header-bg",
           "stroke": "$z:header-border",
           "strokeWidth": {
-            "top": 1
+            "top": 0.5
           },
           "padding": [
-            4,
+            6,
+            12,
+            0,
             12
           ],
           "children": [
@@ -2481,9 +2602,9 @@
               "id": "STjly",
               "name": "Tab 衣柜",
               "width": "fill_container",
-              "height": 52,
+              "height": 48,
               "layout": "vertical",
-              "gap": 4,
+              "gap": 2,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -2503,9 +2624,9 @@
                   "name": "Tab 标签",
                   "fill": "$z:primary",
                   "content": "衣柜",
-                  "lineHeight": "$z:caption-leading",
+                  "lineHeight": 1.4,
                   "fontFamily": "Noto Sans SC",
-                  "fontSize": "$z:font-size-xs",
+                  "fontSize": 11,
                   "fontWeight": "600"
                 }
               ]
@@ -2515,9 +2636,9 @@
               "id": "UT0oR",
               "name": "Tab 穿搭",
               "width": "fill_container",
-              "height": 52,
+              "height": 48,
               "layout": "vertical",
-              "gap": 4,
+              "gap": 2,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -2537,9 +2658,9 @@
                   "name": "Tab 标签",
                   "fill": "$z:muted-foreground",
                   "content": "穿搭",
-                  "lineHeight": "$z:caption-leading",
+                  "lineHeight": 1.4,
                   "fontFamily": "Noto Sans SC",
-                  "fontSize": "$z:font-size-xs",
+                  "fontSize": 11,
                   "fontWeight": "normal"
                 }
               ]
@@ -2549,9 +2670,9 @@
               "id": "WTJw2",
               "name": "Tab 记录",
               "width": "fill_container",
-              "height": 52,
+              "height": 48,
               "layout": "vertical",
-              "gap": 4,
+              "gap": 2,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -2571,12 +2692,43 @@
                   "name": "Tab 标签",
                   "fill": "$z:muted-foreground",
                   "content": "记录",
-                  "lineHeight": "$z:caption-leading",
+                  "lineHeight": 1.4,
                   "fontFamily": "Noto Sans SC",
-                  "fontSize": "$z:font-size-xs",
+                  "fontSize": 11,
                   "fontWeight": "normal"
                 }
               ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "vvege",
+          "name": "底部安全区 · 仅宿主展示",
+          "metadata": {
+            "type": "host-preview",
+            "owner": "System home indicator; preview only, runtime inset must have a single owner"
+          },
+          "width": "fill_container",
+          "height": 20,
+          "fill": "$z:header-bg",
+          "layout": "vertical",
+          "padding": [
+            9,
+            0,
+            7,
+            0
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 2,
+              "id": "W9ofH",
+              "name": "Home Indicator · 非业务控件",
+              "fill": "$z:foreground",
+              "width": 128,
+              "height": 4
             }
           ]
         }
@@ -3277,14 +3429,15 @@
             "sampleHeight": 44
           },
           "width": "fill_container",
-          "height": 44,
+          "height": 40,
           "fill": "$z:header-bg",
           "padding": [
-            0,
-            24
+            18,
+            24,
+            7.50725,
+            32
           ],
           "justifyContent": "space_between",
-          "alignItems": "center",
           "children": [
             {
               "type": "text",
@@ -3292,47 +3445,83 @@
               "name": "系统时间 · 示例",
               "fill": "$z:foreground",
               "content": "9:41",
-              "lineHeight": "$z:control-leading",
-              "fontFamily": "$z:font-family-sans",
-              "fontSize": "$z:font-size-md",
+              "lineHeight": 1,
+              "fontFamily": "Inter",
+              "fontSize": 14,
               "fontWeight": "600"
             },
             {
               "type": "frame",
               "id": "AKNsg",
               "name": "系统状态指示 · 示例",
-              "gap": 5,
-              "alignItems": "center",
+              "width": 65.2175,
+              "height": 14.49275,
+              "layout": "none",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "aLL0r",
-                  "name": "蜂窝信号",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "signal",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "XRD16",
+                  "x": 0,
+                  "y": 0,
+                  "name": "蜂窝信号 · 模板原始轮廓",
+                  "geometry": "M609.688 40.7608c0-1.0005 0.811-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v12.6812c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1.001 0-1.812-0.8111-1.812-1.8116v-12.6812z m-9.058 4.5293c0-1.0005 0.812-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v8.1522c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.812-0.8111-1.812-1.8116v-8.1522z m-9.057 3.6231c0-1.0006 0.811-1.8116 1.811-1.8116h2.717c1.001 0 1.812 0.811 1.812 1.8116v4.5289c0 1.0006-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.811-0.811-1.811-1.8116v-4.5289z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "Sd3Hp",
-                  "name": "无线网络",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "wifi",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "d8yJQU",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Wi-Fi · 模板原始轮廓",
+                  "geometry": "M652.85 51.2483c0.117-0.1152 0.182-0.2736 0.179-0.438-0.004-0.1643-0.075-0.32-0.196-0.4302-2.421-2.0498-5.967-2.0498-8.388 0-0.122 0.1101-0.193 0.2658-0.196 0.4301-0.004 0.1644 0.061 0.3229 0.178 0.4381l3.791 3.8294c0.111 0.1126 0.263 0.1759 0.421 0.1759 0.158 0 0.309-0.0633 0.42-0.1759l3.791-3.8294z m-4.212-5.2897c2.311-0.0002 4.539 0.8596 6.252 2.4121 0.232 0.2204 0.597 0.2156 0.822-0.0107l2.192-2.2165c0.115-0.1163 0.179-0.274 0.178-0.4379-0.002-0.1639-0.069-0.3203-0.187-0.4341-5.216-4.8568-13.293-4.8568-18.509 0-0.118 0.1138-0.185 0.2703-0.187 0.4342-0.001 0.164 0.063 0.3217 0.179 0.4378l2.191 2.2165c0.225 0.2263 0.59 0.2311 0.822 0.0107 1.712-1.5515 3.938-2.4112 6.247-2.4121z m0.001-7.2121c4.205 0.0002 8.25 1.6178 11.298 4.5185 0.229 0.2239 0.596 0.2211 0.822-0.0064l2.194-2.2165c0.115-0.1153 0.178-0.2716 0.177-0.4342 0-0.1626-0.066-0.3181-0.182-0.4321-8-7.6745-20.62-7.6745-28.62 0-0.116 0.1139-0.182 0.2694-0.183 0.432-0.001 0.1626 0.063 0.3189 0.177 0.4343l2.195 2.2165c0.225 0.2278 0.593 0.2306 0.822 0.0064 3.048-2.9009 7.094-4.5185 11.3-4.5185z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "EPRnL",
-                  "name": "电池电量",
-                  "width": 22,
-                  "height": 16,
-                  "icon": "battery-full",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "gy37U",
+                  "x": 0,
+                  "y": 0,
+                  "name": "电池 · 模板原始轮廓",
+                  "geometry": "M674 39.4022c0-1.2507 1.014-2.2645 2.264-2.2645h1.359v15.3985h-1.359c-1.25 0-2.264-1.0138-2.264-2.2644v-10.8696z m3.623-2.2645h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.624v15.3985h-3.624v-15.3985z m3.624 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m7.246 2.2645c0-1.2507-1.013-2.2645-2.264-2.2645h-1.359v15.3985h1.359c1.251 0 2.264-1.0138 2.264-2.2644v-10.8696z m-32.608-0.4528c0-3.0015 2.433-5.4348 5.435-5.4348h32.608c3.002 0 5.435 2.4333 5.435 5.4348v11.7754c0 3.0015-2.433 5.4348-5.435 5.4348h-32.608c-3.002 0-5.435-2.4333-5.435-5.4348v-11.7754z m5.435-3.6232c-2.001 0-3.624 1.6222-3.624 3.6232v11.7754c0 2.001 1.623 3.6232 3.624 3.6232h32.608c2.001 0 3.623-1.6222 3.623-3.6232v-11.7754c0-2.001-1.622-3.6232-3.623-3.6232h-32.608z m39.855 13.663c1.599-0.6989 2.717-2.2949 2.717-4.1521 0-1.8572-1.118-3.4533-2.717-4.1521v8.3042z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 0.905795,
+                  "id": "vek8h",
+                  "x": 14.0395,
+                  "y": 2.71725,
+                  "name": "信号第四格 · 模板原始轮廓",
+                  "fill": "$z:foreground",
+                  "width": 3.17029,
+                  "height": 10.41665
                 }
               ]
             }
@@ -3343,9 +3532,8 @@
           "id": "gfIyC",
           "name": "小程序自定义导航 · 预留系统胶囊",
           "width": "fill_container",
-          "height": 56,
+          "height": 40,
           "fill": "$z:header-bg",
-          "gap": 8,
           "padding": [
             0,
             16
@@ -3356,11 +3544,14 @@
               "type": "frame",
               "id": "MeQeR",
               "name": "返回",
-              "width": 44,
-              "height": 44,
+              "width": 88,
+              "height": 40,
               "layout": "vertical",
+              "padding": [
+                0,
+                9
+              ],
               "justifyContent": "center",
-              "alignItems": "center",
               "children": [
                 {
                   "type": "icon",
@@ -3382,9 +3573,10 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "衣物详情",
-              "lineHeight": 1.4,
+              "lineHeight": 1.5,
+              "textAlign": "center",
               "fontFamily": "Noto Sans SC",
-              "fontSize": 20,
+              "fontSize": 16,
               "fontWeight": "600"
             },
             {
@@ -3392,11 +3584,11 @@
               "id": "iR29G",
               "name": "微信系统胶囊 · 宿主示意",
               "width": 88,
-              "height": 32,
-              "cornerRadius": 16,
-              "stroke": "$z:header-border",
+              "height": 30,
+              "cornerRadius": 15,
+              "stroke": "$z:border-subtle",
               "strokeWidth": 1,
-              "gap": 10,
+              "gap": 12,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -3406,27 +3598,30 @@
                   "name": "ellipsis",
                   "width": 20,
                   "height": 20,
-                  "icon": "ellipsis",
-                  "library": "lucide",
+                  "icon": "more_horiz",
+                  "library": "Material Symbols Rounded",
+                  "weight": 700,
                   "fill": "$z:foreground"
                 },
                 {
                   "type": "frame",
                   "id": "ZT5In",
                   "name": "胶囊分隔",
+                  "opacity": 0.16,
                   "width": 1,
-                  "height": 18,
-                  "fill": "$z:header-border",
+                  "height": 16,
+                  "fill": "$z:foreground",
                   "layout": "vertical"
                 },
                 {
                   "type": "icon",
                   "id": "VzE62",
                   "name": "circle-dot",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "circle-dot",
-                  "library": "lucide",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "radio_button_checked",
+                  "library": "Material Symbols Rounded",
+                  "weight": 600,
                   "fill": "$z:foreground"
                 }
               ]
@@ -3471,6 +3666,37 @@
                   "fontSize": "$z:font-size-lg"
                 }
               }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "szwop",
+          "name": "底部安全区 · 仅宿主展示",
+          "metadata": {
+            "type": "host-preview",
+            "owner": "System home indicator; preview only, runtime inset must have a single owner"
+          },
+          "width": "fill_container",
+          "height": 20,
+          "fill": "$z:header-bg",
+          "layout": "vertical",
+          "padding": [
+            9,
+            0,
+            7,
+            0
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 2,
+              "id": "kWb9L",
+              "name": "Home Indicator · 非业务控件",
+              "fill": "$z:foreground",
+              "width": 128,
+              "height": 4
             }
           ]
         }
@@ -3925,14 +4151,15 @@
             "sampleHeight": 44
           },
           "width": "fill_container",
-          "height": 44,
+          "height": 40,
           "fill": "$z:header-bg",
           "padding": [
-            0,
-            24
+            18,
+            24,
+            7.50725,
+            32
           ],
           "justifyContent": "space_between",
-          "alignItems": "center",
           "children": [
             {
               "type": "text",
@@ -3940,47 +4167,83 @@
               "name": "系统时间 · 示例",
               "fill": "$z:foreground",
               "content": "9:41",
-              "lineHeight": "$z:control-leading",
-              "fontFamily": "$z:font-family-sans",
-              "fontSize": "$z:font-size-md",
+              "lineHeight": 1,
+              "fontFamily": "Inter",
+              "fontSize": 14,
               "fontWeight": "600"
             },
             {
               "type": "frame",
               "id": "rGJbQ",
               "name": "系统状态指示 · 示例",
-              "gap": 5,
-              "alignItems": "center",
+              "width": 65.2175,
+              "height": 14.49275,
+              "layout": "none",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "o1ywzb",
-                  "name": "蜂窝信号",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "signal",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "K6lkEG",
+                  "x": 0,
+                  "y": 0,
+                  "name": "蜂窝信号 · 模板原始轮廓",
+                  "geometry": "M609.688 40.7608c0-1.0005 0.811-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v12.6812c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1.001 0-1.812-0.8111-1.812-1.8116v-12.6812z m-9.058 4.5293c0-1.0005 0.812-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v8.1522c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.812-0.8111-1.812-1.8116v-8.1522z m-9.057 3.6231c0-1.0006 0.811-1.8116 1.811-1.8116h2.717c1.001 0 1.812 0.811 1.812 1.8116v4.5289c0 1.0006-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.811-0.811-1.811-1.8116v-4.5289z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "EjCgM",
-                  "name": "无线网络",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "wifi",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "prGG4",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Wi-Fi · 模板原始轮廓",
+                  "geometry": "M652.85 51.2483c0.117-0.1152 0.182-0.2736 0.179-0.438-0.004-0.1643-0.075-0.32-0.196-0.4302-2.421-2.0498-5.967-2.0498-8.388 0-0.122 0.1101-0.193 0.2658-0.196 0.4301-0.004 0.1644 0.061 0.3229 0.178 0.4381l3.791 3.8294c0.111 0.1126 0.263 0.1759 0.421 0.1759 0.158 0 0.309-0.0633 0.42-0.1759l3.791-3.8294z m-4.212-5.2897c2.311-0.0002 4.539 0.8596 6.252 2.4121 0.232 0.2204 0.597 0.2156 0.822-0.0107l2.192-2.2165c0.115-0.1163 0.179-0.274 0.178-0.4379-0.002-0.1639-0.069-0.3203-0.187-0.4341-5.216-4.8568-13.293-4.8568-18.509 0-0.118 0.1138-0.185 0.2703-0.187 0.4342-0.001 0.164 0.063 0.3217 0.179 0.4378l2.191 2.2165c0.225 0.2263 0.59 0.2311 0.822 0.0107 1.712-1.5515 3.938-2.4112 6.247-2.4121z m0.001-7.2121c4.205 0.0002 8.25 1.6178 11.298 4.5185 0.229 0.2239 0.596 0.2211 0.822-0.0064l2.194-2.2165c0.115-0.1153 0.178-0.2716 0.177-0.4342 0-0.1626-0.066-0.3181-0.182-0.4321-8-7.6745-20.62-7.6745-28.62 0-0.116 0.1139-0.182 0.2694-0.183 0.432-0.001 0.1626 0.063 0.3189 0.177 0.4343l2.195 2.2165c0.225 0.2278 0.593 0.2306 0.822 0.0064 3.048-2.9009 7.094-4.5185 11.3-4.5185z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "Sv186",
-                  "name": "电池电量",
-                  "width": 22,
-                  "height": 16,
-                  "icon": "battery-full",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "ByPyK",
+                  "x": 0,
+                  "y": 0,
+                  "name": "电池 · 模板原始轮廓",
+                  "geometry": "M674 39.4022c0-1.2507 1.014-2.2645 2.264-2.2645h1.359v15.3985h-1.359c-1.25 0-2.264-1.0138-2.264-2.2644v-10.8696z m3.623-2.2645h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.624v15.3985h-3.624v-15.3985z m3.624 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m7.246 2.2645c0-1.2507-1.013-2.2645-2.264-2.2645h-1.359v15.3985h1.359c1.251 0 2.264-1.0138 2.264-2.2644v-10.8696z m-32.608-0.4528c0-3.0015 2.433-5.4348 5.435-5.4348h32.608c3.002 0 5.435 2.4333 5.435 5.4348v11.7754c0 3.0015-2.433 5.4348-5.435 5.4348h-32.608c-3.002 0-5.435-2.4333-5.435-5.4348v-11.7754z m5.435-3.6232c-2.001 0-3.624 1.6222-3.624 3.6232v11.7754c0 2.001 1.623 3.6232 3.624 3.6232h32.608c2.001 0 3.623-1.6222 3.623-3.6232v-11.7754c0-2.001-1.622-3.6232-3.623-3.6232h-32.608z m39.855 13.663c1.599-0.6989 2.717-2.2949 2.717-4.1521 0-1.8572-1.118-3.4533-2.717-4.1521v8.3042z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 0.905795,
+                  "id": "Q14vn",
+                  "x": 14.0395,
+                  "y": 2.71725,
+                  "name": "信号第四格 · 模板原始轮廓",
+                  "fill": "$z:foreground",
+                  "width": 3.17029,
+                  "height": 10.41665
                 }
               ]
             }
@@ -3991,9 +4254,8 @@
           "id": "pGOpj",
           "name": "小程序自定义导航 · 预留系统胶囊",
           "width": "fill_container",
-          "height": 56,
+          "height": 40,
           "fill": "$z:header-bg",
-          "gap": 8,
           "padding": [
             0,
             16
@@ -4004,11 +4266,14 @@
               "type": "frame",
               "id": "TWQ1Q",
               "name": "返回",
-              "width": 44,
-              "height": 44,
+              "width": 88,
+              "height": 40,
               "layout": "vertical",
+              "padding": [
+                0,
+                9
+              ],
               "justifyContent": "center",
-              "alignItems": "center",
               "children": [
                 {
                   "type": "icon",
@@ -4030,9 +4295,10 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "添加衣物",
-              "lineHeight": 1.4,
+              "lineHeight": 1.5,
+              "textAlign": "center",
               "fontFamily": "Noto Sans SC",
-              "fontSize": 20,
+              "fontSize": 16,
               "fontWeight": "600"
             },
             {
@@ -4040,11 +4306,11 @@
               "id": "KCXOw",
               "name": "微信系统胶囊 · 宿主示意",
               "width": 88,
-              "height": 32,
-              "cornerRadius": 16,
-              "stroke": "$z:header-border",
+              "height": 30,
+              "cornerRadius": 15,
+              "stroke": "$z:border-subtle",
               "strokeWidth": 1,
-              "gap": 10,
+              "gap": 12,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -4054,27 +4320,30 @@
                   "name": "ellipsis",
                   "width": 20,
                   "height": 20,
-                  "icon": "ellipsis",
-                  "library": "lucide",
+                  "icon": "more_horiz",
+                  "library": "Material Symbols Rounded",
+                  "weight": 700,
                   "fill": "$z:foreground"
                 },
                 {
                   "type": "frame",
                   "id": "R3qZo3",
                   "name": "胶囊分隔",
+                  "opacity": 0.16,
                   "width": 1,
-                  "height": 18,
-                  "fill": "$z:header-border",
+                  "height": 16,
+                  "fill": "$z:foreground",
                   "layout": "vertical"
                 },
                 {
                   "type": "icon",
                   "id": "L3Z5b",
                   "name": "circle-dot",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "circle-dot",
-                  "library": "lucide",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "radio_button_checked",
+                  "library": "Material Symbols Rounded",
+                  "weight": 600,
                   "fill": "$z:foreground"
                 }
               ]
@@ -4125,6 +4394,37 @@
                   "fontSize": "$z:font-size-lg"
                 }
               }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "SklBT",
+          "name": "底部安全区 · 仅宿主展示",
+          "metadata": {
+            "type": "host-preview",
+            "owner": "System home indicator; preview only, runtime inset must have a single owner"
+          },
+          "width": "fill_container",
+          "height": 20,
+          "fill": "$z:header-bg",
+          "layout": "vertical",
+          "padding": [
+            9,
+            0,
+            7,
+            0
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 2,
+              "id": "E3B6T",
+              "name": "Home Indicator · 非业务控件",
+              "fill": "$z:foreground",
+              "width": 128,
+              "height": 4
             }
           ]
         }
@@ -4806,14 +5106,15 @@
             "sampleHeight": 44
           },
           "width": "fill_container",
-          "height": 44,
+          "height": 40,
           "fill": "$z:header-bg",
           "padding": [
-            0,
-            24
+            18,
+            24,
+            7.50725,
+            32
           ],
           "justifyContent": "space_between",
-          "alignItems": "center",
           "children": [
             {
               "type": "text",
@@ -4821,47 +5122,83 @@
               "name": "系统时间 · 示例",
               "fill": "$z:foreground",
               "content": "9:41",
-              "lineHeight": "$z:control-leading",
-              "fontFamily": "$z:font-family-sans",
-              "fontSize": "$z:font-size-md",
+              "lineHeight": 1,
+              "fontFamily": "Inter",
+              "fontSize": 14,
               "fontWeight": "600"
             },
             {
               "type": "frame",
               "id": "r0oBpS",
               "name": "系统状态指示 · 示例",
-              "gap": 5,
-              "alignItems": "center",
+              "width": 65.2175,
+              "height": 14.49275,
+              "layout": "none",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "LZwOD",
-                  "name": "蜂窝信号",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "signal",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "L67rV",
+                  "x": 0,
+                  "y": 0,
+                  "name": "蜂窝信号 · 模板原始轮廓",
+                  "geometry": "M609.688 40.7608c0-1.0005 0.811-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v12.6812c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1.001 0-1.812-0.8111-1.812-1.8116v-12.6812z m-9.058 4.5293c0-1.0005 0.812-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v8.1522c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.812-0.8111-1.812-1.8116v-8.1522z m-9.057 3.6231c0-1.0006 0.811-1.8116 1.811-1.8116h2.717c1.001 0 1.812 0.811 1.812 1.8116v4.5289c0 1.0006-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.811-0.811-1.811-1.8116v-4.5289z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "x3qdjq",
-                  "name": "无线网络",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "wifi",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "rdHHb",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Wi-Fi · 模板原始轮廓",
+                  "geometry": "M652.85 51.2483c0.117-0.1152 0.182-0.2736 0.179-0.438-0.004-0.1643-0.075-0.32-0.196-0.4302-2.421-2.0498-5.967-2.0498-8.388 0-0.122 0.1101-0.193 0.2658-0.196 0.4301-0.004 0.1644 0.061 0.3229 0.178 0.4381l3.791 3.8294c0.111 0.1126 0.263 0.1759 0.421 0.1759 0.158 0 0.309-0.0633 0.42-0.1759l3.791-3.8294z m-4.212-5.2897c2.311-0.0002 4.539 0.8596 6.252 2.4121 0.232 0.2204 0.597 0.2156 0.822-0.0107l2.192-2.2165c0.115-0.1163 0.179-0.274 0.178-0.4379-0.002-0.1639-0.069-0.3203-0.187-0.4341-5.216-4.8568-13.293-4.8568-18.509 0-0.118 0.1138-0.185 0.2703-0.187 0.4342-0.001 0.164 0.063 0.3217 0.179 0.4378l2.191 2.2165c0.225 0.2263 0.59 0.2311 0.822 0.0107 1.712-1.5515 3.938-2.4112 6.247-2.4121z m0.001-7.2121c4.205 0.0002 8.25 1.6178 11.298 4.5185 0.229 0.2239 0.596 0.2211 0.822-0.0064l2.194-2.2165c0.115-0.1153 0.178-0.2716 0.177-0.4342 0-0.1626-0.066-0.3181-0.182-0.4321-8-7.6745-20.62-7.6745-28.62 0-0.116 0.1139-0.182 0.2694-0.183 0.432-0.001 0.1626 0.063 0.3189 0.177 0.4343l2.195 2.2165c0.225 0.2278 0.593 0.2306 0.822 0.0064 3.048-2.9009 7.094-4.5185 11.3-4.5185z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "Ym5yD",
-                  "name": "电池电量",
-                  "width": 22,
-                  "height": 16,
-                  "icon": "battery-full",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "a2NlyE",
+                  "x": 0,
+                  "y": 0,
+                  "name": "电池 · 模板原始轮廓",
+                  "geometry": "M674 39.4022c0-1.2507 1.014-2.2645 2.264-2.2645h1.359v15.3985h-1.359c-1.25 0-2.264-1.0138-2.264-2.2644v-10.8696z m3.623-2.2645h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.624v15.3985h-3.624v-15.3985z m3.624 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m7.246 2.2645c0-1.2507-1.013-2.2645-2.264-2.2645h-1.359v15.3985h1.359c1.251 0 2.264-1.0138 2.264-2.2644v-10.8696z m-32.608-0.4528c0-3.0015 2.433-5.4348 5.435-5.4348h32.608c3.002 0 5.435 2.4333 5.435 5.4348v11.7754c0 3.0015-2.433 5.4348-5.435 5.4348h-32.608c-3.002 0-5.435-2.4333-5.435-5.4348v-11.7754z m5.435-3.6232c-2.001 0-3.624 1.6222-3.624 3.6232v11.7754c0 2.001 1.623 3.6232 3.624 3.6232h32.608c2.001 0 3.623-1.6222 3.623-3.6232v-11.7754c0-2.001-1.622-3.6232-3.623-3.6232h-32.608z m39.855 13.663c1.599-0.6989 2.717-2.2949 2.717-4.1521 0-1.8572-1.118-3.4533-2.717-4.1521v8.3042z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 0.905795,
+                  "id": "O5sW2",
+                  "x": 14.0395,
+                  "y": 2.71725,
+                  "name": "信号第四格 · 模板原始轮廓",
+                  "fill": "$z:foreground",
+                  "width": 3.17029,
+                  "height": 10.41665
                 }
               ]
             }
@@ -4872,9 +5209,8 @@
           "id": "PBg4Z",
           "name": "小程序自定义导航 · 预留系统胶囊",
           "width": "fill_container",
-          "height": 56,
+          "height": 40,
           "fill": "$z:header-bg",
-          "gap": 8,
           "padding": [
             0,
             16
@@ -4885,11 +5221,14 @@
               "type": "frame",
               "id": "JDVvb",
               "name": "全局账户入口",
-              "width": 44,
-              "height": 44,
+              "width": 88,
+              "height": 40,
               "layout": "vertical",
+              "padding": [
+                0,
+                9
+              ],
               "justifyContent": "center",
-              "alignItems": "center",
               "children": [
                 {
                   "type": "icon",
@@ -4911,9 +5250,10 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "穿着记录",
-              "lineHeight": 1.4,
+              "lineHeight": 1.5,
+              "textAlign": "center",
               "fontFamily": "Noto Sans SC",
-              "fontSize": 20,
+              "fontSize": 16,
               "fontWeight": "600"
             },
             {
@@ -4921,11 +5261,11 @@
               "id": "aixTw",
               "name": "微信系统胶囊 · 宿主示意",
               "width": 88,
-              "height": 32,
-              "cornerRadius": 16,
-              "stroke": "$z:header-border",
+              "height": 30,
+              "cornerRadius": 15,
+              "stroke": "$z:border-subtle",
               "strokeWidth": 1,
-              "gap": 10,
+              "gap": 12,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -4935,27 +5275,30 @@
                   "name": "ellipsis",
                   "width": 20,
                   "height": 20,
-                  "icon": "ellipsis",
-                  "library": "lucide",
+                  "icon": "more_horiz",
+                  "library": "Material Symbols Rounded",
+                  "weight": 700,
                   "fill": "$z:foreground"
                 },
                 {
                   "type": "frame",
                   "id": "V1KvEZ",
                   "name": "胶囊分隔",
+                  "opacity": 0.16,
                   "width": 1,
-                  "height": 18,
-                  "fill": "$z:header-border",
+                  "height": 16,
+                  "fill": "$z:foreground",
                   "layout": "vertical"
                 },
                 {
                   "type": "icon",
                   "id": "Xx4Ur",
                   "name": "circle-dot",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "circle-dot",
-                  "library": "lucide",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "radio_button_checked",
+                  "library": "Material Symbols Rounded",
+                  "weight": 600,
                   "fill": "$z:foreground"
                 }
               ]
@@ -5007,14 +5350,16 @@
           "id": "dJIa2",
           "name": "固定底部 Tab Bar",
           "width": "fill_container",
-          "height": 60,
+          "height": 54,
           "fill": "$z:header-bg",
           "stroke": "$z:header-border",
           "strokeWidth": {
-            "top": 1
+            "top": 0.5
           },
           "padding": [
-            4,
+            6,
+            12,
+            0,
             12
           ],
           "children": [
@@ -5023,9 +5368,9 @@
               "id": "Vfuzk",
               "name": "Tab 衣柜",
               "width": "fill_container",
-              "height": 52,
+              "height": 48,
               "layout": "vertical",
-              "gap": 4,
+              "gap": 2,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -5045,9 +5390,9 @@
                   "name": "Tab 标签",
                   "fill": "$z:muted-foreground",
                   "content": "衣柜",
-                  "lineHeight": "$z:caption-leading",
+                  "lineHeight": 1.4,
                   "fontFamily": "Noto Sans SC",
-                  "fontSize": "$z:font-size-xs",
+                  "fontSize": 11,
                   "fontWeight": "normal"
                 }
               ]
@@ -5057,9 +5402,9 @@
               "id": "jxxMR",
               "name": "Tab 穿搭",
               "width": "fill_container",
-              "height": 52,
+              "height": 48,
               "layout": "vertical",
-              "gap": 4,
+              "gap": 2,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -5079,9 +5424,9 @@
                   "name": "Tab 标签",
                   "fill": "$z:muted-foreground",
                   "content": "穿搭",
-                  "lineHeight": "$z:caption-leading",
+                  "lineHeight": 1.4,
                   "fontFamily": "Noto Sans SC",
-                  "fontSize": "$z:font-size-xs",
+                  "fontSize": 11,
                   "fontWeight": "normal"
                 }
               ]
@@ -5091,9 +5436,9 @@
               "id": "B0p2bL",
               "name": "Tab 记录",
               "width": "fill_container",
-              "height": 52,
+              "height": 48,
               "layout": "vertical",
-              "gap": 4,
+              "gap": 2,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -5113,12 +5458,43 @@
                   "name": "Tab 标签",
                   "fill": "$z:primary",
                   "content": "记录",
-                  "lineHeight": "$z:caption-leading",
+                  "lineHeight": 1.4,
                   "fontFamily": "Noto Sans SC",
-                  "fontSize": "$z:font-size-xs",
+                  "fontSize": 11,
                   "fontWeight": "600"
                 }
               ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "g5kzNt",
+          "name": "底部安全区 · 仅宿主展示",
+          "metadata": {
+            "type": "host-preview",
+            "owner": "System home indicator; preview only, runtime inset must have a single owner"
+          },
+          "width": "fill_container",
+          "height": 20,
+          "fill": "$z:header-bg",
+          "layout": "vertical",
+          "padding": [
+            9,
+            0,
+            7,
+            0
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 2,
+              "id": "W8E8Wl",
+              "name": "Home Indicator · 非业务控件",
+              "fill": "$z:foreground",
+              "width": 128,
+              "height": 4
             }
           ]
         }
@@ -5575,14 +5951,15 @@
             "sampleHeight": 44
           },
           "width": "fill_container",
-          "height": 44,
+          "height": 40,
           "fill": "$z:header-bg",
           "padding": [
-            0,
-            24
+            18,
+            24,
+            7.50725,
+            32
           ],
           "justifyContent": "space_between",
-          "alignItems": "center",
           "children": [
             {
               "type": "text",
@@ -5590,47 +5967,83 @@
               "name": "系统时间 · 示例",
               "fill": "$z:foreground",
               "content": "9:41",
-              "lineHeight": "$z:control-leading",
-              "fontFamily": "$z:font-family-sans",
-              "fontSize": "$z:font-size-md",
+              "lineHeight": 1,
+              "fontFamily": "Inter",
+              "fontSize": 14,
               "fontWeight": "600"
             },
             {
               "type": "frame",
               "id": "KhHCk",
               "name": "系统状态指示 · 示例",
-              "gap": 5,
-              "alignItems": "center",
+              "width": 65.2175,
+              "height": 14.49275,
+              "layout": "none",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "NK7q1",
-                  "name": "蜂窝信号",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "signal",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "BV5XA",
+                  "x": 0,
+                  "y": 0,
+                  "name": "蜂窝信号 · 模板原始轮廓",
+                  "geometry": "M609.688 40.7608c0-1.0005 0.811-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v12.6812c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1.001 0-1.812-0.8111-1.812-1.8116v-12.6812z m-9.058 4.5293c0-1.0005 0.812-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v8.1522c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.812-0.8111-1.812-1.8116v-8.1522z m-9.057 3.6231c0-1.0006 0.811-1.8116 1.811-1.8116h2.717c1.001 0 1.812 0.811 1.812 1.8116v4.5289c0 1.0006-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.811-0.811-1.811-1.8116v-4.5289z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "Y61CmD",
-                  "name": "无线网络",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "wifi",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "egK3z",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Wi-Fi · 模板原始轮廓",
+                  "geometry": "M652.85 51.2483c0.117-0.1152 0.182-0.2736 0.179-0.438-0.004-0.1643-0.075-0.32-0.196-0.4302-2.421-2.0498-5.967-2.0498-8.388 0-0.122 0.1101-0.193 0.2658-0.196 0.4301-0.004 0.1644 0.061 0.3229 0.178 0.4381l3.791 3.8294c0.111 0.1126 0.263 0.1759 0.421 0.1759 0.158 0 0.309-0.0633 0.42-0.1759l3.791-3.8294z m-4.212-5.2897c2.311-0.0002 4.539 0.8596 6.252 2.4121 0.232 0.2204 0.597 0.2156 0.822-0.0107l2.192-2.2165c0.115-0.1163 0.179-0.274 0.178-0.4379-0.002-0.1639-0.069-0.3203-0.187-0.4341-5.216-4.8568-13.293-4.8568-18.509 0-0.118 0.1138-0.185 0.2703-0.187 0.4342-0.001 0.164 0.063 0.3217 0.179 0.4378l2.191 2.2165c0.225 0.2263 0.59 0.2311 0.822 0.0107 1.712-1.5515 3.938-2.4112 6.247-2.4121z m0.001-7.2121c4.205 0.0002 8.25 1.6178 11.298 4.5185 0.229 0.2239 0.596 0.2211 0.822-0.0064l2.194-2.2165c0.115-0.1153 0.178-0.2716 0.177-0.4342 0-0.1626-0.066-0.3181-0.182-0.4321-8-7.6745-20.62-7.6745-28.62 0-0.116 0.1139-0.182 0.2694-0.183 0.432-0.001 0.1626 0.063 0.3189 0.177 0.4343l2.195 2.2165c0.225 0.2278 0.593 0.2306 0.822 0.0064 3.048-2.9009 7.094-4.5185 11.3-4.5185z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "lvhHC",
-                  "name": "电池电量",
-                  "width": 22,
-                  "height": 16,
-                  "icon": "battery-full",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "HYTQh",
+                  "x": 0,
+                  "y": 0,
+                  "name": "电池 · 模板原始轮廓",
+                  "geometry": "M674 39.4022c0-1.2507 1.014-2.2645 2.264-2.2645h1.359v15.3985h-1.359c-1.25 0-2.264-1.0138-2.264-2.2644v-10.8696z m3.623-2.2645h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.624v15.3985h-3.624v-15.3985z m3.624 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m7.246 2.2645c0-1.2507-1.013-2.2645-2.264-2.2645h-1.359v15.3985h1.359c1.251 0 2.264-1.0138 2.264-2.2644v-10.8696z m-32.608-0.4528c0-3.0015 2.433-5.4348 5.435-5.4348h32.608c3.002 0 5.435 2.4333 5.435 5.4348v11.7754c0 3.0015-2.433 5.4348-5.435 5.4348h-32.608c-3.002 0-5.435-2.4333-5.435-5.4348v-11.7754z m5.435-3.6232c-2.001 0-3.624 1.6222-3.624 3.6232v11.7754c0 2.001 1.623 3.6232 3.624 3.6232h32.608c2.001 0 3.623-1.6222 3.623-3.6232v-11.7754c0-2.001-1.622-3.6232-3.623-3.6232h-32.608z m39.855 13.663c1.599-0.6989 2.717-2.2949 2.717-4.1521 0-1.8572-1.118-3.4533-2.717-4.1521v8.3042z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 0.905795,
+                  "id": "YH91e",
+                  "x": 14.0395,
+                  "y": 2.71725,
+                  "name": "信号第四格 · 模板原始轮廓",
+                  "fill": "$z:foreground",
+                  "width": 3.17029,
+                  "height": 10.41665
                 }
               ]
             }
@@ -5641,9 +6054,8 @@
           "id": "jTQq2",
           "name": "小程序自定义导航 · 预留系统胶囊",
           "width": "fill_container",
-          "height": 56,
+          "height": 40,
           "fill": "$z:header-bg",
-          "gap": 8,
           "padding": [
             0,
             16
@@ -5654,11 +6066,14 @@
               "type": "frame",
               "id": "u96p2F",
               "name": "返回",
-              "width": 44,
-              "height": 44,
+              "width": 88,
+              "height": 40,
               "layout": "vertical",
+              "padding": [
+                0,
+                9
+              ],
               "justifyContent": "center",
-              "alignItems": "center",
               "children": [
                 {
                   "type": "icon",
@@ -5680,9 +6095,10 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "记录穿着",
-              "lineHeight": 1.4,
+              "lineHeight": 1.5,
+              "textAlign": "center",
               "fontFamily": "Noto Sans SC",
-              "fontSize": 20,
+              "fontSize": 16,
               "fontWeight": "600"
             },
             {
@@ -5690,11 +6106,11 @@
               "id": "IxI2X",
               "name": "微信系统胶囊 · 宿主示意",
               "width": 88,
-              "height": 32,
-              "cornerRadius": 16,
-              "stroke": "$z:header-border",
+              "height": 30,
+              "cornerRadius": 15,
+              "stroke": "$z:border-subtle",
               "strokeWidth": 1,
-              "gap": 10,
+              "gap": 12,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -5704,27 +6120,30 @@
                   "name": "ellipsis",
                   "width": 20,
                   "height": 20,
-                  "icon": "ellipsis",
-                  "library": "lucide",
+                  "icon": "more_horiz",
+                  "library": "Material Symbols Rounded",
+                  "weight": 700,
                   "fill": "$z:foreground"
                 },
                 {
                   "type": "frame",
                   "id": "MSh9G",
                   "name": "胶囊分隔",
+                  "opacity": 0.16,
                   "width": 1,
-                  "height": 18,
-                  "fill": "$z:header-border",
+                  "height": 16,
+                  "fill": "$z:foreground",
                   "layout": "vertical"
                 },
                 {
                   "type": "icon",
                   "id": "xDlk4",
                   "name": "circle-dot",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "circle-dot",
-                  "library": "lucide",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "radio_button_checked",
+                  "library": "Material Symbols Rounded",
+                  "weight": 600,
                   "fill": "$z:foreground"
                 }
               ]
@@ -5768,6 +6187,37 @@
                   "fontSize": "$z:font-size-lg"
                 }
               }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "VpHbE",
+          "name": "底部安全区 · 仅宿主展示",
+          "metadata": {
+            "type": "host-preview",
+            "owner": "System home indicator; preview only, runtime inset must have a single owner"
+          },
+          "width": "fill_container",
+          "height": 20,
+          "fill": "$z:header-bg",
+          "layout": "vertical",
+          "padding": [
+            9,
+            0,
+            7,
+            0
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 2,
+              "id": "nds6o",
+              "name": "Home Indicator · 非业务控件",
+              "fill": "$z:foreground",
+              "width": 128,
+              "height": 4
             }
           ]
         }
@@ -6092,14 +6542,15 @@
             "sampleHeight": 44
           },
           "width": "fill_container",
-          "height": 44,
+          "height": 40,
           "fill": "$z:header-bg",
           "padding": [
-            0,
-            24
+            18,
+            24,
+            7.50725,
+            32
           ],
           "justifyContent": "space_between",
-          "alignItems": "center",
           "children": [
             {
               "type": "text",
@@ -6107,47 +6558,83 @@
               "name": "系统时间 · 示例",
               "fill": "$z:foreground",
               "content": "9:41",
-              "lineHeight": "$z:control-leading",
-              "fontFamily": "$z:font-family-sans",
-              "fontSize": "$z:font-size-md",
+              "lineHeight": 1,
+              "fontFamily": "Inter",
+              "fontSize": 14,
               "fontWeight": "600"
             },
             {
               "type": "frame",
               "id": "tEo57",
               "name": "系统状态指示 · 示例",
-              "gap": 5,
-              "alignItems": "center",
+              "width": 65.2175,
+              "height": 14.49275,
+              "layout": "none",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "PJrt9",
-                  "name": "蜂窝信号",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "signal",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "c8jBC",
+                  "x": 0,
+                  "y": 0,
+                  "name": "蜂窝信号 · 模板原始轮廓",
+                  "geometry": "M609.688 40.7608c0-1.0005 0.811-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v12.6812c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1.001 0-1.812-0.8111-1.812-1.8116v-12.6812z m-9.058 4.5293c0-1.0005 0.812-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v8.1522c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.812-0.8111-1.812-1.8116v-8.1522z m-9.057 3.6231c0-1.0006 0.811-1.8116 1.811-1.8116h2.717c1.001 0 1.812 0.811 1.812 1.8116v4.5289c0 1.0006-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.811-0.811-1.811-1.8116v-4.5289z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "ZFNM3",
-                  "name": "无线网络",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "wifi",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "na5ij",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Wi-Fi · 模板原始轮廓",
+                  "geometry": "M652.85 51.2483c0.117-0.1152 0.182-0.2736 0.179-0.438-0.004-0.1643-0.075-0.32-0.196-0.4302-2.421-2.0498-5.967-2.0498-8.388 0-0.122 0.1101-0.193 0.2658-0.196 0.4301-0.004 0.1644 0.061 0.3229 0.178 0.4381l3.791 3.8294c0.111 0.1126 0.263 0.1759 0.421 0.1759 0.158 0 0.309-0.0633 0.42-0.1759l3.791-3.8294z m-4.212-5.2897c2.311-0.0002 4.539 0.8596 6.252 2.4121 0.232 0.2204 0.597 0.2156 0.822-0.0107l2.192-2.2165c0.115-0.1163 0.179-0.274 0.178-0.4379-0.002-0.1639-0.069-0.3203-0.187-0.4341-5.216-4.8568-13.293-4.8568-18.509 0-0.118 0.1138-0.185 0.2703-0.187 0.4342-0.001 0.164 0.063 0.3217 0.179 0.4378l2.191 2.2165c0.225 0.2263 0.59 0.2311 0.822 0.0107 1.712-1.5515 3.938-2.4112 6.247-2.4121z m0.001-7.2121c4.205 0.0002 8.25 1.6178 11.298 4.5185 0.229 0.2239 0.596 0.2211 0.822-0.0064l2.194-2.2165c0.115-0.1153 0.178-0.2716 0.177-0.4342 0-0.1626-0.066-0.3181-0.182-0.4321-8-7.6745-20.62-7.6745-28.62 0-0.116 0.1139-0.182 0.2694-0.183 0.432-0.001 0.1626 0.063 0.3189 0.177 0.4343l2.195 2.2165c0.225 0.2278 0.593 0.2306 0.822 0.0064 3.048-2.9009 7.094-4.5185 11.3-4.5185z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "fbiL9",
-                  "name": "电池电量",
-                  "width": 22,
-                  "height": 16,
-                  "icon": "battery-full",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "LsRHa",
+                  "x": 0,
+                  "y": 0,
+                  "name": "电池 · 模板原始轮廓",
+                  "geometry": "M674 39.4022c0-1.2507 1.014-2.2645 2.264-2.2645h1.359v15.3985h-1.359c-1.25 0-2.264-1.0138-2.264-2.2644v-10.8696z m3.623-2.2645h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.624v15.3985h-3.624v-15.3985z m3.624 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m7.246 2.2645c0-1.2507-1.013-2.2645-2.264-2.2645h-1.359v15.3985h1.359c1.251 0 2.264-1.0138 2.264-2.2644v-10.8696z m-32.608-0.4528c0-3.0015 2.433-5.4348 5.435-5.4348h32.608c3.002 0 5.435 2.4333 5.435 5.4348v11.7754c0 3.0015-2.433 5.4348-5.435 5.4348h-32.608c-3.002 0-5.435-2.4333-5.435-5.4348v-11.7754z m5.435-3.6232c-2.001 0-3.624 1.6222-3.624 3.6232v11.7754c0 2.001 1.623 3.6232 3.624 3.6232h32.608c2.001 0 3.623-1.6222 3.623-3.6232v-11.7754c0-2.001-1.622-3.6232-3.623-3.6232h-32.608z m39.855 13.663c1.599-0.6989 2.717-2.2949 2.717-4.1521 0-1.8572-1.118-3.4533-2.717-4.1521v8.3042z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 0.905795,
+                  "id": "NKXpl",
+                  "x": 14.0395,
+                  "y": 2.71725,
+                  "name": "信号第四格 · 模板原始轮廓",
+                  "fill": "$z:foreground",
+                  "width": 3.17029,
+                  "height": 10.41665
                 }
               ]
             }
@@ -6158,9 +6645,8 @@
           "id": "z1aSzb",
           "name": "小程序自定义导航 · 预留系统胶囊",
           "width": "fill_container",
-          "height": 56,
+          "height": 40,
           "fill": "$z:header-bg",
-          "gap": 8,
           "padding": [
             0,
             16
@@ -6171,11 +6657,14 @@
               "type": "frame",
               "id": "c0B6o",
               "name": "返回",
-              "width": 44,
-              "height": 44,
+              "width": 88,
+              "height": 40,
               "layout": "vertical",
+              "padding": [
+                0,
+                9
+              ],
               "justifyContent": "center",
-              "alignItems": "center",
               "children": [
                 {
                   "type": "icon",
@@ -6197,9 +6686,10 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "衣柜统计",
-              "lineHeight": 1.4,
+              "lineHeight": 1.5,
+              "textAlign": "center",
               "fontFamily": "Noto Sans SC",
-              "fontSize": 20,
+              "fontSize": 16,
               "fontWeight": "600"
             },
             {
@@ -6207,11 +6697,11 @@
               "id": "H2bnb3",
               "name": "微信系统胶囊 · 宿主示意",
               "width": 88,
-              "height": 32,
-              "cornerRadius": 16,
-              "stroke": "$z:header-border",
+              "height": 30,
+              "cornerRadius": 15,
+              "stroke": "$z:border-subtle",
               "strokeWidth": 1,
-              "gap": 10,
+              "gap": 12,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -6221,27 +6711,30 @@
                   "name": "ellipsis",
                   "width": 20,
                   "height": 20,
-                  "icon": "ellipsis",
-                  "library": "lucide",
+                  "icon": "more_horiz",
+                  "library": "Material Symbols Rounded",
+                  "weight": 700,
                   "fill": "$z:foreground"
                 },
                 {
                   "type": "frame",
                   "id": "G0Z2LW",
                   "name": "胶囊分隔",
+                  "opacity": 0.16,
                   "width": 1,
-                  "height": 18,
-                  "fill": "$z:header-border",
+                  "height": 16,
+                  "fill": "$z:foreground",
                   "layout": "vertical"
                 },
                 {
                   "type": "icon",
                   "id": "vUeMM",
                   "name": "circle-dot",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "circle-dot",
-                  "library": "lucide",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "radio_button_checked",
+                  "library": "Material Symbols Rounded",
+                  "weight": 600,
                   "fill": "$z:foreground"
                 }
               ]
@@ -6256,6 +6749,37 @@
           "width": "fill_container",
           "height": "fill_container",
           "clip": true
+        },
+        {
+          "type": "frame",
+          "id": "f3JRjP",
+          "name": "底部安全区 · 仅宿主展示",
+          "metadata": {
+            "type": "host-preview",
+            "owner": "System home indicator; preview only, runtime inset must have a single owner"
+          },
+          "width": "fill_container",
+          "height": 20,
+          "fill": "$z:header-bg",
+          "layout": "vertical",
+          "padding": [
+            9,
+            0,
+            7,
+            0
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 2,
+              "id": "X1cKnX",
+              "name": "Home Indicator · 非业务控件",
+              "fill": "$z:foreground",
+              "width": 128,
+              "height": 4
+            }
+          ]
         }
       ]
     },
@@ -7558,14 +8082,15 @@
             "sampleHeight": 44
           },
           "width": "fill_container",
-          "height": 44,
+          "height": 40,
           "fill": "$z:header-bg",
           "padding": [
-            0,
-            24
+            18,
+            24,
+            7.50725,
+            32
           ],
           "justifyContent": "space_between",
-          "alignItems": "center",
           "children": [
             {
               "type": "text",
@@ -7573,47 +8098,83 @@
               "name": "系统时间 · 示例",
               "fill": "$z:foreground",
               "content": "9:41",
-              "lineHeight": "$z:control-leading",
-              "fontFamily": "$z:font-family-sans",
-              "fontSize": "$z:font-size-md",
+              "lineHeight": 1,
+              "fontFamily": "Inter",
+              "fontSize": 14,
               "fontWeight": "600"
             },
             {
               "type": "frame",
               "id": "Cg3Xo",
               "name": "系统状态指示 · 示例",
-              "gap": 5,
-              "alignItems": "center",
+              "width": 65.2175,
+              "height": 14.49275,
+              "layout": "none",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "uY24y",
-                  "name": "蜂窝信号",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "signal",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "Y32Hb",
+                  "x": 0,
+                  "y": 0,
+                  "name": "蜂窝信号 · 模板原始轮廓",
+                  "geometry": "M609.688 40.7608c0-1.0005 0.811-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v12.6812c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1.001 0-1.812-0.8111-1.812-1.8116v-12.6812z m-9.058 4.5293c0-1.0005 0.812-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v8.1522c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.812-0.8111-1.812-1.8116v-8.1522z m-9.057 3.6231c0-1.0006 0.811-1.8116 1.811-1.8116h2.717c1.001 0 1.812 0.811 1.812 1.8116v4.5289c0 1.0006-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.811-0.811-1.811-1.8116v-4.5289z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "vVIFq",
-                  "name": "无线网络",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "wifi",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "JkLk6",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Wi-Fi · 模板原始轮廓",
+                  "geometry": "M652.85 51.2483c0.117-0.1152 0.182-0.2736 0.179-0.438-0.004-0.1643-0.075-0.32-0.196-0.4302-2.421-2.0498-5.967-2.0498-8.388 0-0.122 0.1101-0.193 0.2658-0.196 0.4301-0.004 0.1644 0.061 0.3229 0.178 0.4381l3.791 3.8294c0.111 0.1126 0.263 0.1759 0.421 0.1759 0.158 0 0.309-0.0633 0.42-0.1759l3.791-3.8294z m-4.212-5.2897c2.311-0.0002 4.539 0.8596 6.252 2.4121 0.232 0.2204 0.597 0.2156 0.822-0.0107l2.192-2.2165c0.115-0.1163 0.179-0.274 0.178-0.4379-0.002-0.1639-0.069-0.3203-0.187-0.4341-5.216-4.8568-13.293-4.8568-18.509 0-0.118 0.1138-0.185 0.2703-0.187 0.4342-0.001 0.164 0.063 0.3217 0.179 0.4378l2.191 2.2165c0.225 0.2263 0.59 0.2311 0.822 0.0107 1.712-1.5515 3.938-2.4112 6.247-2.4121z m0.001-7.2121c4.205 0.0002 8.25 1.6178 11.298 4.5185 0.229 0.2239 0.596 0.2211 0.822-0.0064l2.194-2.2165c0.115-0.1153 0.178-0.2716 0.177-0.4342 0-0.1626-0.066-0.3181-0.182-0.4321-8-7.6745-20.62-7.6745-28.62 0-0.116 0.1139-0.182 0.2694-0.183 0.432-0.001 0.1626 0.063 0.3189 0.177 0.4343l2.195 2.2165c0.225 0.2278 0.593 0.2306 0.822 0.0064 3.048-2.9009 7.094-4.5185 11.3-4.5185z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "Dnsr8",
-                  "name": "电池电量",
-                  "width": 22,
-                  "height": 16,
-                  "icon": "battery-full",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "Xf3mO",
+                  "x": 0,
+                  "y": 0,
+                  "name": "电池 · 模板原始轮廓",
+                  "geometry": "M674 39.4022c0-1.2507 1.014-2.2645 2.264-2.2645h1.359v15.3985h-1.359c-1.25 0-2.264-1.0138-2.264-2.2644v-10.8696z m3.623-2.2645h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.624v15.3985h-3.624v-15.3985z m3.624 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m7.246 2.2645c0-1.2507-1.013-2.2645-2.264-2.2645h-1.359v15.3985h1.359c1.251 0 2.264-1.0138 2.264-2.2644v-10.8696z m-32.608-0.4528c0-3.0015 2.433-5.4348 5.435-5.4348h32.608c3.002 0 5.435 2.4333 5.435 5.4348v11.7754c0 3.0015-2.433 5.4348-5.435 5.4348h-32.608c-3.002 0-5.435-2.4333-5.435-5.4348v-11.7754z m5.435-3.6232c-2.001 0-3.624 1.6222-3.624 3.6232v11.7754c0 2.001 1.623 3.6232 3.624 3.6232h32.608c2.001 0 3.623-1.6222 3.623-3.6232v-11.7754c0-2.001-1.622-3.6232-3.623-3.6232h-32.608z m39.855 13.663c1.599-0.6989 2.717-2.2949 2.717-4.1521 0-1.8572-1.118-3.4533-2.717-4.1521v8.3042z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 0.905795,
+                  "id": "KdYfE",
+                  "x": 14.0395,
+                  "y": 2.71725,
+                  "name": "信号第四格 · 模板原始轮廓",
+                  "fill": "$z:foreground",
+                  "width": 3.17029,
+                  "height": 10.41665
                 }
               ]
             }
@@ -7624,9 +8185,8 @@
           "id": "p2ivIN",
           "name": "小程序自定义导航 · 预留系统胶囊",
           "width": "fill_container",
-          "height": 56,
+          "height": 40,
           "fill": "$z:header-bg",
-          "gap": 8,
           "padding": [
             0,
             16
@@ -7637,11 +8197,14 @@
               "type": "frame",
               "id": "wqzc0",
               "name": "返回",
-              "width": 44,
-              "height": 44,
+              "width": 88,
+              "height": 40,
               "layout": "vertical",
+              "padding": [
+                0,
+                9
+              ],
               "justifyContent": "center",
-              "alignItems": "center",
               "children": [
                 {
                   "type": "icon",
@@ -7663,9 +8226,10 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "穿搭偏好",
-              "lineHeight": 1.4,
+              "lineHeight": 1.5,
+              "textAlign": "center",
               "fontFamily": "Noto Sans SC",
-              "fontSize": 20,
+              "fontSize": 16,
               "fontWeight": "600"
             },
             {
@@ -7673,11 +8237,11 @@
               "id": "q4uzwQ",
               "name": "微信系统胶囊 · 宿主示意",
               "width": 88,
-              "height": 32,
-              "cornerRadius": 16,
-              "stroke": "$z:header-border",
+              "height": 30,
+              "cornerRadius": 15,
+              "stroke": "$z:border-subtle",
               "strokeWidth": 1,
-              "gap": 10,
+              "gap": 12,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -7687,27 +8251,30 @@
                   "name": "ellipsis",
                   "width": 20,
                   "height": 20,
-                  "icon": "ellipsis",
-                  "library": "lucide",
+                  "icon": "more_horiz",
+                  "library": "Material Symbols Rounded",
+                  "weight": 700,
                   "fill": "$z:foreground"
                 },
                 {
                   "type": "frame",
                   "id": "LjLSh",
                   "name": "胶囊分隔",
+                  "opacity": 0.16,
                   "width": 1,
-                  "height": 18,
-                  "fill": "$z:header-border",
+                  "height": 16,
+                  "fill": "$z:foreground",
                   "layout": "vertical"
                 },
                 {
                   "type": "icon",
                   "id": "Nrruk",
                   "name": "circle-dot",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "circle-dot",
-                  "library": "lucide",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "radio_button_checked",
+                  "library": "Material Symbols Rounded",
+                  "weight": 600,
                   "fill": "$z:foreground"
                 }
               ]
@@ -7751,6 +8318,37 @@
                   "fontSize": "$z:font-size-lg"
                 }
               }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "PaZZO",
+          "name": "底部安全区 · 仅宿主展示",
+          "metadata": {
+            "type": "host-preview",
+            "owner": "System home indicator; preview only, runtime inset must have a single owner"
+          },
+          "width": "fill_container",
+          "height": 20,
+          "fill": "$z:header-bg",
+          "layout": "vertical",
+          "padding": [
+            9,
+            0,
+            7,
+            0
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 2,
+              "id": "Y9Ibb",
+              "name": "Home Indicator · 非业务控件",
+              "fill": "$z:foreground",
+              "width": 128,
+              "height": 4
             }
           ]
         }
@@ -8613,14 +9211,15 @@
             "sampleHeight": 44
           },
           "width": "fill_container",
-          "height": 44,
+          "height": 40,
           "fill": "$z:header-bg",
           "padding": [
-            0,
-            24
+            18,
+            24,
+            7.50725,
+            32
           ],
           "justifyContent": "space_between",
-          "alignItems": "center",
           "children": [
             {
               "type": "text",
@@ -8628,47 +9227,83 @@
               "name": "系统时间 · 示例",
               "fill": "$z:foreground",
               "content": "9:41",
-              "lineHeight": "$z:control-leading",
-              "fontFamily": "$z:font-family-sans",
-              "fontSize": "$z:font-size-md",
+              "lineHeight": 1,
+              "fontFamily": "Inter",
+              "fontSize": 14,
               "fontWeight": "600"
             },
             {
               "type": "frame",
               "id": "Vcaxr",
               "name": "系统状态指示 · 示例",
-              "gap": 5,
-              "alignItems": "center",
+              "width": 65.2175,
+              "height": 14.49275,
+              "layout": "none",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "cZddT",
-                  "name": "蜂窝信号",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "signal",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "b5lh0H",
+                  "x": 0,
+                  "y": 0,
+                  "name": "蜂窝信号 · 模板原始轮廓",
+                  "geometry": "M609.688 40.7608c0-1.0005 0.811-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v12.6812c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1.001 0-1.812-0.8111-1.812-1.8116v-12.6812z m-9.058 4.5293c0-1.0005 0.812-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v8.1522c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.812-0.8111-1.812-1.8116v-8.1522z m-9.057 3.6231c0-1.0006 0.811-1.8116 1.811-1.8116h2.717c1.001 0 1.812 0.811 1.812 1.8116v4.5289c0 1.0006-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.811-0.811-1.811-1.8116v-4.5289z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "MjHcM",
-                  "name": "无线网络",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "wifi",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "UkcXb",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Wi-Fi · 模板原始轮廓",
+                  "geometry": "M652.85 51.2483c0.117-0.1152 0.182-0.2736 0.179-0.438-0.004-0.1643-0.075-0.32-0.196-0.4302-2.421-2.0498-5.967-2.0498-8.388 0-0.122 0.1101-0.193 0.2658-0.196 0.4301-0.004 0.1644 0.061 0.3229 0.178 0.4381l3.791 3.8294c0.111 0.1126 0.263 0.1759 0.421 0.1759 0.158 0 0.309-0.0633 0.42-0.1759l3.791-3.8294z m-4.212-5.2897c2.311-0.0002 4.539 0.8596 6.252 2.4121 0.232 0.2204 0.597 0.2156 0.822-0.0107l2.192-2.2165c0.115-0.1163 0.179-0.274 0.178-0.4379-0.002-0.1639-0.069-0.3203-0.187-0.4341-5.216-4.8568-13.293-4.8568-18.509 0-0.118 0.1138-0.185 0.2703-0.187 0.4342-0.001 0.164 0.063 0.3217 0.179 0.4378l2.191 2.2165c0.225 0.2263 0.59 0.2311 0.822 0.0107 1.712-1.5515 3.938-2.4112 6.247-2.4121z m0.001-7.2121c4.205 0.0002 8.25 1.6178 11.298 4.5185 0.229 0.2239 0.596 0.2211 0.822-0.0064l2.194-2.2165c0.115-0.1153 0.178-0.2716 0.177-0.4342 0-0.1626-0.066-0.3181-0.182-0.4321-8-7.6745-20.62-7.6745-28.62 0-0.116 0.1139-0.182 0.2694-0.183 0.432-0.001 0.1626 0.063 0.3189 0.177 0.4343l2.195 2.2165c0.225 0.2278 0.593 0.2306 0.822 0.0064 3.048-2.9009 7.094-4.5185 11.3-4.5185z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "Snmwf",
-                  "name": "电池电量",
-                  "width": 22,
-                  "height": 16,
-                  "icon": "battery-full",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "h1sLE",
+                  "x": 0,
+                  "y": 0,
+                  "name": "电池 · 模板原始轮廓",
+                  "geometry": "M674 39.4022c0-1.2507 1.014-2.2645 2.264-2.2645h1.359v15.3985h-1.359c-1.25 0-2.264-1.0138-2.264-2.2644v-10.8696z m3.623-2.2645h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.624v15.3985h-3.624v-15.3985z m3.624 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m7.246 2.2645c0-1.2507-1.013-2.2645-2.264-2.2645h-1.359v15.3985h1.359c1.251 0 2.264-1.0138 2.264-2.2644v-10.8696z m-32.608-0.4528c0-3.0015 2.433-5.4348 5.435-5.4348h32.608c3.002 0 5.435 2.4333 5.435 5.4348v11.7754c0 3.0015-2.433 5.4348-5.435 5.4348h-32.608c-3.002 0-5.435-2.4333-5.435-5.4348v-11.7754z m5.435-3.6232c-2.001 0-3.624 1.6222-3.624 3.6232v11.7754c0 2.001 1.623 3.6232 3.624 3.6232h32.608c2.001 0 3.623-1.6222 3.623-3.6232v-11.7754c0-2.001-1.622-3.6232-3.623-3.6232h-32.608z m39.855 13.663c1.599-0.6989 2.717-2.2949 2.717-4.1521 0-1.8572-1.118-3.4533-2.717-4.1521v8.3042z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 0.905795,
+                  "id": "ycXrd",
+                  "x": 14.0395,
+                  "y": 2.71725,
+                  "name": "信号第四格 · 模板原始轮廓",
+                  "fill": "$z:foreground",
+                  "width": 3.17029,
+                  "height": 10.41665
                 }
               ]
             }
@@ -8679,9 +9314,8 @@
           "id": "aZKiT",
           "name": "小程序自定义导航 · 预留系统胶囊",
           "width": "fill_container",
-          "height": 56,
+          "height": 40,
           "fill": "$z:header-bg",
-          "gap": 8,
           "padding": [
             0,
             16
@@ -8692,11 +9326,14 @@
               "type": "frame",
               "id": "b21jW",
               "name": "返回",
-              "width": 44,
-              "height": 44,
+              "width": 88,
+              "height": 40,
               "layout": "vertical",
+              "padding": [
+                0,
+                9
+              ],
               "justifyContent": "center",
-              "alignItems": "center",
               "children": [
                 {
                   "type": "icon",
@@ -8718,9 +9355,10 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "个人",
-              "lineHeight": 1.4,
+              "lineHeight": 1.5,
+              "textAlign": "center",
               "fontFamily": "Noto Sans SC",
-              "fontSize": 20,
+              "fontSize": 16,
               "fontWeight": "600"
             },
             {
@@ -8728,11 +9366,11 @@
               "id": "XHd8d",
               "name": "微信系统胶囊 · 宿主示意",
               "width": 88,
-              "height": 32,
-              "cornerRadius": 16,
-              "stroke": "$z:header-border",
+              "height": 30,
+              "cornerRadius": 15,
+              "stroke": "$z:border-subtle",
               "strokeWidth": 1,
-              "gap": 10,
+              "gap": 12,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -8742,27 +9380,30 @@
                   "name": "ellipsis",
                   "width": 20,
                   "height": 20,
-                  "icon": "ellipsis",
-                  "library": "lucide",
+                  "icon": "more_horiz",
+                  "library": "Material Symbols Rounded",
+                  "weight": 700,
                   "fill": "$z:foreground"
                 },
                 {
                   "type": "frame",
                   "id": "eShWI",
                   "name": "胶囊分隔",
+                  "opacity": 0.16,
                   "width": 1,
-                  "height": 18,
-                  "fill": "$z:header-border",
+                  "height": 16,
+                  "fill": "$z:foreground",
                   "layout": "vertical"
                 },
                 {
                   "type": "icon",
                   "id": "QK2G4",
                   "name": "circle-dot",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "circle-dot",
-                  "library": "lucide",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "radio_button_checked",
+                  "library": "Material Symbols Rounded",
+                  "weight": 600,
                   "fill": "$z:foreground"
                 }
               ]
@@ -8777,6 +9418,37 @@
           "width": "fill_container",
           "height": "fill_container",
           "clip": true
+        },
+        {
+          "type": "frame",
+          "id": "AqYq0",
+          "name": "底部安全区 · 仅宿主展示",
+          "metadata": {
+            "type": "host-preview",
+            "owner": "System home indicator; preview only, runtime inset must have a single owner"
+          },
+          "width": "fill_container",
+          "height": 20,
+          "fill": "$z:header-bg",
+          "layout": "vertical",
+          "padding": [
+            9,
+            0,
+            7,
+            0
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 2,
+              "id": "j2hsw9",
+              "name": "Home Indicator · 非业务控件",
+              "fill": "$z:foreground",
+              "width": 128,
+              "height": 4
+            }
+          ]
         }
       ]
     },
@@ -10114,14 +10786,15 @@
             "sampleHeight": 44
           },
           "width": "fill_container",
-          "height": 44,
+          "height": 40,
           "fill": "$z:header-bg",
           "padding": [
-            0,
-            24
+            18,
+            24,
+            7.50725,
+            32
           ],
           "justifyContent": "space_between",
-          "alignItems": "center",
           "children": [
             {
               "type": "text",
@@ -10129,47 +10802,83 @@
               "name": "系统时间 · 示例",
               "fill": "$z:foreground",
               "content": "9:41",
-              "lineHeight": "$z:control-leading",
-              "fontFamily": "$z:font-family-sans",
-              "fontSize": "$z:font-size-md",
+              "lineHeight": 1,
+              "fontFamily": "Inter",
+              "fontSize": 14,
               "fontWeight": "600"
             },
             {
               "type": "frame",
               "id": "xIWZM",
               "name": "系统状态指示 · 示例",
-              "gap": 5,
-              "alignItems": "center",
+              "width": 65.2175,
+              "height": 14.49275,
+              "layout": "none",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "PPOFk",
-                  "name": "蜂窝信号",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "signal",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "r40fit",
+                  "x": 0,
+                  "y": 0,
+                  "name": "蜂窝信号 · 模板原始轮廓",
+                  "geometry": "M609.688 40.7608c0-1.0005 0.811-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v12.6812c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1.001 0-1.812-0.8111-1.812-1.8116v-12.6812z m-9.058 4.5293c0-1.0005 0.812-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v8.1522c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.812-0.8111-1.812-1.8116v-8.1522z m-9.057 3.6231c0-1.0006 0.811-1.8116 1.811-1.8116h2.717c1.001 0 1.812 0.811 1.812 1.8116v4.5289c0 1.0006-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.811-0.811-1.811-1.8116v-4.5289z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "k48is9",
-                  "name": "无线网络",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "wifi",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "rUxfS",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Wi-Fi · 模板原始轮廓",
+                  "geometry": "M652.85 51.2483c0.117-0.1152 0.182-0.2736 0.179-0.438-0.004-0.1643-0.075-0.32-0.196-0.4302-2.421-2.0498-5.967-2.0498-8.388 0-0.122 0.1101-0.193 0.2658-0.196 0.4301-0.004 0.1644 0.061 0.3229 0.178 0.4381l3.791 3.8294c0.111 0.1126 0.263 0.1759 0.421 0.1759 0.158 0 0.309-0.0633 0.42-0.1759l3.791-3.8294z m-4.212-5.2897c2.311-0.0002 4.539 0.8596 6.252 2.4121 0.232 0.2204 0.597 0.2156 0.822-0.0107l2.192-2.2165c0.115-0.1163 0.179-0.274 0.178-0.4379-0.002-0.1639-0.069-0.3203-0.187-0.4341-5.216-4.8568-13.293-4.8568-18.509 0-0.118 0.1138-0.185 0.2703-0.187 0.4342-0.001 0.164 0.063 0.3217 0.179 0.4378l2.191 2.2165c0.225 0.2263 0.59 0.2311 0.822 0.0107 1.712-1.5515 3.938-2.4112 6.247-2.4121z m0.001-7.2121c4.205 0.0002 8.25 1.6178 11.298 4.5185 0.229 0.2239 0.596 0.2211 0.822-0.0064l2.194-2.2165c0.115-0.1153 0.178-0.2716 0.177-0.4342 0-0.1626-0.066-0.3181-0.182-0.4321-8-7.6745-20.62-7.6745-28.62 0-0.116 0.1139-0.182 0.2694-0.183 0.432-0.001 0.1626 0.063 0.3189 0.177 0.4343l2.195 2.2165c0.225 0.2278 0.593 0.2306 0.822 0.0064 3.048-2.9009 7.094-4.5185 11.3-4.5185z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "WQf9d",
-                  "name": "电池电量",
-                  "width": 22,
-                  "height": 16,
-                  "icon": "battery-full",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "s5YgH",
+                  "x": 0,
+                  "y": 0,
+                  "name": "电池 · 模板原始轮廓",
+                  "geometry": "M674 39.4022c0-1.2507 1.014-2.2645 2.264-2.2645h1.359v15.3985h-1.359c-1.25 0-2.264-1.0138-2.264-2.2644v-10.8696z m3.623-2.2645h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.624v15.3985h-3.624v-15.3985z m3.624 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m7.246 2.2645c0-1.2507-1.013-2.2645-2.264-2.2645h-1.359v15.3985h1.359c1.251 0 2.264-1.0138 2.264-2.2644v-10.8696z m-32.608-0.4528c0-3.0015 2.433-5.4348 5.435-5.4348h32.608c3.002 0 5.435 2.4333 5.435 5.4348v11.7754c0 3.0015-2.433 5.4348-5.435 5.4348h-32.608c-3.002 0-5.435-2.4333-5.435-5.4348v-11.7754z m5.435-3.6232c-2.001 0-3.624 1.6222-3.624 3.6232v11.7754c0 2.001 1.623 3.6232 3.624 3.6232h32.608c2.001 0 3.623-1.6222 3.623-3.6232v-11.7754c0-2.001-1.622-3.6232-3.623-3.6232h-32.608z m39.855 13.663c1.599-0.6989 2.717-2.2949 2.717-4.1521 0-1.8572-1.118-3.4533-2.717-4.1521v8.3042z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 0.905795,
+                  "id": "y14fyo",
+                  "x": 14.0395,
+                  "y": 2.71725,
+                  "name": "信号第四格 · 模板原始轮廓",
+                  "fill": "$z:foreground",
+                  "width": 3.17029,
+                  "height": 10.41665
                 }
               ]
             }
@@ -10180,8 +10889,7 @@
           "id": "H34v3X",
           "name": "小程序登录导航",
           "width": "fill_container",
-          "height": 56,
-          "gap": 8,
+          "height": 40,
           "padding": [
             0,
             16
@@ -10192,11 +10900,14 @@
               "type": "frame",
               "id": "oTEJI",
               "name": "返回",
-              "width": 44,
-              "height": 44,
+              "width": 88,
+              "height": 40,
               "layout": "vertical",
+              "padding": [
+                0,
+                9
+              ],
               "justifyContent": "center",
-              "alignItems": "center",
               "children": [
                 {
                   "type": "icon",
@@ -10218,9 +10929,10 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "登录",
-              "lineHeight": "$z:section-title-leading",
+              "lineHeight": 1.5,
+              "textAlign": "center",
               "fontFamily": "Noto Sans SC",
-              "fontSize": "$z:text-section-title-size",
+              "fontSize": 16,
               "fontWeight": "600"
             },
             {
@@ -10228,11 +10940,11 @@
               "id": "u5Y5pu",
               "name": "微信系统胶囊 · 宿主示意",
               "width": 88,
-              "height": 32,
-              "cornerRadius": 16,
-              "stroke": "$z:header-border",
+              "height": 30,
+              "cornerRadius": 15,
+              "stroke": "$z:border-subtle",
               "strokeWidth": 1,
-              "gap": 10,
+              "gap": 12,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -10242,27 +10954,30 @@
                   "name": "ellipsis",
                   "width": 20,
                   "height": 20,
-                  "icon": "ellipsis",
-                  "library": "lucide",
+                  "icon": "more_horiz",
+                  "library": "Material Symbols Rounded",
+                  "weight": 700,
                   "fill": "$z:foreground"
                 },
                 {
                   "type": "frame",
                   "id": "xH5BY",
                   "name": "胶囊分隔",
+                  "opacity": 0.16,
                   "width": 1,
-                  "height": 18,
-                  "fill": "$z:header-border",
+                  "height": 16,
+                  "fill": "$z:foreground",
                   "layout": "vertical"
                 },
                 {
                   "type": "icon",
                   "id": "oxuXX",
                   "name": "circle-dot",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "circle-dot",
-                  "library": "lucide",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "radio_button_checked",
+                  "library": "Material Symbols Rounded",
+                  "weight": 600,
                   "fill": "$z:foreground"
                 }
               ]
@@ -10374,6 +11089,37 @@
               "fontFamily": "Noto Sans SC",
               "fontSize": "$z:font-size-xs",
               "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "aJYEd",
+          "name": "底部安全区 · 仅宿主展示",
+          "metadata": {
+            "type": "host-preview",
+            "owner": "System home indicator; preview only, runtime inset must have a single owner"
+          },
+          "width": "fill_container",
+          "height": 20,
+          "fill": "$z:header-bg",
+          "layout": "vertical",
+          "padding": [
+            9,
+            0,
+            7,
+            0
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 2,
+              "id": "oCy27",
+              "name": "Home Indicator · 非业务控件",
+              "fill": "$z:foreground",
+              "width": 128,
+              "height": 4
             }
           ]
         }
@@ -11341,14 +12087,15 @@
             "sampleHeight": 44
           },
           "width": "fill_container",
-          "height": 44,
+          "height": 40,
           "fill": "$z:header-bg",
           "padding": [
-            0,
-            24
+            18,
+            24,
+            7.50725,
+            32
           ],
           "justifyContent": "space_between",
-          "alignItems": "center",
           "children": [
             {
               "type": "text",
@@ -11356,47 +12103,83 @@
               "name": "系统时间 · 示例",
               "fill": "$z:foreground",
               "content": "9:41",
-              "lineHeight": "$z:control-leading",
-              "fontFamily": "$z:font-family-sans",
-              "fontSize": "$z:font-size-md",
+              "lineHeight": 1,
+              "fontFamily": "Inter",
+              "fontSize": 14,
               "fontWeight": "600"
             },
             {
               "type": "frame",
               "id": "INcar",
               "name": "系统状态指示 · 示例",
-              "gap": 5,
-              "alignItems": "center",
+              "width": 65.2175,
+              "height": 14.49275,
+              "layout": "none",
               "children": [
                 {
-                  "type": "icon",
-                  "id": "tH5On",
-                  "name": "蜂窝信号",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "signal",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "gUA0o",
+                  "x": 0,
+                  "y": 0,
+                  "name": "蜂窝信号 · 模板原始轮廓",
+                  "geometry": "M609.688 40.7608c0-1.0005 0.811-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v12.6812c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1.001 0-1.812-0.8111-1.812-1.8116v-12.6812z m-9.058 4.5293c0-1.0005 0.812-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v8.1522c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.812-0.8111-1.812-1.8116v-8.1522z m-9.057 3.6231c0-1.0006 0.811-1.8116 1.811-1.8116h2.717c1.001 0 1.812 0.811 1.812 1.8116v4.5289c0 1.0006-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.811-0.811-1.811-1.8116v-4.5289z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "J2fsDi",
-                  "name": "无线网络",
-                  "width": 16,
-                  "height": 16,
-                  "icon": "wifi",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "QuC1r",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Wi-Fi · 模板原始轮廓",
+                  "geometry": "M652.85 51.2483c0.117-0.1152 0.182-0.2736 0.179-0.438-0.004-0.1643-0.075-0.32-0.196-0.4302-2.421-2.0498-5.967-2.0498-8.388 0-0.122 0.1101-0.193 0.2658-0.196 0.4301-0.004 0.1644 0.061 0.3229 0.178 0.4381l3.791 3.8294c0.111 0.1126 0.263 0.1759 0.421 0.1759 0.158 0 0.309-0.0633 0.42-0.1759l3.791-3.8294z m-4.212-5.2897c2.311-0.0002 4.539 0.8596 6.252 2.4121 0.232 0.2204 0.597 0.2156 0.822-0.0107l2.192-2.2165c0.115-0.1163 0.179-0.274 0.178-0.4379-0.002-0.1639-0.069-0.3203-0.187-0.4341-5.216-4.8568-13.293-4.8568-18.509 0-0.118 0.1138-0.185 0.2703-0.187 0.4342-0.001 0.164 0.063 0.3217 0.179 0.4378l2.191 2.2165c0.225 0.2263 0.59 0.2311 0.822 0.0107 1.712-1.5515 3.938-2.4112 6.247-2.4121z m0.001-7.2121c4.205 0.0002 8.25 1.6178 11.298 4.5185 0.229 0.2239 0.596 0.2211 0.822-0.0064l2.194-2.2165c0.115-0.1153 0.178-0.2716 0.177-0.4342 0-0.1626-0.066-0.3181-0.182-0.4321-8-7.6745-20.62-7.6745-28.62 0-0.116 0.1139-0.182 0.2694-0.183 0.432-0.001 0.1626 0.063 0.3189 0.177 0.4343l2.195 2.2165c0.225 0.2278 0.593 0.2306 0.822 0.0064 3.048-2.9009 7.094-4.5185 11.3-4.5185z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
                 },
                 {
-                  "type": "icon",
-                  "id": "znfOl",
-                  "name": "电池电量",
-                  "width": 22,
-                  "height": 16,
-                  "icon": "battery-full",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
+                  "type": "path",
+                  "id": "m7vmos",
+                  "x": 0,
+                  "y": 0,
+                  "name": "电池 · 模板原始轮廓",
+                  "geometry": "M674 39.4022c0-1.2507 1.014-2.2645 2.264-2.2645h1.359v15.3985h-1.359c-1.25 0-2.264-1.0138-2.264-2.2644v-10.8696z m3.623-2.2645h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.624v15.3985h-3.624v-15.3985z m3.624 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m7.246 2.2645c0-1.2507-1.013-2.2645-2.264-2.2645h-1.359v15.3985h1.359c1.251 0 2.264-1.0138 2.264-2.2644v-10.8696z m-32.608-0.4528c0-3.0015 2.433-5.4348 5.435-5.4348h32.608c3.002 0 5.435 2.4333 5.435 5.4348v11.7754c0 3.0015-2.433 5.4348-5.435 5.4348h-32.608c-3.002 0-5.435-2.4333-5.435-5.4348v-11.7754z m5.435-3.6232c-2.001 0-3.624 1.6222-3.624 3.6232v11.7754c0 2.001 1.623 3.6232 3.624 3.6232h32.608c2.001 0 3.623-1.6222 3.623-3.6232v-11.7754c0-2.001-1.622-3.6232-3.623-3.6232h-32.608z m39.855 13.663c1.599-0.6989 2.717-2.2949 2.717-4.1521 0-1.8572-1.118-3.4533-2.717-4.1521v8.3042z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 0.905795,
+                  "id": "jH225",
+                  "x": 14.0395,
+                  "y": 2.71725,
+                  "name": "信号第四格 · 模板原始轮廓",
+                  "fill": "$z:foreground",
+                  "width": 3.17029,
+                  "height": 10.41665
                 }
               ]
             }
@@ -11407,9 +12190,8 @@
           "id": "oGTlH",
           "name": "小程序自定义导航 · 预留系统胶囊",
           "width": "fill_container",
-          "height": 56,
+          "height": 40,
           "fill": "$z:header-bg",
-          "gap": 8,
           "padding": [
             0,
             16
@@ -11420,11 +12202,14 @@
               "type": "frame",
               "id": "PqmrY",
               "name": "返回",
-              "width": 44,
-              "height": 44,
+              "width": 88,
+              "height": 40,
               "layout": "vertical",
+              "padding": [
+                0,
+                9
+              ],
               "justifyContent": "center",
-              "alignItems": "center",
               "children": [
                 {
                   "type": "icon",
@@ -11446,9 +12231,10 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "添加衣物",
-              "lineHeight": 1.4,
+              "lineHeight": 1.5,
+              "textAlign": "center",
               "fontFamily": "Noto Sans SC",
-              "fontSize": 20,
+              "fontSize": 16,
               "fontWeight": "600"
             },
             {
@@ -11456,11 +12242,11 @@
               "id": "W49k8H",
               "name": "微信系统胶囊 · 宿主示意",
               "width": 88,
-              "height": 32,
-              "cornerRadius": 16,
-              "stroke": "$z:header-border",
+              "height": 30,
+              "cornerRadius": 15,
+              "stroke": "$z:border-subtle",
               "strokeWidth": 1,
-              "gap": 10,
+              "gap": 12,
               "justifyContent": "center",
               "alignItems": "center",
               "children": [
@@ -11470,27 +12256,30 @@
                   "name": "ellipsis",
                   "width": 20,
                   "height": 20,
-                  "icon": "ellipsis",
-                  "library": "lucide",
+                  "icon": "more_horiz",
+                  "library": "Material Symbols Rounded",
+                  "weight": 700,
                   "fill": "$z:foreground"
                 },
                 {
                   "type": "frame",
                   "id": "Zi1Sw",
                   "name": "胶囊分隔",
+                  "opacity": 0.16,
                   "width": 1,
-                  "height": 18,
-                  "fill": "$z:header-border",
+                  "height": 16,
+                  "fill": "$z:foreground",
                   "layout": "vertical"
                 },
                 {
                   "type": "icon",
                   "id": "LHVdF",
                   "name": "circle-dot",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "circle-dot",
-                  "library": "lucide",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "radio_button_checked",
+                  "library": "Material Symbols Rounded",
+                  "weight": 600,
                   "fill": "$z:foreground"
                 }
               ]
@@ -11596,6 +12385,37 @@
                   "fontSize": "$z:font-size-lg"
                 }
               }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "P2ckE",
+          "name": "底部安全区 · 仅宿主展示",
+          "metadata": {
+            "type": "host-preview",
+            "owner": "System home indicator; preview only, runtime inset must have a single owner"
+          },
+          "width": "fill_container",
+          "height": 20,
+          "fill": "$z:header-bg",
+          "layout": "vertical",
+          "padding": [
+            9,
+            0,
+            7,
+            0
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 2,
+              "id": "Vrgvs",
+              "name": "Home Indicator · 非业务控件",
+              "fill": "$z:foreground",
+              "width": 128,
+              "height": 4
             }
           ]
         }
