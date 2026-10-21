@@ -21,8 +21,6 @@
 
 业务技术方案沿用本目录，按需维护 `<area>/overview.md`，复杂功能再补 `features/<feature>.md`；不预建空方案或复制系统基线。方案覆盖核心流程与适用的失败/重试/回滚路径，获批后由 change design 引用；具体分级与批准流程见 [交付流程](../engineering/workflow/delivery.md)。
 
-业务方案：[智能衣柜 V1](wardrobe/overview.md)（TD-1，待评审）定义微信小程序、业务数据及推荐的目标实现，专项分别覆盖衣柜/媒体/历史一致性和天气/AI 执行恢复；不代表这些能力已落地。
-
 ## 数据流与所有权
 
 目标业务链路：Web / 微信客户端 → backend（用户/资源授权）→ AI API（受信服务身份）→ PostgreSQL-backed Command Queue → Worker → LangGraph → 结果。
