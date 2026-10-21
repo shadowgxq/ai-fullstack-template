@@ -2,13 +2,13 @@
 
 ## 范围与来源
 
-需求来源为 [PRD V1.2](../product/01-prd-draft.md)，目标为微信小程序。当前覆盖 FR-001～FR-006 的业务页面及必要局部。白底、深蓝文字、青绿色主色和整体样式方向已确认；添加衣物、个人页、微信登录及小程序宿主适配为本次修订，待用户验收。
+需求来源为 [PRD V1.2](../../docs/product/01-prd-draft.md)，目标为微信小程序。当前覆盖 FR-001～FR-006 的业务页面及必要局部。白底、深蓝文字、青绿色主色和整体样式方向已确认；添加衣物、个人页、微信登录及小程序宿主适配为本次修订，待用户验收。
 
-可编辑来源为 [wardrobe.pen](wardrobe.pen)，通过别名 `z` 导入 [公共库](design-system/core.lib.pen)。业务组合在消费稿内维护，公共库未修改。实现目标为仓库现有 `miniprogram/` 工程，采用 Taro + React + TypeScript；`frontend/` 保留 Web 模板。小程序基础工程已存在，智能衣柜业务页面与后端接线尚未实现。
+可编辑来源为 [wardrobe.pen](wardrobe.pen)，通过别名 `z` 导入 [公共库](../../frontend/design/core.lib.pen)。业务组合在消费稿内维护，公共库未修改。实现目标为仓库现有 `miniprogram/` 工程，采用 Taro + React + TypeScript；`frontend/` 保留 Web 模板。小程序基础工程已存在，智能衣柜业务页面与后端接线尚未实现。
 
 ## 样式与宿主
 
-布局、字号、触控、底部操作和安全区规则唯一维护在 [业务移动 UI](mobile/wardrobe-ui-spec.md#布局与宿主)，通用移动规则见 [移动 UI](mobile/ui-spec.md)，颜色与主题来源见 [移动 Token](mobile/tokens.md)。主画布为 390 × 844 逻辑 px，左右留边 16px；Light/Dark 共用结构，不另做 PC 页面。
+布局、字号、触控、底部操作和安全区规则唯一维护在 [业务移动 UI](wardrobe-ui-spec.md#布局与宿主)，通用移动规则见 [移动 UI](ui-spec.md)，颜色与主题来源见 [移动 Token](tokens.md)。主画布为 390 × 844 逻辑 px，左右留边 16px；Light/Dark 共用结构，不另做 PC 页面。
 
 导航标题为 20px，主页面左侧提供个人入口，子页面提供返回，右侧预留微信系统胶囊。状态栏 44px、胶囊 88 × 32px、底部安全区 24px 均为设备展示尺寸，不能写成运行时常量；系统层不由业务重绘。微信宿主信息可通过 [官方 API 定义](https://github.com/wechat-miniprogram/api-typings/blob/master/types/wx/lib.wx.api.d.ts) 中的窗口和胶囊信息能力取得，实际端适配仍待实现。
 
@@ -58,7 +58,7 @@
 
 拍照和相册分别触发对应媒体来源；当前画面以单张主照片演示，已选后支持移除、重新拍照或从相册更换。参考图中的“最多 5 张”未作为产品限制。取消选择不改变原照片；失败保留名称及其他输入，不暗示自动识别。
 
-照片或名称至少一项，规则引用 FR-001。点击添加时若两者均缺失，在照片/名称附近显示“请添加照片或填写衣物名称”，保留其他字段并引导补充；上传未成功不能视作已有有效照片。提交 pending 防重，失败保留输入并可重试，成功回衣柜显示新衣物。通用错误/加载表达复用 [移动状态规则](mobile/ui-spec.md#组件交互与状态) 及小程序端 Notice、StatePanel，不逐状态复制整页。
+照片或名称至少一项，规则引用 FR-001。点击添加时若两者均缺失，在照片/名称附近显示“请添加照片或填写衣物名称”，保留其他字段并引导补充；上传未成功不能视作已有有效照片。提交 pending 防重，失败保留输入并可重试，成功回衣柜显示新衣物。通用错误/加载表达复用 [移动状态规则](ui-spec.md#组件交互与状态) 及小程序端 Notice、StatePanel，不逐状态复制整页。
 
 分类触发器打开 `phKmP`，选择后回填并关闭；清除分类回未知，关闭不选择保持原值。颜色为单选，快捷色块和 `zXmjy` 使用同一当前值，选中有勾选和名称，支持清除。季节、场合及标签为多选，再次点击取消；自定义标签弹层仅更新待保存表单，空白文本不能添加，重复标签不重复加入。图中选项为示例，不把列表数量当成已确认枚举。
 
@@ -89,11 +89,11 @@
 
 颜色、字号、行高主要绑定 `$z:*`；图片圆角/边界及 `wardrobe-mobile-*` 是消费稿内的业务几何。当前解析值及用途见 UI 规范。width/height 上未能持续保留的自定义变量引用以已解析值落图，变化后需重新解析；不把变量名当成已有 CSS/rpx 接线。
 
-实现使用 `miniprogram/` 的 Taro 组件和 [本端组件清单](../engineering/miniprogram/components/component-inventory.md)，沿用 [开发规范](../engineering/miniprogram/standards/development.md) 的页面注册、请求、会话、生命周期与样式边界。现有 PageShell、Button、Field、Notice、StatePanel 可按真实 API 复用；公共库的 React export/props 仅证明 Web 能力，不作为小程序 import。
+实现使用 `miniprogram/` 的 Taro 组件和 [本端组件清单](../../docs/engineering/miniprogram/components/component-inventory.md)，沿用 [开发规范](../../docs/engineering/miniprogram/standards/development.md) 的页面注册、请求、会话、生命周期与样式边界。现有 PageShell、Button、Field、Notice、StatePanel 可按真实 API 复用；公共库的 React export/props 仅证明 Web 能力，不作为小程序 import。
 
 现有平台适配已提供获取微信临时 code、媒体选择和通用上传函数，但登录页面仍消费用户名密码接口，未接通微信 code 交换后端；选图/上传适配也不等于已有衣物媒体存储。当前 chooseImage 合并拍照和相册来源，业务的两个明确入口还需支持分别指定来源。定位、头像昵称填写及业务 API 仍待接入。
 
-当前模板采用原生导航和“首页、组件、设置”示例 Tab；业务需依照本稿替换为“衣柜、穿搭、记录”，落实自定义导航、胶囊预留、固定操作、弹层与键盘规则。模板的 375px 基准不改变本稿 390px 的比较条件；触控命中区按本端至少 48px，图标和按钮视觉可沿用画布尺寸，窄屏采用流式布局而非整体缩放。具体业务覆盖见 [业务移动 UI](mobile/wardrobe-ui-spec.md)。图层、Reusable Frame 与公共组件数量不决定代码拆分。
+当前模板采用原生导航和“首页、组件、设置”示例 Tab；业务需依照本稿替换为“衣柜、穿搭、记录”，落实自定义导航、胶囊预留、固定操作、弹层与键盘规则。模板的 375px 基准不改变本稿 390px 的比较条件；触控命中区按本端至少 48px，图标和按钮视觉可沿用画布尺寸，窄屏采用流式布局而非整体缩放。具体业务覆盖见 [业务移动 UI](wardrobe-ui-spec.md)。图层、Reusable Frame 与公共组件数量不决定代码拆分。
 
 ## 检查与接受
 

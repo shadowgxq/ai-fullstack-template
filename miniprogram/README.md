@@ -1,6 +1,6 @@
 # 微信小程序
 
-独立、可选的 Taro/React 客户端，共用根需求、架构、API 契约和交付流程。Web 不需要安装或启动本目录。技术决策见 [技术基线](../docs/engineering/miniprogram/architecture/technology-options.md)，开发规则见 [专项导航](../docs/engineering/miniprogram/README.md)。
+独立、可选的 Taro/React 客户端，共用根需求、架构、API 契约和交付流程。Web 不需要安装或启动本目录。技术决策见 [技术基线](../docs/engineering/miniprogram/architecture/technology-options.md)，开发规则见 [专项导航](../docs/engineering/miniprogram/README.md)；本端 [design/](design/README.md) 拥有设计稿、视觉规范、Token 架构与设计交接。
 
 ## 本地开发
 
@@ -59,6 +59,6 @@ pnpm check:dist     # 检查微信产物、页面、原生导航、两主题图�
 
 类型来源为根 `docs/contracts/generated/backend.openapi.json`。Provider 变化后先在根执行 `make contracts`，再 `pnpm contracts`；不要编辑 `schema.generated.ts`。颜色变化用 `pnpm tokens`，同时更新同源 TabBar 图标；完整重生成用 `pnpm generate`。页面图标与 TabBar 共用本地 Lucide 线条来源：`scripts/icon-shapes.json` 保存向量，`icon-masks.json` 为离线栅格遮罩，授权见 `scripts/lucide-LICENSE`。修改形状后用 `node scripts/generate-icon-masks.mjs <已安装的 sharp 模块路径>` 生成遮罩，再执行 `pnpm tokens`；日常颜色同步无需 sharp。页面图标通过 `copy.patterns` 复制入包，不依赖微信 SVG 或远程字体支持。
 
-图标形状、主题映射与生成物归属见 [移动 Token](../docs/design/mobile/tokens.md)，不要手工改生成 PNG 的颜色。
+图标形状、主题映射与生成物归属见 [移动 Token](design/tokens.md)，不要手工改生成 PNG 的颜色。
 
 单测使用显式 Taro mock，构建检查只证明产物结构。原生导航/胶囊、触控、输入键盘、安全区、选图隐私授权、真实登录、断网恢复与 iOS/Android 真机体验，按 [运行验收](../docs/engineering/miniprogram/guides/runtime-and-verification.md) 单独记录，不能由 mock、编译成功或代码截图替代。模板不包含微信上传/发布凭据，也不会自动发布。

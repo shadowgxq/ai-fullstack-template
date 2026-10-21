@@ -1,8 +1,9 @@
 schema: spec-driven
 context: |
   全栈 monorepo：frontend / 可选 miniprogram / backend / ai-service；先读 AGENTS.md 与 docs/README.md 的任务路由。
-  项目规范唯一在 docs/engineering；产品 docs/product，技术总/专项 docs/architecture，跨端语义 docs/contracts。
-  frontend 的 Web 基线由 scripts/frontend-source.json 与前端专项文档记录；不在 Web 内复制第二套 UI/文档。
+  工程规范唯一在 docs/engineering；产品 docs/product，技术总/专项 docs/architecture，跨端语义 docs/contracts。
+  frontend/design 与 miniprogram/design 分别拥有本端设计稿、视觉规范、Token 政策与交接；docs/design 只维护跨端入口、共享配色和通用交付约定。
+  frontend 的 Web 基线由 scripts/frontend-source.json 与前端专项文档记录；不在 Web 内复制第二套 UI 或共享文档。
   miniprogram 独立维护微信 UI 与平台规范，共用根 PRD/架构/契约/Plan/OpenSpec；不复制通用 Skills 或预设双端业务范围。
   Manager 机制按全局安装的 MANAGER-WORKFLOW.md 和相应 Skill；通过客户端提供的实际 Skill 路径读取，生命周期不手工重建。
   v2 plan 使用 requirements/inputs/openspec/batches；集中 inputs 加显式 input_refs，技术方案/UI 基线专用字段。

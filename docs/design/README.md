@@ -1,46 +1,19 @@
-# 设计规范与资产
+# 跨端设计入口
 
-目标包按任务选择 `frontend/`（React/Vite Web）或 `miniprogram/`（微信小程序）。Web 手机触控布局与微信宿主不是同一平台。任务选择见 [Web 导航](../engineering/frontend/README.md#任务路径) / [小程序导航](../engineering/miniprogram/README.md#任务路径)。模板提供通用设计基础与现有能力示例；使用方业务由自己的需求和契约定义。智能衣柜业务在 `miniprogram/` 中实现，业务设计见 [设计交付](wardrobe-ui-ux.md)。
+设计按实际消费端归属：Web 的设计稿、视觉规范、Token 使用政策与设计交接在 [frontend/design](../../frontend/design/README.md)；微信小程序对应内容在 [miniprogram/design](../../miniprogram/design/README.md)。手机 Web 与微信小程序不是同一平台，不因共享品牌而共用布局、控件或宿主规则。
 
-## 规则归属
-
-| 内容 | 唯一正文 |
+| 内容 | 唯一事实源 |
 |---|---|
-| Web 视觉、信息层级与布局 | [Web UI 规范](ui-spec.md) |
-| 微信移动布局、宿主与触控 | [移动 UI](mobile/ui-spec.md) |
-| 智能衣柜业务布局与宿主 | [业务移动 UI](mobile/wardrobe-ui-spec.md)；实现目标为 miniprogram/ |
-| 小程序 Token 与双主题生成 | [移动 Token](mobile/tokens.md)；颜色来自现有 Web 源，本端维护几何和别名 |
-| Token 选择与设计同步 | [Token 政策](tokens.md)；运行时数值、别名与主题值在 [global.css](../../frontend/src/shared/styles/global.css) |
-| 平台、宿主适配与交付接口 | [设计交付约定](design-handoff.md) |
-| Web 组件复用、归属与拆分 | [组件治理](../engineering/frontend/components/components.md) |
-| Web 组件可见性与设计定位 | [组件清单](../engineering/frontend/components/component-inventory.md)；API 以源码 export/类型为准 |
-| Web 状态、键盘、焦点与可访问性 | [UI 状态](../engineering/frontend/standards/accessibility-and-ui-states.md) |
-| Web Theme / i18n 的运行接线 | [主题指南](../engineering/frontend/guides/theming-and-i18n.md) |
-| 小程序组件与状态 | [本端组件清单](../engineering/miniprogram/components/component-inventory.md) 与 [开发规范](../engineering/miniprogram/standards/development.md) |
-| 业务与服务能力 | 使用方 [产品需求](../product/README.md) 与 [跨端契约](../contracts/README.md) |
+| 智能衣柜小程序设计 | [业务设计记录](../../miniprogram/design/wardrobe-ui-ux.md)、[业务 UI](../../miniprogram/design/wardrobe-ui-spec.md) |
+| Web 设计规范、资产与代码映射入口 | [Web 设计](../../frontend/design/README.md) |
+| 微信小程序设计规范、资产与代码映射入口 | [小程序设计](../../miniprogram/design/README.md) |
+| 跨端配色所有权与同步边界 | [共享配色政策](tokens.md) |
+| 通用交付接口、主题表达与证据边界 | [设计交付约定](design-handoff.md) |
+| 产品范围、系统架构和 API 契约 | [产品](../product/README.md)、[架构](../architecture/README.md)、[契约](../contracts/README.md) |
+| 各端工程规范与任务路径 | [Web](../engineering/frontend/README.md#任务路径)、[小程序](../engineering/miniprogram/README.md#任务路径) |
 
-通用动作由全局安装、同一来源的 `ui-ux-delivery`、`pencil-design`、`design-to-code`、`design-qa` 与 `DESIGN-WORKFLOW.md` 维护；本目录不保存执行 Skill 或项目绑定副本。全局来源与读取入口见 [工具入口](../engineering/workflow/tooling.md#安装与唯一机制)。
+本目录不保存端专属设计库或规范副本。新增客户端时在该客户端下建立实际需要的 `design/`，本页只登记入口；不为未来平台预建空目录。各端工程规范仍在 `docs/engineering/<端>/`，不随设计资产迁移。
 
-复制模板后沿用、清理指定示例或更换视觉体系，统一按 [视觉初始化](../engineering/frontend/guides/project-bootstrap.md#复制模板后的视觉初始化) 处理；本页登记当前资产，不把模板示例当作使用方业务的已批准设计。
+通用动作由全局安装、同一来源的 `ui-ux-delivery`、`pencil-design`、`design-to-code`、`design-qa` 与 `DESIGN-WORKFLOW.md` 维护；[工具入口](../engineering/workflow/tooling.md#安装与唯一机制) 是 Skill 来源的唯一登记，不在各端复制 Skill、Manager 或 OpenSpec。
 
-## 资产登记
-
-当前可编辑资产包含 Web 与微信小程序两个独立设计库。Web 库维护 Design Tokens、基础控件、认证、分享和 QueryComposer；移动库维护移动变量、基础控件和模板页面示例。智能衣柜业务消费稿为 `wardrobe.pen`，通过正式导入复用公共库。
-
-| 资产 | 用途 |
-|---|---|
-| [design-system/core.lib.pen](design-system/core.lib.pen) | Signal Teal 的 75 个设计变量、公共组件、模板共用能力及必要状态 |
-| [design-system/mobile.lib.pen](design-system/mobile.lib.pen) | 按“版本 C”三屏参考还原首页、组件库、我的，另保留基础组件演示与简版视觉规范；规范不陈列控件，素材精度、引用和静态样例边界见 [移动设计交接](mobile/design-handoff.md) |
-| `design-system/previews/` | Web 同名 Frame 的 Light 导出图，`dark/` 为同源主题预览；当前移动提案预览见 `mobile-light-native/`，包含四页、独立规范页与整体图 |
-| [wardrobe.pen](wardrobe.pen) | 智能衣柜 V1 微信小程序设计，正式导入公共库；沿已确认风格覆盖业务页面 |
-| [智能衣柜设计交付](wardrobe-ui-ux.md) | PRD 范围、页面与状态表达、实际 Frame、检查结果及接受范围 |
-
-Web 公共组件按维护单元独立定位，认证、分享和查询组合保留各自真实契约。移动提案只维护必要基础 UI 与交互，不要求与 Web 等量；复杂 Select / Calendar、QueryComposer、分享不因 Web 已有而自动进入移动默认资产。新几何与柔光是设计候选，未自动同步运行时代码。设计主组件和展示画板不决定 React 的模块位置或公开 API，当前设计覆盖与源码映射见 [组件清单](../engineering/frontend/components/component-inventory.md#pencil-定位与映射)。
-
-公共库独立维护变量与组件，不依赖业务设计资产。业务消费稿通过正式导入复用公共库，负责实际业务页面、流程、文案与数据；不复制公共色板，也不为每次需求新增设计文件。公共准入与运行时归属见 [组件治理](../engineering/frontend/components/components.md)。
-
-仅 `MKpT9` Foundations 保留 Light / Dark 并排概览。`KNJdR` Semantic colors、组件规范与组合示例使用单份结构，选中画板后切换 `mode=light/dark` 查看主题，不另设关键状态对照板。操作、焦点、校验、选中与透明遮罩在各组件规范区维护。默认保留 Light 主稿；必要的 Dark 预览从同一 Frame 导出，预览随受影响主稿同步。两主题渲染与运行时验证的边界见 [设计交付约定](design-handoff.md#深浅主题的设计表达)。
-
-Web 页面遵循 [Web 布局规则](ui-spec.md#布局与宿主)，小程序遵循 [移动布局](mobile/ui-spec.md)；智能衣柜已登记业务消费稿 `wardrobe.pen`，业务布局见 [业务移动 UI](mobile/wardrobe-ui-spec.md)，接受范围见 [业务设计交付](wardrobe-ui-ux.md)。公共 Web 组件不作为小程序运行组件。组件规范板的总宽度不决定页面或控件尺寸。节点 ID、变量、主题、实例覆盖和库连接在使用前通过设计工具回读；预览与路径只能定位，不能代替当前源稿。
-
-示例数据和操作反馈是设计表达，不能证明登录、权限、剪贴板、图片导出、投递或人工验收。实际进度与验证证据放在对应 change / PR / 交接中，不维护另一套长期执行台账。
+需求级设计记录与业务消费稿归受影响端的 `design/`，引用根产品需求；跨端需求分别定位两个客户端的设计来源，共用根 Plan / Change 和接受范围。一次性的执行过程与验证证据放在对应 PR/change，不把它们复制成长效规范或另一套任务状态。

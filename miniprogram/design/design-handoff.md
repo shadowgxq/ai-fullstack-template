@@ -1,8 +1,10 @@
 # 小程序设计交接
 
+通用来源记录、主题表达、Pencil 操作和证据边界遵循 [共同交付约定](../../docs/design/design-handoff.md)。本页维护微信小程序的设计范围、平台参数和资产定位；工程 API 仍以当前源码为准。
+
 ## 当前设计目标与范围
 
-可编辑来源：[mobile.lib.pen](../design-system/mobile.lib.pen)。首页、组件库、我的以用户提供的“版本 C · 轻原生版”三屏图片为视觉还原目标，保留图中的文案、区块顺序与示例数据，不再以旧模板内容替换参考区块。
+可编辑来源：[mobile.lib.pen](mobile.lib.pen)。首页、组件库、我的以用户提供的“版本 C · 轻原生版”三屏图片为视觉还原目标，保留图中的文案、区块顺序与示例数据，不再以旧模板内容替换参考区块。
 
 这是静态视觉提案，不代表新业务已实现。收藏、最近使用、统计、社区、意见反馈、版本检查等参考入口，以及 `12 / 8 / 24`、版本 `v1.2.0` 和示例时间，均是参考图样例，不是实际身份、包版本、历史记录或服务器结果。运行时代码、公开 API 与认证契约没有改动。
 
@@ -45,13 +47,13 @@
 | 新图状态栏 / 原生导航 | `ixl5j` / `XEVkY` |
 | 原生 TabBar / 新参考底部区域 | `CATWF` / `Rb6jj` |
 
-API 以 [shared/ui/index.tsx](../../../miniprogram/src/shared/ui/index.tsx) 为准。Button 目前只有 primary/secondary/danger，描边与文字样式不冒充新增 variant；Cell、Tabs、Switch、Checkbox、Radio、Badge 等设计示例也不能据名称臆造公共 export。参考中的入口若要实现，须另行确认业务和路由。
+API 以 [shared/ui/index.tsx](../src/shared/ui/index.tsx) 为准。Button 目前只有 primary/secondary/danger，描边与文字样式不冒充新增 variant；Cell、Tabs、Switch、Checkbox、Radio、Badge 等设计示例也不能据名称臆造公共 export。参考中的入口若要实现，须另行确认业务和路由。
 
 ## 素材与还原精度
 
-- 三维叠层图形：[reference-c-hero.webp](../design-system/images/reference-c-hero.webp)
-- 三维头像：[reference-c-avatar.jpg](../design-system/images/reference-c-avatar.jpg)
-- 皇冠：[reference-c-crown.jpg](../design-system/images/reference-c-crown.jpg)
+- 三维叠层图形：[reference-c-hero.webp](images/reference-c-hero.webp)
+- 三维头像：[reference-c-avatar.jpg](images/reference-c-avatar.jpg)
+- 皇冠：[reference-c-crown.jpg](images/reference-c-crown.jpg)
 
 首页入口与底栏采用可编辑 Lucide 图标，收藏使用 bookmark、指南使用 book-open-text，列表图标按输入/列表/内容卡的语义区分。底栏矢量是设计表达；实际微信原生 TabBar 仍需在实现阶段适配普通/选中 PNG 资源，本次不修改运行时资源。
 
@@ -63,4 +65,8 @@ API 以 [shared/ui/index.tsx](../../../miniprogram/src/shared/ui/index.tsx) 为�
 
 图标精修已核对首页 Light / Dark 及三个底栏选中态在两主题下的实际渲染；布局、字号与 54+20px 的底栏分区不变。共享底栏三个直接消费者使用同一图标来源。保存回读与结构核验以当前源稿为准，变量保留 93 个；不将旧 PNG 图标预览作为新矢量图标的依据。未执行浏览器/E2E、真实小程序键盘/滚动、业务接口或代码还原测试，不将静态样例当成运行时通过；本次也没有新增人工接受记录。
 
-预览由正式 Pencil 导出，当前目录为 `design-system/previews/mobile-reference-c/`，其中 `footer-reference.png` 为底栏局部、`three-screens.png` 为三屏对照，不替代可编辑来源。
+预览由正式 Pencil 导出，当前目录为 `previews/mobile-reference-c/`，其中 `footer-reference.png` 为底栏局部、`three-screens.png` 为三屏对照，不替代可编辑来源。
+
+## 智能衣柜业务
+
+智能衣柜以现有 `miniprogram/` 为实现目标，业务设计见 [设计交付](wardrobe-ui-ux.md)，布局差异见 [业务移动 UI](wardrobe-ui-spec.md)。沿用已登记的 390px 主稿及补查宽度，不因模板的 375px 基准改变业务设计；微信登录后端、媒体、位置及自定义宿主仍须按业务需求接入，不因模板工程存在而视为已完成。

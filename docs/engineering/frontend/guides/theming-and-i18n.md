@@ -1,6 +1,6 @@
 # 换肤与 i18n（theming & i18n）
 
-本页维护 theme / i18n、样式和字体的运行接线。Signal Teal 只提供 light / dark 两套配色，几何共用。视觉见 [UI 规范](../../../design/ui-spec.md)，Token 选择与设计同步见 [政策](../../../design/tokens.md)，设计适配见 [交付约定](../../../design/design-handoff.md)。
+本页维护 theme / i18n、样式和字体的运行接线。Signal Teal 只提供 light / dark 两套配色，几何共用。视觉见 [UI 规范](../../../../frontend/design/ui-spec.md)，Token 选择与设计同步见 [政策](../../../../frontend/design/tokens.md)，设计适配见 [交付约定](../../../../frontend/design/design-handoff.md)。
 
 ## 样式事实源
 

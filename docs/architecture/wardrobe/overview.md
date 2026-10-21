@@ -28,10 +28,10 @@
 ### 2.1 需求与设计
 
 - 产品来源：[PRD V1.2](../../product/01-prd-draft.md)，FR-001～FR-006、BR-001～BR-008、AC-001～AC-023；需求确认范围见 [进度记录](../../../manager/progress.md)。
-- 设计来源：[业务交付记录](../../design/wardrobe-ui-ux.md)、[移动业务规则](../../design/mobile/wardrobe-ui-spec.md)、[wardrobe.pen](../../design/wardrobe.pen)，内容 SHA-256 `e425e1930f9706d8a06a1632adb501d9c648b144f452a471bcd08e566009c183`。技术映射依据其页面、完整内容源、弹层文本、实例引用与结构，渲染检查范围以原交付记录为准。
+- 设计来源：[业务交付记录](../../../miniprogram/design/wardrobe-ui-ux.md)、[移动业务规则](../../../miniprogram/design/wardrobe-ui-spec.md)、[wardrobe.pen](../../../miniprogram/design/wardrobe.pen)，设计检查基线 SHA-256 `e425e1930f9706d8a06a1632adb501d9c648b144f452a471bcd08e566009c183`。技术映射依据其页面、完整内容源、弹层文本、实例引用与结构，渲染检查范围以原交付记录为准。
 - 已读来源含穿搭 `P9tls/ZHXw9`、衣柜 `ddC69/zkPuC`、详情 `WV7wn/StjQC`、表单 `Ro2vL/FfxoI/Y8xJCl/jxBYZ`、记录 `HI38Z/C0p2tC/tz4GK/RYACG`、统计 `ywaWl/a7xEg`、偏好 `OgxoN/Z8EEvN`、个人 `QL83M/JGka6`、登录 `asaVm`，以及交付记录登记的场景、替换、城市、多选、分类、颜色、标签、资料、确认及空态节点。
-- 加载/失败等通用表达消费交付记录和 [移动状态规则](../../design/mobile/ui-spec.md#组件交互与状态)；同一表单复用编辑、补录、修正，不额外要求整页状态稿。整体方向已有确认；局部和最终运行验收按原记录保留待验。
-- Token 采用 [移动 Token](../../design/mobile/tokens.md) 的生成方向，组件能力以 [小程序清单](../../engineering/miniprogram/components/component-inventory.md) 为准。Pen 公共库 `z` 是设计引用，不是小程序可导入的 Web 包。
+- 加载/失败等通用表达消费交付记录和 [移动状态规则](../../../miniprogram/design/ui-spec.md#组件交互与状态)；同一表单复用编辑、补录、修正，不额外要求整页状态稿。整体方向已有确认；局部和最终运行验收按原记录保留待验。
+- Token 采用 [移动 Token](../../../miniprogram/design/tokens.md) 的生成方向，组件能力以 [小程序清单](../../engineering/miniprogram/components/component-inventory.md) 为准。Pen 公共库 `z` 是设计引用，不是小程序可导入的 Web 包。
 
 ### 2.2 从真实入口核对的差异
 

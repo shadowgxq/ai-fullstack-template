@@ -35,7 +35,7 @@
 
 ## 样式
 
-- Token 选择见 [政策](../../../design/tokens.md)，样式入口和运行接线见 [主题指南](../guides/theming-and-i18n.md)。
+- Token 选择见 [政策](../../../../frontend/design/tokens.md)，样式入口和运行接线见 [主题指南](../guides/theming-and-i18n.md)。
 - class 从结构语义命名，例如 `.root`、`.header`、`.content`、`.footer`、`.action`。
 - 颜色、间距、圆角、字体优先 token；状态样式优先基于 `data-state`、`aria-invalid`、`disabled`。
 - root element 不承担外部间距；外部布局由调用方或布局容器控制。

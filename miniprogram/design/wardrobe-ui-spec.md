@@ -1,6 +1,6 @@
 # 智能衣柜小程序 UI 规范
 
-适用于 [wardrobe.pen](../wardrobe.pen) 在 `miniprogram/` 中的实现，工程基线为 [Taro + React + TypeScript](../../engineering/miniprogram/architecture/technology-options.md)。业务行为以 [PRD V1.2](../../product/01-prd-draft.md) 为准，页面、状态、来源修订及接受范围见 [设计交付](../wardrobe-ui-ux.md)。
+适用于 [wardrobe.pen](wardrobe.pen) 在 `miniprogram/` 中的实现，工程基线为 [Taro + React + TypeScript](../../docs/engineering/miniprogram/architecture/technology-options.md)。业务行为以 [PRD V1.2](../../docs/product/01-prd-draft.md) 为准，页面、状态、来源修订及接受范围见 [设计交付](wardrobe-ui-ux.md)。
 
 本页维护业务布局与通用移动规范的适配，通用规则引用 [移动 UI](ui-spec.md)，Token 来源引用 [移动 Token](tokens.md)。模板的 375px 代表宽度与原生示例导航不替代衣柜的 390px 业务稿和已确定的导航职责；业务稿没有另行对应的 Web/PC 实现。
 
@@ -22,8 +22,8 @@
 
 ## 实现边界
 
-优先复用小程序端 PageShell、Button、Field、Notice、StatePanel 等真实组件，具体能力见 [组件清单](../../engineering/miniprogram/components/component-inventory.md)。当前 PageShell 适配原生导航与 TabBar，不能仅靠套用该壳实现稿中的自定义导航、固定操作区；业务增加这些区域时需明确安全区和滚动归属，避免重复 inset。复杂分类/颜色/标签弹层、多选 Chip 及可选资料填写属于待实现的业务组合。
+优先复用小程序端 PageShell、Button、Field、Notice、StatePanel 等真实组件，具体能力见 [组件清单](../../docs/engineering/miniprogram/components/component-inventory.md)。当前 PageShell 适配原生导航与 TabBar，不能仅靠套用该壳实现稿中的自定义导航、固定操作区；业务增加这些区域时需明确安全区和滚动归属，避免重复 inset。复杂分类/颜色/标签弹层、多选 Chip 及可选资料填写属于待实现的业务组合。
 
 共享品牌与状态色从 Web `global.css` 生成到小程序色板；尺寸、语义和组件别名以 `miniprogram/src/shared/styles/tokens.scss` 为运行时来源，业务确需的覆盖在对应角色或控件内定义，不修改模板所有页面的默认尺寸。Pen 的库实例和变量表达视觉依据，不直接导入 Web UI、Radix、Tailwind 或 React Router。
 
-真实键盘、媒体权限、定位、登录和网络保存的检查归 [小程序运行验收](../../engineering/miniprogram/guides/runtime-and-verification.md)；画布尺寸与静态预览不证明这些行为已实现。
+真实键盘、媒体权限、定位、登录和网络保存的检查归 [小程序运行验收](../../docs/engineering/miniprogram/guides/runtime-and-verification.md)；画布尺寸与静态预览不证明这些行为已实现。

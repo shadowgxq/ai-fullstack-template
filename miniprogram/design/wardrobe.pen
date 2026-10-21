@@ -13008,7 +13008,7 @@
     }
   },
   "imports": {
-    "z": "design-system/core.lib.pen"
+    "z": "../../frontend/design/core.lib.pen"
   },
   "fileToken": "7a180553-e582-4c11-8a8e-23e519a3ad74"
 }

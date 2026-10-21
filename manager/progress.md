@@ -2,9 +2,9 @@
 
 - 日期：2026-10-19。
 - 需求基线：[PRD V1.2](../docs/product/01-prd-draft.md)。已确认微信小程序、微信登录、照片或名称至少一项，其他属性可选；账号数据隔离，不做共享。
-- 设计交付：[业务设计记录](../docs/design/wardrobe-ui-ux.md)、[可编辑 Pen](../docs/design/wardrobe.pen)。当前 Pen SHA-256 为 `e425e1930f9706d8a06a1632adb501d9c648b144f452a471bcd08e566009c183`，覆盖业务页面及必要弹层；实际检查范围以设计交付记录为准。
+- 设计交付：[业务设计记录](../miniprogram/design/wardrobe-ui-ux.md)、[可编辑 Pen](../miniprogram/design/wardrobe.pen)。设计检查基线 Pen SHA-256 为 `e425e1930f9706d8a06a1632adb501d9c648b144f452a471bcd08e566009c183`，覆盖业务页面及必要弹层；实际检查范围以设计交付记录为准。
 - 人工状态：整体风格与样式已确认；添加衣物、个人、微信登录及小程序宿主最新局部修订仍待验收，静态检查不构成人工通过。
-- 实现目标：现有 `miniprogram/` 工程（Taro + React + TypeScript）；业务布局见 [业务移动 UI](../docs/design/mobile/wardrobe-ui-spec.md)。当前小程序仍为模板页面与用户名密码登录，衣柜业务、微信登录后端、业务弹层及自定义宿主尚未实现。
+- 实现目标：现有 `miniprogram/` 工程（Taro + React + TypeScript）；业务布局见 [业务移动 UI](../miniprogram/design/wardrobe-ui-spec.md)。当前小程序仍为模板页面与用户名密码登录，衣柜业务、微信登录后端、业务弹层及自定义宿主尚未实现。
 - 当前阶段：技术方案与计划联合评审。[计划](plan.yaml) 已登记 M1～M3、6 个 Change，均为 planned；业务实现尚未开始，未生成 OpenSpec 制品。正式方案仍为 [TD-1 总览](../docs/architecture/wardrobe/overview.md) 及其两个能力专项。
 - 本次授权：2026-10-19 用户调用 `manager-plan-from-doc`，范围为从既有 PRD/设计/TD-1 形成计划，不包含开发。供应商方向沿用用户在技术方案阶段的“暂无指定，按可替换适配器设计”；规划调用及该反馈均不记作 TD-1/Plan 人工内容批准。
 - 评审状态：TD-1 与 Plan 待联合内容确认；历史日期/快照、未知属性与避免项、异步取消及调用恢复为重点。整体设计方向沿用已有接受，最新局部及最终产品仍待验；未开发业务代码。
@@ -13,7 +13,7 @@
 ## 技术方案修订与检查
 
 - 输入：`docs/product/01-prd-draft.md`，SHA-256 `f71a7086362ccb92a816350ad2fd53d3fb055b25a69ac816c813ac192fef038b`。
-- 输入：`docs/design/wardrobe-ui-ux.md`，SHA-256 `21015d525fb0a251cf09cc0c4c9c36602a67960ffce80a0bc40603c4cc6ef5d8`。
+- 输入：`miniprogram/design/wardrobe-ui-ux.md`，SHA-256 `21015d525fb0a251cf09cc0c4c9c36602a67960ffce80a0bc40603c4cc6ef5d8`。
 - TD-1：`docs/architecture/wardrobe/overview.md`，SHA-256 `54e3f1c47fa91734af7c833d301a9496047b7a996a0fdb0fae5066ac624266cf`。
 - TD-1：`docs/architecture/wardrobe/features/wardrobe-and-history.md`，SHA-256 `d63bd64b1248815c6ede918603f84eda674651fad26920167ff21eed355e2d4f`。
 - TD-1：`docs/architecture/wardrobe/features/recommendations.md`，SHA-256 `828be3c1c9641e73638e4f4e4dba1e3f5c6741cddcdefc9954e3ce3f85e0d361`。

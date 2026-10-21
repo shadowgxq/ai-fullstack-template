@@ -1,48 +1,22 @@
 # 设计交付约定
 
-本页提供模板的平台与适配参数。任务路由按平台选择 [Web 导航](../engineering/frontend/README.md#任务路径) / [小程序导航](../engineering/miniprogram/README.md#任务路径)，通用读取、制稿、实现与验证动作由全局安装、同一来源的 `DESIGN-WORKFLOW.md` 和四个正式入口维护，读取入口见 [工具入口](../engineering/workflow/tooling.md#安装与唯一机制)。
+本页只维护跨端交付接口、主题表达与证据边界。端专属平台参数、设计库与映射分别由 [Web 设计](../../frontend/design/README.md) / [小程序设计](../../miniprogram/design/README.md) 拥有，不在本页重复维护。
+
+通用读取、制稿、实现与验证动作由全局安装、同一来源的 `DESIGN-WORKFLOW.md` 和 `ui-ux-delivery`、`pencil-design`、`design-to-code`、`design-qa` 维护，来源与读取入口见 [工具入口](../engineering/workflow/tooling.md#安装与唯一机制)。本仓库文档提供项目参数，不复制另一套 Skill 工作流。
 
 ## 适用项目
 
-目标包在设计输入中明确：`frontend/` 为 React/Vite Web，手机画布仍是 Web；`miniprogram/` 为微信小程序，原生导航/胶囊/TabBar 边界独立。框架、Provider、路由和宿主以对应 [Web 技术基线](../engineering/frontend/architecture/technology-options.md) / [小程序技术基线](../engineering/miniprogram/architecture/technology-options.md) 与真实源码为准。智能衣柜以现有 `miniprogram/` 为实现目标，业务设计见 [设计交付](wardrobe-ui-ux.md)，布局差异见 [业务移动 UI](mobile/wardrobe-ui-spec.md)；微信登录后端、媒体、位置及自定义宿主仍须按业务需求接入，不因模板工程存在而视为已完成。
+目标包在设计输入中明确：`frontend/` 为 React/Vite Web，手机画布仍是 Web；`miniprogram/` 为微信小程序，原生导航/胶囊/TabBar 边界独立。框架、Provider、路由和宿主以对应 [Web 技术基线](../engineering/frontend/architecture/technology-options.md) / [小程序技术基线](../engineering/miniprogram/architecture/technology-options.md) 与真实源码为准。
 
-读取从 [根 AGENTS](../../AGENTS.md)、[文档地图](../README.md)、受影响端 [frontend/AGENTS](../../frontend/AGENTS.md) 或 [miniprogram/AGENTS](../../miniprogram/AGENTS.md) 进入。新页面和关键交互按任务路径准备设计；已有适用稿复用，轻量修改沿用同一套视觉、Token、组件与状态规则。
+从 [根 AGENTS](../../AGENTS.md)、[文档地图](../README.md) 及受影响端入口进入。新页面和关键交互按本端任务路径准备设计；已有适用稿复用，轻量修改沿用本端视觉、Token、组件与状态规则，不默认加载另一客户端的设计规范。
 
 ## 来源与目标
 
-[资产登记](README.md#资产登记) 定位模板公共库和预览；使用方的业务消费稿仅在存在真实业务需求时建立并登记。记录实际文档、Frame/选区、主题、状态、逻辑宽度、保存版/编辑器版和可用修订；使用节点 ID 前回读，路径和截图不能证明当前连接。
+[设计入口](README.md) 定位各端资产登记。公共库、依赖素材、预览和需求级设计记录由消费端的 `design/` 维护；业务消费稿仅在存在真实业务需求时建立。记录实际文档、Frame/选区、主题、状态、逻辑宽度、保存版/编辑器版和可用修订；使用节点 ID 前回读，路径和截图不能证明当前连接。
 
-代码目标由真实页面和路由定位。业务需求由使用方 [产品入口](../product/README.md) 与 [契约](../contracts/README.md) 提供，模板例稿不构成新业务 PRD 或已批准实现。
+代码目标由真实页面和路由定位。业务需求由使用方 [产品入口](../product/README.md) 与 [契约](../contracts/README.md) 提供，模板例稿不构成新业务 PRD 或已批准实现。一个跨端需求仍共用根 Plan / Change，各端记录只引用对应需求与实际设计来源，不复制任务状态。
 
-## Web 组件与 Token
-
-按 [组件治理](../engineering/frontend/components/components.md) 选择；[组件清单](../engineering/frontend/components/component-inventory.md) 只负责发现/可见性，实际 import 必须核对 export、类型与必要调用点。Pen 变体、模式和 Frame 不要求逐一生成 React 组件。
-
-交接区分设计当前所在文件、目标归属和实际代码入口；按 [公共层准入](../engineering/frontend/components/components.md#公共层准入) 判断，不从 `shared/ui` 路径、跨页使用或外观直接推定公共归属。模板的单文件资产组织见 [资产登记](README.md#资产登记)。公共库集中维护公共控件与模板共用能力；使用方的实际业务组合在自己的业务消费稿中演进，不为设计归属调整创建对应 React 包装或搬迁源码。
-
-主组件、用法示例与实际页面按 [维护单元](../engineering/frontend/components/components.md#主组件用法与页面) 区分。公共稿可用 Label + Input 或内容 Skeleton 解释用法；需要展示模板页面时，使用 Examples 普通 Frame。使用方的真实业务流程与页面在自己的消费稿中表达。交接不把控件所在的展示板或组件目录分类当作公共准入证据。
-
-归属同步须在设计修改获授权后执行：先核对主组件与直接实例依赖，再在实际归属文件中承接并更新引用；模板共用设计在公共库集中维护，公共库不能反向引用使用方的业务消费稿。同步后回读导入、主题、实例覆盖和受影响画面，再更新清单中的实际位置；规范中的目标归属不代表节点已经迁移。
-
-Token 按 [选择政策](tokens.md) 使用，运行时定义在 [global.css](../../frontend/src/shared/styles/global.css)；设计与代码的对应关系见 [同步约定](tokens.md#设计与代码同步)。交接记录设计节点/角色 → 实际组件或组合 → API/语义 Token → 主题和适配。支持属性用真实绑定，解析值及 `metadata.token-map` 单独记录限制。
-
-设计默认 sans 为 Inter，技术参数使用 IBM Plex Mono；Web 以相同字体为首选，并保留系统与中文 fallback。字体接线在主题指南维护；fallback 不代表跨系统字形完全一致，也不证明运行时字体已加载。
-
-基础 Button 和菜单项使用最小高度、Token Padding 与自然换行；纯图标按钮保持方形尺寸。设计稿表达默认几何和允许的内容增长，字体放大、触控几何及必要边界仍按真实消费者核验，规范要求不等于浏览器验收已完成。组件尺寸读取实际节点；设计 opacity 百分数在 CSS 中转换为比例，`token-map` 仅帮助定位，不冒充自动联动。
-
-## Web 布局与宿主
-
-应用标题、导航、设置与账户由 AppHeader / AppShell 承担；页面负责自己的内容。当前 AppShell 的 props 和路由用法需核对源码；不能按手机稿统一删除应用顶栏。系统时间、电池和浏览器 chrome 不重绘。
-
-模板示例只组合已有能力：LoginModal 是当前页面上的认证浮层，`/login` 重定向并打开它；ShareDialog 消费调用方提供的 poster，窄屏可采用实际实现的底部浮层。不可把画布中的反馈当作真实请求或浏览器能力证明。
-
-认证设计在 `design-system/core.lib.pen` 的 `bzlJA` 维护，展示可选的邮箱验证码、双方式登录与邮箱注册；字段组合公共 Label / Input，浮层复用 Dialog。该展示不改变默认生产能力开关，当前设计覆盖见 [组件清单](../engineering/frontend/components/component-inventory.md#pencil-定位与映射)。认证字段、操作、切换和记住我使用认证节点的 `font-size-lg` 与行高覆盖；辅助说明和请求反馈使用各自的文字角色。认证卡片及浮层底部的文字按钮使用 `primary`，hover 使用 `primary-hover`；保持普通文字的 `foreground`。认证源码仍由 `features/auth` 拥有。
-
-比较时固定主题、状态、平台、逻辑尺寸与已批准适配，注明整页、内容区和宿主边界；不裁剪隐藏重复顶栏、缺失区块或溢出。
-
-## 小程序组件与宿主
-
-小程序使用 [本端组件清单](../engineering/miniprogram/components/component-inventory.md)、[移动 UI](mobile/ui-spec.md) 与 [移动 Token](mobile/tokens.md)，不继承以上 Web 字体、Dialog/Popover、AppHeader 或桌面布局参数。交接记录原生/自定义导航、TabBar、安全区归属、模板 375 逻辑 px 基准、键盘及必要平台能力；智能衣柜沿用已登记的 390px 主稿及补查宽度，不因模板基准改变业务设计。同品牌色不等于同组件实现。当前 Web core.lib.pen 不证明移动设计或绑定完成。
+端内交接维护设计节点/角色 → 实际组件或组合 → API/语义 Token → 主题和适配。设计与运行时的对应关系按 [共享配色](tokens.md)、本端 Token 与组件治理核对，Pen 变体或 Frame 数量不决定代码组件数量。
 
 ## 深浅主题的设计表达
 
@@ -63,15 +37,17 @@ Token 绑定不等于主题正确。受影响组件与页面需核对两主题�
 
 ## 验证接口
 
-命令只在 [根 Makefile](../../Makefile)、[公共验证范围](../engineering/common/README.md#验证范围) 、[Web README](../../frontend/README.md) 与 [小程序 README](../../miniprogram/README.md) 维护。Lint/类型检查不能自动证明组件复用、Token 语义或设计一致性。
+命令只在 [根 Makefile](../../Makefile)、[公共验证范围](../engineering/common/README.md#验证范围)、[Web README](../../frontend/README.md) 与 [小程序 README](../../miniprogram/README.md) 维护。Lint/类型检查不能自动证明组件复用、Token 语义或设计一致性。
 
 `.pen` 定位、读写、库导入、保存、截图与回读使用实际 Pencil MCP / `pen interactive` 能力，不使用 Computer Use 或普通文件工具编辑序列化内容。库须通过正式创建/导入机制建立连接，普通复制和改后缀不构成库复用；持久化后重开消费者检查主题及覆盖。
+
+仅迁移目录时保留设计文件内容与库身份，连同直接依赖的素材迁移并核对相对路径；这是资产归属变更，不是重新创建或导入设计库。仓库路径与内容一致性检查不代表编辑器重开、实际渲染或视觉验收已经通过。
 
 设计结构、Token/组件引用与实际渲染分别记录 `passed | failed | not_run` 及范围；代码、浏览器/键盘/网络行为和人工验收另行报告。没有实际查看图像时视觉为 `not_run`，没有基线时不声称设计还原通过。
 
 ## 交接与读取
 
-正式技术方案前，在现有设计文档位置维护同一份需求级设计记录，引用已确认 PRD，并定位真实 Pen 文件/Frame/修订、必要状态/主题/视口、组件与 Token 映射、实际检查及接受范围。此时无需 Change/task IDs；就绪条件与代表页决定沿用全局 `DESIGN-WORKFLOW.md` 的设计就绪与技术反馈规则。未实现或无法访问的能力、主题、映射和消费者如实保留。
+正式技术方案前，在受影响端的 `design/` 维护同一份需求级设计记录，引用已确认 PRD，并定位真实 Pen 文件/Frame/修订、必要状态/主题/视口、组件与 Token 映射、实际检查及接受范围。跨端需求分别定位各端记录，不在根复制设计正文。此时无需 Change/task IDs；就绪条件与代表页决定沿用全局 `DESIGN-WORKFLOW.md` 的设计就绪与技术反馈规则。未实现或无法访问的能力、主题、映射和消费者如实保留。
 
 技术方案实际读取该记录与相关设计节点，再确定实现契约；不可行交互或契约冲突返回同一设计来源做最小修订，产品行为变化先确认 PRD。后续 Change 的 `design.md` 引用同一记录、修订和本任务 Frame/状态，UI 任务在 `tasks.md` 绑定 `design-to-code` 的范围；不复制设计正文或新建平行任务状态。设计接受不代替代码验证与最终人工产品验收。
 

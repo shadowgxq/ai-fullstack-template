@@ -76,15 +76,15 @@ requirements:
   - 真机验收三 Tab、返回、胶囊/安全区、键盘和末项可操作性；按 390px 主稿及必要窄屏/双主题最终验收。
 inputs:
 - id: wardrobe-ui-source
-  source: docs/design/wardrobe-ui-ux.md
+  source: miniprogram/design/wardrobe-ui-ux.md
   purpose: reference
   required: true
   scope:
-  - docs/design/wardrobe.pen；SHA-256 e425e1930f9706d8a06a1632adb501d9c648b144f452a471bcd08e566009c183；导入公共库别名 z。
+  - miniprogram/design/wardrobe.pen；SHA-256 e425e1930f9706d8a06a1632adb501d9c648b144f452a471bcd08e566009c183；导入公共库别名 z。
   - 按各 Change note 定向消费真实页面/局部 Frame 和通用状态；390×844、双主题及必要 360/375/430px。
   - 整体方向已有确认；最新添加衣物/个人/登录/宿主局部仍待验，规划不扩大原接受范围。
 - id: wardrobe-mobile-layout
-  source: docs/design/mobile/wardrobe-ui-spec.md
+  source: miniprogram/design/wardrobe-ui-spec.md
   purpose: reference
   required: true
   scope:

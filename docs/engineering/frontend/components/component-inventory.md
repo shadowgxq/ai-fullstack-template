@@ -33,7 +33,7 @@ feature/widget 的“公共出口”仅表示模块可见性，不表示公共�
 
 | 对象 | 准入依据或未明确边界 | 当前维护方式 |
 |---|---|---|
-| Design Tokens | 项目 Token 定义与设计同步见 [Token 政策](../../../design/tokens.md#设计与代码同步) | core.lib.pen 的公共变量与 Foundations |
+| Design Tokens | 项目 Token 定义与设计同步见 [Token 政策](../../../../frontend/design/tokens.md#设计与代码同步) | core.lib.pen 的公共变量与 Foundations |
 | Button | 操作呈现、变体、尺寸、禁用与 loading；不判断业务成功 | 公共主组件与实例状态 |
 | Input、Label、Textarea | 原生字段、关联、readonly / disabled / invalid；Input 不提供视觉 size 变体，不承担领域校验 | 公共控件；Label + 控件 + helper 为普通用法示例，没有公共 Field API |
 | Switch | checked、禁用与键盘协议，不固定开关业务含义 | 公共主组件与状态；实际命中区域包含较矮的视觉轨道 |
@@ -50,11 +50,11 @@ feature/widget 的“公共出口”仅表示模块可见性，不表示公共�
 
 目录页仍列出 `componentCatalog.ts` 的 15 个入口。“13 个基础 + 2 个高级”是展示分类，不是 13 个公共设计组件的批准记录。Calendar / QueryComposer 的运行时契约以现有源码为准。
 
-通用 Button/link、underline Tabs 及淡底小字使用 `foreground`；link 始终显示下划线。认证卡片与浮层底部文字按钮使用 `primary / primary-hover` 且不显示下划线。源码映射遵循 [Token 政策](../../../design/tokens.md)，静态映射不代表浏览器对比度或交互已经验收。
+通用 Button/link、underline Tabs 及淡底小字使用 `foreground`；link 始终显示下划线。认证卡片与浮层底部文字按钮使用 `primary / primary-hover` 且不显示下划线。源码映射遵循 [Token 政策](../../../../frontend/design/tokens.md)，静态映射不代表浏览器对比度或交互已经验收。
 
 ## Pencil 定位与映射
 
-资产见 [设计登记](../../../design/README.md#资产登记)。模板设计集中在公共库，业务项目需要时通过正式导入复用；表中 ID 是定位线索，使用前回读文档、主组件、命名空间、主题和覆盖。
+资产见 [设计登记](../../../../frontend/design/README.md#资产登记)。模板设计集中在公共库，业务项目需要时通过正式导入复用；表中 ID 是定位线索，使用前回读文档、主组件、命名空间、主题和覆盖。
 
 | 公共库定位 | 映射或组合边界 |
 |---|---|
@@ -85,6 +85,6 @@ feature/widget 的“公共出口”仅表示模块可见性，不表示公共�
 
 当前公共库未提供独立的默认密码登录、认证字段、Calendar、AppHeader / AppShell 和目录/详情页面主稿；对应代码与真实接口继续保留。
 
-设计示例用于表达职责与复用，不是现有页面的逐像素基线；页面主稿和桌面宽度检查按 [布局规范](../../../design/ui-spec.md#布局与宿主)。当前不提供手机稿；未来若新增，仍按实际 Web 宿主、组件契约和响应式实现适配。完整 API 与交互协议查源码，展示状态不等于运行时验证。
+设计示例用于表达职责与复用，不是现有页面的逐像素基线；页面主稿和桌面宽度检查按 [布局规范](../../../../frontend/design/ui-spec.md#布局与宿主)。当前不提供手机稿；未来若新增，仍按实际 Web 宿主、组件契约和响应式实现适配。完整 API 与交互协议查源码，展示状态不等于运行时验证。
 
 主题/图标/翻译/analytics/identity 是 shared 能力，不计作 UI 组件。翻译和 analytics 的远端接入需明确配置；保留 SDK 不代表默认发送请求。

@@ -1,14 +1,14 @@
 # AI Fullstack Template
 
-全栈 Vibe Coding monorepo：共用文档、任务与验证入口，服务依赖和运行进程分开。
+全栈 Vibe Coding monorepo：共用跨端文档、任务与验证入口，各客户端拥有本端设计，服务依赖和运行进程分开。
 
 | 目录 | 责任 | 技术基线 |
 |---|---|---|
-| frontend | 页面、主题、国际化、HTTP 消费者 | React 18、TypeScript、Vite、pnpm |
-| miniprogram（可选） | 微信页面、原生平台能力、HTTP 消费者 | Taro 4.3、React 18、Webpack 5、独立 pnpm |
+| frontend | 页面、主题、国际化、HTTP 消费者及 Web 设计 | React 18、TypeScript、Vite、pnpm |
+| miniprogram（可选） | 微信页面、原生平台能力、HTTP 消费者及小程序设计 | Taro 4.3、React 18、Webpack 5、独立 pnpm |
 | backend | 身份、业务 API、事务 | FastAPI、SQLAlchemy、Alembic、PostgreSQL、Redis、uv |
 | ai-service | 持久化 Run、workflow、Checkpoint、事件 | FastAPI、LangGraph、PostgreSQL、独立 Worker、uv |
-| docs | 需求入口、架构、契约、工程规范 | [文档地图](docs/README.md) |
+| docs | 需求入口、架构、契约、工程规范与跨端设计约定 | [文档地图](docs/README.md) |
 | manager / openspec | 执行索引与变更任务；模板初始为空 | [交付流程](docs/engineering/workflow/delivery.md) |
 
 模板提供前后端工程基座；AI 默认只运行 `echo.v1` 确定性 workflow，没有真实模型或付费请求。使用方的产品需求从 [产品入口](docs/product/README.md) 建立，不继承模板维护记录或演示业务 PRD。
@@ -62,7 +62,7 @@ Vite 位于 5173，通过代理访问后端。AI 凭证不进入 VITE 变量。�
 
 ## 交付与验证
 
-先读 [AGENTS.md](AGENTS.md)；项目阶段关系见 [交付流程](docs/engineering/workflow/delivery.md)，Skill 版本、安装与检查见 [工具入口](docs/engineering/workflow/tooling.md)，设计任务选择见 [前端导航](docs/engineering/frontend/README.md#任务路径)，Pencil 与代码交接见 [设计交付约定](docs/design/design-handoff.md)。
+先读 [AGENTS.md](AGENTS.md)；项目阶段关系见 [交付流程](docs/engineering/workflow/delivery.md)，Skill 版本、安装与检查见 [工具入口](docs/engineering/workflow/tooling.md)。端专属设计稿和规范分别见 [Web 设计](frontend/design/README.md) 与 [小程序设计](miniprogram/design/README.md)，共同交接接口见 [设计交付约定](docs/design/design-handoff.md)。工程规范仍统一在根 `docs/engineering/` 维护。
 
 ```bash
 make docs             # 文档导航、内容卫生、任务引用、校验器回归
@@ -77,7 +77,7 @@ CI 使用真实 PostgreSQL 验证 AI 幂等、scope 隔离、Checkpoint 恢复�
 
 ## 可选微信小程序
 
-[小程序 README](miniprogram/README.md) 维护安装、Watch 编译、开发者工具导入和后端连接；[专项导航](docs/engineering/miniprogram/README.md) 维护 AI 开发入口，[移动 UI](docs/design/mobile/ui-spec.md) 与 [移动 Token](docs/design/mobile/tokens.md) 独立维护适配规则。小程序与 Web 共用根需求/架构/契约/Plan/OpenSpec，但分别实现 UI、依赖与构建。
+[小程序 README](miniprogram/README.md) 维护安装、Watch 编译、开发者工具导入和后端连接；[专项导航](docs/engineering/miniprogram/README.md) 维护 AI 开发入口，[移动 UI](miniprogram/design/ui-spec.md) 与 [移动 Token](miniprogram/design/tokens.md) 在本端独立维护适配规则。小程序与 Web 共用根需求/架构/契约/Plan/OpenSpec，但分别拥有设计资产、UI 实现、依赖与构建。
 
 默认 `make install / check / up` 不安装或启动小程序。按需使用 `make install-miniprogram / dev-miniprogram / check-miniprogram / build-miniprogram`；微信发布单独授权。当前账户页消费已有用户名密码 API，微信身份交换、上传业务和真机联调不因新增客户端自动完成。
 
