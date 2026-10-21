@@ -4,7 +4,7 @@
 
 ## 适用项目
 
-目标包在设计输入中明确：`frontend/` 为 React/Vite Web，手机画布仍是 Web；`miniprogram/` 为微信小程序，原生导航/胶囊/TabBar 边界独立。框架、Provider、路由和宿主以对应 [Web 技术基线](../engineering/frontend/architecture/technology-options.md) / [小程序技术基线](../engineering/miniprogram/architecture/technology-options.md) 与真实源码为准。
+目标包在设计输入中明确：`frontend/` 为 React/Vite Web，手机画布仍是 Web；`miniprogram/` 为微信小程序，原生导航/胶囊/TabBar 边界独立。框架、Provider、路由和宿主以对应 [Web 技术基线](../engineering/frontend/architecture/technology-options.md) / [小程序技术基线](../engineering/miniprogram/architecture/technology-options.md) 与真实源码为准。智能衣柜以现有 `miniprogram/` 为实现目标，业务设计见 [设计交付](wardrobe-ui-ux.md)，布局差异见 [业务移动 UI](mobile/wardrobe-ui-spec.md)；微信登录后端、媒体、位置及自定义宿主仍须按业务需求接入，不因模板工程存在而视为已完成。
 
 读取从 [根 AGENTS](../../AGENTS.md)、[文档地图](../README.md)、受影响端 [frontend/AGENTS](../../frontend/AGENTS.md) 或 [miniprogram/AGENTS](../../miniprogram/AGENTS.md) 进入。新页面和关键交互按任务路径准备设计；已有适用稿复用，轻量修改沿用同一套视觉、Token、组件与状态规则。
 
@@ -42,7 +42,7 @@ Token 按 [选择政策](tokens.md) 使用，运行时定义在 [global.css](../
 
 ## 小程序组件与宿主
 
-小程序使用 [本端组件清单](../engineering/miniprogram/components/component-inventory.md)、[移动 UI](mobile/ui-spec.md) 与 [移动 Token](mobile/tokens.md)，不继承以上 Web 字体、Dialog/Popover、AppHeader 或桌面布局参数。交接记录原生/自定义导航、TabBar、安全区归属、375 逻辑 px 基准、键盘及必要平台能力；同品牌色不等于同组件实现。当前 Web core.lib.pen 不证明移动设计或绑定完成。
+小程序使用 [本端组件清单](../engineering/miniprogram/components/component-inventory.md)、[移动 UI](mobile/ui-spec.md) 与 [移动 Token](mobile/tokens.md)，不继承以上 Web 字体、Dialog/Popover、AppHeader 或桌面布局参数。交接记录原生/自定义导航、TabBar、安全区归属、模板 375 逻辑 px 基准、键盘及必要平台能力；智能衣柜沿用已登记的 390px 主稿及补查宽度，不因模板基准改变业务设计。同品牌色不等于同组件实现。当前 Web core.lib.pen 不证明移动设计或绑定完成。
 
 ## 深浅主题的设计表达
 

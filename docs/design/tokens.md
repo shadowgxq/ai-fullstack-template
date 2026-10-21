@@ -56,3 +56,9 @@ sans / mono 使用 `font-family-sans / font-family-mono`，包含系统及中文
 `global.css` 集中定义组件几何、候选面板高度上限、触控命中尺寸、动画时长与 easing。
 
 Light / Dark 使用同名语义的主题值，共用未变化的结构和几何，不为两主题维护平行 Token 命名或组件。
+
+## 智能衣柜移动端密度映射
+
+`wardrobe.pen` 的 `wardrobe-mobile-*` 为当前业务设计的小程序移动端几何候选，区分触控范围、场景按钮视觉层、筛选标签视觉层，以及底部导航的高度、图标、标签和图文间距；颜色、字体和基础圆角继续复用公共语义，不另建业务色板或替换公共 PC 组件默认值。实际几何与范围见 [业务移动 UI](mobile/wardrobe-ui-spec.md#布局与宿主)，本次解析证据及绑定限制见 [业务设计交付](wardrobe-ui-ux.md#组件与实现边界)。
+
+这些业务设计变量尚未接入小程序运行时。共享色值以 `global.css` 为源，小程序尺寸与别名以 `miniprogram/src/shared/styles/tokens.scss` 为源，生成方向见 [移动 Token](mobile/tokens.md)。业务实现时将已接受的角色映射到该值源与实际控件 API，不将设计变量名直接当作已有 CSS 变量，也不将业务尺寸自动应用到公共 PC 模板。

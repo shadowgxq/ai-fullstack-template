@@ -1,6 +1,6 @@
 # 设计规范与资产
 
-目标包按任务选择 `frontend/`（React/Vite Web）或 `miniprogram/`（微信小程序）。Web 手机触控布局与微信宿主不是同一平台。任务选择见 [Web 导航](../engineering/frontend/README.md#任务路径) / [小程序导航](../engineering/miniprogram/README.md#任务路径)。模板提供通用设计基础与现有能力示例；使用方业务由自己的需求和契约定义。
+目标包按任务选择 `frontend/`（React/Vite Web）或 `miniprogram/`（微信小程序）。Web 手机触控布局与微信宿主不是同一平台。任务选择见 [Web 导航](../engineering/frontend/README.md#任务路径) / [小程序导航](../engineering/miniprogram/README.md#任务路径)。模板提供通用设计基础与现有能力示例；使用方业务由自己的需求和契约定义。智能衣柜业务在 `miniprogram/` 中实现，业务设计见 [设计交付](wardrobe-ui-ux.md)。
 
 ## 规则归属
 
@@ -8,13 +8,15 @@
 |---|---|
 | Web 视觉、信息层级与布局 | [Web UI 规范](ui-spec.md) |
 | 微信移动布局、宿主与触控 | [移动 UI](mobile/ui-spec.md) |
+| 智能衣柜业务布局与宿主 | [业务移动 UI](mobile/wardrobe-ui-spec.md)；实现目标为 miniprogram/ |
 | 小程序 Token 与双主题生成 | [移动 Token](mobile/tokens.md)；颜色来自现有 Web 源，本端维护几何和别名 |
 | Token 选择与设计同步 | [Token 政策](tokens.md)；运行时数值、别名与主题值在 [global.css](../../frontend/src/shared/styles/global.css) |
 | 平台、宿主适配与交付接口 | [设计交付约定](design-handoff.md) |
-| 组件复用、归属与拆分 | [组件治理](../engineering/frontend/components/components.md) |
-| 组件可见性与设计定位 | [组件清单](../engineering/frontend/components/component-inventory.md)；API 以源码 export/类型为准 |
-| 状态、键盘、焦点与可访问性 | [UI 状态](../engineering/frontend/standards/accessibility-and-ui-states.md) |
-| Theme / i18n 的运行接线 | [主题指南](../engineering/frontend/guides/theming-and-i18n.md) |
+| Web 组件复用、归属与拆分 | [组件治理](../engineering/frontend/components/components.md) |
+| Web 组件可见性与设计定位 | [组件清单](../engineering/frontend/components/component-inventory.md)；API 以源码 export/类型为准 |
+| Web 状态、键盘、焦点与可访问性 | [UI 状态](../engineering/frontend/standards/accessibility-and-ui-states.md) |
+| Web Theme / i18n 的运行接线 | [主题指南](../engineering/frontend/guides/theming-and-i18n.md) |
+| 小程序组件与状态 | [本端组件清单](../engineering/miniprogram/components/component-inventory.md) 与 [开发规范](../engineering/miniprogram/standards/development.md) |
 | 业务与服务能力 | 使用方 [产品需求](../product/README.md) 与 [跨端契约](../contracts/README.md) |
 
 通用动作由全局安装、同一来源的 `ui-ux-delivery`、`pencil-design`、`design-to-code`、`design-qa` 与 `DESIGN-WORKFLOW.md` 维护；本目录不保存执行 Skill 或项目绑定副本。全局来源与读取入口见 [工具入口](../engineering/workflow/tooling.md#安装与唯一机制)。
@@ -23,19 +25,21 @@
 
 ## 资产登记
 
-当前可编辑资产仅覆盖 Web，共一个设计文件：`design-system/core.lib.pen`。公共库包含 Design Tokens、基础控件、认证、分享和 QueryComposer 及其必要状态；业务项目出现真实需求后再创建自己的业务消费稿，不预留空业务设计文件。
+模板公共设计集中在 `design-system/core.lib.pen`，包含 Design Tokens、基础控件、认证、分享和 QueryComposer 及其必要状态。智能衣柜业务消费稿为 `wardrobe.pen`，通过正式导入复用公共库。
 
 | 资产 | 用途 |
 |---|---|
 | [design-system/core.lib.pen](design-system/core.lib.pen) | Signal Teal 的 75 个设计变量、公共组件、模板共用能力及必要状态 |
 | `design-system/previews/` | 同名 Frame 的 Light 导出图；`dark/` 为同一结构切换主题后的预览 |
+| [wardrobe.pen](wardrobe.pen) | 智能衣柜 V1 微信小程序设计，正式导入公共库；沿已确认风格覆盖业务页面 |
+| [智能衣柜设计交付](wardrobe-ui-ux.md) | PRD 范围、页面与状态表达、实际 Frame、检查结果及接受范围 |
 
 公共组件按维护单元独立定位，认证、分享和查询组合保留各自真实契约。设计主组件和展示画板不决定 React 的模块位置或公开 API，当前设计覆盖与源码映射见 [组件清单](../engineering/frontend/components/component-inventory.md#pencil-定位与映射)。
 
-公共库独立维护变量与组件，不依赖业务设计资产。后续业务消费稿通过正式导入复用公共库，负责实际业务页面、流程、文案与数据；不复制公共色板，也不为每次需求新增设计文件。公共准入与运行时归属见 [组件治理](../engineering/frontend/components/components.md)。
+公共库独立维护变量与组件，不依赖业务设计资产。业务消费稿通过正式导入复用公共库，负责实际业务页面、流程、文案与数据；不复制公共色板，也不为每次需求新增设计文件。公共准入与运行时归属见 [组件治理](../engineering/frontend/components/components.md)。
 
 仅 `MKpT9` Foundations 保留 Light / Dark 并排概览。`KNJdR` Semantic colors、组件规范与组合示例使用单份结构，选中画板后切换 `mode=light/dark` 查看主题，不另设关键状态对照板。操作、焦点、校验、选中与透明遮罩在各组件规范区维护。默认保留 Light 主稿；必要的 Dark 预览从同一 Frame 导出，预览随受影响主稿同步。两主题渲染与运行时验证的边界见 [设计交付约定](design-handoff.md#深浅主题的设计表达)。
 
-当前 Web 页面设计遵循 [桌面布局基准](ui-spec.md#布局与宿主)；小程序遵循 [移动布局](mobile/ui-spec.md)，尚未登记移动 `.pen` 资产，不把 Web 稿视为已完成移动设计。组件规范板的总宽度不决定页面或控件尺寸。节点 ID、变量、主题、实例覆盖和库连接在使用前通过设计工具回读；预览与路径只能定位，不能代替当前源稿。
+Web 页面遵循 [Web 布局规则](ui-spec.md#布局与宿主)，小程序遵循 [移动布局](mobile/ui-spec.md)；智能衣柜已登记业务消费稿 `wardrobe.pen`，业务布局见 [业务移动 UI](mobile/wardrobe-ui-spec.md)，接受范围见 [业务设计交付](wardrobe-ui-ux.md)。公共 Web 组件不作为小程序运行组件。组件规范板的总宽度不决定页面或控件尺寸。节点 ID、变量、主题、实例覆盖和库连接在使用前通过设计工具回读；预览与路径只能定位，不能代替当前源稿。
 
 示例数据和操作反馈是设计表达，不能证明登录、权限、剪贴板、图片导出、投递或人工验收。实际进度与验证证据放在对应 change / PR / 交接中，不维护另一套长期执行台账。
