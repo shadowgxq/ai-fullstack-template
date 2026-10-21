@@ -39,7 +39,7 @@ Label + Input + helper、内容 Skeleton 等可以是公共控件的用法示例
 
 先查 [现有组件清单](component-inventory.md) **和源码的真实 export / props / 调用点**：同业务现有实现 → 项目 shared UI → 既有组合模式 → 已安装 primitive 的最小封装 → 就近新增。已经用 shadcn/Radix 的项目不因为社区示例就再引入另一套 UI 库。
 
-相同契约优先使用现有组件，不建立近似副本。先核对行为、状态、插槽、受控模式与主题是否满足任务，再决定复用或组合，不能只比较截图。不为单个消费者加入 `isProjectA` 一类业务开关，不修改第三方生成结构来绕过包装层。视觉见 [UI 规范](../../../design/ui-spec.md)，Token 选择见 [政策](../../../design/tokens.md)。
+相同契约优先使用现有组件，不建立近似副本。先核对行为、状态、插槽、受控模式与主题是否满足任务，再决定复用或组合，不能只比较截图。不为单个消费者加入 `isProjectA` 一类业务开关，不修改第三方生成结构来绕过包装层。视觉见 [UI 规范](../../../../frontend/design/ui-spec.md)，Token 选择见 [政策](../../../../frontend/design/tokens.md)。
 
 新增前明确数据依赖、状态拥有者、副作用和真实共享需要；公共 API/缺省行为变更检查全部直接消费者。Pen 的主组件、变体与 Frame 数量不决定 React 组件数量，Card/ListItem/Feedback 可以保持组合模式。
 

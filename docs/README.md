@@ -8,8 +8,9 @@
 
 ```text
 AGENTS.md                         公共协作约束与任务路由
-  → engineering/common/           代码质量；按需 Python、数据与运行细节
-  → engineering/<端>/README.md    选择本端编码、分层、组件或恢复细则
+  → docs/engineering/common/      代码质量；按需 Python、数据与运行细节
+  → docs/engineering/<端>/        选择本端编码、分层、组件或恢复细则
+  → <客户端>/design/              本端设计稿、视觉规范、Token 与交接
 ```
 
 根与各端 `AGENTS.md` 保持短入口；正文只维护在对应规范文件。代码任务读取短公共基线和受影响端，不默认加载所有规范；文档任务只读目标及引用。已读规则不重复加载，读取入口继续使用下表，不要求逐级遍历目录。
@@ -26,7 +27,8 @@ AGENTS.md                         公共协作约束与任务路由
 | [后端规范](engineering/backend/README.md) | 认证、CRUD、迁移、Redis；入口为 [backend/AGENTS.md](../backend/AGENTS.md) |
 | [AI 服务规范](engineering/ai-service/README.md) | 技术基线、分层、Workflow/State、恢复、模型/工具、API/产物与 Evals；入口为 [ai-service/AGENTS.md](../ai-service/AGENTS.md) |
 | [产品需求](product/README.md) | 使用方的真实产品范围与验收；模板不预装业务 PRD |
-| [设计规范与资产](design/README.md) | 按 Web / 微信平台选择视觉、Token 与交付；移动规则见 [mobile](design/mobile/ui-spec.md)，不继承桌面几何 |
+| [跨端设计入口](design/README.md) | 共享配色与通用交付接口；不存端专属资产或规则副本 |
+| [Web 设计](../frontend/design/README.md) / [小程序设计](../miniprogram/design/README.md) | 各端拥有自己的设计稿、素材、视觉规范、Token 使用政策与设计交接，不继承另一平台几何 |
 | [架构与 ADR](architecture/README.md) | 系统基线及按需业务总/专项技术方案；批准内容由 change 引用，不复制成另一份 design |
 | [跨端契约](contracts/README.md) | DTO、状态、错误语义；生成 schema 的事实源在提供方代码 |
 | [项目计划](../manager/plan.yaml) | 已登记需求、批次与 change 记录；新计划按当前 Manager 格式维护 |
@@ -40,6 +42,7 @@ AGENTS.md                         公共协作约束与任务路由
 - 当前能力、未实现边界和重要 ADR 必须保留。决策依据与必要来源链接不是对话残留；生成契约仍由代码导出，不因文档清理手工改写。
 - AGENTS 与 SKILL 可以包含职责范围内的执行指令；版本化运行时 prompt 放在对应资源目录。文档中的调用示例应明确标为示例并使用代码块，不作为真实任务或进度。
 - 同一规则只在一个事实源维护，其他位置链接引用。语义重复优先合并，不通过新增总结、清理报告或规则副本制造更多长期文档。
+- 端专属设计正文和资产在该客户端的 `design/` 维护，需求级记录引用根 PRD 与技术方案；工程规范仍保留在 `docs/engineering/<端>/`。端内不创建独立的 docs / manager / openspec / 通用 Skill 副本。
 - 模板发布保留入口、工具配置和空任务索引，不携带模板维护任务、旧业务 PRD 或历史验收报告。已有使用方项目仍按审计要求归档业务 change，不据此清空进行中的任务或业务规格。
 
 ## 维护与流转

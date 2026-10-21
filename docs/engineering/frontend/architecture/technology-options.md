@@ -1,6 +1,6 @@
 # 前端技术基线
 
-代码基线来自标准 frontend 的整体同步，来源与集成例外见 [源码清单](../../../../scripts/frontend-source.json)。工程规则在 `docs/engineering/frontend`，视觉/Token 选择与设计适配在 [设计入口](../../../design/README.md)；参考仓库不是第二份项目需求/规范。版本以 [package.json](../../../../frontend/package.json) 和 lockfile 为准。
+代码基线来自标准 frontend 的整体同步，来源与集成例外见 [源码清单](../../../../scripts/frontend-source.json)。工程规则在 `docs/engineering/frontend`，视觉/Token 选择与设计适配在 [本端设计入口](../../../../frontend/design/README.md)；参考仓库不是第二份项目需求/规范。版本以 [package.json](../../../../frontend/package.json) 和 lockfile 为准。
 
 ## 技术选型
 
@@ -40,7 +40,7 @@ API 事实、错误和授权由 backend 决定；客户端泛型不是运行时�
 
 ## 模板与业务边界
 
-通用设计变量、公共控件和现有模板能力示例在 [设计资产](../../../design/README.md#资产登记) 登记；示例不是使用方业务需求，也不证明应用与设计已验收。
+通用设计变量、公共控件和现有模板能力示例在 [设计资产](../../../../frontend/design/README.md#资产登记) 登记；示例不是使用方业务需求，也不证明应用与设计已验收。
 
 基础/主题/组件展示页、通用账号 UI 和分享能力属于模板。具体实体、业务导航、报告与 Agent workflow 进入使用方需求，不通过同步模板自动新增。
 

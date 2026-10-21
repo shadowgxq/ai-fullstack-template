@@ -4,13 +4,13 @@
 
 ## 视觉方向
 
-Signal Teal 只保留 Light / Dark 两套配色，共用尺寸与组件。强调可读性、清楚的任务层级和明确操作；一个操作组通常只有一个主操作。图标辅助理解，不能代替名称或关键反馈。sans 用于界面与中文内容，mono 用于技术标识；字体与运行接线见 [主题指南](../engineering/frontend/guides/theming-and-i18n.md)。
+Signal Teal 只保留 Light / Dark 两套配色，共用尺寸与组件。强调可读性、清楚的任务层级和明确操作；一个操作组通常只有一个主操作。图标辅助理解，不能代替名称或关键反馈。sans 用于界面与中文内容，mono 用于技术标识；字体与运行接线见 [主题指南](../../docs/engineering/frontend/guides/theming-and-i18n.md)。
 
 ## 信息与排版
 
 页面、区块、卡片、正文与辅助说明使用已有文字角色；关键错误、动作和结果不降为辅助文字。连续阅读按内容需要使用已有字体尺度，不为未实现角色预建 Token。标题突出任务和对象，主次操作有明确层级。
 
-内容增长时自然撑高；长中文/英文、字体回退和放大文字的行为检查归 [UI 状态](../engineering/frontend/standards/accessibility-and-ui-states.md)。不使用缩小字体或整页缩放消除拥挤。
+内容增长时自然撑高；长中文/英文、字体回退和放大文字的行为检查归 [UI 状态](../../docs/engineering/frontend/standards/accessibility-and-ui-states.md)。不使用缩小字体或整页缩放消除拥挤。
 
 ## 布局与宿主
 
@@ -18,7 +18,7 @@ Signal Teal 只保留 Light / Dark 两套配色，共用尺寸与组件。强调
 
 桌面页面设计以 1440px 视口作为主稿，并检查 1024px、1280px 和 1920px 的布局。正文最大宽度读取 `layout-max-width`，留边按 `space-8` 与居中约束处理；应用顶栏与正文优先共享对齐线，宽屏不继续拉宽内容。表单、浮层和连续阅读按内容需要进一步收窄，较窄桌面按最小可读宽重排；不随视口等比缩放字体和控件。组件规范板按内容排布，不把展示总画布宽度作为页面宽度。当前设计资产只提供桌面稿。
 
-当前页面在各自实现中组合 `AppShell` 与内容容器，没有统一 `.page-container`；不要根据规范臆造 import 或工具类。顶栏和内容的实际对齐/断点需核对相关源码，顶栏尺寸以实际宿主实现为准，见 [路由与宿主](../engineering/frontend/architecture/technology-options.md#路由与宿主)。
+当前页面在各自实现中组合 `AppShell` 与内容容器，没有统一 `.page-container`；不要根据规范臆造 import 或工具类。顶栏和内容的实际对齐/断点需核对相关源码，顶栏尺寸以实际宿主实现为准，见 [路由与宿主](../../docs/engineering/frontend/architecture/technology-options.md#路由与宿主)。
 
 控件视觉几何、命中区域与内容尺寸分别考虑，先用真实组件 API。安全边缘使用浏览器 `env(safe-area-inset-*)`，不复制固定设备安全区。触控、局部宽表滚动、缩放与溢出要求归 UI 状态。
 
@@ -26,7 +26,7 @@ Signal Teal 只保留 Light / Dark 两套配色，共用尺寸与组件。强调
 
 ## 组件与状态
 
-选择、分层和抽取按 [组件治理](../engineering/frontend/components/components.md)；能力与 API 核对 [清单](../engineering/frontend/components/component-inventory.md) 和源码。表单、ARIA、键盘、焦点、对比度与减少动态效果只在 UI 状态维护。
+选择、分层和抽取按 [组件治理](../../docs/engineering/frontend/components/components.md)；能力与 API 核对 [清单](../../docs/engineering/frontend/components/component-inventory.md) 和源码。表单、ARIA、键盘、焦点、对比度与减少动态效果只在 UI 状态维护。
 
 公共控件按实际维护单元组织可独立查看的规范区域，展示必要变体、状态及少量用法；不把大量无关控件塞入同一展示板，也不为展示容器建立可复用主组件。展开态应表达真实浮层内容，只有触发框不能代表 Select 已展开。公共库中的用法示例使用普通 Frame；需要展示模板页面时放在 Examples 区域，不新增主组件。使用方的实际业务布局与导航由其消费稿维护，直接引用可用公共能力。
 

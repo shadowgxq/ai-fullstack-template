@@ -1,6 +1,6 @@
 # 移动端 Token 架构
 
-采用 **Reference → Semantic → Component** 三层别名，命名使用 `--mp-` 隔离平台运行时。该分层借鉴 [DTCG 2025.10 Format](https://www.designtokens.org/tr/2025.10/format/) 的命名引用与单一来源原则；当前实现为 CSS/SCSS，不宣称完整实现 DTCG JSON 格式，也不把 Community Group 报告称为 W3C Standard。
+采用 **Reference → Semantic → Component** 三层别名，命名使用 `--mp-` 隔离平台运行时。该分层借鉴 [DTCG 2025.10 Format](https://www.designtokens.org/tr/2025.10/format/) 的命名引用与单一来源原则；当前实现为 CSS/SCSS，不宣称完整实现 DTCG JSON 格式，也不把 Community Group 报告称为 W3C Standard。跨端所有权见 [共享配色政策](../../docs/design/tokens.md)，本页维护小程序的生成与消费细节。
 
 ## 唯一来源与生成方向
 
@@ -38,7 +38,7 @@ PageShell / Button / Field / Card / Notice / StatePanel
 
 原生配置中需要实色的字段由生成器输出，不把 `var(...)` 当成 JSON 色值。navigationBar 前景与边框仅接受平台黑/白枚举，不创造第三种值。系统/浅色/深色偏好存储在本端，存储失败可见，不宣称已保存。系统主题初始化与用户覆盖分开。
 
-原生 TabBar 使用本地 PNG 图标，不使用字体字符或远程图片。形状由 [tab-icons.mjs](../../../miniprogram/scripts/tab-icons.mjs) 维护，`sync-tokens.mjs` 使用 `muted-foreground` / `primary` 生成普通/选中状态；两主题共 12 个资产。选中态同时改变轮廓/填充。生成尺寸是资源像素，不是 TabBar 高度或触控尺寸，显示几何与安全区仍由微信管理。
+原生 TabBar 使用本地 PNG 图标，不使用字体字符或远程图片。形状由 [tab-icons.mjs](../scripts/tab-icons.mjs) 维护，`sync-tokens.mjs` 使用 `muted-foreground` / `primary` 生成普通/选中状态；两主题共 12 个资产。选中态同时改变轮廓/填充。生成尺寸是资源像素，不是 TabBar 高度或触控尺寸，显示几何与安全区仍由微信管理。
 
 `app.config.ts` 通过主题键选择启动图标；运行时以 `setTabBarItem` 和 `setTabBarStyle` 同步用户偏好。边框配置保留 Taro 支持的 `white` 默认值，再由运行时切换为对应黑/白值。连续原生外观更新按调用顺序执行，避免旧图标迟到覆盖新主题；个别 API 失败不阻断其余更新。配置显式复制两主题资源，产物检查核对引用和文件，不能仅凭源码路径存在判断包内资源可达。
 
@@ -50,4 +50,4 @@ PageShell / Button / Field / Card / Notice / StatePanel
 
 ## 变更与验证
 
-颜色修改先更新既有源/设计表达，再 `pnpm --dir miniprogram tokens`；移动几何直接改 `tokens.scss` 与相关组件。图标生成物同样提交并检查漂移，不单独手改 PNG 颜色。检查两主题、必要状态、生成漂移和涉及布局；真实触控/键盘/原生主题仍需单独验收。移动设计变量在 `../design-system/mobile.lib.pen` 维护，实际绑定及检查范围见 [移动设计交接](design-handoff.md)。生成 SCSS 或图标不等于设计同步或设备视觉验收。
+颜色修改先更新既有源/设计表达，再 `pnpm --dir miniprogram tokens`；移动几何直接改 `tokens.scss` 与相关组件。图标生成物同样提交并检查漂移，不单独手改 PNG 颜色。检查两主题、必要状态、生成漂移和涉及布局；真实触控/键盘/原生主题仍需单独验收。移动设计变量在 `mobile.lib.pen` 维护，实际绑定及检查范围见 [移动设计交接](design-handoff.md)。生成 SCSS 或图标不等于设计同步或设备视觉验收。
