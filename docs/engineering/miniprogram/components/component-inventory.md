@@ -16,7 +16,7 @@
 
 新增能力先复用现有出口，再就近补充；只有稳定共享职责才抽取，不能为当前仅一个示例而删除模板基础组件。复杂日期/选择器等在有真实需求后评估官方/第三方组件的版本、主题和平台边界。
 
-`core.lib.pen` 是 **Web 设计资产**；小程序使用独立的 [mobile.lib.pen](../../../design/design-system/mobile.lib.pen)。当前“版本 C”参考还原包含首页、组件库、我的三张静态样例页，以及基础组件演示和一张简版视觉规范页；规范不展示控件，主组件定义位于基础组件页的非展示来源组；覆盖范围、Frame ID、候选值、状态定位与映射见 [移动设计交接](../../../design/mobile/design-handoff.md)。
+`core.lib.pen` 是 **Web 设计资产**；小程序使用独立的 [mobile.lib.pen](../../../../miniprogram/design/mobile.lib.pen)。当前“版本 C”参考还原包含首页、组件库、我的三张静态样例页，以及基础组件演示和一张简版视觉规范页；规范不展示控件，主组件定义位于基础组件页的非展示来源组；覆盖范围、Frame ID、候选值、状态定位与映射见 [移动设计交接](../../../../miniprogram/design/design-handoff.md)。
 
 Cell/Search、Tabs、Switch、Checkbox、Radio、Badge 等在 `features/component-library` 和演示页面内组合，未提升为 shared/ui 公共出口，不能根据设计名称臆造 import。Button、Field、Card、Notice、StatePanel 与页面基础排版仍以本表现有接口为准；移动几何在 `tokens.scss` 中同步；页面图标和原生 TabBar 共用本地 Lucide 形状及生成配色。复杂 Select / Calendar、QueryComposer、分享不自动进入本次移动提案，Web 实现不受影响。
 

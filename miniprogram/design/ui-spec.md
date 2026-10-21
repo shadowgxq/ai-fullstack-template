@@ -1,6 +1,6 @@
 # 移动端 UI 与适配规范
 
-适用于 `miniprogram/` 的微信小程序。当前设计提案为“轻原生 C”，沿用 Signal Teal 品牌语义，以柔和表面、内容优先和克制的层级组织页面；移动端信息层级、交互、尺寸与宿主规则独立于 Web。Token 值与归属见 [移动 Token](tokens.md)，当前实现范围见 [组件清单](../../engineering/miniprogram/components/component-inventory.md)。本页是设计/实现约束，不代表所有条目都已制稿或真机验收。
+适用于 `miniprogram/` 的微信小程序。当前设计提案为“轻原生 C”，沿用 Signal Teal 品牌语义，以柔和表面、内容优先和克制的层级组织页面；移动端信息层级、交互、尺寸与宿主规则独立于 Web。Token 值与归属见 [移动 Token](tokens.md)，当前实现范围见 [组件清单](../../docs/engineering/miniprogram/components/component-inventory.md)。本页是设计/实现约束，不代表所有条目都已制稿或真机验收。
 
 ## 页面与导航
 
@@ -69,4 +69,4 @@
 
 沿用全局 `ui-ux-delivery / pencil-design / design-to-code / design-qa`，先确认微信平台、目标包、原生/自定义宿主和代表性状态。先完成代表页与关键交互，再扩展其他页面；不自动生成整套桌面稿。Web 稿只能提供配色/品牌参考，不能视为已批准小程序交付物。
 
-移动资产为 `../design-system/mobile.lib.pen`，当前覆盖与接受范围见 [移动设计交接](design-handoff.md)。业务设计需记录其实际源文件/Frame、单位、状态、平台与接受范围，验收按 [运行指南](../../engineering/miniprogram/guides/runtime-and-verification.md) 留真实证据，不默认启动浏览器/E2E。
+移动资产为 `mobile.lib.pen`，当前覆盖与接受范围见 [移动设计交接](design-handoff.md)。业务设计需记录其实际源文件/Frame、单位、状态、平台与接受范围，验收按 [运行指南](../../docs/engineering/miniprogram/guides/runtime-and-verification.md) 留真实证据，不默认启动浏览器/E2E。

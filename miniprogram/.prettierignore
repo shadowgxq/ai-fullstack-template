@@ -7,3 +7,6 @@ src/shared/api/schema.generated.ts
 src/shared/styles/palette.generated.scss
 src/shared/theme/native.generated.ts
 src/theme.generated.json
+
+# 设计文档由根文档校验器检查；Pencil 资产不由代码格式化器改写。
+design/

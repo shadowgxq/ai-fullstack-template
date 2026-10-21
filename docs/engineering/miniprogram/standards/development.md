@@ -1,6 +1,6 @@
 # 小程序开发规范
 
-继承 [公共代码质量](../../common/code-quality.md)。本页只补 Taro、微信宿主和客户端状态规则；视觉与组件参数分别归 [移动 UI](../../../design/mobile/ui-spec.md)、[Token](../../../design/mobile/tokens.md) 和 [组件清单](../components/component-inventory.md)。
+继承 [公共代码质量](../../common/code-quality.md)。本页只补 Taro、微信宿主和客户端状态规则；视觉与组件参数分别归 [移动 UI](../../../../miniprogram/design/ui-spec.md)、[Token](../../../../miniprogram/design/tokens.md) 和 [组件清单](../components/component-inventory.md)。
 
 ## 组件与页面
 
