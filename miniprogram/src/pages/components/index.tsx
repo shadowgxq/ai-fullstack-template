@@ -1,93 +1,70 @@
 import { useState } from 'react';
-import { Image } from '@tarojs/components';
-import { chooseImage } from '../../shared/platform/wechat';
-import { errorMessage } from '../../shared/api/errors';
+import { useDidShow } from '@tarojs/taro';
+import { Text, View, Button as NativeButton } from '@tarojs/components';
+import { PageShell, StatePanel } from '../../shared/ui';
+import { LibraryIcon, SearchBox, CategoryPreview } from '../../features/component-library/visuals';
 import {
-  PageShell,
-  Card,
-  Stack,
-  Title,
-  Body,
-  Field,
-  Button,
-  Notice,
-  StatePanel,
-} from '../../shared/ui';
+  catalogFilters,
+  filterCategories,
+  type CatalogFilter,
+} from '../../features/component-library/catalog';
+import { consumeCatalogQuery, navigateToDemo } from '../../features/component-library/navigation';
 import styles from './index.module.scss';
 
 export default function ComponentsPage() {
-  const [name, setName] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-  const [image, setImage] = useState<string | null>(null);
-  const [imageError, setImageError] = useState<string | null>(null);
-  const [choosing, setChoosing] = useState(false);
-  const handleImage = async () => {
-    if (choosing) return;
-    setChoosing(true);
-    setImageError(null);
-    try {
-      const path = await chooseImage();
-      if (path) setImage(path);
-    } catch (error) {
-      setImageError(errorMessage(error));
-    } finally {
-      setChoosing(false);
+  const [query, setQuery] = useState('');
+  const [filter, setFilter] = useState<CatalogFilter>('全部');
+  useDidShow(() => {
+    const next = consumeCatalogQuery();
+    if (next !== null) {
+      setQuery(next);
+      setFilter('全部');
     }
-  };
+  });
+  const categories = filterCategories(query, filter);
   return (
-    <PageShell withTabBar>
-      <Stack>
-        <Title>基础组件</Title>
-        <Body secondary>此页展示控件状态，不提交业务数据。</Body>
-      </Stack>
-      <Card>
-        <Stack>
-          <Title section>表单</Title>
-          <Field
-            id="sample-name"
-            label="名称"
-            value={name}
-            onValueChange={setName}
-            placeholder="请输入名称"
-            error={submitted && !name.trim() ? '请输入名称' : undefined}
-          />
-          <Button onClick={() => setSubmitted(true)}>校验输入</Button>
-          {submitted && name.trim() ? (
-            <Notice tone="success">输入格式正确，未提交到服务端。</Notice>
-          ) : null}
-          <Button variant="secondary" disabled>
-            不可用操作
-          </Button>
-        </Stack>
-      </Card>
-      <Card>
-        <Stack>
-          <Title section>图片</Title>
-          <Body secondary>仅预览本地图片，不会自动上传。</Body>
-          {image ? <Image className={styles.image} src={image} mode="aspectFit" /> : null}
-          {imageError ? <Notice tone="error">{imageError}</Notice> : null}
-          <Button
-            variant="secondary"
-            loading={choosing}
+    <PageShell withTabBar compact>
+      <SearchBox value={query} onChange={setQuery} />
+      <View className={styles.filters}>
+        {catalogFilters.map((item) => (
+          <NativeButton
+            className={`${styles.filter} ${filter === item ? styles.active : ''}`}
+            key={item}
+            onClick={() => setFilter(item)}
+          >
+            {item}
+          </NativeButton>
+        ))}
+      </View>
+      <View className={styles.categories}>
+        {categories.map((item) => (
+          <NativeButton
+            key={item.id}
+            className={styles.category}
+            hoverClass={styles.pressed}
             onClick={() => {
-              void handleImage();
+              void navigateToDemo(item.group, item.section);
             }}
           >
-            选择图片
-          </Button>
-        </Stack>
-      </Card>
-      <StatePanel
-        state="empty"
-        title="暂无内容"
-        detail="空状态应说明下一步，而不是只放一张装饰图。"
-      />
-      <StatePanel
-        state="loading"
-        title="加载状态示例"
-        detail="占位结构对应真实内容，避免整屏闪烁。"
-      />
-      <Notice tone="error">错误状态示例：操作未完成，请检查后重试。</Notice>
+            <View className={styles.copy}>
+              <Text className={styles.title}>{item.title}</Text>
+              <Text className={styles.detail}>{item.description}</Text>
+              <Text className={styles.count}>{item.count} 个组件</Text>
+            </View>
+            <CategoryPreview kind={item.id} />
+            <View className={styles.arrow}>
+              <LibraryIcon name="arrow" tone="muted" />
+            </View>
+          </NativeButton>
+        ))}
+        {!categories.length ? (
+          <StatePanel
+            state="empty"
+            title={query ? '没有找到相关组件' : '暂无此类组件'}
+            detail="试试其他关键词或切换分类。"
+          />
+        ) : null}
+      </View>
     </PageShell>
   );
 }

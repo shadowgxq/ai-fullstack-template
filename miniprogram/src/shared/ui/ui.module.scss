@@ -33,7 +33,7 @@
   padding: var(--mp-card-padding);
   border-radius: var(--mp-card-radius);
   background: var(--mp-card-bg);
-  border: 1px solid var(--mp-border-subtle);
+  border: 0;
 }
 .title,
 .sectionTitle,
@@ -175,4 +175,18 @@
 }
 .skeleton > view:last-child {
   width: 64%;
+}
+
+.compact {
+  padding-top: 4px;
+}
+.tintedPage {
+  padding-top: 8px;
+  background: linear-gradient(180deg, var(--mp-surface-selected), var(--mp-surface-page) 50%);
+}
+.tintedPage .content > view + view {
+  margin-top: 14px;
+}
+.compact .content > view + view {
+  margin-top: 8px;
 }

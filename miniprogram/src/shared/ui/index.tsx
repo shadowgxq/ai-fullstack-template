@@ -8,18 +8,27 @@ import styles from './ui.module.scss';
 export function PageShell({
   children,
   withTabBar = false,
-}: PropsWithChildren<{ withTabBar?: boolean }>) {
+  compact = false,
+  tinted = false,
+  onClick,
+}: PropsWithChildren<{
+  withTabBar?: boolean;
+  compact?: boolean;
+  tinted?: boolean;
+  onClick?: () => void;
+}>) {
   const theme = useTheme();
   const applyTheme = () => {
-    void syncNativeTheme(theme, withTabBar);
+    void syncNativeTheme(theme, withTabBar, tinted ? 'tinted' : 'default');
   };
   useEffect(() => {
-    void syncNativeTheme(theme, withTabBar);
-  }, [theme, withTabBar]);
+    void syncNativeTheme(theme, withTabBar, tinted ? 'tinted' : 'default');
+  }, [theme, withTabBar, tinted]);
   useDidShow(applyTheme);
   return (
     <View
-      className={`mp-theme-root theme-${theme} ${styles.page} ${withTabBar ? styles.withTabBar : ''}`}
+      onClick={onClick}
+      className={`mp-theme-root theme-${theme} ${styles.page} ${withTabBar ? styles.withTabBar : ''} ${compact ? styles.compact : ''} ${tinted ? styles.tintedPage : ''}`}
     >
       <View className={styles.content}>{children}</View>
     </View>

@@ -45,7 +45,7 @@ page,
   --mp-section-title-size: var(--mp-ref-font-4);
   --mp-weight-medium: var(--mp-ref-weight-medium);
   --mp-weight-semibold: var(--mp-ref-weight-semibold);
-  --mp-section-gap: var(--mp-ref-space-6);
+  --mp-section-gap: var(--mp-ref-space-5);
   --mp-content-max-width: 600px;
   --mp-touch-min: var(--mp-ref-touch);
   --mp-body-size: var(--mp-ref-font-3);
@@ -71,8 +71,11 @@ page,
   --mp-input-bg: var(--mp-surface-card);
   --mp-input-border: var(--mp-border-control);
   --mp-input-label-gap: var(--mp-ref-space-2);
-  --mp-card-padding: var(--mp-ref-space-4);
+  --mp-card-padding: var(--mp-ref-space-3);
   --mp-card-bg: var(--mp-surface-card);
   --mp-card-radius: var(--mp-surface-radius);
+  --mp-surface-glow: var(--mp-ref-color-primary-subtle-hover);
+  --mp-hero-shadow: var(--mp-ref-color-primary-subtle);
+  --mp-switch-knob: #ffffff;
   --mp-skeleton-bg: var(--mp-surface-muted);
 }

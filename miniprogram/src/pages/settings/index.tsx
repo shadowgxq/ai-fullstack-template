@@ -1,23 +1,19 @@
-import { useState, useSyncExternalStore } from 'react';
+import avatarImage from '../../assets/library/avatar.jpg';
+import crownImage from '../../assets/library/crown.jpg';
+import { useSyncExternalStore } from 'react';
 import Taro from '@tarojs/taro';
+import { Image, Text, View, Button as NativeButton } from '@tarojs/components';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { api } from '../../shared/api/gateway';
 import { getAuthToken, clearAuthToken, subscribeAuthToken } from '../../shared/api/auth-token';
 import { errorMessage } from '../../shared/api/errors';
 import { queryClient } from '../../shared/query/client';
-import { useThemeStore, type ThemePreference } from '../../shared/theme/preferences';
-import { PageShell, Card, Stack, Title, Body, Button, Notice } from '../../shared/ui';
+import { PageShell, Notice } from '../../shared/ui';
+import { LibraryIcon } from '../../features/component-library/visuals';
+import { openCatalog, showReferenceEntry } from '../../features/component-library/navigation';
+import styles from './index.module.scss';
 
-const choices: { value: ThemePreference; label: string }[] = [
-  { value: 'system', label: '跟随系统' },
-  { value: 'light', label: '浅色' },
-  { value: 'dark', label: '深色' },
-];
 export default function SettingsPage() {
-  const preference = useThemeStore((state) => state.preference);
-  const setPreference = useThemeStore((state) => state.setPreference);
-  const storageWarning = useThemeStore((state) => state.storageWarning);
-  const [themeError, setThemeError] = useState<string | null>(null);
   const token = useSyncExternalStore(subscribeAuthToken, getAuthToken, getAuthToken);
   const profile = useQuery({
     queryKey: ['session', 'me'],
@@ -36,60 +32,121 @@ export default function SettingsPage() {
       }
     },
   });
+  const openAccount = () => {
+    void Taro.navigateTo({ url: token ? '/pages/preferences/index' : '/pages/login/index' });
+  };
   return (
-    <PageShell withTabBar>
-      <Card>
-        <Stack>
-          <Title section>外观</Title>
-          {choices.map((choice) => (
-            <Button
-              key={choice.value}
-              variant={preference === choice.value ? 'primary' : 'secondary'}
-              onClick={() => {
-                try {
-                  setPreference(choice.value);
-                  setThemeError(null);
-                } catch {
-                  setThemeError('无法保存外观设置，请重试');
-                }
-              }}
-            >
-              {choice.label}
-              {preference === choice.value ? ' · 已选择' : ''}
-            </Button>
-          ))}
-          {themeError || storageWarning ? (
-            <Notice tone="error">{themeError || storageWarning}</Notice>
-          ) : null}
-        </Stack>
-      </Card>
-      <Card>
-        <Stack>
-          <Title section>账户</Title>
-          {token && profile.data ? (
-            <Body>{profile.data.username}</Body>
-          ) : (
-            <Body secondary>使用服务端账户登录。</Body>
-          )}
-          {profile.isError ? <Notice tone="error">{errorMessage(profile.error)}</Notice> : null}
-          {logout.isError ? <Notice tone="error">{errorMessage(logout.error)}</Notice> : null}
-          <Button
-            variant="secondary"
-            disabled={!__API_BASE_URL__}
+    <PageShell withTabBar tinted>
+      <NativeButton className={styles.identity} onClick={openAccount}>
+        <Image className={styles.avatar} src={avatarImage} mode="aspectFill" />
+        <View className={styles.copy}>
+          <Text className={styles.greeting}>Hi，{profile.data?.username || '开发者'}</Text>
+          <Text className={styles.subtitle}>让好的产品触手可及</Text>
+        </View>
+        <View className={styles.roundArrow}>
+          <LibraryIcon name="arrow" />
+        </View>
+      </NativeButton>
+      <View className={styles.stats}>
+        {[
+          ['12', '我的收藏'],
+          ['8', '最近使用'],
+          ['24', '我的组件'],
+        ].map(([value, label], index) => (
+          <NativeButton
+            key={label}
+            className={styles.stat}
             onClick={() => {
-              void Taro.navigateTo({ url: '/pages/login/index' });
+              if (index === 2) void openCatalog();
+              else showReferenceEntry(label);
             }}
           >
-            账户登录
-          </Button>
-          {token ? (
-            <Button variant="danger" loading={logout.isPending} onClick={() => logout.mutate()}>
-              退出登录
-            </Button>
-          ) : null}
-        </Stack>
-      </Card>
-      <Body secondary>版本 {__APP_VERSION__}</Body>
+            <Text className={styles.statValue}>{value}</Text>
+            <Text className={styles.statLabel}>{label}</Text>
+          </NativeButton>
+        ))}
+      </View>
+      <View className={styles.settings}>
+        <NativeButton
+          className={styles.row}
+          onClick={() => {
+            void Taro.navigateTo({ url: '/pages/preferences/index' });
+          }}
+        >
+          <LibraryIcon name="settings" />
+          <View className={styles.copy}>
+            <Text className={styles.rowTitle}>系统设置</Text>
+            <Text className={styles.detail}>主题、语言、通知等</Text>
+          </View>
+          <LibraryIcon name="arrow" tone="muted" />
+        </NativeButton>
+        <NativeButton className={styles.row} onClick={() => showReferenceEntry('意见反馈')}>
+          <LibraryIcon name="clipboard" />
+          <View className={styles.copy}>
+            <Text className={styles.rowTitle}>意见反馈</Text>
+            <Text className={styles.detail}>告诉我们你的建议</Text>
+          </View>
+          <LibraryIcon name="arrow" tone="muted" />
+        </NativeButton>
+        <NativeButton
+          className={styles.row}
+          onClick={() => {
+            void Taro.showModal({
+              title: '关于我们',
+              content: `移动端组件库 · 版本 ${__APP_VERSION__}`,
+              showCancel: false,
+            });
+          }}
+        >
+          <LibraryIcon name="info" />
+          <View className={styles.copy}>
+            <Text className={styles.rowTitle}>关于我们</Text>
+            <Text className={styles.detail}>产品介绍与联系方式</Text>
+          </View>
+          <LibraryIcon name="arrow" tone="muted" />
+        </NativeButton>
+        <NativeButton
+          className={styles.row}
+          onClick={() => {
+            void Taro.showModal({
+              title: '版本更新',
+              content: `当前版本 ${__APP_VERSION__}，暂未接入版本检查服务。`,
+              showCancel: false,
+            });
+          }}
+        >
+          <LibraryIcon name="home" />
+          <View className={styles.copy}>
+            <Text className={styles.rowTitle}>版本更新</Text>
+            <Text className={styles.detail}>检查新版本</Text>
+          </View>
+          <Text className={styles.version}>v{__APP_VERSION__}</Text>
+          <LibraryIcon name="arrow" tone="muted" />
+        </NativeButton>
+      </View>
+      <NativeButton className={styles.community} onClick={() => showReferenceEntry('加入社区')}>
+        <Image className={styles.crown} src={crownImage} mode="aspectFill" />
+        <View className={styles.copy}>
+          <Text className={styles.rowTitle}>加入社区</Text>
+          <Text className={styles.detail}>获取更多组件与最佳实践</Text>
+        </View>
+        <View className={styles.communityArrow}>
+          <LibraryIcon name="arrow" />
+        </View>
+      </NativeButton>
+      {profile.isError ? <Notice tone="error">{errorMessage(profile.error)}</Notice> : null}
+      {logout.isError ? <Notice tone="error">{errorMessage(logout.error)}</Notice> : null}
+      <NativeButton
+        className={styles.logout}
+        loading={logout.isPending}
+        disabled={logout.isPending}
+        onClick={() => {
+          if (token) logout.mutate();
+          else openAccount();
+        }}
+      >
+        {token ? '退出登录' : '账户登录'}
+      </NativeButton>
     </PageShell>
   );
 }
