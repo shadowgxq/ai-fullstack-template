@@ -1,4 +1,370 @@
-requirements: []
-inputs: []
-openspec: []
-batches: []
+requirements:
+  - id: AC-001
+    source: docs/product/01-prd-draft.md#32-衣物录入与管理
+    code_acceptance:
+      - 照片或非空白名称至少一项即可创建本人衣物；未填属性保持未知，保存后列表与详情一致。
+  - id: AC-002
+    source: docs/product/01-prd-draft.md#32-衣物录入与管理
+    code_acceptance:
+      - 编辑刷新当前衣物及 inventory_revision；既有穿着名称/类别快照不变，后续推荐读取新属性。
+  - id: AC-003
+    source: docs/product/01-prd-draft.md#34-ai-穿搭建议
+    code_acceptance:
+      - 获取、查看和调整推荐不写 wear_records；只有用户提交实际穿着表单才改变历史及次数。
+  - id: AC-004
+    source: docs/product/01-prd-draft.md#35-实际穿着记录
+    code_acceptance:
+      - 同次保存及响应丢失后同键重试仅创建一条记录；同件去重，同键异载荷冲突，事务失败不留部分数据。
+  - id: AC-005
+    source: docs/product/01-prd-draft.md#35-实际穿着记录
+    code_acceptance:
+      - 修改保留未移除衣物的旧快照，新增项取当前快照；删除保留防重放收据，历史与所有相关统计无残留计数。
+  - id: AC-006
+    source: docs/product/01-prd-draft.md#34-ai-穿搭建议
+    code_acceptance:
+      - 空偏好/历史和普通属性缺失不阻止合规候选推荐；结构化结果及受控理由只引用已知事实。
+    human_acceptance:
+      - 最终体验中确认推荐依据、缺失说明与取舍可理解，且不将建议描述为穿着效果保证。
+  - id: AC-007
+    source: docs/product/01-prd-draft.md#5-可观察验收标准
+    code_acceptance:
+      - 状态可编辑、归档和恢复且无普通永久删除；推荐仅取 wearable，历史和穿着统计不因当前归档而丢失。
+  - id: AC-008
+    source: docs/product/01-prd-draft.md#34-ai-穿搭建议
+    code_acceptance:
+      - 天气失败产生真实缺失状态；推荐仍处理合规库存，理由不含虚构气温或天气适配依据。
+  - id: AC-009
+    source: docs/product/01-prd-draft.md#34-ai-穿搭建议
+    code_acceptance:
+      - 单件或只有上装的库存可产生局部建议，明确不完整，不强制固定品类/套数或编造其它衣物。
+  - id: AC-010
+    source: docs/product/01-prd-draft.md#4-通用产品要求
+    code_acceptance:
+      - 本人衣物、媒体、资料、偏好、记录、统计、天气上下文与推荐按认证身份隔离；他人 ID、未登录及旧会话不能绕过授权。
+  - id: AC-011
+    source: docs/product/01-prd-draft.md#36-衣柜与穿着统计
+    code_acceptance:
+      - 无历史时库存指标仍正确，趋势补零并标明范围，提示暂无已记录穿着而非从未穿过。
+  - id: AC-012
+    source: docs/product/01-prd-draft.md#34-ai-穿搭建议
+    code_acceptance:
+      - 生成中可见主动取消入口；取消处理中不误报成功、不允许确认该次推荐；cancelled 停止展示该次建议，ready 先完成则保留真实结果。
+      - AI 失败、取消和迟到结果不修改衣物或穿着；取消与完成竞争保持终态，失败允许用户新建请求。
+      - sending 后无持久响应不自动重发模型调用；已有响应在恢复时复用，非法模型输出不自动付费修复。
+  - id: AC-013
+    source: docs/product/01-prd-draft.md#33-穿搭偏好
+    code_acceptance:
+      - 风格、颜色、场合各自的喜欢/避免项及可选舒适度可持久化并供后续推荐消费；同项冲突提示且保留草稿，明确避免项为硬约束，喜欢项仅排序。
+      - 无合规候选时说明限制而不自动放宽；未设置偏好仍可使用推荐。
+  - id: AC-014
+    source: docs/product/01-prd-draft.md#34-ai-穿搭建议
+    code_acceptance:
+      - 本次有效选择优先于已存城市，否则使用并标注默认杭州；不主动定位，取消/拒绝/失败保留有效城市和手选入口。
+  - id: AC-015
+    source: docs/product/01-prd-draft.md#34-ai-穿搭建议
+    code_acceptance:
+      - 主动模糊定位经可信地区映射取得天气；显示城市、日期和源更新时间，分开观测/预报，跨账号 context 拒绝。
+    human_acceptance:
+      - 实际微信宿主检查主动定位、拒绝后手选和城市天气展示；真实来源接入与使用条件单独核验。
+  - id: AC-016
+    source: docs/product/01-prd-draft.md#4-通用产品要求
+    code_acceptance:
+      - 衣物/穿着上传或保存失败保留草稿与同次幂等键；只有持久化成功才显示完成，重试不重复写入。
+  - id: AC-017
+    source: docs/product/01-prd-draft.md#35-实际穿着记录
+    code_acceptance:
+      - 日期按 Asia/Shanghai 判断，允许过去、当天及同日多套，拒绝未来；手动补录允许本人已归档或暂不可穿衣物。
+  - id: AC-018
+    source: docs/product/01-prd-draft.md#36-衣柜与穿着统计
+    code_acceptance:
+      - 当前总数只计可穿与暂不可穿，归档单列，未分类单列；单件次数按有效记录明细聚合而非推荐次数。
+  - id: AC-019
+    source: docs/product/01-prd-draft.md#34-ai-穿搭建议
+    code_acceptance:
+      - 临时场景不覆盖长期偏好；换整套创建新请求，单品替换保留其它选择且不重复；无替换候选可解释，调整不写历史。
+  - id: AC-020
+    source: docs/product/01-prd-draft.md#23-页面组织
+    code_acceptance:
+      - 衣柜/穿搭/记录、记录内统计及个人/设置路由接通真实消费者；导航、固定区域、表单/弹层状态和 Token 静态符合业务 UI。
+    human_acceptance:
+      - 最终统一验收 Light/Dark、390px 与 360/375/430px 适配、主流程可达、长内容、胶囊、安全区、键盘及固定操作无阻挡。
+  - id: AC-021
+    source: docs/product/01-prd-draft.md#32-衣物录入与管理
+    code_acceptance:
+      - 无 ready 照片且名称为空或纯空白时前后端拒绝保存，字段附近提示且不丢其它输入；编辑也检查最终实体。
+  - id: AC-022
+    source: docs/product/01-prd-draft.md#31-登录与个人设置
+    code_acceptance:
+      - 微信身份重复/并发登录归一账户，不强制密码或手机号；失败/取消可重试，token 持久化失败不显示登录成功。
+      - 退出、切号及 401 清理本人缓存与草稿，旧回包不可恢复旧数据；本地删除失败遵守退出标记，原密码账户仍可登录。
+    human_acceptance:
+      - 实际微信账号验证首次/再次登录、退出重进、取消及权限边界；确认无需手填账号密码。
+  - id: AC-023
+    source: docs/product/01-prd-draft.md#5-可观察验收标准
+    code_acceptance:
+      - 头像昵称可选且默认资料不阻塞业务；季节/场合/标签多选、自定义标签及附加字段收起再展开均保留，允许相似衣物重复录入。
+  - id: AC-024
+    source: docs/product/01-prd-draft.md#32-衣物录入与管理
+    code_acceptance:
+      - 主照片仅一张，拍照/相册分入口，可更换/移除且取消不改原值；类别颜色可清除为未知，保存重验有效照片或名称。
+      - 私有媒体校验实际格式、用途、owner 与 ready；部分失败可恢复，清理不删除已绑定媒体，图片内容访问须鉴权。
+    human_acceptance:
+      - 实际微信环境检查拍照/相册、拒绝权限、上传重试与认证图片展示；媒体持久化和备份接入证据单独记录。
+  - id: AC-025
+    source: docs/product/01-prd-draft.md#33-穿搭偏好
+    code_acceptance:
+      - 排除条件按满足/冲突/未知判断；无法证明不冲突的候选不入选，明确缺失信息；风格仅从用户明确资料取得。
+  - id: AC-026
+    source: docs/product/01-prd-draft.md#34-ai-穿搭建议
+    code_acceptance:
+      - validate-selection 重验完整组合与请求时效，按输入顺序返回组合及受控理由/缺失说明，删除旧组合失效说明且不调用模型。
+      - 校验中保留草稿、隐藏旧理由并禁用该推荐确认；失败可重试/重选，仅匹配最新请求序号和会话代次的结果生效。
+  - id: AC-027
+    source: docs/product/01-prd-draft.md#5-可观察验收标准
+    code_acceptance:
+      - 无手动时区入口或个人时区字段；日期、天气日界及含当天的近 30 个自然日趋势均按 Asia/Shanghai，不随设备或城市变动。
+  - id: AC-028
+    source: docs/product/01-prd-draft.md#4-通用产品要求
+    code_acceptance:
+      - 天气/AI 故障不阻塞衣柜管理和历史查看；不能把推荐依赖当作应用登录后所有页面的启动前提。
+
+inputs:
+  - id: wardrobe-ui-baseline
+    source: miniprogram/design/wardrobe-ui-spec.md
+    purpose: reference
+    required: true
+    scope:
+      - 已确认小程序目标；基线 787cf0b，390×820，Light/Dark 与窄屏流式布局；各 Change 仅消费自身页面/宿主规则。
+      - 设计源 miniprogram/design/wardrobe.pen 及其真实导入 frontend/design/core.lib.pen；旧 previews 不代替当前源稿。
+  - id: account-design
+    source: miniprogram/design/wardrobe-ui-ux.md#微信登录与个人
+    purpose: reference
+    required: true
+    scope:
+      - wardrobe.pen@787cf0b；登录 asaVm、个人 QL83M/JGka6、设置 fkIRs/XzsEz、资料 LgGyr；确认决定见 manager/progress.md。
+      - 会话 Change 消费登录与退出状态；个人资料 Change 消费个人/设置和内容 Tab，记录内容复用 C0p2tC，衣物内容复用 zkPuC。
+  - id: garment-design
+    source: miniprogram/design/wardrobe-ui-ux.md#添加与编辑衣物
+    purpose: reference
+    required: true
+    scope:
+      - wardrobe.pen@787cf0b；列表 ddC69/zkPuC、详情 WV7wn/StjQC、表单 Ro2vL/FfxoI、展开 jxBYZ/Y8xJCl。
+      - 分类 phKmP、颜色 zXmjy、标签 kopCO、确认 m0rZ7、空态 SKORD；上传/保存状态复用已记录的 Notice/StatePanel 与按钮规则。
+  - id: wear-design
+    source: miniprogram/design/wardrobe-ui-ux.md#其他业务路径
+    purpose: reference
+    required: true
+    scope:
+      - wardrobe.pen@787cf0b；历史 HI38Z/C0p2tC、确认/补录/修正 tz4GK/RYACG、多选 mKPcR、删除确认 m0rZ7、空态 SKORD。
+      - 推荐仅复用表单入口与预填；日期、选择、取消、失败保留及修改/删除行为以交付记录为准。
+  - id: statistics-design
+    source: miniprogram/design/wardrobe-ui-ux.md#页面定位
+    purpose: reference
+    required: true
+    scope:
+      - wardrobe.pen@787cf0b；统计 ywaWl/a7xEg，入口由记录承接；无历史表达复用其他业务路径的空态规则。
+  - id: preference-design
+    source: miniprogram/design/wardrobe-ui-ux.md#穿搭偏好
+    purpose: reference
+    required: true
+    scope:
+      - wardrobe.pen@787cf0b；长期偏好 OgxoN/Z8EEvN，从设置进入；现有“常用场合”按喜欢的场合理解，避免的场合按同组 Chip 结构补入。
+      - 当前 Pen 缺避免的场合分组及新增长度的主题/窄屏核验；M2 偏好 UI 消费前需同步同一源稿并核对，不以本文替代可编辑来源。
+  - id: weather-design
+    source: miniprogram/design/wardrobe-ui-ux.md#关键局部
+    purpose: reference
+    required: true
+    scope:
+      - wardrobe.pen@787cf0b；选城/定位 NLCY6、穿搭 P9tls/ZHXw9 天气区域、设置 fkIRs/XzsEz 城市入口。
+      - 默认城市、主动授权、失败保留和缺失提示见其他业务路径及天气专项；系统授权框由微信提供。
+  - id: recommendation-design
+    source: miniprogram/design/wardrobe-ui-ux.md#其他业务路径
+    purpose: reference
+    required: true
+    scope:
+      - wardrobe.pen@787cf0b；穿搭 P9tls/ZHXw9、场景 Q3U4y、替换 AvD3c、空态 SKORD；重要依据默认可见。
+      - 单品替换校验中/失败/成功复用现有说明区域、Notice 与按钮状态；具体保留、禁用与迟到响应行为已记录。
+      - 生成中主动取消复用 P9tls 底部次操作、主操作禁用及现有加载/Notice 区域；取消中、cancelled、ready 抢先和取消失败按设计记录表达，不新增独立页面。
+
+openspec:
+  - id: wechat-session
+    requirements: [AC-010, AC-022, AC-023, AC-027]
+    depends_on: []
+    status: planned
+    technical_design:
+      - docs/architecture/wardrobe/overview.md#4-共享数据与接口约定
+      - docs/architecture/wardrobe/features/account-and-profile.md
+    input_refs: [wardrobe-ui-baseline, account-design]
+    note: >-
+      交付微信登录与账户会话闭环，包括身份/默认 profile 迁移、原密码登录兼容、登录页、会话隔离和退出清理契约。
+      AC-023 此处仅覆盖默认资料；资料编辑和设置入口由 personal-profile 负责。
+      独立验证身份归一、token 存储失败、退出标记与旧回包隔离，不依赖尚未实现的衣柜或设置页验收。
+      此项拥有共享请求/会话边界；下游资源在各自 Change 验证 owner，不能把本项鉴权测试当作所有资源隔离已通过。
+
+  - id: garment-management
+    requirements: [AC-001, AC-002, AC-007, AC-010, AC-016, AC-020, AC-021, AC-023, AC-024, AC-028]
+    depends_on: [wechat-session]
+    status: planned
+    technical_design:
+      - docs/architecture/wardrobe/overview.md#4-共享数据与接口约定
+      - docs/architecture/wardrobe/features/wardrobe.md
+    input_refs: [wardrobe-ui-baseline, garment-design]
+    note: >-
+      交付录入、浏览/属性筛选/分页、详情、编辑、归档/恢复及一张私有照片的完整用户结果，空衣柜/筛选无结果有真实恢复入口。
+      媒体上传、鉴权下载、后台清理、幂等收据、inventory_revision 和选项目录是本项内部契约，供头像、记录和推荐消费。
+      同事务变更与固定锁序在本项验证；AC-002/007 此处仅验证当前衣物/状态及 revision，历史快照与推荐过滤由真实消费者验证。
+      AC-020 此处交付衣柜入口和自定义宿主/表单规则；不以未来记录/推荐页面占位宣称三 Tab 已完整。
+      创建类幂等、媒体用途与清理竞态须覆盖 PostgreSQL/文件部分失败；详情单件次数在 wear-history 接通真实聚合。
+
+  - id: wear-history
+    requirements: [AC-002, AC-003, AC-004, AC-005, AC-007, AC-010, AC-016, AC-017, AC-020, AC-027, AC-028]
+    depends_on: [garment-management]
+    status: planned
+    technical_design:
+      - docs/architecture/wardrobe/overview.md#4-共享数据与接口约定
+      - docs/architecture/wardrobe/features/wear-history-and-stats.md#2-数据事务与快照
+      - docs/architecture/wardrobe/features/wear-history-and-stats.md#3-api-与页面消费
+    input_refs: [wardrobe-ui-baseline, wear-design]
+    note: >-
+      交付手动补录、历史查看、修改/删除和通用确认表单；实现快照、history_revision、幂等 tombstone、本人全状态衣物多选及详情穿着次数。
+      与衣物修改/媒体绑定共用账号 revision 锁序和幂等契约，迁移及共享 schema 修改需串行协调。
+      独立验证记录事务与历史摘要查询契约；AC-003 的推荐入口接线由 outfit-recommendations 完成，不反向依赖推荐页面。
+      AC-005 此处覆盖记录及单件次数，统计面板聚合由 wardrobe-statistics 验证；AC-020 此处接通记录 Tab 和记录操作。
+
+  - id: wardrobe-statistics
+    requirements: [AC-005, AC-007, AC-010, AC-011, AC-018, AC-020, AC-027]
+    depends_on: [wear-history]
+    status: planned
+    technical_design:
+      - docs/architecture/wardrobe/features/wear-history-and-stats.md#4-统计口径
+      - docs/architecture/wardrobe/features/wear-history-and-stats.md#5-关键验证
+    input_refs: [wardrobe-ui-baseline, statistics-design]
+    note: >-
+      交付记录入口内的统计页面与同一数据库读快照聚合；明确当前库存/归档/历史口径、未分类与近 30 天范围。
+      验证新增/修改/删除记录和归档后的库存、单件次数、趋势同步反映有效事实，不建异步计数双写。
+      需要修改历史页统计入口；与 personal-profile 复用历史展示的共享导出及生成类型由协调者顺序整合。
+
+  - id: personal-profile
+    requirements: [AC-010, AC-020, AC-022, AC-023, AC-027]
+    depends_on: [wear-history]
+    status: planned
+    technical_design:
+      - docs/architecture/wardrobe/features/account-and-profile.md
+      - docs/architecture/wardrobe/features/wardrobe.md#3-图片上传与访问
+    input_refs: [wardrobe-ui-baseline, account-design]
+    note: >-
+      交付个人页衣物/穿着记录真实内容 Tab、可选昵称头像编辑、独立设置页及退出入口；复用已完成衣物/历史查询和媒体 avatar 用途。
+      依赖 wear-history 是因为个人记录 Tab 必须消费真实记录，不能用假数据完成个人页；不重复建立衣柜管理或历史事实。
+      偏好和城市的功能入口分别随 wardrobe-preferences/city-weather 接通；本项独立验收资料持久化、内容切换与退出。
+      修改 profile、共享页面注册和媒体下载缓存时与后续选城协调；无手动时区或注销入口。
+
+  - id: wardrobe-preferences
+    requirements: [AC-010, AC-013, AC-020, AC-023, AC-025]
+    depends_on: [personal-profile]
+    status: planned
+    technical_design:
+      - docs/architecture/wardrobe/features/outfit-recommendation.md#2-偏好候选与模型输入
+    input_refs: [wardrobe-ui-baseline, preference-design]
+    note: >-
+      交付设置内长期偏好编辑与持久化，复用衣物选项目录；风格/颜色/场合各有喜欢和避免选择，可选舒适度、同项冲突、版本冲突、失败保留和 preferences_revision 独立验证。
+      AC-013/025 此处只覆盖明确偏好输入及查询契约，硬过滤、三值判定及未知属性解释由 outfit-recommendations 验证。
+      不依赖尚未实现的推荐来证明保存成功；场景仍归推荐消费者。与选城共享设置页入口、路由及生成 schema，不能无协调同时改写。
+      当前 Pen 缺避免的场合分组；该 UI 实现前须在同一源稿补局部、核对滚动/固定保存区与主题/窄屏，再更新此 Input 的源修订。
+      这个缺口只影响本 Change 的偏好 UI；独立的记录、统计、个人资料、天气及偏好 Backend 契约可继续推进，不将本项提前标为 code-verified。
+
+  - id: city-weather
+    requirements: [AC-008, AC-010, AC-014, AC-015, AC-020, AC-027, AC-028]
+    depends_on: [personal-profile]
+    status: planned
+    technical_design:
+      - docs/architecture/wardrobe/integrations/weather.md
+      - docs/architecture/wardrobe/features/account-and-profile.md#2-身份资料与接口
+    input_refs: [wardrobe-ui-baseline, weather-design]
+    note: >-
+      交付手选/主动模糊定位、默认/保存城市、设置入口与穿搭页天气区域；Backend 解析和地区映射、本人 context、共享 Redis 日缓存组成同一结果。
+      独立验证可用/缺失 context、跨日/失锁/TTL/归属契约，不依赖未来 AI 页面成功来证明天气可降级。
+      推荐缺天气仍可工作由 outfit-recommendations 集成验证；天气失败不得修改当前有效城市或绕过认证的 Redis 依赖。
+      与偏好共享设置入口/路由，与推荐共享穿搭页；按文件所有权串行整合，已存在的天气区域由推荐后续消费。
+
+  - id: wardrobe-ai-runtime
+    requirements: [AC-006, AC-009, AC-010, AC-012, AC-025]
+    depends_on: []
+    status: planned
+    technical_design:
+      - docs/architecture/wardrobe/overview.md#2-系统架构
+      - docs/architecture/wardrobe/features/outfit-recommendation.md#2-偏好候选与模型输入
+      - docs/architecture/wardrobe/features/outfit-recommendation.md#5-ai-worker-与调用恢复
+    input_refs: []
+    note: >-
+      独立可验证的受信服务契约：在现有单 Worker/Run/Checkpoint 上新增 wardrobe.recommend.v1 DTO、结构化输出、模型适配、取消和调用证据恢复。
+      现有源码仅有 echo.v1，取消端点和付费调用恢复都需本项实现；不把 echo 通过当作业务模型通过，不另建队列或泛化多 Agent 平台。
+      用冻结输入、受信 scope 和模型边界替身独立验证 Run 幂等、非法输出、取消/完成竞争、sending 未知及持锁连接丢失。
+      Backend outfit-recommendations 是真实消费者；本项不访问业务库、不负责业务 owner/硬过滤/最终理由发布，也不依赖下游页面验收。
+      模型兼容性和真实 usage 的接入证据须另列，测试替身不代表真实模型调用完成。
+
+  - id: outfit-recommendations
+    requirements: [AC-002, AC-003, AC-006, AC-007, AC-008, AC-009, AC-010, AC-012, AC-013, AC-019, AC-020, AC-025, AC-026, AC-027, AC-028]
+    depends_on: [wardrobe-statistics, wardrobe-preferences, city-weather, wardrobe-ai-runtime]
+    status: planned
+    technical_design:
+      - docs/architecture/wardrobe/features/outfit-recommendation.md
+      - docs/architecture/wardrobe/features/wear-history-and-stats.md#3-api-与页面消费
+      - docs/architecture/wardrobe/integrations/weather.md#2-天气数据获取与消费接口
+    input_refs: [wardrobe-ui-baseline, recommendation-design, weather-design, wear-design]
+    note: >-
+      交付穿搭页生成/轮询/查看、当次场景、换整套、生成中主动取消、单品替换及确认实际穿着的端到端闭环。
+      包含本人候选三值硬过滤、全库存软排序、冻结历史/天气/偏好、业务请求与 Outbox 同事务、可靠投递、revisions 复核和受控理由发布。
+      接通 replacement-candidates/validate-selection 与共用记录表单；校验中/失败/迟到响应、stale 和无候选均有真实处理，不因模型文本声称事实。
+      依赖统计是为本 Change 保存推荐穿着后能验证真实历史/统计刷新；其它传递依赖提供身份、媒体、衣物和记录查询契约。
+      以 M1/M2 的实际 DTO、revision/锁序、目录、缓存隔离和错误契约细化局部 tasks，不重写已确认产品规则。
+      Backend 不能信任客户端 Run ID；AI 结果经业务授权和最新事实复核后才发布。无天气/AI 故障不影响独立衣柜/历史路径。
+
+batches:
+  - id: M1
+    depends_on: []
+    changes: [wechat-session, garment-management]
+    checkpoint: auto
+    status: planned
+    human_acceptance: pending
+    checks:
+      - 在获授权的隔离 PostgreSQL/私有临时媒体环境验证登录身份到本人衣物、媒体的真实授权链；旧密码账户兼容、跨账号读取和绑定拒绝。
+      - 验证媒体文件/DB 部分失败、响应丢失重试、清理/绑定竞态、编辑有效字段和库存 revision 同事务；提供方 schema 与小程序直接消费者一致。
+      - 静态核对登录/衣柜/表单的自定义宿主、语义 Token、两主题、状态及会话清理接线；本阶段不宣称全部导航或运行视觉完成。
+    note: >-
+      交付可独立使用的微信登录与私人衣柜。完整导航和个人页随实际功能逐步接通，不用占位证明后续能力。
+      微信及媒体实际权限/域名/存储条件尚待接入核验；代码证据与真实宿主证据分开，最终视觉和运行验收保持 pending，不设额外人工停点。
+
+  - id: M2
+    depends_on: [M1]
+    changes: [wear-history, wardrobe-statistics, personal-profile, wardrobe-preferences, city-weather]
+    checkpoint: auto
+    status: planned
+    human_acceptance: pending
+    checks:
+      - 在隔离 PostgreSQL 通过真实衣物/记录接口验证创建、修改、删除、旧请求重放、归档后快照/单件次数/统计一致及北京时间午夜边界。
+      - 验证个人页衣物/记录内容、资料头像及设置偏好/城市入口消费真实契约；退出/切号使所有新增查询和草稿失效，生成 schema 与消费者同步。
+      - 通过冻结解析 fixture 与隔离 Redis 验证同城共享、同名地区、失锁响应、跨午夜和 7 天 TTL；本人 weather_context 与公共缓存分离，认证依赖不被降级绕过。
+      - 静态检查记录/统计/个人/偏好/天气状态与路由；验证天气异常不阻断衣柜和历史，外部 HTTP 不进入业务事务。
+    note: >-
+      交付手动穿着记录与统计、完整个人设置及推荐所需的持久偏好/天气上下文。
+      wear-history 完成后统计与个人资料可按实际文件边界推进；偏好和天气虽无相互业务依赖，设置页、路由、迁移链及 schema 的共享写入仍须顺序整合。
+      偏好源稿的“避免的场合”局部尚未同步；在偏好 UI 实现前核对更新后的源稿，其它不依赖该局部的工作不因此暂停。
+      执行前消费 M1 的真实媒体/幂等/revision/会话契约；真实定位和天气生产使用条件待核验，最终视觉与宿主体验 pending。
+
+  - id: M3
+    depends_on: [M2]
+    changes: [wardrobe-ai-runtime, outfit-recommendations]
+    checkpoint: auto
+    status: planned
+    human_acceptance: pending
+    checks:
+      - 使用真实 Backend/Dispatcher/AI Run/单 Worker 接线和两个隔离 PostgreSQL 验证业务请求/Outbox 同事务、重复投递、映射丢失恢复和受信 scope；模型边界可替身，不能替代内部接线。
+      - 故障注入验证 sending 后崩溃不重复调用、持久响应重用、取消/ready 竞争、持锁连接丢失和迟到结果；数据库与媒体不以自动清空方式恢复。
+      - 通过真实业务契约验证空历史/偏好、少量库存、硬排除及未知属性、天气缺失、模型非法事实、revision 变化/跨日 stale 和替换组合受控理由更新。
+      - 从生成/换整套/替换/生成中主动取消到确认表单验证仅显式保存产生穿着；重试去重，历史及统计反映最新事实；AI/天气故障时衣柜和历史仍独立可用。
+      - 静态核对三 Tab、个人设置及所有入口接通；生成中可取消且禁用确认，取消中防重，cancelled/ready 竞态与失败提示真实；替换校验期间隐藏旧理由、保留草稿与旧响应隔离。
+      - 检查生成契约、配置、运行命令和必要持久化说明与实现一致。
+    note: >-
+      交付完整推荐与实际穿着闭环。Runtime 拆出是因付费调用恢复/受信 API 有独立验证边界，其消费者仍由本阶段接通。
+      最终统一人工验收 AC-006/015/020/022/024 及完整产品流程，复用已有效的阶段证据；auto 不代表人工已通过，也不授权发布。
+      模型结构化输出/usage、微信与定位配置、天气生产使用条件、媒体持久卷/备份的真实接入仍需记录证据；缺少证据时准确限制交付结论，不将隔离测试冒充接入完成。
