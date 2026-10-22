@@ -21,6 +21,8 @@
 
 业务技术方案沿用本目录，按需维护 `<area>/overview.md`，复杂功能再补 `features/<feature>.md`；不预建空方案或复制系统基线。方案覆盖核心流程与适用的失败/重试/回滚路径，获批后由 change design 引用；具体分级与批准流程见 [交付流程](../engineering/workflow/delivery.md)。
 
+- [智能衣柜 V1 技术方案](wardrobe/overview.md)：微信身份、私有媒体、衣物与穿着事实、统计、天气与 AI 推荐的目标设计。当前 R6 默认杭州天气，采用微信基础登录/模糊定位、腾讯逆地址解析、中国天气网 HTTP、Backend 本地媒体、单 Worker 与 UTC+8 共享日缓存；调用结果不明不自动重发，V1 不建设费用预算管理。真实接入与最终产品验收待完成。
+
 ## 数据流与所有权
 
 目标业务链路：Web / 微信客户端 → backend（用户/资源授权）→ AI API（受信服务身份）→ PostgreSQL-backed Command Queue → Worker → LangGraph → 结果。

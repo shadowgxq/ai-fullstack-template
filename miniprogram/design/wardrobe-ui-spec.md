@@ -1,12 +1,12 @@
 # 智能衣柜小程序 UI 规范
 
-适用于 [wardrobe.pen](wardrobe.pen) 在 `miniprogram/` 中的实现，工程基线为 [Taro + React + TypeScript](../../docs/engineering/miniprogram/architecture/technology-options.md)。业务行为以 [PRD V1.2](../../docs/product/01-prd-draft.md) 为准，页面、状态、来源修订及接受范围见 [设计交付](wardrobe-ui-ux.md)。
+适用于 [wardrobe.pen](wardrobe.pen) 在 `miniprogram/` 中的实现，工程基线为 [Taro + React + TypeScript](../../docs/engineering/miniprogram/architecture/technology-options.md)。业务行为以 [PRD V1.2](../../docs/product/01-prd-draft.md) 为准，页面、状态及接受范围见 [设计交付](wardrobe-ui-ux.md)。
 
 本页维护业务布局与通用移动规范的适配，通用规则引用 [移动 UI](ui-spec.md)，Token 来源引用 [移动 Token](tokens.md)。模板的 375px 代表宽度与原生示例导航不替代衣柜的 390px 业务稿和已确定的导航职责；业务稿没有另行对应的 Web/PC 实现。
 
 ## 布局与宿主
 
-智能衣柜以微信小程序为目标，主设计尺寸为 390 × 844 逻辑 px，补查 360、375、430px。单列流式布局，左右留边 16px，不按屏幕宽度缩小字号或触控区域；较宽窗口共用字段与顺序，不另做 PC 页面。设计逻辑 px 不直接等同于运行时 rpx。
+智能衣柜以微信小程序为目标，主设计尺寸为 390 × 820 逻辑 px，补查 360、375、430px。单列流式布局，左右留边 16px，不按屏幕宽度缩小字号或触控区域；较宽窗口共用字段与顺序，不另做 PC 页面。设计逻辑 px 不直接等同于运行时 rpx。
 
 导航使用 56px 设计基准，标题 20px，返回及个人入口的画布视觉为 44px，运行时命中区按移动基线至少 48px。右侧保留微信系统胶囊空间，主页面个人入口放左侧，子页放返回。胶囊与系统状态栏均为宿主示意，实际由微信承载；自定义导航必须按真实胶囊矩形与状态栏适配，不能再叠一套系统导航。底部主导航保持“衣柜、穿搭、记录”三个入口；统计归记录，个人为二级页面。底部导航内容基准 60px，图标 24px、文字 12px、间距 4px；安全区另取设备环境。
 
