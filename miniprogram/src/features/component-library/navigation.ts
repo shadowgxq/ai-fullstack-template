@@ -11,9 +11,9 @@ export async function navigateToDemo(group: DemoGroup, section?: string) {
 }
 export async function openCatalog(query = '') {
   try {
-    // switchTab 不接受 query；由目标页 onShow 读取一次性入口参数。
+    // 由目标页 onShow 读取一次性入口参数，辅助示例保持普通页面导航。
     catalogEntryQuery = query;
-    await Taro.switchTab({ url: '/pages/components/index' });
+    await Taro.navigateTo({ url: '/pages/components/index' });
   } catch (error) {
     catalogEntryQuery = null;
     await Taro.showToast({ title: errorMessage(error), icon: 'none' });

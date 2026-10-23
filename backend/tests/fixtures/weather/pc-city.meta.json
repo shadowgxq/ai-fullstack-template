@@ -1,0 +1,14 @@
+{
+  "url": "https://j.i8tq.com/weather2020/search/city.js",
+  "accessedAt": "2026-10-22T11:54:29.464910+00:00",
+  "status": 200,
+  "finalUrl": "https://j.i8tq.com/weather2020/search/city.js",
+  "headers": {
+    "Content-Type": "application/javascript",
+    "Date": "Thu, 22 Oct 2026 11:54:29 GMT",
+    "Last-Modified": "Thu, 03 Sep 2020 01:57:57 GMT",
+    "ETag": "\"5f504da5-5d664\""
+  },
+  "bytes": 382564,
+  "sha256": "9f0e940707c99ea192b709d176a40fdc3ce647027715757840da42ab64162b8a"
+}

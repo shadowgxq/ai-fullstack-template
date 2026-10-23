@@ -23,7 +23,7 @@ export default function ComponentsPage() {
   });
   const categories = filterCategories(query, filter);
   return (
-    <PageShell withTabBar compact>
+    <PageShell compact>
       <SearchBox value={query} onChange={setQuery} />
       <View className={styles.filters}>
         {catalogFilters.map((item) => (

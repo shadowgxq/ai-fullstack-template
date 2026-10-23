@@ -4,8 +4,8 @@
     {
       "type": "frame",
       "id": "P9tls",
-      "x": 0,
-      "y": 0,
+      "x": 40,
+      "y": 210,
       "name": "今日穿搭 · Mobile First",
       "theme": {
         "z:mode": "light"
@@ -491,8 +491,8 @@
     {
       "type": "frame",
       "id": "Q3U4y",
-      "x": 505,
-      "y": 6,
+      "x": 1120,
+      "y": 210,
       "name": "选择场景 · Bottom Sheet 局部",
       "theme": {
         "z:mode": "light"
@@ -958,8 +958,8 @@
     {
       "type": "frame",
       "id": "AvD3c",
-      "x": 975,
-      "y": 6,
+      "x": 1660,
+      "y": 210,
       "name": "替换单品 · Bottom Sheet 局部",
       "theme": {
         "z:mode": "light"
@@ -1402,8 +1402,8 @@
     {
       "type": "frame",
       "id": "ZHXw9",
-      "x": 0,
-      "y": -1180,
+      "x": 40,
+      "y": 1290,
       "name": "今日穿搭 / 完整滚动内容 · 唯一复用源",
       "theme": {
         "z:mode": "light"
@@ -2317,8 +2317,8 @@
     {
       "type": "frame",
       "id": "ddC69",
-      "x": 1465,
-      "y": 6,
+      "x": 2440,
+      "y": 210,
       "name": "我的衣柜 · Mobile",
       "theme": {
         "z:mode": "light"
@@ -2737,8 +2737,8 @@
     {
       "type": "frame",
       "id": "zkPuC",
-      "x": 1465,
-      "y": 970,
+      "x": 2440,
+      "y": 1290,
       "name": "我的衣柜 / 完整内容 · 业务复用源",
       "theme": {
         "z:mode": "light"
@@ -3407,8 +3407,8 @@
     {
       "type": "frame",
       "id": "WV7wn",
-      "x": 1955,
-      "y": 6,
+      "x": 3520,
+      "y": 210,
       "name": "衣物详情 · Mobile",
       "theme": {
         "z:mode": "light"
@@ -3705,8 +3705,8 @@
     {
       "type": "frame",
       "id": "StjQC",
-      "x": 1955,
-      "y": 970,
+      "x": 3520,
+      "y": 1290,
       "name": "衣物详情 / 完整内容 · 业务复用源",
       "theme": {
         "z:mode": "light"
@@ -4129,8 +4129,8 @@
     {
       "type": "frame",
       "id": "Ro2vL",
-      "x": 2445,
-      "y": 6,
+      "x": 40,
+      "y": 2610,
       "name": "添加衣物 · 微信小程序",
       "theme": {
         "z:mode": "light"
@@ -4433,8 +4433,8 @@
     {
       "type": "frame",
       "id": "FfxoI",
-      "x": 2445,
-      "y": 970,
+      "x": 40,
+      "y": 3690,
       "name": "添加衣物 / 表单唯一内容源",
       "theme": {
         "z:mode": "light"
@@ -5084,8 +5084,8 @@
     {
       "type": "frame",
       "id": "HI38Z",
-      "x": 2935,
-      "y": 6,
+      "x": 2440,
+      "y": 2610,
       "name": "穿着记录 · Mobile",
       "theme": {
         "z:mode": "light"
@@ -5503,8 +5503,8 @@
     {
       "type": "frame",
       "id": "C0p2tC",
-      "x": 2935,
-      "y": 970,
+      "x": 2440,
+      "y": 3690,
       "name": "穿着记录 / 完整内容 · 业务复用源",
       "theme": {
         "z:mode": "light"
@@ -5929,8 +5929,8 @@
     {
       "type": "frame",
       "id": "tz4GK",
-      "x": 3425,
-      "y": 6,
+      "x": 3520,
+      "y": 2610,
       "name": "记录穿着 · Mobile",
       "theme": {
         "z:mode": "light"
@@ -6226,8 +6226,8 @@
     {
       "type": "frame",
       "id": "RYACG",
-      "x": 3425,
-      "y": 970,
+      "x": 3520,
+      "y": 3690,
       "name": "记录穿着 / 完整内容 · 业务复用源",
       "reusable": true,
       "width": 390,
@@ -6520,8 +6520,8 @@
     {
       "type": "frame",
       "id": "ywaWl",
-      "x": 3915,
-      "y": 6,
+      "x": 4060,
+      "y": 210,
       "name": "衣柜统计 · Mobile",
       "theme": {
         "z:mode": "light"
@@ -6786,8 +6786,8 @@
     {
       "type": "frame",
       "id": "a7xEg",
-      "x": 3915,
-      "y": 970,
+      "x": 4060,
+      "y": 1290,
       "name": "衣柜统计 / 完整内容 · 业务复用源",
       "reusable": true,
       "width": 390,
@@ -6908,7 +6908,7 @@
                   "fill": "$z:muted-foreground",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "近30天穿搭",
+                  "content": "穿搭次数",
                   "lineHeight": "$z:caption-leading",
                   "fontFamily": "Noto Sans SC",
                   "fontSize": "$z:font-size-xs",
@@ -8060,8 +8060,8 @@
     {
       "type": "frame",
       "id": "OgxoN",
-      "x": 4405,
-      "y": 6,
+      "x": 580,
+      "y": 6090,
       "name": "穿搭偏好 · Mobile",
       "theme": {
         "z:mode": "light"
@@ -8357,8 +8357,8 @@
     {
       "type": "frame",
       "id": "Z8EEvN",
-      "x": 4405,
-      "y": 970,
+      "x": 1120,
+      "y": 6090,
       "name": "穿搭偏好 / 完整内容 · 业务复用源",
       "reusable": true,
       "width": 390,
@@ -8988,7 +8988,7 @@
         {
           "type": "frame",
           "id": "UIbzM",
-          "name": "常用场合",
+          "name": "喜欢的场合",
           "width": "fill_container",
           "layout": "vertical",
           "gap": 8,
@@ -9000,7 +9000,7 @@
               "fill": "$z:foreground",
               "textGrowth": "fixed-width",
               "width": "fill_container",
-              "content": "常用场合",
+              "content": "喜欢的场合",
               "lineHeight": "$z:body-leading",
               "fontFamily": "Noto Sans SC",
               "fontSize": "$z:font-size-lg",
@@ -9137,6 +9137,159 @@
         },
         {
           "type": "frame",
+          "id": "ViP2f",
+          "name": "避免的场合",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "text",
+              "id": "M0Th5r",
+              "name": "偏好分组",
+              "fill": "$z:foreground",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "避免的场合",
+              "lineHeight": "$z:body-leading",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": "$z:font-size-lg",
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "qu4fv",
+              "name": "偏好选项",
+              "width": "fill_container",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "H8B9IO",
+                  "name": "通勤 点击区域",
+                  "width": "fill_container",
+                  "height": 44,
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "dJA8i",
+                      "name": "通勤",
+                      "width": "fill_container",
+                      "height": 32,
+                      "fill": "$z:surface-hover",
+                      "cornerRadius": "$z:radius-control",
+                      "gap": 4,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "e7Lrm",
+                          "name": "筛选标签",
+                          "fill": "$z:muted-foreground",
+                          "content": "通勤",
+                          "lineHeight": "$z:caption-leading",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": "$z:font-size-xs",
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "icon",
+                          "id": "glzgO",
+                          "x": 64.5,
+                          "y": 9,
+                          "name": "check",
+                          "enabled": false,
+                          "width": 14,
+                          "height": 14,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$z:primary"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "NPwFX",
+                  "name": "休闲 点击区域",
+                  "width": "fill_container",
+                  "height": 44,
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "nMU4U",
+                      "name": "休闲",
+                      "width": "fill_container",
+                      "height": 32,
+                      "fill": "$z:surface-hover",
+                      "cornerRadius": "$z:radius-control",
+                      "gap": 4,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "jvYi2",
+                          "name": "筛选标签",
+                          "fill": "$z:muted-foreground",
+                          "content": "休闲",
+                          "lineHeight": "$z:caption-leading",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": "$z:font-size-xs",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "myLRB",
+                  "name": "约会 点击区域",
+                  "width": "fill_container",
+                  "height": 44,
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "nB2Fm",
+                      "name": "约会",
+                      "width": "fill_container",
+                      "height": 32,
+                      "fill": "$z:surface-hover",
+                      "cornerRadius": "$z:radius-control",
+                      "gap": 4,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "h0xWj",
+                          "name": "筛选标签",
+                          "fill": "$z:muted-foreground",
+                          "content": "约会",
+                          "lineHeight": "$z:caption-leading",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": "$z:font-size-xs",
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
           "id": "ZXGcF",
           "name": "舒适度要求",
           "width": "fill_container",
@@ -9150,7 +9303,7 @@
               "fill": "$z:foreground",
               "textGrowth": "fixed-width",
               "width": "fill_container",
-              "content": "舒适度要求（选填）",
+              "content": "舒适度偏好（选填）",
               "lineHeight": "$z:body-leading",
               "fontFamily": "Noto Sans SC",
               "fontSize": "$z:font-size-lg",
@@ -9164,7 +9317,7 @@
               "width": "fill_container",
               "descendants": {
                 "z:dm142": {
-                  "content": "例如怕冷、偏好宽松或不穿高跟鞋",
+                  "content": "例如怕冷或偏好宽松",
                   "fontFamily": "Noto Sans SC"
                 }
               }
@@ -9178,7 +9331,7 @@
           "fill": "$z:muted-foreground",
           "textGrowth": "fixed-width",
           "width": "fill_container",
-          "content": "避免项会排除不符合条件的候选；没有合适衣物时会说明原因。",
+          "content": "舒适度描述供 AI 参考，不保证满足；风格、颜色和场合的避免项会严格排除。",
           "lineHeight": "$z:caption-leading",
           "fontFamily": "Noto Sans SC",
           "fontSize": "$z:font-size-xs",
@@ -9189,8 +9342,8 @@
     {
       "type": "frame",
       "id": "QL83M",
-      "x": 4895,
-      "y": 6,
+      "x": 40,
+      "y": 5010,
       "name": "个人 · 微信小程序",
       "theme": {
         "z:mode": "light"
@@ -9412,7 +9565,6 @@
           "type": "frame",
           "id": "JGka6",
           "name": "个人内容 · 唯一可编辑源",
-          "theme": {},
           "reusable": true,
           "clip": true,
           "width": "fill_container",
@@ -9498,7 +9650,7 @@
                       "fill": "$z:foreground",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
-                      "content": "衣柜用户",
+                      "content": "shadow",
                       "lineHeight": 1.4,
                       "fontFamily": "Noto Sans SC",
                       "fontSize": 24,
@@ -9668,7 +9820,6 @@
                       "type": "frame",
                       "id": "tbFiA",
                       "name": "空衣柜引导 · 复用现有空态结构",
-                      "theme": {},
                       "width": "fill_container",
                       "fill": "$z:card",
                       "layout": "vertical",
@@ -10096,8 +10247,8 @@
     {
       "type": "frame",
       "id": "NLCY6",
-      "x": 5385,
-      "y": 6,
+      "x": 580,
+      "y": 1290,
       "name": "城市与天气 · Bottom Sheet",
       "theme": {
         "z:mode": "light"
@@ -10388,8 +10539,8 @@
     {
       "type": "frame",
       "id": "mKPcR",
-      "x": 5875,
-      "y": 6,
+      "x": 4060,
+      "y": 2610,
       "name": "选择穿着衣物 · Bottom Sheet",
       "theme": {
         "z:mode": "light"
@@ -10992,373 +11143,9 @@
     },
     {
       "type": "frame",
-      "id": "asaVm",
-      "x": 6365,
-      "y": 6,
-      "name": "微信登录 · 小程序",
-      "theme": {
-        "z:mode": "light"
-      },
-      "clip": true,
-      "width": 390,
-      "height": 820,
-      "fill": "$z:card",
-      "layout": "vertical",
-      "children": [
-        {
-          "type": "frame",
-          "id": "urAOJ",
-          "name": "系统状态栏 · 仅设备展示",
-          "metadata": {
-            "type": "device-chrome",
-            "implementation": "Do not render in business UI; use real host system status bar",
-            "sampleHeight": 44
-          },
-          "width": "fill_container",
-          "height": 40,
-          "fill": "$z:header-bg",
-          "padding": [
-            18,
-            24,
-            7.50725,
-            32
-          ],
-          "justifyContent": "space_between",
-          "children": [
-            {
-              "type": "text",
-              "id": "uXU54",
-              "name": "系统时间 · 示例",
-              "fill": "$z:foreground",
-              "content": "9:41",
-              "lineHeight": 1,
-              "fontFamily": "Inter",
-              "fontSize": 14,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "xIWZM",
-              "name": "系统状态指示 · 示例",
-              "width": 65.2175,
-              "height": 14.49275,
-              "layout": "none",
-              "children": [
-                {
-                  "type": "path",
-                  "id": "r40fit",
-                  "x": 0,
-                  "y": 0,
-                  "name": "蜂窝信号 · 模板原始轮廓",
-                  "geometry": "M609.688 40.7608c0-1.0005 0.811-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v12.6812c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1.001 0-1.812-0.8111-1.812-1.8116v-12.6812z m-9.058 4.5293c0-1.0005 0.812-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v8.1522c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.812-0.8111-1.812-1.8116v-8.1522z m-9.057 3.6231c0-1.0006 0.811-1.8116 1.811-1.8116h2.717c1.001 0 1.812 0.811 1.812 1.8116v4.5289c0 1.0006-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.811-0.811-1.811-1.8116v-4.5289z",
-                  "fillRule": "evenodd",
-                  "viewBox": [
-                    590.667,
-                    28.9854,
-                    130.435,
-                    28.9855
-                  ],
-                  "fill": "$z:foreground",
-                  "width": 65.2175,
-                  "height": 14.49275
-                },
-                {
-                  "type": "path",
-                  "id": "rUxfS",
-                  "x": 0,
-                  "y": 0,
-                  "name": "Wi-Fi · 模板原始轮廓",
-                  "geometry": "M652.85 51.2483c0.117-0.1152 0.182-0.2736 0.179-0.438-0.004-0.1643-0.075-0.32-0.196-0.4302-2.421-2.0498-5.967-2.0498-8.388 0-0.122 0.1101-0.193 0.2658-0.196 0.4301-0.004 0.1644 0.061 0.3229 0.178 0.4381l3.791 3.8294c0.111 0.1126 0.263 0.1759 0.421 0.1759 0.158 0 0.309-0.0633 0.42-0.1759l3.791-3.8294z m-4.212-5.2897c2.311-0.0002 4.539 0.8596 6.252 2.4121 0.232 0.2204 0.597 0.2156 0.822-0.0107l2.192-2.2165c0.115-0.1163 0.179-0.274 0.178-0.4379-0.002-0.1639-0.069-0.3203-0.187-0.4341-5.216-4.8568-13.293-4.8568-18.509 0-0.118 0.1138-0.185 0.2703-0.187 0.4342-0.001 0.164 0.063 0.3217 0.179 0.4378l2.191 2.2165c0.225 0.2263 0.59 0.2311 0.822 0.0107 1.712-1.5515 3.938-2.4112 6.247-2.4121z m0.001-7.2121c4.205 0.0002 8.25 1.6178 11.298 4.5185 0.229 0.2239 0.596 0.2211 0.822-0.0064l2.194-2.2165c0.115-0.1153 0.178-0.2716 0.177-0.4342 0-0.1626-0.066-0.3181-0.182-0.4321-8-7.6745-20.62-7.6745-28.62 0-0.116 0.1139-0.182 0.2694-0.183 0.432-0.001 0.1626 0.063 0.3189 0.177 0.4343l2.195 2.2165c0.225 0.2278 0.593 0.2306 0.822 0.0064 3.048-2.9009 7.094-4.5185 11.3-4.5185z",
-                  "fillRule": "evenodd",
-                  "viewBox": [
-                    590.667,
-                    28.9854,
-                    130.435,
-                    28.9855
-                  ],
-                  "fill": "$z:foreground",
-                  "width": 65.2175,
-                  "height": 14.49275
-                },
-                {
-                  "type": "path",
-                  "id": "s5YgH",
-                  "x": 0,
-                  "y": 0,
-                  "name": "电池 · 模板原始轮廓",
-                  "geometry": "M674 39.4022c0-1.2507 1.014-2.2645 2.264-2.2645h1.359v15.3985h-1.359c-1.25 0-2.264-1.0138-2.264-2.2644v-10.8696z m3.623-2.2645h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.624v15.3985h-3.624v-15.3985z m3.624 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m7.246 2.2645c0-1.2507-1.013-2.2645-2.264-2.2645h-1.359v15.3985h1.359c1.251 0 2.264-1.0138 2.264-2.2644v-10.8696z m-32.608-0.4528c0-3.0015 2.433-5.4348 5.435-5.4348h32.608c3.002 0 5.435 2.4333 5.435 5.4348v11.7754c0 3.0015-2.433 5.4348-5.435 5.4348h-32.608c-3.002 0-5.435-2.4333-5.435-5.4348v-11.7754z m5.435-3.6232c-2.001 0-3.624 1.6222-3.624 3.6232v11.7754c0 2.001 1.623 3.6232 3.624 3.6232h32.608c2.001 0 3.623-1.6222 3.623-3.6232v-11.7754c0-2.001-1.622-3.6232-3.623-3.6232h-32.608z m39.855 13.663c1.599-0.6989 2.717-2.2949 2.717-4.1521 0-1.8572-1.118-3.4533-2.717-4.1521v8.3042z",
-                  "fillRule": "evenodd",
-                  "viewBox": [
-                    590.667,
-                    28.9854,
-                    130.435,
-                    28.9855
-                  ],
-                  "fill": "$z:foreground",
-                  "width": 65.2175,
-                  "height": 14.49275
-                },
-                {
-                  "type": "rectangle",
-                  "cornerRadius": 0.905795,
-                  "id": "y14fyo",
-                  "x": 14.0395,
-                  "y": 2.71725,
-                  "name": "信号第四格 · 模板原始轮廓",
-                  "fill": "$z:foreground",
-                  "width": 3.17029,
-                  "height": 10.41665
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "H34v3X",
-          "name": "小程序登录导航",
-          "width": "fill_container",
-          "height": 40,
-          "padding": [
-            0,
-            16
-          ],
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "frame",
-              "id": "oTEJI",
-              "name": "返回",
-              "width": 88,
-              "height": 40,
-              "layout": "vertical",
-              "padding": [
-                0,
-                9
-              ],
-              "justifyContent": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "ZKMap",
-                  "name": "chevron-left",
-                  "width": 24,
-                  "height": 24,
-                  "icon": "chevron-left",
-                  "library": "lucide",
-                  "fill": "$z:foreground"
-                }
-              ]
-            },
-            {
-              "type": "text",
-              "id": "bPWxY",
-              "name": "页面名称",
-              "fill": "$z:foreground",
-              "textGrowth": "fixed-width",
-              "width": "fill_container",
-              "content": "登录",
-              "lineHeight": 1.5,
-              "textAlign": "center",
-              "fontFamily": "Noto Sans SC",
-              "fontSize": 16,
-              "fontWeight": "600"
-            },
-            {
-              "type": "frame",
-              "id": "u5Y5pu",
-              "name": "微信系统胶囊 · 宿主示意",
-              "width": 88,
-              "height": 30,
-              "cornerRadius": 15,
-              "stroke": "$z:border-subtle",
-              "strokeWidth": 1,
-              "gap": 12,
-              "justifyContent": "center",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "Uqle7",
-                  "name": "ellipsis",
-                  "width": 20,
-                  "height": 20,
-                  "icon": "more_horiz",
-                  "library": "Material Symbols Rounded",
-                  "weight": 700,
-                  "fill": "$z:foreground"
-                },
-                {
-                  "type": "frame",
-                  "id": "xH5BY",
-                  "name": "胶囊分隔",
-                  "opacity": 0.16,
-                  "width": 1,
-                  "height": 16,
-                  "fill": "$z:foreground",
-                  "layout": "vertical"
-                },
-                {
-                  "type": "icon",
-                  "id": "oxuXX",
-                  "name": "circle-dot",
-                  "width": 20,
-                  "height": 20,
-                  "icon": "radio_button_checked",
-                  "library": "Material Symbols Rounded",
-                  "weight": 600,
-                  "fill": "$z:foreground"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "Q3APNW",
-          "name": "微信登录内容",
-          "width": "fill_container",
-          "height": "fill_container",
-          "layout": "vertical",
-          "gap": 24,
-          "padding": [
-            32,
-            24,
-            48,
-            24
-          ],
-          "justifyContent": "center",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "frame",
-              "id": "j615Y",
-              "name": "衣柜标记",
-              "width": 80,
-              "height": 80,
-              "fill": "$z:surface-selected",
-              "cornerRadius": 24,
-              "layout": "vertical",
-              "justifyContent": "center",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "x8eTcH",
-                  "name": "shirt",
-                  "width": 40,
-                  "height": 40,
-                  "icon": "shirt",
-                  "library": "lucide",
-                  "fill": "$z:primary"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "Fy8g1",
-              "name": "登录说明",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 10,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "bA41D",
-                  "name": "登录标题",
-                  "fill": "$z:foreground",
-                  "content": "开启你的专属衣柜",
-                  "lineHeight": "$z:page-title-leading",
-                  "fontFamily": "Noto Sans SC",
-                  "fontSize": "$z:text-page-title-size",
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "text",
-                  "id": "KEilK",
-                  "name": "登录用途",
-                  "fill": "$z:muted-foreground",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "登录后管理衣物、获取穿搭建议\n衣柜与穿着记录仅自己可见",
-                  "lineHeight": "$z:body-leading",
-                  "textAlign": "center",
-                  "fontFamily": "Noto Sans SC",
-                  "fontSize": "$z:font-size-md",
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "id": "BOhY6",
-              "type": "ref",
-              "ref": "z:j8DiT",
-              "name": "微信登录",
-              "width": "fill_container",
-              "height": 52,
-              "descendants": {
-                "z:EQQl5": {
-                  "content": "微信登录",
-                  "fontFamily": "Noto Sans SC",
-                  "fontSize": "$z:font-size-lg"
-                }
-              }
-            },
-            {
-              "type": "text",
-              "id": "No1dR",
-              "name": "个人资料可选",
-              "fill": "$z:muted-foreground",
-              "textGrowth": "fixed-width",
-              "width": "fill_container",
-              "content": "无需填写密码，昵称和头像可稍后补充",
-              "lineHeight": "$z:caption-leading",
-              "textAlign": "center",
-              "fontFamily": "Noto Sans SC",
-              "fontSize": "$z:font-size-xs",
-              "fontWeight": "normal"
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "aJYEd",
-          "name": "底部安全区 · 仅宿主展示",
-          "metadata": {
-            "type": "host-preview",
-            "owner": "System home indicator; preview only, runtime inset must have a single owner"
-          },
-          "width": "fill_container",
-          "height": 20,
-          "fill": "$z:header-bg",
-          "layout": "vertical",
-          "padding": [
-            9,
-            0,
-            7,
-            0
-          ],
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "rectangle",
-              "cornerRadius": 2,
-              "id": "oCy27",
-              "name": "Home Indicator · 非业务控件",
-              "fill": "$z:foreground",
-              "width": 128,
-              "height": 4
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
       "id": "m0rZ7",
-      "x": 6855,
-      "y": 6,
+      "x": 2980,
+      "y": 3690,
       "name": "删除穿着记录 · Dialog",
       "theme": {
         "z:mode": "light"
@@ -11514,40 +11301,43 @@
     {
       "type": "frame",
       "id": "SKORD",
-      "x": 7345,
-      "y": 6,
-      "name": "通用空态 · 衣柜示例",
-      "theme": {
-        "z:mode": "light"
-      },
-      "width": 358,
-      "height": 280,
+      "x": 2980,
+      "y": 1290,
+      "name": "空态引导 / 共用结构 · 衣柜示例",
+      "theme": {},
+      "reusable": true,
+      "width": 330,
       "fill": "$z:card",
       "layout": "vertical",
-      "gap": 16,
-      "padding": 24,
+      "gap": 22,
       "justifyContent": "center",
       "alignItems": "center",
       "children": [
         {
-          "type": "icon",
-          "id": "McfrC",
-          "name": "shirt",
-          "width": 36,
-          "height": 36,
-          "icon": "shirt",
-          "library": "lucide",
-          "fill": "$z:muted-foreground"
+          "type": "rectangle",
+          "id": "O2Vlt",
+          "name": "空态主插画",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "images/empty-state/wardrobe.png",
+            "mode": "contain"
+          },
+          "width": "fill_container",
+          "height": 290
         },
         {
           "type": "text",
           "id": "QShrK",
           "name": "空态标题",
           "fill": "$z:foreground",
-          "content": "衣柜还是空的",
-          "lineHeight": "$z:section-title-leading",
+          "textGrowth": "fixed-width",
+          "width": "fill_container",
+          "content": "从第一件衣物开始",
+          "lineHeight": 1.4,
+          "textAlign": "center",
           "fontFamily": "Noto Sans SC",
-          "fontSize": "$z:text-section-title-size",
+          "fontSize": 26,
           "fontWeight": "600"
         },
         {
@@ -11555,12 +11345,14 @@
           "id": "Zddl6",
           "name": "空态说明",
           "fill": "$z:muted-foreground",
-          "textGrowth": "fixed-width",
+          "textGrowth": "fixed-width-height",
           "width": "fill_container",
-          "content": "录入第一件衣物，开始整理你的衣柜。",
-          "lineHeight": "$z:body-leading",
+          "height": 60,
+          "content": "拍照添加你的衣物\n让日常整理更轻松",
+          "lineHeight": 1.65,
+          "textAlign": "center",
           "fontFamily": "Noto Sans SC",
-          "fontSize": "$z:font-size-md",
+          "fontSize": 18,
           "fontWeight": "normal"
         },
         {
@@ -11569,12 +11361,19 @@
           "ref": "z:j8DiT",
           "name": "添加衣物",
           "width": "fill_container",
-          "height": 50,
+          "height": 62,
+          "cornerRadius": 999,
           "descendants": {
+            "z:E3fBH": {
+              "enabled": true,
+              "icon": "plus",
+              "width": 20,
+              "height": 20
+            },
             "z:EQQl5": {
-              "content": "添加衣物",
+              "content": "添加第一件衣物",
               "fontFamily": "Noto Sans SC",
-              "fontSize": "$z:font-size-lg"
+              "fontSize": 18
             }
           }
         }
@@ -11583,8 +11382,8 @@
     {
       "type": "frame",
       "id": "Y8xJCl",
-      "x": 2445,
-      "y": 1664,
+      "x": 580,
+      "y": 3690,
       "name": "衣物更多属性 / 唯一展开内容",
       "theme": {
         "z:mode": "light"
@@ -12294,8 +12093,8 @@
     {
       "type": "frame",
       "id": "jxBYZ",
-      "x": 2445,
-      "y": 2256,
+      "x": 580,
+      "y": 2610,
       "name": "添加衣物 · 已有照片与属性展开",
       "theme": {
         "z:mode": "light"
@@ -12653,8 +12452,8 @@
     {
       "type": "frame",
       "id": "phKmP",
-      "x": 7803,
-      "y": 6,
+      "x": 1120,
+      "y": 2610,
       "name": "选择衣物分类 · Bottom Sheet",
       "theme": {
         "z:mode": "light"
@@ -12979,8 +12778,8 @@
     {
       "type": "frame",
       "id": "zXmjy",
-      "x": 8293,
-      "y": 6,
+      "x": 1660,
+      "y": 2610,
       "name": "选择主要颜色 · Bottom Sheet",
       "theme": {
         "z:mode": "light"
@@ -13595,8 +13394,8 @@
     {
       "type": "frame",
       "id": "kopCO",
-      "x": 8783,
-      "y": 6,
+      "x": 1120,
+      "y": 3690,
       "name": "自定义标签 · Bottom Sheet",
       "theme": {
         "z:mode": "light"
@@ -13762,177 +13561,449 @@
     {
       "type": "frame",
       "id": "LgGyr",
-      "x": 9273,
-      "y": 6,
-      "name": "个人资料 · Bottom Sheet",
+      "x": -390,
+      "y": 6090,
+      "name": "编辑个人资料 · 微信小程序",
       "theme": {
         "z:mode": "light"
       },
       "clip": true,
       "width": 390,
-      "height": 560,
-      "fill": "$z:overlay",
+      "height": 820,
+      "fill": "$z:background",
       "layout": "vertical",
-      "justifyContent": "end",
       "children": [
         {
-          "id": "UNeBb",
-          "type": "ref",
-          "ref": "z:ocBvt",
-          "name": "个人资料 · Bottom Sheet 容器",
+          "type": "frame",
+          "id": "G5G5Uk",
+          "name": "系统状态栏 · 仅设备展示",
+          "metadata": {
+            "type": "device-chrome",
+            "implementation": "Do not render in business UI; use real host system status bar",
+            "sampleHeight": 44
+          },
           "width": "fill_container",
-          "height": "fit_content",
+          "height": 44,
+          "fill": "$z:card",
           "padding": [
-            16,
-            16,
-            32,
+            18,
+            24,
+            7.50725,
+            32
+          ],
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "text",
+              "id": "WkOZQ",
+              "name": "系统时间 · 示例",
+              "fill": "$z:foreground",
+              "content": "9:41",
+              "lineHeight": 1,
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "bOhWu",
+              "name": "系统状态指示 · 示例",
+              "width": 65.2175,
+              "height": 14.49275,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "path",
+                  "id": "Dqa5n",
+                  "x": 0,
+                  "y": 0,
+                  "name": "蜂窝信号 · 模板原始轮廓",
+                  "geometry": "M609.688 40.7608c0-1.0005 0.811-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v12.6812c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1.001 0-1.812-0.8111-1.812-1.8116v-12.6812z m-9.058 4.5293c0-1.0005 0.812-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v8.1522c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.812-0.8111-1.812-1.8116v-8.1522z m-9.057 3.6231c0-1.0006 0.811-1.8116 1.811-1.8116h2.717c1.001 0 1.812 0.811 1.812 1.8116v4.5289c0 1.0006-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.811-0.811-1.811-1.8116v-4.5289z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "path",
+                  "id": "V9o5d",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Wi-Fi · 模板原始轮廓",
+                  "geometry": "M652.85 51.2483c0.117-0.1152 0.182-0.2736 0.179-0.438-0.004-0.1643-0.075-0.32-0.196-0.4302-2.421-2.0498-5.967-2.0498-8.388 0-0.122 0.1101-0.193 0.2658-0.196 0.4301-0.004 0.1644 0.061 0.3229 0.178 0.4381l3.791 3.8294c0.111 0.1126 0.263 0.1759 0.421 0.1759 0.158 0 0.309-0.0633 0.42-0.1759l3.791-3.8294z m-4.212-5.2897c2.311-0.0002 4.539 0.8596 6.252 2.4121 0.232 0.2204 0.597 0.2156 0.822-0.0107l2.192-2.2165c0.115-0.1163 0.179-0.274 0.178-0.4379-0.002-0.1639-0.069-0.3203-0.187-0.4341-5.216-4.8568-13.293-4.8568-18.509 0-0.118 0.1138-0.185 0.2703-0.187 0.4342-0.001 0.164 0.063 0.3217 0.179 0.4378l2.191 2.2165c0.225 0.2263 0.59 0.2311 0.822 0.0107 1.712-1.5515 3.938-2.4112 6.247-2.4121z m0.001-7.2121c4.205 0.0002 8.25 1.6178 11.298 4.5185 0.229 0.2239 0.596 0.2211 0.822-0.0064l2.194-2.2165c0.115-0.1153 0.178-0.2716 0.177-0.4342 0-0.1626-0.066-0.3181-0.182-0.4321-8-7.6745-20.62-7.6745-28.62 0-0.116 0.1139-0.182 0.2694-0.183 0.432-0.001 0.1626 0.063 0.3189 0.177 0.4343l2.195 2.2165c0.225 0.2278 0.593 0.2306 0.822 0.0064 3.048-2.9009 7.094-4.5185 11.3-4.5185z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "path",
+                  "id": "E4rTVa",
+                  "x": 0,
+                  "y": 0,
+                  "name": "电池 · 模板原始轮廓",
+                  "geometry": "M674 39.4022c0-1.2507 1.014-2.2645 2.264-2.2645h1.359v15.3985h-1.359c-1.25 0-2.264-1.0138-2.264-2.2644v-10.8696z m3.623-2.2645h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.624v15.3985h-3.624v-15.3985z m3.624 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m7.246 2.2645c0-1.2507-1.013-2.2645-2.264-2.2645h-1.359v15.3985h1.359c1.251 0 2.264-1.0138 2.264-2.2644v-10.8696z m-32.608-0.4528c0-3.0015 2.433-5.4348 5.435-5.4348h32.608c3.002 0 5.435 2.4333 5.435 5.4348v11.7754c0 3.0015-2.433 5.4348-5.435 5.4348h-32.608c-3.002 0-5.435-2.4333-5.435-5.4348v-11.7754z m5.435-3.6232c-2.001 0-3.624 1.6222-3.624 3.6232v11.7754c0 2.001 1.623 3.6232 3.624 3.6232h32.608c2.001 0 3.623-1.6222 3.623-3.6232v-11.7754c0-2.001-1.622-3.6232-3.623-3.6232h-32.608z m39.855 13.663c1.599-0.6989 2.717-2.2949 2.717-4.1521 0-1.8572-1.118-3.4533-2.717-4.1521v8.3042z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 0.905795,
+                  "id": "OsoTn",
+                  "x": 14.0395,
+                  "y": 2.71725,
+                  "name": "信号第四格 · 模板原始轮廓",
+                  "fill": "$z:foreground",
+                  "width": 3.17029,
+                  "height": 10.41665
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "MxLl5",
+          "name": "小程序自定义导航 · 预留系统胶囊",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "$z:card",
+          "padding": [
+            0,
             16
           ],
-          "gap": 16,
-          "cornerRadius": [
-            24,
-            24,
-            0,
-            0
-          ],
-          "strokeWidth": 0,
-          "descendants": {
-            "z:fR47i": {
+          "alignItems": "center",
+          "children": [
+            {
               "type": "frame",
-              "id": "AygXg",
-              "name": "弹层标题栏",
+              "id": "s4kgS",
+              "name": "返回",
+              "width": 88,
+              "height": 48,
+              "layout": "vertical",
+              "padding": [
+                0,
+                9
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "bkq5N",
+                  "name": "chevron-left",
+                  "width": 24,
+                  "height": 24,
+                  "icon": "chevron-left",
+                  "library": "lucide",
+                  "fill": "$z:foreground"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "DoGeJ",
+              "name": "当前页面",
+              "fill": "$z:foreground",
+              "textGrowth": "fixed-width",
               "width": "fill_container",
-              "height": 44,
-              "gap": 8,
+              "content": "编辑个人资料",
+              "lineHeight": 1.5,
+              "textAlign": "center",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 20,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "DDrhs",
+              "name": "微信系统胶囊 · 宿主示意",
+              "width": 88,
+              "height": 30,
+              "cornerRadius": 15,
+              "stroke": "$z:border-subtle",
+              "strokeWidth": 1,
+              "gap": 12,
+              "justifyContent": "center",
               "alignItems": "center",
               "children": [
                 {
-                  "type": "text",
-                  "id": "U4e3B7",
-                  "name": "弹层标题",
-                  "fill": "$z:foreground",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "个人资料",
-                  "lineHeight": "$z:section-title-leading",
-                  "fontFamily": "Noto Sans SC",
-                  "fontSize": "$z:text-section-title-size",
-                  "fontWeight": "600"
+                  "type": "icon",
+                  "id": "nM4XC",
+                  "name": "ellipsis",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "more_horiz",
+                  "library": "Material Symbols Rounded",
+                  "weight": 700,
+                  "fill": "$z:foreground"
                 },
                 {
                   "type": "frame",
-                  "id": "J4i70E",
-                  "name": "关闭弹层",
-                  "width": 44,
-                  "height": 44,
-                  "fill": "$z:surface-hover",
-                  "cornerRadius": 22,
-                  "layout": "vertical",
+                  "id": "bZefS",
+                  "name": "胶囊分隔",
+                  "opacity": 0.16,
+                  "width": 1,
+                  "height": 16,
+                  "fill": "$z:foreground",
+                  "layout": "vertical"
+                },
+                {
+                  "type": "icon",
+                  "id": "jNva0",
+                  "name": "circle-dot",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "radio_button_checked",
+                  "library": "Material Symbols Rounded",
+                  "weight": 600,
+                  "fill": "$z:foreground"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "IV0Fd",
+          "name": "个人资料编辑内容",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": [
+            28,
+            24,
+            0,
+            24
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "jV8D5",
+              "name": "更换头像 · 微信原生选择头像",
+              "width": "fill_container",
+              "height": 230,
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "Nk4hb",
+                  "layoutPosition": "absolute",
+                  "x": 220,
+                  "y": 105,
+                  "name": "头像区柔和背景",
+                  "opacity": 0.6,
+                  "fill": "$z:surface-selected",
+                  "width": 82,
+                  "height": 82
+                },
+                {
+                  "type": "ellipse",
+                  "id": "PIqyE",
+                  "layoutPosition": "absolute",
+                  "x": 144,
+                  "y": 18,
+                  "name": "头像区柔和背景",
+                  "opacity": 0.6,
+                  "fill": "$z:surface-selected",
+                  "width": 80,
+                  "height": 80
+                },
+                {
+                  "type": "ellipse",
+                  "id": "hrn36",
+                  "layoutPosition": "absolute",
+                  "x": 20,
+                  "y": 76,
+                  "name": "头像区柔和背景",
+                  "opacity": 0.6,
+                  "fill": "$z:surface-selected",
+                  "width": 84,
+                  "height": 84
+                },
+                {
+                  "type": "frame",
+                  "id": "AC25R",
+                  "name": "当前头像",
+                  "width": 156,
+                  "height": 156,
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 145,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "$z:surface-selected",
+                        "position": 0
+                      },
+                      {
+                        "color": "$z:background",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "cornerRadius": 78,
+                  "stroke": "$z:card",
+                  "strokeWidth": 6,
                   "justifyContent": "center",
                   "alignItems": "center",
                   "children": [
                     {
                       "type": "icon",
-                      "id": "ud46n",
-                      "name": "x",
-                      "width": 20,
-                      "height": 20,
-                      "icon": "x",
-                      "library": "lucide",
-                      "fill": "$z:muted-foreground"
-                    }
-                  ]
-                }
-              ]
-            },
-            "z:fxhvO": {
-              "enabled": false
-            },
-            "z:a1e9H": {
-              "type": "frame",
-              "id": "ACtu5",
-              "name": "弹层内容",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 16,
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "MsR3R",
-                  "name": "头像填写",
-                  "width": "fill_container",
-                  "gap": 16,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "Itmxq",
-                      "name": "用户头像",
+                      "id": "xcQaT",
+                      "name": "默认用户头像",
                       "width": 64,
                       "height": 64,
-                      "fill": "$z:surface-selected",
-                      "cornerRadius": 32,
-                      "layout": "vertical",
+                      "icon": "user-round",
+                      "library": "lucide",
+                      "fill": "$z:primary"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "p9DNn",
+                      "layoutPosition": "absolute",
+                      "x": 110,
+                      "y": 110,
+                      "name": "头像编辑标记 · 点击区为整个头像",
+                      "width": 44,
+                      "height": 44,
+                      "fill": "$z:primary",
+                      "cornerRadius": 22,
+                      "stroke": "$z:card",
                       "justifyContent": "center",
                       "alignItems": "center",
                       "children": [
                         {
                           "type": "icon",
-                          "id": "s2LCJl",
-                          "name": "user-round",
-                          "width": 30,
-                          "height": 30,
-                          "icon": "user-round",
+                          "id": "WXdfo",
+                          "name": "头像编辑相机",
+                          "width": 22,
+                          "height": 22,
+                          "icon": "camera",
                           "library": "lucide",
-                          "fill": "$z:primary"
+                          "fill": "$z:primary-foreground"
                         }
                       ]
-                    },
-                    {
-                      "id": "kect1",
-                      "type": "ref",
-                      "ref": "z:EthvI",
-                      "name": "选择头像",
-                      "width": "fill_container",
-                      "height": 48,
-                      "descendants": {
-                        "z:G7TdB7": {
-                          "content": "选择头像",
-                          "fontFamily": "Noto Sans SC",
-                          "fontSize": "$z:font-size-lg"
-                        }
-                      }
                     }
                   ]
                 },
                 {
                   "type": "frame",
-                  "id": "Y8ZaOY",
-                  "name": "昵称 字段",
-                  "width": "fill_container",
-                  "layout": "vertical",
+                  "id": "jrh7g",
+                  "x": 151,
+                  "y": 112,
+                  "name": "更换头像操作",
+                  "enabled": false,
+                  "height": 48,
                   "gap": 8,
+                  "justifyContent": "center",
+                  "alignItems": "center",
                   "children": [
                     {
-                      "id": "MI3n5",
-                      "type": "ref",
-                      "ref": "z:QS5ir",
-                      "name": "昵称",
-                      "width": "fill_container",
+                      "type": "text",
+                      "id": "OZJpS",
+                      "name": "更换头像文案",
+                      "fill": "$z:primary",
+                      "content": "更换头像",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "jhiib",
+              "name": "基本信息分组",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "vTbkd",
+                  "x": 0,
+                  "y": 0,
+                  "name": "基本信息标题",
+                  "enabled": false,
+                  "fill": "$z:muted-foreground",
+                  "content": "基本信息",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "ds6R6",
+                  "name": "昵称编辑行",
+                  "width": "fill_container",
+                  "stroke": "$z:border-subtle",
+                  "layout": "vertical",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "WUO2x",
+                      "name": "昵称标签",
+                      "fill": "$z:foreground",
                       "content": "昵称",
-                      "fontFamily": "Noto Sans SC"
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 16,
+                      "fontWeight": "500"
                     },
                     {
-                      "id": "wudpP",
+                      "id": "YrtaH",
                       "type": "ref",
                       "ref": "z:mTBzU",
-                      "name": "昵称 控件",
+                      "name": "昵称输入 · 微信原生昵称填写",
                       "width": "fill_container",
-                      "height": 44,
+                      "height": 58,
+                      "cornerRadius": 16,
+                      "padding": [
+                        0,
+                        16
+                      ],
+                      "fill": "$z:card",
+                      "stroke": "$z:border-subtle",
+                      "strokeWidth": 1,
                       "descendants": {
                         "z:j5cLc": {
-                          "content": "衣柜用户",
-                          "fontFamily": "Noto Sans SC"
+                          "content": "shadow",
+                          "fontFamily": "Noto Sans SC",
+                          "fontSize": 18
+                        },
+                        "z:YHPVH": {
+                          "enabled": true,
+                          "icon": "circle-x",
+                          "width": 20,
+                          "height": 20
                         }
                       }
                     }
@@ -13940,46 +14011,98 @@
                 },
                 {
                   "type": "text",
-                  "id": "ACQjw",
-                  "name": "资料说明",
+                  "id": "bWWp8",
+                  "name": "选填说明",
                   "fill": "$z:muted-foreground",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "头像和昵称为选填，不影响衣柜与推荐使用。",
-                  "lineHeight": "$z:caption-leading",
+                  "content": "头像和昵称仅自己可见，不影响衣柜与穿搭推荐的使用。",
+                  "lineHeight": 1.6,
                   "fontFamily": "Noto Sans SC",
-                  "fontSize": "$z:font-size-xs",
+                  "fontSize": 13,
                   "fontWeight": "normal"
-                },
-                {
-                  "id": "LUsG2",
-                  "type": "ref",
-                  "ref": "z:j8DiT",
-                  "name": "保存资料",
-                  "width": "fill_container",
-                  "height": 52,
-                  "descendants": {
-                    "z:EQQl5": {
-                      "content": "保存资料",
-                      "fontFamily": "Noto Sans SC",
-                      "fontSize": "$z:font-size-lg"
-                    }
-                  }
                 }
               ]
-            },
-            "z:e2oYH": {
-              "enabled": false
             }
-          }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "fOMLF",
+          "name": "保存资料操作区",
+          "width": "fill_container",
+          "fill": "$z:background",
+          "layout": "vertical",
+          "padding": [
+            68,
+            24,
+            0,
+            24
+          ],
+          "children": [
+            {
+              "id": "M4l7j",
+              "type": "ref",
+              "ref": "z:j8DiT",
+              "name": "保存资料",
+              "width": "fill_container",
+              "height": 56,
+              "cornerRadius": 999,
+              "descendants": {
+                "z:EQQl5": {
+                  "content": "保存资料",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 18
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "e7Luhj",
+          "name": "底部弹性留白",
+          "width": "fill_container",
+          "height": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "nE5PD",
+          "name": "底部安全区 · 仅宿主展示",
+          "metadata": {
+            "type": "host-preview",
+            "owner": "System home indicator; preview only, runtime inset must have a single owner"
+          },
+          "width": "fill_container",
+          "height": 20,
+          "fill": "$z:background",
+          "layout": "vertical",
+          "padding": [
+            9,
+            0,
+            7,
+            0
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 2,
+              "id": "uLo1v",
+              "name": "Home Indicator · 非业务控件",
+              "fill": "$z:foreground",
+              "width": 128,
+              "height": 4
+            }
+          ]
         }
       ]
     },
     {
       "type": "frame",
       "id": "fkIRs",
-      "x": 9763,
-      "y": 6,
+      "x": 40,
+      "y": 6090,
       "name": "设置 · 微信小程序",
       "theme": {
         "z:mode": "light"
@@ -14209,12 +14332,89 @@
           "height": "fill_container",
           "fill": "$z:background",
           "layout": "vertical",
-          "gap": 20,
+          "gap": 24,
           "padding": [
-            24,
-            16
+            20,
+            24
           ],
           "children": [
+            {
+              "type": "frame",
+              "id": "GPNIB",
+              "name": "shadow 资料卡 · 进入 LgGyr",
+              "width": "fill_container",
+              "height": 112,
+              "fill": "$z:card",
+              "cornerRadius": 20,
+              "gap": 20,
+              "padding": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "CU78q",
+                  "name": "资料卡默认头像",
+                  "width": 80,
+                  "height": 80,
+                  "fill": "$z:surface-selected",
+                  "cornerRadius": 40,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "RWguM",
+                      "name": "用户头像",
+                      "width": 36,
+                      "height": 36,
+                      "icon": "user-round",
+                      "library": "lucide",
+                      "fill": "$z:primary"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ZAlkV",
+                  "name": "账号信息",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "MfF9o",
+                      "name": "昵称",
+                      "fill": "$z:foreground",
+                      "content": "shadow",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 20,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "oMxP8",
+                      "name": "资料编辑入口",
+                      "fill": "$z:muted-foreground",
+                      "content": "编辑个人资料",
+                      "fontFamily": "Noto Sans SC",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "icon",
+                  "id": "PfTAI",
+                  "name": "进入个人资料",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "chevron-right",
+                  "library": "lucide",
+                  "fill": "$z:muted-foreground"
+                }
+              ]
+            },
             {
               "type": "frame",
               "id": "T8jTr",
@@ -14236,11 +14436,11 @@
                 {
                   "type": "frame",
                   "id": "B3tph",
-                  "name": "个人资料 · 打开现有资料弹层",
+                  "name": "个人资料 · 进入 LgGyr 编辑页",
                   "width": "fill_container",
-                  "height": 56,
+                  "height": 60,
                   "fill": "$z:card",
-                  "cornerRadius": 12,
+                  "cornerRadius": 16,
                   "stroke": "$z:border-subtle",
                   "gap": 12,
                   "padding": [
@@ -14333,7 +14533,7 @@
                       "id": "qYLsg",
                       "name": "穿搭偏好",
                       "width": "fill_container",
-                      "height": 56,
+                      "height": 60,
                       "stroke": "$z:border-subtle",
                       "strokeWidth": {
                         "bottom": 1
@@ -14392,7 +14592,7 @@
                       "id": "BjgXs",
                       "name": "城市与天气",
                       "width": "fill_container",
-                      "height": 56,
+                      "height": 60,
                       "stroke": "$z:border-subtle",
                       "gap": 12,
                       "alignItems": "center",
@@ -14460,9 +14660,10 @@
                   "ref": "z:EthvI",
                   "name": "退出登录",
                   "width": "fill_container",
-                  "height": 48,
+                  "height": 58,
                   "fill": "$z:card",
-                  "cornerRadius": 12,
+                  "cornerRadius": 16,
+                  "stroke": "$z:border-subtle",
                   "descendants": {
                     "z:G7TdB7": {
                       "content": "退出登录",
@@ -14499,7 +14700,7 @@
                   "name": "隐私说明",
                   "fill": "$z:muted-foreground",
                   "textGrowth": "fixed-width",
-                  "width": 280,
+                  "width": "fill_container",
                   "content": "衣物、偏好与穿着记录仅自己可见",
                   "lineHeight": "$z:caption-leading",
                   "fontFamily": "Noto Sans SC",
@@ -14534,6 +14735,2129 @@
               "type": "rectangle",
               "cornerRadius": 2,
               "id": "Ur8Ik",
+              "name": "Home Indicator · 非业务控件",
+              "fill": "$z:foreground",
+              "width": 128,
+              "height": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "w2ZdGv",
+      "x": 2980,
+      "y": 210,
+      "name": "我的衣柜 · 空页面",
+      "theme": {
+        "z:mode": "light"
+      },
+      "clip": true,
+      "width": 390,
+      "height": 820,
+      "fill": "$z:card",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "yQqq6",
+          "name": "系统状态栏 · 仅设备展示",
+          "metadata": {
+            "type": "device-chrome",
+            "implementation": "Do not render in business UI; use real host system status bar",
+            "sampleHeight": 44
+          },
+          "width": "fill_container",
+          "height": 40,
+          "fill": "$z:header-bg",
+          "padding": [
+            18,
+            24,
+            7.50725,
+            32
+          ],
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "text",
+              "id": "a5Y4OH",
+              "name": "系统时间 · 示例",
+              "fill": "$z:foreground",
+              "content": "9:41",
+              "lineHeight": 1,
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "N2wzsN",
+              "name": "系统状态指示 · 示例",
+              "width": 65.2175,
+              "height": 14.49275,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "path",
+                  "id": "dxSW7",
+                  "x": 0,
+                  "y": 0,
+                  "name": "蜂窝信号 · 模板原始轮廓",
+                  "geometry": "M609.688 40.7608c0-1.0005 0.811-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v12.6812c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1.001 0-1.812-0.8111-1.812-1.8116v-12.6812z m-9.058 4.5293c0-1.0005 0.812-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v8.1522c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.812-0.8111-1.812-1.8116v-8.1522z m-9.057 3.6231c0-1.0006 0.811-1.8116 1.811-1.8116h2.717c1.001 0 1.812 0.811 1.812 1.8116v4.5289c0 1.0006-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.811-0.811-1.811-1.8116v-4.5289z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "path",
+                  "id": "G2hCI",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Wi-Fi · 模板原始轮廓",
+                  "geometry": "M652.85 51.2483c0.117-0.1152 0.182-0.2736 0.179-0.438-0.004-0.1643-0.075-0.32-0.196-0.4302-2.421-2.0498-5.967-2.0498-8.388 0-0.122 0.1101-0.193 0.2658-0.196 0.4301-0.004 0.1644 0.061 0.3229 0.178 0.4381l3.791 3.8294c0.111 0.1126 0.263 0.1759 0.421 0.1759 0.158 0 0.309-0.0633 0.42-0.1759l3.791-3.8294z m-4.212-5.2897c2.311-0.0002 4.539 0.8596 6.252 2.4121 0.232 0.2204 0.597 0.2156 0.822-0.0107l2.192-2.2165c0.115-0.1163 0.179-0.274 0.178-0.4379-0.002-0.1639-0.069-0.3203-0.187-0.4341-5.216-4.8568-13.293-4.8568-18.509 0-0.118 0.1138-0.185 0.2703-0.187 0.4342-0.001 0.164 0.063 0.3217 0.179 0.4378l2.191 2.2165c0.225 0.2263 0.59 0.2311 0.822 0.0107 1.712-1.5515 3.938-2.4112 6.247-2.4121z m0.001-7.2121c4.205 0.0002 8.25 1.6178 11.298 4.5185 0.229 0.2239 0.596 0.2211 0.822-0.0064l2.194-2.2165c0.115-0.1153 0.178-0.2716 0.177-0.4342 0-0.1626-0.066-0.3181-0.182-0.4321-8-7.6745-20.62-7.6745-28.62 0-0.116 0.1139-0.182 0.2694-0.183 0.432-0.001 0.1626 0.063 0.3189 0.177 0.4343l2.195 2.2165c0.225 0.2278 0.593 0.2306 0.822 0.0064 3.048-2.9009 7.094-4.5185 11.3-4.5185z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "path",
+                  "id": "R13MXZ",
+                  "x": 0,
+                  "y": 0,
+                  "name": "电池 · 模板原始轮廓",
+                  "geometry": "M674 39.4022c0-1.2507 1.014-2.2645 2.264-2.2645h1.359v15.3985h-1.359c-1.25 0-2.264-1.0138-2.264-2.2644v-10.8696z m3.623-2.2645h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.624v15.3985h-3.624v-15.3985z m3.624 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m7.246 2.2645c0-1.2507-1.013-2.2645-2.264-2.2645h-1.359v15.3985h1.359c1.251 0 2.264-1.0138 2.264-2.2644v-10.8696z m-32.608-0.4528c0-3.0015 2.433-5.4348 5.435-5.4348h32.608c3.002 0 5.435 2.4333 5.435 5.4348v11.7754c0 3.0015-2.433 5.4348-5.435 5.4348h-32.608c-3.002 0-5.435-2.4333-5.435-5.4348v-11.7754z m5.435-3.6232c-2.001 0-3.624 1.6222-3.624 3.6232v11.7754c0 2.001 1.623 3.6232 3.624 3.6232h32.608c2.001 0 3.623-1.6222 3.623-3.6232v-11.7754c0-2.001-1.622-3.6232-3.623-3.6232h-32.608z m39.855 13.663c1.599-0.6989 2.717-2.2949 2.717-4.1521 0-1.8572-1.118-3.4533-2.717-4.1521v8.3042z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 0.905795,
+                  "id": "Q8J40",
+                  "x": 14.0395,
+                  "y": 2.71725,
+                  "name": "信号第四格 · 模板原始轮廓",
+                  "fill": "$z:foreground",
+                  "width": 3.17029,
+                  "height": 10.41665
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "JvnMc",
+          "name": "小程序自定义导航 · 预留系统胶囊",
+          "width": "fill_container",
+          "height": 40,
+          "fill": "$z:header-bg",
+          "padding": [
+            0,
+            16
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "I6v8wk",
+              "name": "全局账户入口",
+              "width": 88,
+              "height": 40,
+              "layout": "vertical",
+              "padding": [
+                0,
+                9
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "Y4V6L",
+                  "name": "circle-user-round",
+                  "width": 24,
+                  "height": 24,
+                  "icon": "circle-user-round",
+                  "library": "lucide",
+                  "fill": "$z:foreground"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "QOrOM",
+              "name": "当前页面",
+              "fill": "$z:foreground",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "我的衣柜",
+              "lineHeight": 1.5,
+              "textAlign": "center",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 16,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "mzyad",
+              "name": "微信系统胶囊 · 宿主示意",
+              "width": 88,
+              "height": 30,
+              "cornerRadius": 15,
+              "stroke": "$z:border-subtle",
+              "strokeWidth": 1,
+              "gap": 12,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "sSowl",
+                  "name": "ellipsis",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "more_horiz",
+                  "library": "Material Symbols Rounded",
+                  "weight": 700,
+                  "fill": "$z:foreground"
+                },
+                {
+                  "type": "frame",
+                  "id": "M7XbQR",
+                  "name": "胶囊分隔",
+                  "opacity": 0.16,
+                  "width": 1,
+                  "height": 16,
+                  "fill": "$z:foreground",
+                  "layout": "vertical"
+                },
+                {
+                  "type": "icon",
+                  "id": "kSVpK",
+                  "name": "circle-dot",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "radio_button_checked",
+                  "library": "Material Symbols Rounded",
+                  "weight": 600,
+                  "fill": "$z:foreground"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "nslPK",
+          "name": "空库存内容区",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "padding": [
+            82,
+            30,
+            32,
+            30
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "u3CdBx",
+              "type": "ref",
+              "ref": "SKORD",
+              "name": "衣柜暂无衣物 · 添加入口",
+              "width": "fill_container",
+              "height": "fit_content",
+              "descendants": {
+                "QShrK": {
+                  "content": "从第一件衣物开始"
+                },
+                "Zddl6": {
+                  "content": "拍照添加你的衣物\n让日常整理更轻松"
+                },
+                "iE1DC/z:EQQl5": {
+                  "content": "添加第一件衣物",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 18
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "mwHYb",
+          "name": "固定底部 Tab Bar",
+          "width": "fill_container",
+          "height": 54,
+          "fill": "$z:header-bg",
+          "stroke": "$z:header-border",
+          "strokeWidth": {
+            "top": 0.5
+          },
+          "padding": [
+            6,
+            12,
+            0,
+            12
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "KFnml",
+              "name": "Tab 衣柜",
+              "width": "fill_container",
+              "height": 48,
+              "layout": "vertical",
+              "gap": 2,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "qeIFg",
+                  "name": "shirt",
+                  "width": 24,
+                  "height": 24,
+                  "icon": "shirt",
+                  "library": "lucide",
+                  "fill": "$z:primary"
+                },
+                {
+                  "type": "text",
+                  "id": "APUaF",
+                  "name": "Tab 标签",
+                  "fill": "$z:primary",
+                  "content": "衣柜",
+                  "lineHeight": 1.4,
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "UTCUz",
+              "name": "Tab 穿搭",
+              "width": "fill_container",
+              "height": 48,
+              "layout": "vertical",
+              "gap": 2,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "ZXk1l",
+                  "name": "sparkles",
+                  "width": 24,
+                  "height": 24,
+                  "icon": "sparkles",
+                  "library": "lucide",
+                  "fill": "$z:muted-foreground"
+                },
+                {
+                  "type": "text",
+                  "id": "s2Mk89",
+                  "name": "Tab 标签",
+                  "fill": "$z:muted-foreground",
+                  "content": "穿搭",
+                  "lineHeight": 1.4,
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "g1GAx",
+              "name": "Tab 记录",
+              "width": "fill_container",
+              "height": 48,
+              "layout": "vertical",
+              "gap": 2,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "zd6NX",
+                  "name": "history",
+                  "width": 24,
+                  "height": 24,
+                  "icon": "history",
+                  "library": "lucide",
+                  "fill": "$z:muted-foreground"
+                },
+                {
+                  "type": "text",
+                  "id": "a7vvtO",
+                  "name": "Tab 标签",
+                  "fill": "$z:muted-foreground",
+                  "content": "记录",
+                  "lineHeight": 1.4,
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "YDScz",
+          "name": "底部安全区 · 仅宿主展示",
+          "metadata": {
+            "type": "host-preview",
+            "owner": "System home indicator; preview only, runtime inset must have a single owner"
+          },
+          "width": "fill_container",
+          "height": 20,
+          "fill": "$z:header-bg",
+          "layout": "vertical",
+          "padding": [
+            9,
+            0,
+            7,
+            0
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 2,
+              "id": "vvhK7",
+              "name": "Home Indicator · 非业务控件",
+              "fill": "$z:foreground",
+              "width": 128,
+              "height": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "H9XUdW",
+      "x": 1120,
+      "y": 5010,
+      "name": "我的 · 未登录引导（唯一登录入口）",
+      "theme": {
+        "z:mode": "light"
+      },
+      "clip": true,
+      "width": 390,
+      "height": 820,
+      "fill": "$z:card",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "MHNpx",
+          "name": "系统状态栏 · 仅设备展示",
+          "metadata": {
+            "type": "device-chrome",
+            "implementation": "Do not render in business UI; use real host system status bar",
+            "sampleHeight": 44
+          },
+          "width": "fill_container",
+          "height": 40,
+          "fill": "$z:header-bg",
+          "padding": [
+            18,
+            24,
+            7.50725,
+            32
+          ],
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "text",
+              "id": "sdDYQ",
+              "name": "系统时间 · 示例",
+              "fill": "$z:foreground",
+              "content": "9:41",
+              "lineHeight": 1,
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "d5tE1",
+              "name": "系统状态指示 · 示例",
+              "width": 65.2175,
+              "height": 14.49275,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "path",
+                  "id": "z2RTX",
+                  "x": 0,
+                  "y": 0,
+                  "name": "蜂窝信号 · 模板原始轮廓",
+                  "geometry": "M609.688 40.7608c0-1.0005 0.811-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v12.6812c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1.001 0-1.812-0.8111-1.812-1.8116v-12.6812z m-9.058 4.5293c0-1.0005 0.812-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v8.1522c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.812-0.8111-1.812-1.8116v-8.1522z m-9.057 3.6231c0-1.0006 0.811-1.8116 1.811-1.8116h2.717c1.001 0 1.812 0.811 1.812 1.8116v4.5289c0 1.0006-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.811-0.811-1.811-1.8116v-4.5289z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "path",
+                  "id": "U5ZHVQ",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Wi-Fi · 模板原始轮廓",
+                  "geometry": "M652.85 51.2483c0.117-0.1152 0.182-0.2736 0.179-0.438-0.004-0.1643-0.075-0.32-0.196-0.4302-2.421-2.0498-5.967-2.0498-8.388 0-0.122 0.1101-0.193 0.2658-0.196 0.4301-0.004 0.1644 0.061 0.3229 0.178 0.4381l3.791 3.8294c0.111 0.1126 0.263 0.1759 0.421 0.1759 0.158 0 0.309-0.0633 0.42-0.1759l3.791-3.8294z m-4.212-5.2897c2.311-0.0002 4.539 0.8596 6.252 2.4121 0.232 0.2204 0.597 0.2156 0.822-0.0107l2.192-2.2165c0.115-0.1163 0.179-0.274 0.178-0.4379-0.002-0.1639-0.069-0.3203-0.187-0.4341-5.216-4.8568-13.293-4.8568-18.509 0-0.118 0.1138-0.185 0.2703-0.187 0.4342-0.001 0.164 0.063 0.3217 0.179 0.4378l2.191 2.2165c0.225 0.2263 0.59 0.2311 0.822 0.0107 1.712-1.5515 3.938-2.4112 6.247-2.4121z m0.001-7.2121c4.205 0.0002 8.25 1.6178 11.298 4.5185 0.229 0.2239 0.596 0.2211 0.822-0.0064l2.194-2.2165c0.115-0.1153 0.178-0.2716 0.177-0.4342 0-0.1626-0.066-0.3181-0.182-0.4321-8-7.6745-20.62-7.6745-28.62 0-0.116 0.1139-0.182 0.2694-0.183 0.432-0.001 0.1626 0.063 0.3189 0.177 0.4343l2.195 2.2165c0.225 0.2278 0.593 0.2306 0.822 0.0064 3.048-2.9009 7.094-4.5185 11.3-4.5185z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "path",
+                  "id": "o50eir",
+                  "x": 0,
+                  "y": 0,
+                  "name": "电池 · 模板原始轮廓",
+                  "geometry": "M674 39.4022c0-1.2507 1.014-2.2645 2.264-2.2645h1.359v15.3985h-1.359c-1.25 0-2.264-1.0138-2.264-2.2644v-10.8696z m3.623-2.2645h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.624v15.3985h-3.624v-15.3985z m3.624 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m7.246 2.2645c0-1.2507-1.013-2.2645-2.264-2.2645h-1.359v15.3985h1.359c1.251 0 2.264-1.0138 2.264-2.2644v-10.8696z m-32.608-0.4528c0-3.0015 2.433-5.4348 5.435-5.4348h32.608c3.002 0 5.435 2.4333 5.435 5.4348v11.7754c0 3.0015-2.433 5.4348-5.435 5.4348h-32.608c-3.002 0-5.435-2.4333-5.435-5.4348v-11.7754z m5.435-3.6232c-2.001 0-3.624 1.6222-3.624 3.6232v11.7754c0 2.001 1.623 3.6232 3.624 3.6232h32.608c2.001 0 3.623-1.6222 3.623-3.6232v-11.7754c0-2.001-1.622-3.6232-3.623-3.6232h-32.608z m39.855 13.663c1.599-0.6989 2.717-2.2949 2.717-4.1521 0-1.8572-1.118-3.4533-2.717-4.1521v8.3042z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 0.905795,
+                  "id": "iadB3",
+                  "x": 14.0395,
+                  "y": 2.71725,
+                  "name": "信号第四格 · 模板原始轮廓",
+                  "fill": "$z:foreground",
+                  "width": 3.17029,
+                  "height": 10.41665
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "cs2DB",
+          "name": "小程序自定义导航 · 预留系统胶囊",
+          "width": "fill_container",
+          "height": 40,
+          "fill": "$z:header-bg",
+          "padding": [
+            0,
+            16
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "YO6Iq",
+              "name": "账户入口",
+              "width": 88,
+              "height": 40,
+              "layout": "vertical",
+              "padding": [
+                0,
+                9
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "B4dKKN",
+                  "name": "chevron-left",
+                  "width": 24,
+                  "height": 24,
+                  "icon": "circle-user-round",
+                  "library": "lucide",
+                  "fill": "$z:foreground"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "H6RIgP",
+              "name": "当前页面",
+              "fill": "$z:foreground",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "我的",
+              "lineHeight": 1.5,
+              "textAlign": "center",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 16,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "tkMsc",
+              "name": "微信系统胶囊 · 宿主示意",
+              "width": 88,
+              "height": 30,
+              "cornerRadius": 15,
+              "stroke": "$z:border-subtle",
+              "strokeWidth": 1,
+              "gap": 12,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "z0VQp",
+                  "name": "ellipsis",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "more_horiz",
+                  "library": "Material Symbols Rounded",
+                  "weight": 700,
+                  "fill": "$z:foreground"
+                },
+                {
+                  "type": "frame",
+                  "id": "YNcjX",
+                  "name": "胶囊分隔",
+                  "opacity": 0.16,
+                  "width": 1,
+                  "height": 16,
+                  "fill": "$z:foreground",
+                  "layout": "vertical"
+                },
+                {
+                  "type": "icon",
+                  "id": "JVa1K",
+                  "name": "circle-dot",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "radio_button_checked",
+                  "library": "Material Symbols Rounded",
+                  "weight": 600,
+                  "fill": "$z:foreground"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "I7TYvg",
+          "name": "未登录引导内容区",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            82,
+            30,
+            32,
+            30
+          ],
+          "children": [
+            {
+              "id": "cwOjC",
+              "type": "ref",
+              "ref": "SKORD",
+              "name": "未登录 · 共用空态结构",
+              "width": "fill_container",
+              "descendants": {
+                "O2Vlt": {
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "images/empty-state/login.png",
+                    "mode": "contain"
+                  }
+                },
+                "QShrK": {
+                  "content": "开启你的专属衣柜"
+                },
+                "Zddl6": {
+                  "content": "登录后管理衣物、获取搭配建议\n把喜欢的日常穿搭记录下来"
+                },
+                "iE1DC/z:E3fBH": {
+                  "type": "path",
+                  "id": "MDa8m",
+                  "name": "微信标志 · Simple Icons",
+                  "geometry": "M8.691 2.188c-4.8 0-8.691 3.288-8.691 7.342 0 2.212 1.17 4.203 3.002 5.55a0.59 0.59 0 0 1 0.213 0.665l-0.39 1.48c-0.019 0.07-0.048 0.141-0.048 0.213 0 0.163 0.13 0.295 0.29 0.295a0.326 0.326 0 0 0 0.167-0.054l1.903-1.114a0.864 0.864 0 0 1 0.717-0.098 10.16 10.16 0 0 0 2.837 0.403c0.276 0 0.543-0.027 0.811-0.05-0.857-2.578 0.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-0.576-3.583-4.196-6.348-8.596-6.348z m-2.906 3.803c0.642 0 1.162 0.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.179c0-0.651 0.52-1.18 1.162-1.18z m5.813 0c0.642 0 1.162 0.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-0.651 0.52-1.18 1.162-1.18z m5.34 2.867c-1.797-0.052-3.746 0.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22 0.942 2.453 3.666 4.229 6.884 4.229 0.826 0 1.622-0.12 2.361-0.336a0.722 0.722 0 0 1 0.598 0.082l1.584 0.926a0.272 0.272 0 0 0 0.14 0.047c0.134 0 0.24-0.111 0.24-0.247 0-0.06-0.023-0.12-0.038-0.177l-0.327-1.233a0.582 0.582 0 0 1-0.023-0.156 0.49 0.49 0 0 1 0.201-0.398c1.526-1.121 2.502-2.781 2.502-4.621 0-3.21-2.931-5.837-6.656-6.088v-0.002c-0.135-0.01-0.27-0.027-0.407-0.03z m-2.53 3.274c0.535 0 0.969 0.44 0.969 0.982a0.976 0.976 0 0 1-0.969 0.983 0.976 0.976 0 0 1-0.969-0.983c0-0.542 0.434-0.982 0.97-0.982z m4.844 0c0.535 0 0.969 0.44 0.969 0.982a0.976 0.976 0 0 1-0.969 0.983 0.976 0.976 0 0 1-0.969-0.983c0-0.542 0.434-0.982 0.969-0.982z",
+                  "viewBox": [
+                    0,
+                    0,
+                    24,
+                    24
+                  ],
+                  "fill": "$z:primary-foreground",
+                  "width": 26,
+                  "height": 26
+                },
+                "iE1DC/z:EQQl5": {
+                  "content": "微信登录",
+                  "fontSize": 18
+                }
+              }
+            },
+            {
+              "type": "text",
+              "id": "o2KJa6",
+              "name": "微信登录辅助说明",
+              "fill": "$z:muted-foreground",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "无需设置密码，头像和昵称可稍后完善",
+              "lineHeight": 1.5,
+              "textAlign": "center",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "L9eqg2",
+          "x": 0,
+          "y": 800,
+          "name": "底部安全区 · 仅宿主展示",
+          "enabled": false,
+          "metadata": {
+            "type": "host-preview",
+            "owner": "System home indicator; preview only, runtime inset must have a single owner"
+          },
+          "width": "fill_container(390)",
+          "height": 20,
+          "fill": "$z:card",
+          "layout": "vertical",
+          "padding": [
+            9,
+            0,
+            7,
+            0
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 2,
+              "id": "akaoO",
+              "name": "Home Indicator · 非业务控件",
+              "fill": "$z:foreground",
+              "width": 128,
+              "height": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Ozfkk",
+      "x": 2980,
+      "y": 2610,
+      "name": "穿着记录 · 空页面",
+      "theme": {
+        "z:mode": "light"
+      },
+      "clip": true,
+      "width": 390,
+      "height": 820,
+      "fill": "$z:card",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "O7NNPw",
+          "name": "系统状态栏 · 仅设备展示",
+          "metadata": {
+            "type": "device-chrome",
+            "implementation": "Do not render in business UI; use real host system status bar",
+            "sampleHeight": 44
+          },
+          "width": "fill_container",
+          "height": 40,
+          "fill": "$z:header-bg",
+          "padding": [
+            18,
+            24,
+            7.50725,
+            32
+          ],
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "text",
+              "id": "vgVIu",
+              "name": "系统时间 · 示例",
+              "fill": "$z:foreground",
+              "content": "9:41",
+              "lineHeight": 1,
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "jO2rN",
+              "name": "系统状态指示 · 示例",
+              "width": 65.2175,
+              "height": 14.49275,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "path",
+                  "id": "MBRa1",
+                  "x": 0,
+                  "y": 0,
+                  "name": "蜂窝信号 · 模板原始轮廓",
+                  "geometry": "M609.688 40.7608c0-1.0005 0.811-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v12.6812c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1.001 0-1.812-0.8111-1.812-1.8116v-12.6812z m-9.058 4.5293c0-1.0005 0.812-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v8.1522c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.812-0.8111-1.812-1.8116v-8.1522z m-9.057 3.6231c0-1.0006 0.811-1.8116 1.811-1.8116h2.717c1.001 0 1.812 0.811 1.812 1.8116v4.5289c0 1.0006-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.811-0.811-1.811-1.8116v-4.5289z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "path",
+                  "id": "en1sK",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Wi-Fi · 模板原始轮廓",
+                  "geometry": "M652.85 51.2483c0.117-0.1152 0.182-0.2736 0.179-0.438-0.004-0.1643-0.075-0.32-0.196-0.4302-2.421-2.0498-5.967-2.0498-8.388 0-0.122 0.1101-0.193 0.2658-0.196 0.4301-0.004 0.1644 0.061 0.3229 0.178 0.4381l3.791 3.8294c0.111 0.1126 0.263 0.1759 0.421 0.1759 0.158 0 0.309-0.0633 0.42-0.1759l3.791-3.8294z m-4.212-5.2897c2.311-0.0002 4.539 0.8596 6.252 2.4121 0.232 0.2204 0.597 0.2156 0.822-0.0107l2.192-2.2165c0.115-0.1163 0.179-0.274 0.178-0.4379-0.002-0.1639-0.069-0.3203-0.187-0.4341-5.216-4.8568-13.293-4.8568-18.509 0-0.118 0.1138-0.185 0.2703-0.187 0.4342-0.001 0.164 0.063 0.3217 0.179 0.4378l2.191 2.2165c0.225 0.2263 0.59 0.2311 0.822 0.0107 1.712-1.5515 3.938-2.4112 6.247-2.4121z m0.001-7.2121c4.205 0.0002 8.25 1.6178 11.298 4.5185 0.229 0.2239 0.596 0.2211 0.822-0.0064l2.194-2.2165c0.115-0.1153 0.178-0.2716 0.177-0.4342 0-0.1626-0.066-0.3181-0.182-0.4321-8-7.6745-20.62-7.6745-28.62 0-0.116 0.1139-0.182 0.2694-0.183 0.432-0.001 0.1626 0.063 0.3189 0.177 0.4343l2.195 2.2165c0.225 0.2278 0.593 0.2306 0.822 0.0064 3.048-2.9009 7.094-4.5185 11.3-4.5185z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "path",
+                  "id": "FIpC3",
+                  "x": 0,
+                  "y": 0,
+                  "name": "电池 · 模板原始轮廓",
+                  "geometry": "M674 39.4022c0-1.2507 1.014-2.2645 2.264-2.2645h1.359v15.3985h-1.359c-1.25 0-2.264-1.0138-2.264-2.2644v-10.8696z m3.623-2.2645h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.624v15.3985h-3.624v-15.3985z m3.624 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m7.246 2.2645c0-1.2507-1.013-2.2645-2.264-2.2645h-1.359v15.3985h1.359c1.251 0 2.264-1.0138 2.264-2.2644v-10.8696z m-32.608-0.4528c0-3.0015 2.433-5.4348 5.435-5.4348h32.608c3.002 0 5.435 2.4333 5.435 5.4348v11.7754c0 3.0015-2.433 5.4348-5.435 5.4348h-32.608c-3.002 0-5.435-2.4333-5.435-5.4348v-11.7754z m5.435-3.6232c-2.001 0-3.624 1.6222-3.624 3.6232v11.7754c0 2.001 1.623 3.6232 3.624 3.6232h32.608c2.001 0 3.623-1.6222 3.623-3.6232v-11.7754c0-2.001-1.622-3.6232-3.623-3.6232h-32.608z m39.855 13.663c1.599-0.6989 2.717-2.2949 2.717-4.1521 0-1.8572-1.118-3.4533-2.717-4.1521v8.3042z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 0.905795,
+                  "id": "saTZM",
+                  "x": 14.0395,
+                  "y": 2.71725,
+                  "name": "信号第四格 · 模板原始轮廓",
+                  "fill": "$z:foreground",
+                  "width": 3.17029,
+                  "height": 10.41665
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "XGbii",
+          "name": "小程序自定义导航 · 预留系统胶囊",
+          "width": "fill_container",
+          "height": 40,
+          "fill": "$z:header-bg",
+          "padding": [
+            0,
+            16
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "ULeZ3",
+              "name": "全局账户入口",
+              "width": 88,
+              "height": 40,
+              "layout": "vertical",
+              "padding": [
+                0,
+                9
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "sxDD7",
+                  "name": "circle-user-round",
+                  "width": 24,
+                  "height": 24,
+                  "icon": "circle-user-round",
+                  "library": "lucide",
+                  "fill": "$z:foreground"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "xKV6z",
+              "name": "当前页面",
+              "fill": "$z:foreground",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "穿着记录",
+              "lineHeight": 1.5,
+              "textAlign": "center",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 16,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "vsmZr",
+              "name": "微信系统胶囊 · 宿主示意",
+              "width": 88,
+              "height": 30,
+              "cornerRadius": 15,
+              "stroke": "$z:border-subtle",
+              "strokeWidth": 1,
+              "gap": 12,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "ulHMq",
+                  "name": "ellipsis",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "more_horiz",
+                  "library": "Material Symbols Rounded",
+                  "weight": 700,
+                  "fill": "$z:foreground"
+                },
+                {
+                  "type": "frame",
+                  "id": "dpZx4",
+                  "name": "胶囊分隔",
+                  "opacity": 0.16,
+                  "width": 1,
+                  "height": 16,
+                  "fill": "$z:foreground",
+                  "layout": "vertical"
+                },
+                {
+                  "type": "icon",
+                  "id": "DdWsG",
+                  "name": "circle-dot",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "radio_button_checked",
+                  "library": "Material Symbols Rounded",
+                  "weight": 600,
+                  "fill": "$z:foreground"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "sCijt",
+          "name": "无历史记录内容区",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "padding": [
+            82,
+            30,
+            32,
+            30
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "U3oLzX",
+              "name": "空记录引导区域",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "children": [
+                {
+                  "id": "hcsQH",
+                  "type": "ref",
+                  "ref": "SKORD",
+                  "name": "无穿着记录 · 复用通用空态",
+                  "width": "fill_container",
+                  "height": "fit_content",
+                  "descendants": {
+                    "O2Vlt": {
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "images/empty-state/records.png",
+                        "mode": "contain"
+                      }
+                    },
+                    "QShrK": {
+                      "content": "记下你的第一套穿搭"
+                    },
+                    "Zddl6": {
+                      "content": "记录穿过的搭配\n下次选衣，多一份灵感"
+                    },
+                    "iE1DC/z:EQQl5": {
+                      "content": "记录一次穿搭",
+                      "fontSize": 18
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "DJerG",
+          "name": "固定底部 Tab Bar",
+          "width": "fill_container",
+          "height": 54,
+          "fill": "$z:header-bg",
+          "stroke": "$z:header-border",
+          "strokeWidth": {
+            "top": 0.5
+          },
+          "padding": [
+            6,
+            12,
+            0,
+            12
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "e8RWXy",
+              "name": "Tab 衣柜",
+              "width": "fill_container",
+              "height": 48,
+              "layout": "vertical",
+              "gap": 2,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "HCL3b",
+                  "name": "shirt",
+                  "width": 24,
+                  "height": 24,
+                  "icon": "shirt",
+                  "library": "lucide",
+                  "fill": "$z:muted-foreground"
+                },
+                {
+                  "type": "text",
+                  "id": "gSoD9",
+                  "name": "Tab 标签",
+                  "fill": "$z:muted-foreground",
+                  "content": "衣柜",
+                  "lineHeight": 1.4,
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "SIN1v",
+              "name": "Tab 穿搭",
+              "width": "fill_container",
+              "height": 48,
+              "layout": "vertical",
+              "gap": 2,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "oyDXB",
+                  "name": "sparkles",
+                  "width": 24,
+                  "height": 24,
+                  "icon": "sparkles",
+                  "library": "lucide",
+                  "fill": "$z:muted-foreground"
+                },
+                {
+                  "type": "text",
+                  "id": "HUEu9",
+                  "name": "Tab 标签",
+                  "fill": "$z:muted-foreground",
+                  "content": "穿搭",
+                  "lineHeight": 1.4,
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "U2kfi5",
+              "name": "Tab 记录",
+              "width": "fill_container",
+              "height": 48,
+              "layout": "vertical",
+              "gap": 2,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "mHLoL",
+                  "name": "history",
+                  "width": 24,
+                  "height": 24,
+                  "icon": "history",
+                  "library": "lucide",
+                  "fill": "$z:primary"
+                },
+                {
+                  "type": "text",
+                  "id": "JQRDm",
+                  "name": "Tab 标签",
+                  "fill": "$z:primary",
+                  "content": "记录",
+                  "lineHeight": 1.4,
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "JrQFb",
+          "name": "底部安全区 · 仅宿主展示",
+          "metadata": {
+            "type": "host-preview",
+            "owner": "System home indicator; preview only, runtime inset must have a single owner"
+          },
+          "width": "fill_container",
+          "height": 20,
+          "fill": "$z:header-bg",
+          "layout": "vertical",
+          "padding": [
+            9,
+            0,
+            7,
+            0
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 2,
+              "id": "OLn94",
+              "name": "Home Indicator · 非业务控件",
+              "fill": "$z:foreground",
+              "width": 128,
+              "height": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "c7bve8",
+      "x": 0,
+      "y": 0,
+      "name": "01  今日穿搭 · 分区导航",
+      "width": 2180,
+      "height": 130,
+      "fill": "#EDF5F3",
+      "cornerRadius": 12,
+      "layout": "vertical",
+      "gap": 10,
+      "padding": [
+        20,
+        24
+      ],
+      "children": [
+        {
+          "type": "text",
+          "id": "j0Azel",
+          "name": "01  今日穿搭 标题",
+          "fill": "#173C37",
+          "content": "01  今日穿搭",
+          "fontFamily": "Inter",
+          "fontSize": 30,
+          "fontWeight": "600"
+        },
+        {
+          "type": "text",
+          "id": "XiOKW",
+          "name": "分区说明",
+          "fill": "#46655F",
+          "content": "今日推荐 · 场景选择 · 单品替换 · 城市天气  ｜  上排：页面与状态；下排：内容源 / 补充内容",
+          "fontFamily": "Inter",
+          "fontSize": 16,
+          "fontWeight": "normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "CC4eK",
+      "x": 2400,
+      "y": 0,
+      "name": "02  衣柜与衣物详情 · 分区导航",
+      "width": 2180,
+      "height": 130,
+      "fill": "#EDF5F3",
+      "cornerRadius": 12,
+      "layout": "vertical",
+      "gap": 10,
+      "padding": [
+        20,
+        24
+      ],
+      "children": [
+        {
+          "type": "text",
+          "id": "hrxv6",
+          "name": "02  衣柜与衣物详情 标题",
+          "fill": "#173C37",
+          "content": "02  衣柜与衣物详情",
+          "fontFamily": "Inter",
+          "fontSize": 30,
+          "fontWeight": "600"
+        },
+        {
+          "type": "text",
+          "id": "b1ASns",
+          "name": "分区说明",
+          "fill": "#46655F",
+          "content": "衣柜列表 / 空状态 · 衣物详情 · 衣柜统计  ｜  上排：页面与状态；下排：内容源 / 补充内容",
+          "fontFamily": "Inter",
+          "fontSize": 16,
+          "fontWeight": "normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "P2bDS",
+      "x": 0,
+      "y": 2400,
+      "name": "03  添加衣物 · 分区导航",
+      "width": 2180,
+      "height": 130,
+      "fill": "#EDF5F3",
+      "cornerRadius": 12,
+      "layout": "vertical",
+      "gap": 10,
+      "padding": [
+        20,
+        24
+      ],
+      "children": [
+        {
+          "type": "text",
+          "id": "TygAk",
+          "name": "03  添加衣物 标题",
+          "fill": "#173C37",
+          "content": "03  添加衣物",
+          "fontFamily": "Inter",
+          "fontSize": 30,
+          "fontWeight": "600"
+        },
+        {
+          "type": "text",
+          "id": "h7ZYA",
+          "name": "分区说明",
+          "fill": "#46655F",
+          "content": "默认 / 已有照片与展开状态 · 分类 · 颜色 · 自定义标签  ｜  上排：页面与状态；下排：内容源 / 补充内容",
+          "fontFamily": "Inter",
+          "fontSize": 16,
+          "fontWeight": "normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "matVc",
+      "x": 2400,
+      "y": 2400,
+      "name": "04  穿着记录 · 分区导航",
+      "width": 2180,
+      "height": 130,
+      "fill": "#EDF5F3",
+      "cornerRadius": 12,
+      "layout": "vertical",
+      "gap": 10,
+      "padding": [
+        20,
+        24
+      ],
+      "children": [
+        {
+          "type": "text",
+          "id": "N3rGW",
+          "name": "04  穿着记录 标题",
+          "fill": "#173C37",
+          "content": "04  穿着记录",
+          "fontFamily": "Inter",
+          "fontSize": 30,
+          "fontWeight": "600"
+        },
+        {
+          "type": "text",
+          "id": "nGaU0",
+          "name": "分区说明",
+          "fill": "#46655F",
+          "content": "记录列表 / 空状态 · 记录穿着 · 衣物选择 · 删除确认  ｜  上排：页面与状态；下排：内容源 / 补充内容",
+          "fontFamily": "Inter",
+          "fontSize": 16,
+          "fontWeight": "normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "g2f6Zc",
+      "x": 0,
+      "y": 4800,
+      "name": "05  个人与登录 · 分区导航",
+      "width": 2180,
+      "height": 130,
+      "fill": "#EDF5F3",
+      "cornerRadius": 12,
+      "layout": "vertical",
+      "gap": 10,
+      "padding": [
+        20,
+        24
+      ],
+      "children": [
+        {
+          "type": "text",
+          "id": "ESmnf",
+          "name": "05  个人与登录 标题",
+          "fill": "#173C37",
+          "content": "05  个人与登录",
+          "fontFamily": "Inter",
+          "fontSize": 30,
+          "fontWeight": "600"
+        },
+        {
+          "type": "text",
+          "id": "a7v8Er",
+          "name": "分区说明",
+          "fill": "#46655F",
+          "content": "已登录个人 / 空衣柜 · 未登录引导（唯一登录入口）· 资料 · 设置 · 穿搭偏好",
+          "fontFamily": "Inter",
+          "fontSize": 16,
+          "fontWeight": "normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "EI1eW",
+      "x": 580,
+      "y": 210,
+      "name": "今日穿搭 · 空页面",
+      "theme": {
+        "z:mode": "light"
+      },
+      "clip": true,
+      "width": 390,
+      "height": 820,
+      "fill": "$z:card",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "RB8tN",
+          "name": "系统状态栏 · 仅设备展示",
+          "metadata": {
+            "type": "device-chrome",
+            "implementation": "Do not render in business UI; use real host system status bar",
+            "sampleHeight": 44
+          },
+          "width": "fill_container",
+          "height": 40,
+          "fill": "$z:header-bg",
+          "padding": [
+            18,
+            24,
+            7.50725,
+            32
+          ],
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "text",
+              "id": "GEck9",
+              "name": "系统时间 · 示例",
+              "fill": "$z:foreground",
+              "content": "9:41",
+              "lineHeight": 1,
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "u7fvvh",
+              "name": "系统状态指示 · 示例",
+              "width": 65.2175,
+              "height": 14.49275,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "path",
+                  "id": "V1pk2",
+                  "x": 0,
+                  "y": 0,
+                  "name": "蜂窝信号 · 模板原始轮廓",
+                  "geometry": "M609.688 40.7608c0-1.0005 0.811-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v12.6812c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1.001 0-1.812-0.8111-1.812-1.8116v-12.6812z m-9.058 4.5293c0-1.0005 0.812-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v8.1522c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.812-0.8111-1.812-1.8116v-8.1522z m-9.057 3.6231c0-1.0006 0.811-1.8116 1.811-1.8116h2.717c1.001 0 1.812 0.811 1.812 1.8116v4.5289c0 1.0006-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.811-0.811-1.811-1.8116v-4.5289z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "path",
+                  "id": "LLSZ9",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Wi-Fi · 模板原始轮廓",
+                  "geometry": "M652.85 51.2483c0.117-0.1152 0.182-0.2736 0.179-0.438-0.004-0.1643-0.075-0.32-0.196-0.4302-2.421-2.0498-5.967-2.0498-8.388 0-0.122 0.1101-0.193 0.2658-0.196 0.4301-0.004 0.1644 0.061 0.3229 0.178 0.4381l3.791 3.8294c0.111 0.1126 0.263 0.1759 0.421 0.1759 0.158 0 0.309-0.0633 0.42-0.1759l3.791-3.8294z m-4.212-5.2897c2.311-0.0002 4.539 0.8596 6.252 2.4121 0.232 0.2204 0.597 0.2156 0.822-0.0107l2.192-2.2165c0.115-0.1163 0.179-0.274 0.178-0.4379-0.002-0.1639-0.069-0.3203-0.187-0.4341-5.216-4.8568-13.293-4.8568-18.509 0-0.118 0.1138-0.185 0.2703-0.187 0.4342-0.001 0.164 0.063 0.3217 0.179 0.4378l2.191 2.2165c0.225 0.2263 0.59 0.2311 0.822 0.0107 1.712-1.5515 3.938-2.4112 6.247-2.4121z m0.001-7.2121c4.205 0.0002 8.25 1.6178 11.298 4.5185 0.229 0.2239 0.596 0.2211 0.822-0.0064l2.194-2.2165c0.115-0.1153 0.178-0.2716 0.177-0.4342 0-0.1626-0.066-0.3181-0.182-0.4321-8-7.6745-20.62-7.6745-28.62 0-0.116 0.1139-0.182 0.2694-0.183 0.432-0.001 0.1626 0.063 0.3189 0.177 0.4343l2.195 2.2165c0.225 0.2278 0.593 0.2306 0.822 0.0064 3.048-2.9009 7.094-4.5185 11.3-4.5185z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "path",
+                  "id": "Y5AW4",
+                  "x": 0,
+                  "y": 0,
+                  "name": "电池 · 模板原始轮廓",
+                  "geometry": "M674 39.4022c0-1.2507 1.014-2.2645 2.264-2.2645h1.359v15.3985h-1.359c-1.25 0-2.264-1.0138-2.264-2.2644v-10.8696z m3.623-2.2645h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.624v15.3985h-3.624v-15.3985z m3.624 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m7.246 2.2645c0-1.2507-1.013-2.2645-2.264-2.2645h-1.359v15.3985h1.359c1.251 0 2.264-1.0138 2.264-2.2644v-10.8696z m-32.608-0.4528c0-3.0015 2.433-5.4348 5.435-5.4348h32.608c3.002 0 5.435 2.4333 5.435 5.4348v11.7754c0 3.0015-2.433 5.4348-5.435 5.4348h-32.608c-3.002 0-5.435-2.4333-5.435-5.4348v-11.7754z m5.435-3.6232c-2.001 0-3.624 1.6222-3.624 3.6232v11.7754c0 2.001 1.623 3.6232 3.624 3.6232h32.608c2.001 0 3.623-1.6222 3.623-3.6232v-11.7754c0-2.001-1.622-3.6232-3.623-3.6232h-32.608z m39.855 13.663c1.599-0.6989 2.717-2.2949 2.717-4.1521 0-1.8572-1.118-3.4533-2.717-4.1521v8.3042z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 0.905795,
+                  "id": "Q6BFd",
+                  "x": 14.0395,
+                  "y": 2.71725,
+                  "name": "信号第四格 · 模板原始轮廓",
+                  "fill": "$z:foreground",
+                  "width": 3.17029,
+                  "height": 10.41665
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "AcjxG",
+          "name": "小程序自定义导航 · 预留系统胶囊",
+          "width": "fill_container",
+          "height": 40,
+          "fill": "$z:header-bg",
+          "padding": [
+            0,
+            16
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "hPsKF",
+              "name": "全局账户入口",
+              "width": 88,
+              "height": 40,
+              "layout": "vertical",
+              "padding": [
+                0,
+                9
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "uF8uD",
+                  "name": "circle-user-round",
+                  "width": 24,
+                  "height": 24,
+                  "icon": "circle-user-round",
+                  "library": "lucide",
+                  "fill": "$z:foreground"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "EG9CO",
+              "name": "当前页面",
+              "fill": "$z:foreground",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "穿搭",
+              "lineHeight": 1.5,
+              "textAlign": "center",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 16,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "Y1397Y",
+              "name": "微信系统胶囊 · 宿主示意",
+              "width": 88,
+              "height": 30,
+              "cornerRadius": 15,
+              "stroke": "$z:border-subtle",
+              "strokeWidth": 1,
+              "gap": 12,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "t94Q97",
+                  "name": "ellipsis",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "more_horiz",
+                  "library": "Material Symbols Rounded",
+                  "weight": 700,
+                  "fill": "$z:foreground"
+                },
+                {
+                  "type": "frame",
+                  "id": "Mwdp0",
+                  "name": "胶囊分隔",
+                  "opacity": 0.16,
+                  "width": 1,
+                  "height": 16,
+                  "fill": "$z:foreground",
+                  "layout": "vertical"
+                },
+                {
+                  "type": "icon",
+                  "id": "GVjwD",
+                  "name": "circle-dot",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "radio_button_checked",
+                  "library": "Material Symbols Rounded",
+                  "weight": 600,
+                  "fill": "$z:foreground"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "GMoPi",
+          "name": "空库存内容区",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "vertical",
+          "padding": [
+            82,
+            30,
+            32,
+            30
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "B9Btx",
+              "type": "ref",
+              "ref": "SKORD",
+              "name": "暂无推荐 · 添加衣物引导",
+              "width": "fill_container",
+              "height": "fit_content",
+              "descendants": {
+                "O2Vlt": {
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "images/empty-state/outfit.png",
+                    "mode": "contain"
+                  }
+                },
+                "QShrK": {
+                  "content": "穿搭灵感，从衣柜开始"
+                },
+                "Zddl6": {
+                  "content": "先添加几件常穿的衣物\n再来获取适合你的搭配建议"
+                },
+                "iE1DC/z:E3fBH": {
+                  "enabled": false
+                },
+                "iE1DC/z:EQQl5": {
+                  "content": "去添加衣物",
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 18
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "a38c6C",
+          "name": "固定底部 Tab Bar",
+          "width": "fill_container",
+          "height": 54,
+          "fill": "$z:header-bg",
+          "stroke": "$z:header-border",
+          "strokeWidth": {
+            "top": 0.5
+          },
+          "padding": [
+            6,
+            12,
+            0,
+            12
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "hd8ut",
+              "name": "Tab 衣柜",
+              "width": "fill_container",
+              "height": 48,
+              "layout": "vertical",
+              "gap": 2,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "K1FMlF",
+                  "name": "shirt",
+                  "width": 24,
+                  "height": 24,
+                  "icon": "shirt",
+                  "library": "lucide",
+                  "fill": "$z:muted-foreground"
+                },
+                {
+                  "type": "text",
+                  "id": "TY3xS",
+                  "name": "Tab 标签",
+                  "fill": "$z:muted-foreground",
+                  "content": "衣柜",
+                  "lineHeight": 1.4,
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "GuCOz",
+              "name": "Tab 穿搭",
+              "width": "fill_container",
+              "height": 48,
+              "layout": "vertical",
+              "gap": 2,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "jiQaA",
+                  "name": "sparkles",
+                  "width": 24,
+                  "height": 24,
+                  "icon": "sparkles",
+                  "library": "lucide",
+                  "fill": "$z:primary"
+                },
+                {
+                  "type": "text",
+                  "id": "YLArp",
+                  "name": "Tab 标签",
+                  "fill": "$z:primary",
+                  "content": "穿搭",
+                  "lineHeight": 1.4,
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "HKBGb",
+              "name": "Tab 记录",
+              "width": "fill_container",
+              "height": 48,
+              "layout": "vertical",
+              "gap": 2,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "liQzm",
+                  "name": "history",
+                  "width": 24,
+                  "height": 24,
+                  "icon": "history",
+                  "library": "lucide",
+                  "fill": "$z:muted-foreground"
+                },
+                {
+                  "type": "text",
+                  "id": "ZIg4D",
+                  "name": "Tab 标签",
+                  "fill": "$z:muted-foreground",
+                  "content": "记录",
+                  "lineHeight": 1.4,
+                  "fontFamily": "Noto Sans SC",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ztzqO",
+          "name": "底部安全区 · 仅宿主展示",
+          "metadata": {
+            "type": "host-preview",
+            "owner": "System home indicator; preview only, runtime inset must have a single owner"
+          },
+          "width": "fill_container",
+          "height": 20,
+          "fill": "$z:header-bg",
+          "layout": "vertical",
+          "padding": [
+            9,
+            0,
+            7,
+            0
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 2,
+              "id": "vhVhU",
+              "name": "Home Indicator · 非业务控件",
+              "fill": "$z:foreground",
+              "width": 128,
+              "height": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "q5sgBH",
+      "x": 580,
+      "y": 5010,
+      "name": "个人 · 已登录空衣柜",
+      "theme": {
+        "z:mode": "light"
+      },
+      "clip": true,
+      "width": 390,
+      "height": 820,
+      "fill": "$z:primary-subtle-hover",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "LIwzd",
+          "name": "系统状态栏 · 仅设备展示",
+          "metadata": {
+            "type": "device-chrome",
+            "implementation": "Do not render in business UI; use real host system status bar",
+            "sampleHeight": 44
+          },
+          "width": "fill_container",
+          "height": 44,
+          "padding": [
+            18,
+            24,
+            7.50725,
+            32
+          ],
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "text",
+              "id": "gSBW5",
+              "name": "系统时间 · 示例",
+              "fill": "$z:foreground",
+              "content": "9:41",
+              "lineHeight": 1,
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "h4Vg2",
+              "name": "系统状态指示 · 示例",
+              "width": 65.2175,
+              "height": 14.49275,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "path",
+                  "id": "mEBmY",
+                  "x": 0,
+                  "y": 0,
+                  "name": "蜂窝信号 · 模板原始轮廓",
+                  "geometry": "M609.688 40.7608c0-1.0005 0.811-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v12.6812c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1.001 0-1.812-0.8111-1.812-1.8116v-12.6812z m-9.058 4.5293c0-1.0005 0.812-1.8116 1.812-1.8116h2.717c1.001 0 1.812 0.8111 1.812 1.8116v8.1522c0 1.0005-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.812-0.8111-1.812-1.8116v-8.1522z m-9.057 3.6231c0-1.0006 0.811-1.8116 1.811-1.8116h2.717c1.001 0 1.812 0.811 1.812 1.8116v4.5289c0 1.0006-0.811 1.8116-1.812 1.8116h-2.717c-1 0-1.811-0.811-1.811-1.8116v-4.5289z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "path",
+                  "id": "FPY0s",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Wi-Fi · 模板原始轮廓",
+                  "geometry": "M652.85 51.2483c0.117-0.1152 0.182-0.2736 0.179-0.438-0.004-0.1643-0.075-0.32-0.196-0.4302-2.421-2.0498-5.967-2.0498-8.388 0-0.122 0.1101-0.193 0.2658-0.196 0.4301-0.004 0.1644 0.061 0.3229 0.178 0.4381l3.791 3.8294c0.111 0.1126 0.263 0.1759 0.421 0.1759 0.158 0 0.309-0.0633 0.42-0.1759l3.791-3.8294z m-4.212-5.2897c2.311-0.0002 4.539 0.8596 6.252 2.4121 0.232 0.2204 0.597 0.2156 0.822-0.0107l2.192-2.2165c0.115-0.1163 0.179-0.274 0.178-0.4379-0.002-0.1639-0.069-0.3203-0.187-0.4341-5.216-4.8568-13.293-4.8568-18.509 0-0.118 0.1138-0.185 0.2703-0.187 0.4342-0.001 0.164 0.063 0.3217 0.179 0.4378l2.191 2.2165c0.225 0.2263 0.59 0.2311 0.822 0.0107 1.712-1.5515 3.938-2.4112 6.247-2.4121z m0.001-7.2121c4.205 0.0002 8.25 1.6178 11.298 4.5185 0.229 0.2239 0.596 0.2211 0.822-0.0064l2.194-2.2165c0.115-0.1153 0.178-0.2716 0.177-0.4342 0-0.1626-0.066-0.3181-0.182-0.4321-8-7.6745-20.62-7.6745-28.62 0-0.116 0.1139-0.182 0.2694-0.183 0.432-0.001 0.1626 0.063 0.3189 0.177 0.4343l2.195 2.2165c0.225 0.2278 0.593 0.2306 0.822 0.0064 3.048-2.9009 7.094-4.5185 11.3-4.5185z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "path",
+                  "id": "ohaIO",
+                  "x": 0,
+                  "y": 0,
+                  "name": "电池 · 模板原始轮廓",
+                  "geometry": "M674 39.4022c0-1.2507 1.014-2.2645 2.264-2.2645h1.359v15.3985h-1.359c-1.25 0-2.264-1.0138-2.264-2.2644v-10.8696z m3.623-2.2645h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.624v15.3985h-3.624v-15.3985z m3.624 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m3.623 0h3.623v15.3985h-3.623v-15.3985z m7.246 2.2645c0-1.2507-1.013-2.2645-2.264-2.2645h-1.359v15.3985h1.359c1.251 0 2.264-1.0138 2.264-2.2644v-10.8696z m-32.608-0.4528c0-3.0015 2.433-5.4348 5.435-5.4348h32.608c3.002 0 5.435 2.4333 5.435 5.4348v11.7754c0 3.0015-2.433 5.4348-5.435 5.4348h-32.608c-3.002 0-5.435-2.4333-5.435-5.4348v-11.7754z m5.435-3.6232c-2.001 0-3.624 1.6222-3.624 3.6232v11.7754c0 2.001 1.623 3.6232 3.624 3.6232h32.608c2.001 0 3.623-1.6222 3.623-3.6232v-11.7754c0-2.001-1.622-3.6232-3.623-3.6232h-32.608z m39.855 13.663c1.599-0.6989 2.717-2.2949 2.717-4.1521 0-1.8572-1.118-3.4533-2.717-4.1521v8.3042z",
+                  "fillRule": "evenodd",
+                  "viewBox": [
+                    590.667,
+                    28.9854,
+                    130.435,
+                    28.9855
+                  ],
+                  "fill": "$z:foreground",
+                  "width": 65.2175,
+                  "height": 14.49275
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 0.905795,
+                  "id": "wul4c",
+                  "x": 14.0395,
+                  "y": 2.71725,
+                  "name": "信号第四格 · 模板原始轮廓",
+                  "fill": "$z:foreground",
+                  "width": 3.17029,
+                  "height": 10.41665
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "wHD5T",
+          "name": "小程序自定义导航 · 预留系统胶囊",
+          "width": "fill_container",
+          "height": 56,
+          "padding": [
+            0,
+            16
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "jk4Hg",
+              "name": "返回",
+              "width": 88,
+              "height": 48,
+              "layout": "vertical",
+              "padding": [
+                0,
+                9
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "gh638",
+                  "name": "chevron-left",
+                  "width": 24,
+                  "height": 24,
+                  "icon": "chevron-left",
+                  "library": "lucide",
+                  "fill": "$z:foreground"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "FXBIi",
+              "name": "当前页面",
+              "fill": "$z:foreground",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "我的",
+              "lineHeight": 1.5,
+              "textAlign": "center",
+              "fontFamily": "Noto Sans SC",
+              "fontSize": 20,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "juVoH",
+              "name": "微信系统胶囊 · 宿主示意",
+              "width": 88,
+              "height": 30,
+              "cornerRadius": 15,
+              "stroke": "$z:border-subtle",
+              "strokeWidth": 1,
+              "gap": 12,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "r0MGu",
+                  "name": "ellipsis",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "more_horiz",
+                  "library": "Material Symbols Rounded",
+                  "weight": 700,
+                  "fill": "$z:foreground"
+                },
+                {
+                  "type": "frame",
+                  "id": "ssr82",
+                  "name": "胶囊分隔",
+                  "opacity": 0.16,
+                  "width": 1,
+                  "height": 16,
+                  "fill": "$z:foreground",
+                  "layout": "vertical"
+                },
+                {
+                  "type": "icon",
+                  "id": "W1J30",
+                  "name": "circle-dot",
+                  "width": 20,
+                  "height": 20,
+                  "icon": "radio_button_checked",
+                  "library": "Material Symbols Rounded",
+                  "weight": 600,
+                  "fill": "$z:foreground"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "eTLLm",
+          "type": "ref",
+          "ref": "JGka6",
+          "name": "个人空库存 · 同源内容实例",
+          "width": "fill_container",
+          "height": "fill_container",
+          "descendants": {
+            "FiwtR/z:cUVcw": {
+              "content": "衣物  0"
+            },
+            "icKX2": {
+              "enabled": false
+            },
+            "XdK5f": {
+              "enabled": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "padding": [
+                20,
+                30,
+                24,
+                30
+              ],
+              "gap": 18
+            },
+            "tbFiA": {
+              "id": "btuME",
+              "type": "ref",
+              "ref": "SKORD",
+              "name": "个人空衣柜 · 复用空态引导",
+              "width": "fill_container",
+              "descendants": {
+                "O2Vlt": {
+                  "height": 205
+                },
+                "QShrK": {
+                  "fontSize": 22
+                },
+                "Zddl6": {
+                  "fontSize": 16,
+                  "height": 52
+                },
+                "iE1DC": {
+                  "height": 52
+                },
+                "iE1DC/z:EQQl5": {
+                  "fontSize": 16
+                }
+              }
+            },
+            "Mtzdb": {
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "textAlign": "center"
+            },
+            "xjEcO": {
+              "enabled": false,
+              "width": 390
+            }
+          }
+        },
+        {
+          "type": "frame",
+          "id": "XajAr",
+          "name": "底部安全区 · 仅宿主展示",
+          "metadata": {
+            "type": "host-preview",
+            "owner": "System home indicator; preview only, runtime inset must have a single owner"
+          },
+          "width": "fill_container",
+          "height": 20,
+          "fill": "$z:card",
+          "layout": "vertical",
+          "padding": [
+            9,
+            0,
+            7,
+            0
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 2,
+              "id": "cHBUo",
               "name": "Home Indicator · 非业务控件",
               "fill": "$z:foreground",
               "width": 128,

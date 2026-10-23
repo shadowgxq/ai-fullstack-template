@@ -6,7 +6,7 @@
 
 使用 `View / Text / Button / Input / Image` 或本端 shared/ui；不用 HTML 标签、DOM API、localStorage、React Router、浏览器 fetch 或 Web UI 导入。ESLint 检查这些明显跨平台误用。使用 React Hooks 的约束不变，但宿主页保留不等于 React 卸载，刷新/恢复使用 `useDidShow`，需要后台暂停的工作配合 `useDidHide`。
 
-一个页面一个注册路径，普通页面 `navigateTo/navigateBack`，Tab 页面 `switchTab`。保持返回栈，不用统一 redirect 替代导航。大业务按实际包体和入口设计分包；不在模板先切出空分包。页面只组合 UI 与功能，不把所有业务塞入 shared。
+一个页面一个注册路径；普通页面使用 `navigateTo/navigateBack`，业务底部导航复用现有 `WardrobeNavigation` 的页面切换。当前未注册原生 TabBar，不对业务页调用 `switchTab`。保持返回栈，不用统一 redirect 替代导航。大业务按实际包体和入口设计分包；不在模板先切出空分包。页面只组合 UI 与功能，不把所有业务塞入 shared。
 
 公共控件保持可见状态：disabled/loading 阻止重复操作，失败保留输入并给出重试，文本自然换行。输入有独立 Label，placeholder 不是标签；不把浏览器 ARIA/焦点方法未经核实移植到小程序。
 

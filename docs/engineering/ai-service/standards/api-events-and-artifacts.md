@@ -8,7 +8,7 @@ API 只接收命令与读取公开状态，不执行 workflow；查询或浏览�
 
 公开 Pydantic DTO 与 Graph State、数据库 row、供应商响应分开；handler 显式映射并使用 response model。输入约束、状态码、鉴权声明、稳定 operation ID 与错误说明一起维护，避免自动生成文档漏掉运行时行为。
 
-当前 AI API 使用原生 DTO 和 FastAPI `{detail: ...}`，不要机械套用 backend 的 `{code,message,data}`。当前只有 `queued/running/completed/failed`，新增等待、取消或结果质量语义必须同步应用存储、迁移、DTO、消费者和测试，不能只改文档枚举。
+当前 AI API 使用原生 DTO 和 FastAPI `{detail: ...}`，不要机械套用 backend 的 `{code,message,data}`。当前状态为 `queued/running/completed/failed/cancelled`，取消经受信同scope接口与终态发布原子裁定。新增等待或结果质量语义仍须同步应用存储、迁移、DTO、消费者和测试，不能只改文档枚举。
 
 结构 schema 仍由代码导出到 `docs/contracts/generated/`，不手工修改生成文件。`make contracts` / `make contracts-check` 的定义见 [根 Makefile](../../../../Makefile)。导出使用隔离的测试配置，不连接真实数据库、模型或搜索；生成 schema 不代替语义回归。
 
@@ -35,8 +35,8 @@ Audit 绑定实际 result/policy hash；Release Gate 在正式引用提交时检
 | 输入/鉴权/资源/状态冲突 | 稳定公开错误，按现有契约映射；不靠重试修复权限错误 |
 | 存储不可用或 Worker 失锁 | 明确失败/中止，遵循恢复规范；不返回伪造成功 |
 | 工具/模型失败或解析错误 | 记录已知调用结果，由统一调用边界决定重试；不统一伪装为“资料不足” |
-| `unknown`（扩展时） | 保留不确定性与预算，不盲重发 |
-| interrupt / 取消控制信号（扩展时） | 映射为明确控制状态，不当普通异常吞掉 |
+| `unknown`（当前Operation状态） | Run以call_outcome_unknown失败，保留发送额度和证据，同Run不重发 |
+| 取消 / interrupt | 当前取消保护终态且允许保存迟到调用证据；未来人工interrupt须定义明确控制状态，不当普通异常吞掉 |
 
 Worker 入口已启用 [JSON 日志](../../../../ai-service/src/ai_service/infrastructure/logging.py)，失败记录关联 run_id、安全错误码和异常类型。formatter 只序列化允许的上下文字段，不输出任意 extras 或异常正文；消息本身仍由调用者保持安全，不宣称 formatter 能识别所有秘密。API 日志沿用 Uvicorn；metrics、Langfuse 和远端 tracing 尚未接入。
 

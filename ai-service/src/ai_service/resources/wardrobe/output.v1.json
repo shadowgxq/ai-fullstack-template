@@ -1,0 +1,67 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "selected_ids": {
+      "items": {
+        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+        "type": "string"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Selected Ids",
+      "type": "array"
+    },
+    "reason_codes": {
+      "items": {
+        "enum": [
+          "known_attributes",
+          "liked_style",
+          "liked_color",
+          "liked_occasion",
+          "scene_reference",
+          "weather_reference",
+          "history_reference"
+        ],
+        "type": "string"
+      },
+      "maxItems": 32,
+      "title": "Reason Codes",
+      "type": "array"
+    },
+    "fact_refs": {
+      "items": {
+        "maxLength": 80,
+        "minLength": 1,
+        "pattern": "^[a-zA-Z0-9_.:-]+$",
+        "type": "string"
+      },
+      "maxItems": 128,
+      "title": "Fact Refs",
+      "type": "array"
+    },
+    "tradeoff_codes": {
+      "items": {
+        "enum": [
+          "partial_outfit",
+          "unknown_attributes",
+          "weather_missing",
+          "history_empty",
+          "comfort_reference_only",
+          "candidate_scope_limited"
+        ],
+        "type": "string"
+      },
+      "maxItems": 32,
+      "title": "Tradeoff Codes",
+      "type": "array"
+    }
+  },
+  "required": [
+    "selected_ids",
+    "reason_codes",
+    "fact_refs",
+    "tradeoff_codes"
+  ],
+  "title": "RecommendationChoice",
+  "type": "object"
+}

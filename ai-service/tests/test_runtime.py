@@ -36,14 +36,17 @@ class RuntimeTests(unittest.TestCase):
     def test_invalid_registry_or_run_identity_is_rejected(self):
         with self.assertRaises(ValueError):
             WorkflowRunner({})
-        runner = create_runner(lambda _run_id, text: {"text": text})
+        runner = create_runner(
+            lambda _run_id, text: {"text": text}, lambda _id, _data: {}
+        )
         with self.assertRaises(ValueError):
             runner.run("echo.v1", " ", {"text": "hi"})
 
     def test_bootstrap_validates_persisted_input_before_executor(self):
         calls = []
         runner = create_runner(
-            lambda run_id, text: calls.append(run_id) or {"text": text}
+            lambda run_id, text: calls.append(run_id) or {"text": text},
+            lambda _id, _data: {},
         )
         for payload in (
             {},

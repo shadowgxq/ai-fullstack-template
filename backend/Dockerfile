@@ -4,7 +4,7 @@ WORKDIR /app
 COPY pyproject.toml uv.lock ./
 RUN uv sync --locked --no-dev
 COPY . .
-RUN useradd --create-home app && chown -R app:app /app
+RUN useradd --create-home app && mkdir -p /app/var/media && chown -R app:app /app
 USER app
 EXPOSE 8000
 CMD ["sh", "entrypoint.sh"]

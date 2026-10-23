@@ -1,69 +1,58 @@
-import { useState } from 'react';
-import Taro from '@tarojs/taro';
-import { useMutation } from '@tanstack/react-query';
-import { api, type Credentials } from '../../shared/api/gateway';
-import { saveAuthToken } from '../../shared/api/auth-token';
+import { useEffect, useRef, useState } from 'react';
+import { useDidHide } from '@tarojs/taro';
+import { Notice } from '../../shared/ui';
+import { loginWithWeChat } from '../../features/auth/session';
+import { WardrobePage, openWardrobe } from '../../features/wardrobe/Page';
 import { errorMessage } from '../../shared/api/errors';
-import { queryClient } from '../../shared/query/client';
-import { validateCredentials } from '../../features/auth/validation';
-import { PageShell, Card, Stack, Title, Body, Field, Button, Notice } from '../../shared/ui';
+import { WardrobeEmptyState } from '../../features/wardrobe/EmptyState';
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState<{ username?: string; password?: string }>({});
-  const login = useMutation({
-    mutationFn: async (credentials: Credentials) => {
-      const result = await api.login(credentials);
-      saveAuthToken(result.access_token);
-      return result;
-    },
-    onSuccess: () => {
-      setPassword('');
-      queryClient.clear();
-      void Taro.navigateBack().catch(() => Taro.switchTab({ url: '/pages/settings/index' }));
-    },
-  });
-  const submit = () => {
-    if (login.isPending) return;
-    const issues = validateCredentials(username, password);
-    setErrors(issues);
-    if (!Object.keys(issues).length) login.mutate({ username, password });
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const request = useRef<AbortController | null>(null);
+  const cancel = () => {
+    request.current?.abort();
+    request.current = null;
+    setPending(false);
+  };
+  useDidHide(cancel);
+  useEffect(() => cancel, []);
+  const submit = async () => {
+    if (request.current) return;
+    const controller = new AbortController();
+    request.current = controller;
+    setPending(true);
+    setError(null);
+    try {
+      await loginWithWeChat(controller.signal);
+      if (!controller.signal.aborted) await openWardrobe();
+    } catch (issue) {
+      if (!controller.signal.aborted) setError(errorMessage(issue));
+    } finally {
+      if (request.current === controller) {
+        request.current = null;
+        setPending(false);
+      }
+    }
   };
   return (
-    <PageShell>
-      <Stack>
-        <Title>账户登录</Title>
-        <Body secondary>使用已有用户名和密码登录。</Body>
-      </Stack>
-      <Card>
-        <Stack>
-          <Field
-            id="username"
-            label="用户名"
-            value={username}
-            onValueChange={setUsername}
-            maxLength={50}
-            error={errors.username}
-            disabled={login.isPending}
-          />
-          <Field
-            id="password"
-            label="密码"
-            value={password}
-            onValueChange={setPassword}
-            password
-            maxLength={72}
-            error={errors.password}
-            disabled={login.isPending}
-          />
-          {login.isError ? <Notice tone="error">{errorMessage(login.error)}</Notice> : null}
-          {!__API_BASE_URL__ ? <Notice>尚未配置后端地址。</Notice> : null}
-          <Button loading={login.isPending} disabled={!__API_BASE_URL__} onClick={submit}>
-            登录
-          </Button>
-        </Stack>
-      </Card>
-    </PageShell>
+    <WardrobePage title="我的" publicPage account>
+      <WardrobeEmptyState
+        kind="login"
+        loading={pending}
+        disabled={!__API_BASE_URL__}
+        actionLabel={pending ? '登录中' : '微信登录'}
+        onAction={() => {
+          void submit();
+        }}
+        feedback={
+          <>
+            {error ? <Notice tone="error">{error}</Notice> : null}
+            {!__API_BASE_URL__ ? <Notice>尚未配置后端服务地址。</Notice> : null}
+          </>
+        }
+        note="无需设置密码，头像和昵称可稍后完善"
+      />
+    </WardrobePage>
   );
 }

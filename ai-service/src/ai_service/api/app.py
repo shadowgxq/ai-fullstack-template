@@ -1,12 +1,14 @@
 """HTTP command/read API; synchronous DB work runs in FastAPI's thread pool."""
 
 import hmac
+import json
 from typing import Annotated
 from uuid import UUID
 
 import psycopg
 from fastapi import Depends, FastAPI, Header, HTTPException, Query, Request
-from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse, Response
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from ai_service.agent_core.contracts import (
@@ -14,18 +16,39 @@ from ai_service.agent_core.contracts import (
     ResultPending,
     RunNotFound,
 )
-from ai_service.api.schemas import CreateRun, EchoInput, EventView, RunView
+from ai_service.api.schemas import (
+    CreateRun,
+    EchoInput,
+    EventView,
+    RecommendationOutput,
+    RunView,
+)
 from ai_service.application.runs import RunService
 from ai_service.config import Settings
+from ai_service.infrastructure.execution import execution_descriptor
 from ai_service.infrastructure.store import Store
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
     config = settings or Settings()
     store = Store(config.database_url)
-    service = RunService(store, config.scope)
+    service = RunService(store, config.scope, execution_descriptor(config))
     app = FastAPI(title="AI Runtime", version="0.1.0")
     bearer = HTTPBearer(auto_error=False)
+
+    @app.exception_handler(RequestValidationError)
+    async def validation_error(request: Request, exc: RequestValidationError):
+        # Invalid Unicode may occur in either a value or an unknown field name.
+        # Keep only safe error details; ASCII JSON also bounds serialization itself.
+        detail = [
+            {key: error[key] for key in ("loc", "type", "msg")}
+            for error in exc.errors()
+        ]
+        return Response(
+            json.dumps({"detail": detail}, ensure_ascii=True),
+            status_code=422,
+            media_type="application/json",
+        )
 
     def authorize(
         credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(bearer)],
@@ -82,7 +105,36 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             str, Header(min_length=1, max_length=128, pattern=r"^[!-~]+$")
         ],
     ):
-        return service.create(idempotency_key, body.workflow, body.input.model_dump())
+        return service.create(
+            idempotency_key, body.workflow, body.input.model_dump(mode="json")
+        )
+
+    @app.post(
+        "/api/v1/runs/cancel-by-key",
+        response_model=RunView,
+        dependencies=dependency,
+        operation_id="cancelRunByKey",
+        responses={**errors, 409: {"description": "Idempotency conflict"}},
+    )
+    def cancel_by_key(
+        body: CreateRun,
+        idempotency_key: Annotated[
+            str, Header(min_length=1, max_length=128, pattern=r"^[!-~]+$")
+        ],
+    ):
+        return service.cancel_by_key(
+            idempotency_key, body.workflow, body.input.model_dump(mode="json")
+        )
+
+    @app.post(
+        "/api/v1/runs/{run_id}/cancel",
+        response_model=RunView,
+        dependencies=dependency,
+        operation_id="cancelRun",
+        responses={**errors, 404: {"description": "Run not found"}},
+    )
+    def cancel(run_id: UUID):
+        return service.cancel(str(run_id))
 
     @app.get(
         "/api/v1/runs/{run_id}",
@@ -96,7 +148,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     @app.get(
         "/api/v1/runs/{run_id}/result",
-        response_model=EchoInput,
+        response_model=EchoInput | RecommendationOutput,
         dependencies=dependency,
         operation_id="getRunResult",
         responses={

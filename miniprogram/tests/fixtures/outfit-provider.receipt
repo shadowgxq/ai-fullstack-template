@@ -1,0 +1,400 @@
+{
+  "empty": {
+    "request_id": "ab470d70-851b-4583-9223-6964862786e2",
+    "status": "ready",
+    "scene": "any",
+    "outcome": "no_inventory",
+    "error_code": null,
+    "inventory_count": 0,
+    "eligible_count": 0,
+    "candidate_scope_limited": false,
+    "limitations": [
+      "衣柜暂无衣物，请先录入。",
+      "天气信息缺失，未据此判断天气适配。",
+      "近30天暂无相关衣物的已记录穿着。"
+    ],
+    "result": null,
+    "created_at": "2026-10-22T12:00:00Z",
+    "deadline_at": "2026-10-22T12:05:00Z"
+  },
+  "queued": {
+    "request_id": "45d5a17e-49fd-4110-8bf7-b26d9b7dddd2",
+    "status": "dispatch_pending",
+    "scene": "daily",
+    "outcome": null,
+    "error_code": null,
+    "inventory_count": 2,
+    "eligible_count": 2,
+    "candidate_scope_limited": false,
+    "limitations": [
+      "舒适度描述仅供 AI 参考，不保证满足。",
+      "天气信息缺失，未据此判断天气适配。",
+      "近30天暂无相关衣物的已记录穿着。"
+    ],
+    "result": null,
+    "created_at": "2026-10-22T12:00:00Z",
+    "deadline_at": "2026-10-22T12:05:00Z"
+  },
+  "generating": {
+    "request_id": "45d5a17e-49fd-4110-8bf7-b26d9b7dddd2",
+    "status": "generating",
+    "scene": "daily",
+    "outcome": null,
+    "error_code": null,
+    "inventory_count": 2,
+    "eligible_count": 2,
+    "candidate_scope_limited": false,
+    "limitations": [
+      "舒适度描述仅供 AI 参考，不保证满足。",
+      "天气信息缺失，未据此判断天气适配。",
+      "近30天暂无相关衣物的已记录穿着。"
+    ],
+    "result": null,
+    "created_at": "2026-10-22T20:00:00+08:00",
+    "deadline_at": "2026-10-22T20:05:00+08:00"
+  },
+  "ready": {
+    "request_id": "45d5a17e-49fd-4110-8bf7-b26d9b7dddd2",
+    "status": "ready",
+    "scene": "daily",
+    "outcome": "recommendation",
+    "error_code": null,
+    "inventory_count": 2,
+    "eligible_count": 2,
+    "candidate_scope_limited": false,
+    "limitations": [
+      "舒适度描述仅供 AI 参考，不保证满足。",
+      "天气信息缺失，未据此判断天气适配。",
+      "近30天暂无相关衣物的已记录穿着。"
+    ],
+    "result": {
+      "request_id": "45d5a17e-49fd-4110-8bf7-b26d9b7dddd2",
+      "selected_ids": [
+        "6a575690-1771-4576-991d-0d83485bd6f5"
+      ],
+      "garments": [
+        {
+          "name": "单品0",
+          "photo_media_id": null,
+          "category": null,
+          "color": "black",
+          "season": [],
+          "occasion": [],
+          "tags": [
+            "casual"
+          ],
+          "notes": null,
+          "id": "6a575690-1771-4576-991d-0d83485bd6f5",
+          "status": "wearable",
+          "version": 1,
+          "created_at": "2026-10-22T15:16:15.951792Z",
+          "updated_at": "2026-10-22T15:16:15.951795Z"
+        }
+      ],
+      "reasons": [
+        "所选衣物包含已记录的偏好颜色。"
+      ],
+      "limitations": [
+        "仅涵盖所选衣物，不保证完整搭配。",
+        "部分衣物属性未记录，相关判断缺少依据。",
+        "舒适度描述仅供 AI 参考，不保证满足。",
+        "天气信息缺失，未据此判断天气适配。",
+        "近30天暂无相关衣物的已记录穿着。"
+      ]
+    },
+    "created_at": "2026-10-22T20:00:00+08:00",
+    "deadline_at": "2026-10-22T20:05:00+08:00"
+  },
+  "candidates": {
+    "items": [
+      {
+        "name": "单品1",
+        "photo_media_id": null,
+        "category": null,
+        "color": "black",
+        "season": [],
+        "occasion": [],
+        "tags": [
+          "casual"
+        ],
+        "notes": null,
+        "id": "a784f73f-8a6a-4deb-9382-d80174e5cb16",
+        "status": "wearable",
+        "version": 1,
+        "created_at": "2026-10-22T15:16:15.964750Z",
+        "updated_at": "2026-10-22T15:16:15.964753Z"
+      }
+    ],
+    "next_cursor": null
+  },
+  "selection": {
+    "request_id": "45d5a17e-49fd-4110-8bf7-b26d9b7dddd2",
+    "selected_ids": [
+      "a784f73f-8a6a-4deb-9382-d80174e5cb16",
+      "6a575690-1771-4576-991d-0d83485bd6f5"
+    ],
+    "garments": [
+      {
+        "name": "单品1",
+        "photo_media_id": null,
+        "category": null,
+        "color": "black",
+        "season": [],
+        "occasion": [],
+        "tags": [
+          "casual"
+        ],
+        "notes": null,
+        "id": "a784f73f-8a6a-4deb-9382-d80174e5cb16",
+        "status": "wearable",
+        "version": 1,
+        "created_at": "2026-10-22T15:16:15.964750Z",
+        "updated_at": "2026-10-22T15:16:15.964753Z"
+      },
+      {
+        "name": "单品0",
+        "photo_media_id": null,
+        "category": null,
+        "color": "black",
+        "season": [],
+        "occasion": [],
+        "tags": [
+          "casual"
+        ],
+        "notes": null,
+        "id": "6a575690-1771-4576-991d-0d83485bd6f5",
+        "status": "wearable",
+        "version": 1,
+        "created_at": "2026-10-22T15:16:15.951792Z",
+        "updated_at": "2026-10-22T15:16:15.951795Z"
+      }
+    ],
+    "reasons": [
+      "所选衣物包含已记录的偏好颜色。"
+    ],
+    "limitations": [
+      "仅涵盖所选衣物，不保证完整搭配。",
+      "部分衣物属性未记录，相关判断缺少依据。",
+      "舒适度描述仅供 AI 参考，不保证满足。",
+      "天气信息缺失，未据此判断天气适配。",
+      "近30天暂无相关衣物的已记录穿着。"
+    ]
+  },
+  "wear_created": {
+    "id": "aef820db-0cc5-4991-98e1-7676c37428fe",
+    "version": 1
+  },
+  "wear_detail": {
+    "id": "aef820db-0cc5-4991-98e1-7676c37428fe",
+    "wear_date": "2020-10-22",
+    "version": 1,
+    "created_at": "2026-10-22T15:16:16.145869Z",
+    "updated_at": "2026-10-22T15:16:16.145872Z",
+    "items": [
+      {
+        "garment_id": "6a575690-1771-4576-991d-0d83485bd6f5",
+        "name_snapshot": "单品0",
+        "category_snapshot": null
+      },
+      {
+        "garment_id": "a784f73f-8a6a-4deb-9382-d80174e5cb16",
+        "name_snapshot": "单品1",
+        "category_snapshot": null
+      }
+    ],
+    "recommendation_request_id": "45d5a17e-49fd-4110-8bf7-b26d9b7dddd2"
+  },
+  "stale": {
+    "request_id": "45d5a17e-49fd-4110-8bf7-b26d9b7dddd2",
+    "status": "stale",
+    "scene": "daily",
+    "outcome": "recommendation",
+    "error_code": "input_changed",
+    "inventory_count": 2,
+    "eligible_count": 2,
+    "candidate_scope_limited": false,
+    "limitations": [
+      "舒适度描述仅供 AI 参考，不保证满足。",
+      "天气信息缺失，未据此判断天气适配。",
+      "近30天暂无相关衣物的已记录穿着。"
+    ],
+    "result": null,
+    "created_at": "2026-10-22T20:00:00+08:00",
+    "deadline_at": "2026-10-22T20:05:00+08:00"
+  },
+  "statistics": {
+    "wardrobe_total": 2,
+    "archived_count": 0,
+    "category_counts": [
+      {
+        "category": null,
+        "count": 2
+      }
+    ],
+    "wear_record_count": 1,
+    "trend": {
+      "start_date": "2026-09-23",
+      "end_date": "2026-10-22",
+      "timezone": "Asia/Shanghai",
+      "days": [
+        {
+          "date": "2026-09-23",
+          "count": 0
+        },
+        {
+          "date": "2026-09-24",
+          "count": 0
+        },
+        {
+          "date": "2026-09-25",
+          "count": 0
+        },
+        {
+          "date": "2026-09-26",
+          "count": 0
+        },
+        {
+          "date": "2026-09-27",
+          "count": 0
+        },
+        {
+          "date": "2026-09-28",
+          "count": 0
+        },
+        {
+          "date": "2026-09-29",
+          "count": 0
+        },
+        {
+          "date": "2026-09-30",
+          "count": 0
+        },
+        {
+          "date": "2026-10-01",
+          "count": 0
+        },
+        {
+          "date": "2026-10-02",
+          "count": 0
+        },
+        {
+          "date": "2026-10-03",
+          "count": 0
+        },
+        {
+          "date": "2026-10-04",
+          "count": 0
+        },
+        {
+          "date": "2026-10-05",
+          "count": 0
+        },
+        {
+          "date": "2026-10-06",
+          "count": 0
+        },
+        {
+          "date": "2026-10-07",
+          "count": 0
+        },
+        {
+          "date": "2026-10-08",
+          "count": 0
+        },
+        {
+          "date": "2026-10-09",
+          "count": 0
+        },
+        {
+          "date": "2026-10-10",
+          "count": 0
+        },
+        {
+          "date": "2026-10-11",
+          "count": 0
+        },
+        {
+          "date": "2026-10-12",
+          "count": 0
+        },
+        {
+          "date": "2026-10-13",
+          "count": 0
+        },
+        {
+          "date": "2026-10-14",
+          "count": 0
+        },
+        {
+          "date": "2026-10-15",
+          "count": 0
+        },
+        {
+          "date": "2026-10-16",
+          "count": 0
+        },
+        {
+          "date": "2026-10-17",
+          "count": 0
+        },
+        {
+          "date": "2026-10-18",
+          "count": 0
+        },
+        {
+          "date": "2026-10-19",
+          "count": 0
+        },
+        {
+          "date": "2026-10-20",
+          "count": 0
+        },
+        {
+          "date": "2026-10-21",
+          "count": 0
+        },
+        {
+          "date": "2026-10-22",
+          "count": 0
+        }
+      ]
+    },
+    "garment_counts": {
+      "items": [
+        {
+          "garment_id": "a784f73f-8a6a-4deb-9382-d80174e5cb16",
+          "name": "单品1",
+          "category": null,
+          "status": "wearable",
+          "wear_count": 1
+        },
+        {
+          "garment_id": "6a575690-1771-4576-991d-0d83485bd6f5",
+          "name": "单品0",
+          "category": null,
+          "status": "wearable",
+          "wear_count": 1
+        }
+      ],
+      "next_cursor": null
+    }
+  },
+  "cancelled": {
+    "request_id": "ee6c49b9-f4d0-4f3c-89c3-ed11dba3489d",
+    "status": "cancelled",
+    "scene": "any",
+    "outcome": null,
+    "error_code": "user_cancelled",
+    "inventory_count": 2,
+    "eligible_count": 2,
+    "candidate_scope_limited": false,
+    "limitations": [
+      "舒适度描述仅供 AI 参考，不保证满足。",
+      "天气信息缺失，未据此判断天气适配。",
+      "近30天暂无相关衣物的已记录穿着。"
+    ],
+    "result": null,
+    "created_at": "2026-10-22T20:00:00+08:00",
+    "deadline_at": "2026-10-22T20:05:00+08:00"
+  }
+}

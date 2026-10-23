@@ -1,5 +1,17 @@
 export default defineAppConfig({
   pages: [
+    'pages/wardrobe/index',
+    'pages/outfits/index',
+    'pages/garment-detail/index',
+    'pages/garment-form/index',
+    'pages/wear-history/index',
+    'pages/wear-detail/index',
+    'pages/wear-form/index',
+    'pages/statistics/index',
+    'pages/personal/index',
+    'pages/profile-edit/index',
+    'pages/business-settings/index',
+    'pages/wardrobe-preferences/index',
     'pages/home/index',
     'pages/components/index',
     'pages/settings/index',
@@ -7,6 +19,7 @@ export default defineAppConfig({
     'pages/demo/index',
     'pages/preferences/index',
   ],
+  requiredPrivateInfos: ['getFuzzyLocation'],
   darkmode: true,
   themeLocation: 'theme.generated.json',
   window: {
@@ -15,32 +28,6 @@ export default defineAppConfig({
     navigationBarBackgroundColor: '@navigationBackground',
     navigationBarTextStyle: '@navigationText',
     backgroundColor: '@background',
-  },
-  tabBar: {
-    color: '@tabText',
-    selectedColor: '@tabSelected',
-    backgroundColor: '@tabBackground',
-    borderStyle: 'white',
-    list: [
-      {
-        pagePath: 'pages/home/index',
-        text: '首页',
-        iconPath: '@tabHomeIcon',
-        selectedIconPath: '@tabHomeSelectedIcon',
-      },
-      {
-        pagePath: 'pages/components/index',
-        text: '组件',
-        iconPath: '@tabComponentsIcon',
-        selectedIconPath: '@tabComponentsSelectedIcon',
-      },
-      {
-        pagePath: 'pages/settings/index',
-        text: '我的',
-        iconPath: '@tabProfileIcon',
-        selectedIconPath: '@tabProfileSelectedIcon',
-      },
-    ],
   },
   lazyCodeLoading: 'requiredComponents',
 });

@@ -7,12 +7,12 @@ export async function requestWeChatLoginCode(): Promise<string> {
   return result.code;
 }
 
-export async function chooseImage(): Promise<string | null> {
+export async function chooseImage(source?: 'camera' | 'album'): Promise<string | null> {
   try {
     const result = await Taro.chooseMedia({
       count: 1,
       mediaType: ['image'],
-      sourceType: ['album', 'camera'],
+      sourceType: source ? [source] : ['album', 'camera'],
     });
     const path = result.tempFiles[0]?.tempFilePath;
     if (!path) throw new Error('未获取到图片，请重新选择');

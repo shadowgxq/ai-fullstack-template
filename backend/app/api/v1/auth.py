@@ -1,20 +1,26 @@
 from fastapi import APIRouter, Depends
 from jose import JWTError
 
-from app.api.dependencies import get_current_user, get_access_token
+from app.api.dependencies import (
+    get_current_user,
+    get_access_token,
+    get_auth_service,
+    get_wechat_auth_service,
+)
 from app.core.security import decode_access_token, get_token_ttl_seconds
-from app.core.session import get_db
 from app.models.user import User
-from app.repositories.user_repository import UserRepository
 from app.schemas.auth import (
     CurrentUserResponse,
     LoginRequest,
     RegisterRequest,
     TokenResponse,
+    WechatLoginRequest,
+    WechatTokenResponse,
 )
 from app.schemas.response import ApiResponse, ValidationIssue, success_response
 from app.services import auth_redis_service
 from app.services.auth_service import AuthService
+from app.services.wechat_service import WechatAuthService
 
 router = APIRouter(
     prefix="/auth",
@@ -36,10 +42,6 @@ router = APIRouter(
 )
 
 
-def get_auth_service(db=Depends(get_db)) -> AuthService:
-    return AuthService(UserRepository(db))
-
-
 @router.post("/register", response_model=ApiResponse[CurrentUserResponse])
 def register(
     payload: RegisterRequest,
@@ -56,6 +58,21 @@ def login(
 ):
     access_token = service.login(payload.username, payload.password)
     return success_response({"access_token": access_token, "token_type": "bearer"})
+
+
+@router.post("/wechat", response_model=ApiResponse[WechatTokenResponse])
+def wechat_login(
+    payload: WechatLoginRequest,
+    service: WechatAuthService = Depends(get_wechat_auth_service),
+):
+    access_token, user = service.login(payload.code)
+    return success_response(
+        {
+            "access_token": access_token,
+            "token_type": "bearer",
+            "user": {"id": user.id, "username": user.username},
+        }
+    )
 
 
 @router.get("/me", response_model=ApiResponse[CurrentUserResponse])

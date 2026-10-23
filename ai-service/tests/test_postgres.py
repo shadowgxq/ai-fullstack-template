@@ -2,12 +2,14 @@
 
 import os
 from concurrent.futures import ThreadPoolExecutor
-from urllib.parse import urlparse
+from urllib.parse import parse_qsl, urlencode, urlparse
 from uuid import uuid4
 
+import psycopg
 import pytest
 from fastapi.testclient import TestClient
 from langgraph.checkpoint.postgres import PostgresSaver
+from psycopg import sql
 
 from ai_service.agent_core.contracts import WorkerAlreadyRunning
 from ai_service.api.app import create_app
@@ -22,12 +24,31 @@ TOKEN = "test-ai-service-key-not-a-real-secret"
 
 
 @pytest.fixture
-def environment():
+def owned_database():
     dsn = os.getenv("AI_TEST_DATABASE_URL")
     if not dsn:
         pytest.skip("AI_TEST_DATABASE_URL not set; real PostgreSQL tests not executed")
     if not urlparse(dsn).path.endswith("_test"):
         pytest.fail("Integration database name must end with _test")
+    schema = "ai_test_" + uuid4().hex
+    with psycopg.connect(dsn, autocommit=True) as admin:
+        admin.execute(sql.SQL("CREATE SCHEMA {}").format(sql.Identifier(schema)))
+    url = urlparse(dsn)
+    options = dict(parse_qsl(url.query))
+    options["options"] = "-csearch_path=" + schema
+    isolated = url._replace(query=urlencode(options)).geturl()
+    try:
+        yield isolated
+    finally:
+        with psycopg.connect(dsn, autocommit=True) as admin:
+            admin.execute(
+                sql.SQL("DROP SCHEMA {} CASCADE").format(sql.Identifier(schema))
+            )
+
+
+@pytest.fixture
+def environment(owned_database):
+    dsn = owned_database
     config = Settings(
         _env_file=None, database_url=dsn, api_key=TOKEN, scope=f"test-{uuid4()}"
     )

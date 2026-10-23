@@ -54,7 +54,7 @@ requirements:
   - id: AC-013
     source: docs/product/01-prd-draft.md#33-穿搭偏好
     code_acceptance:
-      - 风格、颜色、场合各自的喜欢/避免项及可选舒适度可持久化并供后续推荐消费；同项冲突提示且保留草稿，明确避免项为硬约束，喜欢项仅排序。
+      - 风格、颜色、场合各自的喜欢/避免项及可选舒适度可持久化并供后续推荐消费；同项冲突提示且保留草稿，结构化避免项为硬约束，喜欢项仅排序，舒适度自由文本仅AI参考且不保证文本要求。
       - 无合规候选时说明限制而不自动放宽；未设置偏好仍可使用推荐。
   - id: AC-014
     source: docs/product/01-prd-draft.md#34-ai-穿搭建议
@@ -162,27 +162,27 @@ inputs:
     purpose: reference
     required: true
     scope:
-      - wardrobe.pen@787cf0b；统计 ywaWl/a7xEg，入口由记录承接；无历史表达复用其他业务路径的空态规则。
+      - wardrobe.pen 工作树 SHA256 98404673fa82e8955f6b07916eb91fa079feed9f27361054c8599450644f8494；统计 ywaWl/a7xEg，入口由记录承接，概览穿搭次数为全量，趋势近30天；无历史复用空态规则。
   - id: preference-design
     source: miniprogram/design/wardrobe-ui-ux.md#穿搭偏好
     purpose: reference
     required: true
     scope:
-      - wardrobe.pen@787cf0b；长期偏好 OgxoN/Z8EEvN，从设置进入；现有“常用场合”按喜欢的场合理解，避免的场合按同组 Chip 结构补入。
-      - 当前 Pen 缺避免的场合分组及新增长度的主题/窄屏核验；M2 偏好 UI 消费前需同步同一源稿并核对，不以本文替代可编辑来源。
+      - wardrobe.pen 工作树 SHA256 98404673fa82e8955f6b07916eb91fa079feed9f27361054c8599450644f8494；长期偏好 OgxoN/Z8EEvN，从设置进入，喜欢的场合 UIbzM、避免的场合 ViP2f。
+      - 同源Chip分组、舒适度参考说明、完整滚动内容和固定保存区已完成390px Light/360px Dark设计检查；字体严格绑定和客户端运行仍待验，其他页面保持787cf0b基线结构。
   - id: weather-design
     source: miniprogram/design/wardrobe-ui-ux.md#关键局部
     purpose: reference
     required: true
     scope:
-      - wardrobe.pen@787cf0b；选城/定位 NLCY6、穿搭 P9tls/ZHXw9 天气区域、设置 fkIRs/XzsEz 城市入口。
+      - wardrobe.pen 工作树 SHA256 98404673fa82e8955f6b07916eb91fa079feed9f27361054c8599450644f8494；选城/定位 NLCY6、穿搭 P9tls/ZHXw9 天气区域、设置 fkIRs/XzsEz 城市入口，所选节点保持787cf0b基线结构。
       - 默认城市、主动授权、失败保留和缺失提示见其他业务路径及天气专项；系统授权框由微信提供。
   - id: recommendation-design
     source: miniprogram/design/wardrobe-ui-ux.md#其他业务路径
     purpose: reference
     required: true
     scope:
-      - wardrobe.pen@787cf0b；穿搭 P9tls/ZHXw9、场景 Q3U4y、替换 AvD3c、空态 SKORD；重要依据默认可见。
+      - wardrobe.pen 工作树 SHA256 98404673fa82e8955f6b07916eb91fa079feed9f27361054c8599450644f8494（节点保持787cf0b基线结构）；穿搭 P9tls/ZHXw9、场景 Q3U4y、替换 AvD3c、空态 SKORD；重要依据默认可见。
       - 单品替换校验中/失败/成功复用现有说明区域、Notice 与按钮状态；具体保留、禁用与迟到响应行为已记录。
       - 生成中主动取消复用 P9tls 底部次操作、主操作禁用及现有加载/Notice 区域；取消中、cancelled、ready 抢先和取消失败按设计记录表达，不新增独立页面。
 
@@ -190,7 +190,7 @@ openspec:
   - id: wechat-session
     requirements: [AC-010, AC-022, AC-023, AC-027]
     depends_on: []
-    status: planned
+    status: code-verified
     technical_design:
       - docs/architecture/wardrobe/overview.md#4-共享数据与接口约定
       - docs/architecture/wardrobe/features/account-and-profile.md
@@ -204,7 +204,7 @@ openspec:
   - id: garment-management
     requirements: [AC-001, AC-002, AC-007, AC-010, AC-016, AC-020, AC-021, AC-023, AC-024, AC-028]
     depends_on: [wechat-session]
-    status: planned
+    status: code-verified
     technical_design:
       - docs/architecture/wardrobe/overview.md#4-共享数据与接口约定
       - docs/architecture/wardrobe/features/wardrobe.md
@@ -219,7 +219,7 @@ openspec:
   - id: wear-history
     requirements: [AC-002, AC-003, AC-004, AC-005, AC-007, AC-010, AC-016, AC-017, AC-020, AC-027, AC-028]
     depends_on: [garment-management]
-    status: planned
+    status: code-verified
     technical_design:
       - docs/architecture/wardrobe/overview.md#4-共享数据与接口约定
       - docs/architecture/wardrobe/features/wear-history-and-stats.md#2-数据事务与快照
@@ -234,7 +234,7 @@ openspec:
   - id: wardrobe-statistics
     requirements: [AC-005, AC-007, AC-010, AC-011, AC-018, AC-020, AC-027]
     depends_on: [wear-history]
-    status: planned
+    status: code-verified
     technical_design:
       - docs/architecture/wardrobe/features/wear-history-and-stats.md#4-统计口径
       - docs/architecture/wardrobe/features/wear-history-and-stats.md#5-关键验证
@@ -247,7 +247,7 @@ openspec:
   - id: personal-profile
     requirements: [AC-010, AC-020, AC-022, AC-023, AC-027]
     depends_on: [wear-history]
-    status: planned
+    status: code-verified
     technical_design:
       - docs/architecture/wardrobe/features/account-and-profile.md
       - docs/architecture/wardrobe/features/wardrobe.md#3-图片上传与访问
@@ -261,7 +261,7 @@ openspec:
   - id: wardrobe-preferences
     requirements: [AC-010, AC-013, AC-020, AC-023, AC-025]
     depends_on: [personal-profile]
-    status: planned
+    status: code-verified
     technical_design:
       - docs/architecture/wardrobe/features/outfit-recommendation.md#2-偏好候选与模型输入
     input_refs: [wardrobe-ui-baseline, preference-design]
@@ -269,13 +269,13 @@ openspec:
       交付设置内长期偏好编辑与持久化，复用衣物选项目录；风格/颜色/场合各有喜欢和避免选择，可选舒适度、同项冲突、版本冲突、失败保留和 preferences_revision 独立验证。
       AC-013/025 此处只覆盖明确偏好输入及查询契约，硬过滤、三值判定及未知属性解释由 outfit-recommendations 验证。
       不依赖尚未实现的推荐来证明保存成功；场景仍归推荐消费者。与选城共享设置页入口、路由及生成 schema，不能无协调同时改写。
-      当前 Pen 缺避免的场合分组；该 UI 实现前须在同一源稿补局部、核对滚动/固定保存区与主题/窄屏，再更新此 Input 的源修订。
-      这个缺口只影响本 Change 的偏好 UI；独立的记录、统计、个人资料、天气及偏好 Backend 契约可继续推进，不将本项提前标为 code-verified。
+      同一 Pen 已补齐避免的场合并核对完整内容、固定保存区与主题/窄屏，当前源修订见 preference-design；UI消费前仍实际读取其节点。
+      设计检查不替代偏好 Backend/客户端代码验收、字体严格绑定或运行体验，不将本项提前标为 code-verified。
 
   - id: city-weather
     requirements: [AC-008, AC-010, AC-014, AC-015, AC-020, AC-027, AC-028]
     depends_on: [personal-profile]
-    status: planned
+    status: code-verified
     technical_design:
       - docs/architecture/wardrobe/integrations/weather.md
       - docs/architecture/wardrobe/features/account-and-profile.md#2-身份资料与接口
@@ -289,7 +289,7 @@ openspec:
   - id: wardrobe-ai-runtime
     requirements: [AC-006, AC-009, AC-010, AC-012, AC-025]
     depends_on: []
-    status: planned
+    status: code-verified
     technical_design:
       - docs/architecture/wardrobe/overview.md#2-系统架构
       - docs/architecture/wardrobe/features/outfit-recommendation.md#2-偏好候选与模型输入
@@ -305,7 +305,7 @@ openspec:
   - id: outfit-recommendations
     requirements: [AC-002, AC-003, AC-006, AC-007, AC-008, AC-009, AC-010, AC-012, AC-013, AC-019, AC-020, AC-025, AC-026, AC-027, AC-028]
     depends_on: [wardrobe-statistics, wardrobe-preferences, city-weather, wardrobe-ai-runtime]
-    status: planned
+    status: code-verified
     technical_design:
       - docs/architecture/wardrobe/features/outfit-recommendation.md
       - docs/architecture/wardrobe/features/wear-history-and-stats.md#3-api-与页面消费
@@ -324,7 +324,7 @@ batches:
     depends_on: []
     changes: [wechat-session, garment-management]
     checkpoint: auto
-    status: planned
+    status: code-verified
     human_acceptance: pending
     checks:
       - 在获授权的隔离 PostgreSQL/私有临时媒体环境验证登录身份到本人衣物、媒体的真实授权链；旧密码账户兼容、跨账号读取和绑定拒绝。
@@ -338,7 +338,7 @@ batches:
     depends_on: [M1]
     changes: [wear-history, wardrobe-statistics, personal-profile, wardrobe-preferences, city-weather]
     checkpoint: auto
-    status: planned
+    status: code-verified
     human_acceptance: pending
     checks:
       - 在隔离 PostgreSQL 通过真实衣物/记录接口验证创建、修改、删除、旧请求重放、归档后快照/单件次数/统计一致及北京时间午夜边界。
@@ -348,14 +348,14 @@ batches:
     note: >-
       交付手动穿着记录与统计、完整个人设置及推荐所需的持久偏好/天气上下文。
       wear-history 完成后统计与个人资料可按实际文件边界推进；偏好和天气虽无相互业务依赖，设置页、路由、迁移链及 schema 的共享写入仍须顺序整合。
-      偏好源稿的“避免的场合”局部尚未同步；在偏好 UI 实现前核对更新后的源稿，其它不依赖该局部的工作不因此暂停。
+      偏好源稿已补齐“避免的场合”并完成局部设计检查；偏好 UI 消费当前 preference-design 修订，其它节点保持原结构。
       执行前消费 M1 的真实媒体/幂等/revision/会话契约；真实定位和天气生产使用条件待核验，最终视觉与宿主体验 pending。
 
   - id: M3
     depends_on: [M2]
     changes: [wardrobe-ai-runtime, outfit-recommendations]
     checkpoint: auto
-    status: planned
+    status: code-verified
     human_acceptance: pending
     checks:
       - 使用真实 Backend/Dispatcher/AI Run/单 Worker 接线和两个隔离 PostgreSQL 验证业务请求/Outbox 同事务、重复投递、映射丢失恢复和受信 scope；模型边界可替身，不能替代内部接线。

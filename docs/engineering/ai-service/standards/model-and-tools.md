@@ -1,6 +1,6 @@
 # 模型、工具与上下文
 
-本页是外部能力进入范围后的实现约束。当前模板只有确定性 echo，以下 ModelPort、ToolRegistry、Operation Ledger 等是 [目标架构](../../../architecture/ai-service/agent-runtime-architecture.md) 中的设计名称，不是已存在的 import 路径。
+本页维护外部能力的实现约束。当前ModelPort、单Operation及显式OpenAI Responses adapter用于wardrobe.recommend.v1，默认不启用真实模型；echo仍为确定性离线链路。ToolRegistry、多attempt和金额预算平台仍是[目标架构](../../../architecture/ai-service/agent-runtime-architecture.md)中的扩展能力，不能据此假定存在对应import路径。
 
 ## 统一调用边界
 
@@ -19,6 +19,8 @@ Workflow 通过注入的框架无关接口发起调用；供应商 SDK、LangCha
 - 模型不能更改工具权限、预算或 Completion Gate；不把这些控制逻辑仅写在 prompt 里。
 
 结构化输出的工具策略可能触发额外模型调用，启用前核对 [官方说明](https://docs.langchain.com/oss/python/langchain/structured-output) 和实际 adapter 行为；本项目不因此引入另一个 Agent 编排器。
+
+当前具体adapter默认访问 `https://api.openai.com/v1/responses`，可由受信 `AI_MODEL_BASE_URL` 配置HTTP/HTTPS网关；地址及显式JSON/SSE传输冻结到Run，业务输入不能指定。当前Key只能发往当前配置与冻结描述一致的地址。使用[text.format的json_schema/strict协议](https://developers.openai.com/api/docs/guides/structured-outputs)，不跟随重定向、重试或传输fallback。按[OpenAI Docs流式协议](https://developers.openai.com/api/docs/guides/streaming-responses)，SSE只接受终态事件中的完整response，不把delta拼接当成功，完整捕获事件作为raw证据；无终态截断归unknown。旧描述保持JSON协议。理由证据说明作为独立版本reason-evidence.v1资源，仅在新描述冻结版本/hash后加入；缺该字段的旧请求保持原字节。0次穿着不能支持history_reference，空历史只说明history_empty，Backend继续独立验证。已知usage按供应商响应留存，未知为null；请求ID仅取[x-request-id](https://developers.openai.com/api/reference/overview#debugging-requests)。本地边界回归不代表真实模型、TLS或usage已验证；socket读写使用有界剩余时间，操作系统DNS解析仍依赖宿主解析器。
 
 ## ToolRegistry 与网络限制
 

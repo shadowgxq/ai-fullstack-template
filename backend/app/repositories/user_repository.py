@@ -9,7 +9,7 @@ class UserRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create(self, username: str, password_hash: str) -> User:
+    def create(self, username: str, password_hash: str | None) -> User:
         user = User(username=username, password_hash=password_hash)
         self.db.add(user)
         self.db.flush()

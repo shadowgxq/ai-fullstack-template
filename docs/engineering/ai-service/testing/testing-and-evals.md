@@ -13,6 +13,9 @@
 | 离线自检、CLI、sync durability、输入不匹配、日志 | [test_bootstrap.py](../../../../ai-service/tests/test_bootstrap.py) |
 | PostgreSQL、创建幂等、失锁、Checkpoint 恢复 | [test_postgres.py](../../../../ai-service/tests/test_postgres.py) |
 | PostgreSQL 下独立 CLI Worker、未注册版本拒绝 | [test_postgres_bootstrap.py](../../../../ai-service/tests/test_postgres_bootstrap.py) |
+| Responses HTTP边界、严格JSON、deadline、raw/usage | [test_model_adapter.py](../../../../ai-service/tests/test_model_adapter.py) |
+| 穿搭严格DTO与HTTP输入门禁 | [test_wardrobe_contract.py](../../../../ai-service/tests/test_wardrobe_contract.py) |
+| 穿搭真实PG单Operation、取消、失锁及崩溃恢复 | [test_wardrobe_postgres.py](../../../../ai-service/tests/test_wardrobe_postgres.py) |
 | 全栈独立进程与 HTTP | [smoke.py](../../../../scripts/smoke.py) |
 
 工作目录和命令见 [AI README](../../../../ai-service/README.md) 与 [AI Makefile](../../../../ai-service/Makefile)。`check-offline` 只验证包内资源、公开 schema 和实际内存 workflow，不读取真实凭证或连接数据库；不代替 integration。`make -C ai-service check` 执行 Ruff 与 pytest，不包含 build 或类型检查器。
@@ -43,7 +46,7 @@ CI 除既有检查外，在 `uv build` 后安装生成的 wheel，不重新解�
 
 **Live / Evals（扩展时）** 只在明确供应商与预算授权下运行。记录 case ID、数据/fixture 版本、模型/配置、时间、用量、失败及局限；judge/rubric 有版本，模型自评不是唯一正确性证据。阈值与金标来自具体任务，不在模板规定“所有业务 95 分”。
 
-目前没有真实模型 fixture、recorded replay/Evals CLI 或业务金标；不创建空目录来宣称这些能力完成。
+目前模型边界使用合成确定性fixture，没有真实模型录制fixture、recorded replay/Evals CLI或业务金标；不创建空目录来宣称这些能力完成。
 
 ## 按新增风险补故障用例
 

@@ -1,0 +1,10 @@
+Reason evidence contract wardrobe.reason-evidence.v1. These conditions are mandatory in addition to the base prompt.
+reason_codes may be [] when no positive supported reason is justified. Never add a reason merely because its field exists in the input.
+For every referenced garment/history atom, subject_id must be one of your selected_ids. All references must use supplied ref_id values.
+known_attributes: cite at least one garment atom for a selected garment.
+liked_color, liked_style, liked_occasion: cite BOTH a selected garment's matching color/style/occasion atom AND the corresponding liked_color/liked_style/liked_occasion preference atom. Unknown does not match.
+scene_reference: scene must not be any; cite a selected garment occasion atom whose value equals scene.
+weather_reference: weather.state must be available and cite a weather atom. Missing weather cannot support this reason.
+history_reference: cite a selected garment history atom with wear_count strictly GREATER THAN ZERO, or a non-null last_worn_on. A wear_count of 0 is NOT a recorded wearing and MUST NOT produce history_reference. When history is empty, use history_empty tradeoff only; omit history_reference regardless of the presence of zero-count fact atoms.
+Tradeoff codes describe limits, not proof: weather_missing for missing weather; history_empty for no positive recorded history; unknown_attributes for unknown properties; comfort_reference_only for unverified comfort text; candidate_scope_limited for limited candidate input; partial_outfit for a partial selection.
+Do not claim unsupported conditions. No free-text rationale, tools, new facts or additional model calls.

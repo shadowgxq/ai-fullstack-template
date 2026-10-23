@@ -64,9 +64,9 @@
   min-height: var(--mp-button-min-height);
   height: auto;
   padding: var(--mp-button-padding-y) var(--mp-button-padding-x);
-  border-radius: var(--mp-control-radius);
+  border-radius: var(--mp-button-radius, var(--mp-control-radius));
   border: 1px solid transparent;
-  font-size: var(--mp-body-size);
+  font-size: var(--mp-button-font-size, var(--mp-body-size));
   font-weight: var(--mp-weight-medium);
   line-height: var(--mp-body-leading);
   white-space: normal;
@@ -80,7 +80,8 @@
   color: var(--mp-button-text);
 }
 .secondary {
-  background: var(--mp-surface-muted);
+  background: var(--mp-button-secondary-bg, var(--mp-surface-muted));
+  border-color: var(--mp-button-secondary-border, transparent);
   color: var(--mp-text-primary);
 }
 .danger {
@@ -123,7 +124,7 @@
   width: 100%;
   min-width: 0;
   height: 24px;
-  font-size: var(--mp-body-size);
+  font-size: var(--mp-input-font-size, var(--mp-body-size));
   color: var(--mp-text-primary);
   line-height: var(--mp-body-leading);
 }

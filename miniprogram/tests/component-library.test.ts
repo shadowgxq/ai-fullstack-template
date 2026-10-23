@@ -14,7 +14,6 @@ import { readTouchPoint } from '../src/features/component-library/gestures';
 
 beforeEach(() => {
   consumeCatalogQuery();
-  vi.mocked(Taro.switchTab).mockResolvedValue({ errMsg: 'ok' });
   vi.mocked(Taro.navigateTo).mockResolvedValue({ errMsg: 'ok' });
 });
 it('searches component names and functions while respecting the selected category', () => {
@@ -24,23 +23,23 @@ it('searches component names and functions while respecting the selected categor
   expect(filterCategories('按钮', '反馈组件')).toEqual([]);
   expect(filterCategories('', '业务组件')).toEqual([]);
 });
-it('keeps home search parameters out of the native switchTab URL and consumes them once', async () => {
+it('keeps home search parameters out of the ordinary navigation URL and consumes them once', async () => {
   await openCatalog('输入框');
-  expect(Taro.switchTab).toHaveBeenCalledWith({ url: '/pages/components/index' });
+  expect(Taro.navigateTo).toHaveBeenCalledWith({ url: '/pages/components/index' });
   expect(consumeCatalogQuery()).toBe('输入框');
   expect(consumeCatalogQuery()).toBeNull();
 });
-it('publishes search before switchTab can trigger the target page onShow', async () => {
+it('publishes search before navigateTo can trigger the target page onShow', async () => {
   let received: string | null = null;
-  vi.mocked(Taro.switchTab).mockImplementationOnce(async () => {
+  vi.mocked(Taro.navigateTo).mockImplementationOnce(async () => {
     received = consumeCatalogQuery();
     return { errMsg: 'ok' };
   });
   await openCatalog('switch');
   expect(received).toBe('switch');
 });
-it('clears failed tab navigation parameters and shows a recoverable error', async () => {
-  vi.mocked(Taro.switchTab).mockRejectedValueOnce(new Error('navigation failed'));
+it('clears failed navigation parameters and shows a recoverable error', async () => {
+  vi.mocked(Taro.navigateTo).mockRejectedValueOnce(new Error('navigation failed'));
   await openCatalog('按钮');
   expect(consumeCatalogQuery()).toBeNull();
   expect(Taro.showToast).toHaveBeenCalledWith(expect.objectContaining({ icon: 'none' }));

@@ -1,14 +1,23 @@
 import './shared/platform/polyfills';
-import { useEffect, type PropsWithChildren } from 'react';
+import { useEffect, useState, type PropsWithChildren } from 'react';
 import Taro, { useDidShow, useDidHide } from '@tarojs/taro';
 import { QueryClientProvider, focusManager } from '@tanstack/react-query';
 import { queryClient } from './shared/query/client';
 import { bindNetworkStatus } from './shared/query/lifecycle';
 import { useThemeStore } from './shared/theme/preferences';
 import { hydrateAuthToken, setUnauthorizedHandler } from './shared/api/auth-token';
+import { redirectToLogin } from './features/auth/navigation';
 import './app.scss';
 
 export default function App({ children }: PropsWithChildren) {
+  useState(() => {
+    try {
+      hydrateAuthToken();
+    } catch {
+      /* 在页面首次读取会话前完成恢复；存储失败时交给登录页重新登录。 */
+    }
+    return true;
+  });
   useDidShow(() => {
     try {
       hydrateAuthToken();
@@ -17,6 +26,7 @@ export default function App({ children }: PropsWithChildren) {
     }
     focusManager.setFocused(true);
     useThemeStore.getState().hydrate();
+    if (Taro.getCurrentPages().length) void redirectToLogin();
   });
   useDidHide(() => focusManager.setFocused(false));
   useEffect(() => {
@@ -28,6 +38,7 @@ export default function App({ children }: PropsWithChildren) {
     }
     setUnauthorizedHandler(() => {
       queryClient.clear();
+      void redirectToLogin();
     });
     const unbindNetwork = bindNetworkStatus();
     const onTheme = ({ theme }: { theme: 'light' | 'dark' }) =>

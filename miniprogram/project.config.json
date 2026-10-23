@@ -2,7 +2,7 @@
   "miniprogramRoot": "dist/",
   "projectname": "ai-fullstack-miniprogram",
   "description": "Optional WeChat client",
-  "appid": "wx79979f4b8709e12c",
+  "appid": "wxba737ba7cc7edb0f",
   "compileType": "miniprogram",
   "setting": {
     "urlCheck": true,

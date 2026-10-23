@@ -1,46 +1,40 @@
 import avatarImage from '../../assets/library/avatar.jpg';
 import crownImage from '../../assets/library/crown.jpg';
-import { useSyncExternalStore } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 import Taro from '@tarojs/taro';
 import { Image, Text, View, Button as NativeButton } from '@tarojs/components';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { api } from '../../shared/api/gateway';
-import { getAuthToken, clearAuthToken, subscribeAuthToken } from '../../shared/api/auth-token';
+import { getAuthSession, subscribeAuthToken } from '../../shared/api/auth-token';
+import { logoutCurrentSession } from '../../features/auth/session';
 import { errorMessage } from '../../shared/api/errors';
-import { queryClient } from '../../shared/query/client';
+import { sessionQueryKey } from '../../shared/query/client';
 import { PageShell, Notice } from '../../shared/ui';
 import { LibraryIcon } from '../../features/component-library/visuals';
 import { openCatalog, showReferenceEntry } from '../../features/component-library/navigation';
 import styles from './index.module.scss';
 
 export default function SettingsPage() {
-  const token = useSyncExternalStore(subscribeAuthToken, getAuthToken, getAuthToken);
+  const session = useSyncExternalStore(subscribeAuthToken, getAuthSession, getAuthSession);
+  const [logoutWarning, setLogoutWarning] = useState<string | null>(null);
   const profile = useQuery({
-    queryKey: ['session', 'me'],
-    queryFn: ({ signal }) => api.me(signal),
-    enabled: Boolean(token),
+    queryKey: sessionQueryKey(session, 'profile'),
+    queryFn: ({ signal }) => api.profile(signal),
+    enabled: Boolean(session),
   });
   const logout = useMutation({
-    mutationFn: api.logout,
-    onSuccess: () => {
-      try {
-        clearAuthToken();
-      } catch {
-        throw new Error('已退出，但未能清理本地凭据，请关闭小程序后重试');
-      } finally {
-        queryClient.clear();
-      }
-    },
+    mutationFn: logoutCurrentSession,
+    onSuccess: setLogoutWarning,
   });
   const openAccount = () => {
-    void Taro.navigateTo({ url: token ? '/pages/preferences/index' : '/pages/login/index' });
+    void Taro.navigateTo({ url: session ? '/pages/preferences/index' : '/pages/login/index' });
   };
   return (
-    <PageShell withTabBar tinted>
+    <PageShell tinted>
       <NativeButton className={styles.identity} onClick={openAccount}>
         <Image className={styles.avatar} src={avatarImage} mode="aspectFill" />
         <View className={styles.copy}>
-          <Text className={styles.greeting}>Hi，{profile.data?.username || '开发者'}</Text>
+          <Text className={styles.greeting}>Hi，{profile.data?.nickname || '衣柜用户'}</Text>
           <Text className={styles.subtitle}>让好的产品触手可及</Text>
         </View>
         <View className={styles.roundArrow}>
@@ -136,16 +130,17 @@ export default function SettingsPage() {
       </NativeButton>
       {profile.isError ? <Notice tone="error">{errorMessage(profile.error)}</Notice> : null}
       {logout.isError ? <Notice tone="error">{errorMessage(logout.error)}</Notice> : null}
+      {logoutWarning ? <Notice tone="error">{logoutWarning}</Notice> : null}
       <NativeButton
         className={styles.logout}
         loading={logout.isPending}
         disabled={logout.isPending}
         onClick={() => {
-          if (token) logout.mutate();
+          if (session) logout.mutate();
           else openAccount();
         }}
       >
-        {token ? '退出登录' : '账户登录'}
+        {session ? '退出登录' : '微信登录'}
       </NativeButton>
     </PageShell>
   );

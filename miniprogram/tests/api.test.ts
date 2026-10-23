@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import Taro from './taro-mock';
 import { requestJson, parseEnvelope, resolveApiUrl } from '../src/shared/api/request';
 import {
-  saveAuthToken,
+  saveAuthSession,
   getAuthToken,
   clearAuthToken,
   notifyUnauthorized,
@@ -11,7 +11,6 @@ import {
 } from '../src/shared/api/auth-token';
 import { parseUser, parseToken, api } from '../src/shared/api/gateway';
 import { normalizeApiBaseUrl } from '../config/env';
-import { validateCredentials } from '../src/features/auth/validation';
 
 type Callbacks = {
   success: (response: { statusCode: number; data: unknown }) => void;
@@ -65,19 +64,11 @@ describe('configuration and contracts', () => {
     expect(() => parseToken({ access_token: '', token_type: 'bearer' })).toThrow();
     expect(() => parseToken({ access_token: 'a', token_type: 'cookie' })).toThrow();
   });
-  it('checks byte limits without changing usernames', () => {
-    expect(validateCredentials(' user ', '中'.repeat(24))).toEqual({});
-    expect(validateCredentials('user', '中'.repeat(25)).password).toBeDefined();
-    expect(validateCredentials('user', '😀'.repeat(18))).toEqual({});
-    expect(validateCredentials('user', '😀'.repeat(19)).password).toBeDefined();
-    expect(validateCredentials('', '').username).toBeDefined();
-    expect(validateCredentials('user', '\ud800').password).toBeDefined();
-  });
 });
 
 describe('request and session isolation', () => {
   it('uses the real backend health route without authorization', async () => {
-    saveAuthToken('secret');
+    saveAuthSession('secret', 1);
     const promise = api.health();
     expect(callbacks.url).toBe('https://api.example.test/health');
     expect(callbacks.header.Authorization).toBeUndefined();
@@ -85,7 +76,7 @@ describe('request and session isolation', () => {
     await expect(promise).resolves.toEqual({ status: 'ok' });
   });
   it('attaches Bearer to protected requests and parses envelopes', async () => {
-    saveAuthToken('secret');
+    saveAuthSession('secret', 1);
     const promise = api.me();
     expect(callbacks.header.Authorization).toBe('Bearer secret');
     callbacks.success({
@@ -95,7 +86,7 @@ describe('request and session isolation', () => {
     await expect(promise).resolves.toEqual({ id: 2, username: 'u' });
   });
   it('clears only the matching session on 401', async () => {
-    saveAuthToken('old');
+    saveAuthSession('old', 1);
     const handler = vi.fn();
     setUnauthorizedHandler(handler);
     const promise = api.me();
@@ -105,22 +96,22 @@ describe('request and session isolation', () => {
     expect(handler).toHaveBeenCalledOnce();
   });
   it('does not clear a new login after a late old-token 401', async () => {
-    saveAuthToken('old');
+    saveAuthSession('old', 1);
     const promise = api.me();
-    saveAuthToken('new');
+    saveAuthSession('new', 1);
     callbacks.success({ statusCode: 401, data: null });
-    await expect(promise).rejects.toMatchObject({ status: 401 });
+    await expect(promise).rejects.toMatchObject({ name: 'AbortError' });
     expect(getAuthToken()).toBe('new');
   });
   it('does not mark failed persistence as login success', () => {
     Taro.setStorageSync.mockImplementationOnce(() => {
       throw new Error('quota');
     });
-    expect(() => saveAuthToken('token')).toThrow();
+    expect(() => saveAuthSession('token', 1)).toThrow();
     expect(getAuthToken()).toBeNull();
   });
   it('keeps HTTP failure observable when local cleanup fails', async () => {
-    saveAuthToken('old');
+    saveAuthSession('old', 1);
     Taro.removeStorageSync.mockImplementationOnce(() => {
       throw new Error('disk');
     });
@@ -130,7 +121,7 @@ describe('request and session isolation', () => {
     expect(getAuthToken()).toBeNull();
   });
   it('preserves 422 safe details and does not clear authorization on 503', async () => {
-    saveAuthToken('secret');
+    saveAuthSession('secret', 1);
     const promise = api.me();
     callbacks.success({ statusCode: 503, data: { code: 50301, data: null } });
     await expect(promise).rejects.toMatchObject({ status: 503, code: 50301 });
@@ -170,7 +161,7 @@ describe('request and session isolation', () => {
     await new Promise((resolve) => setTimeout(resolve, 0));
   });
   it('ignores anonymous unauthorized responses', () => {
-    saveAuthToken('current');
+    saveAuthSession('current', 1);
     notifyUnauthorized(null);
     expect(getAuthToken()).toBe('current');
   });
@@ -179,10 +170,10 @@ describe('request and session isolation', () => {
 it('notifies page subscribers when a session is saved or cleared', () => {
   const listener = vi.fn();
   const unsubscribe = subscribeAuthToken(listener);
-  saveAuthToken('first');
+  saveAuthSession('first', 1);
   clearAuthToken();
   expect(listener).toHaveBeenCalledTimes(2);
   unsubscribe();
-  saveAuthToken('second');
+  saveAuthSession('second', 1);
   expect(listener).toHaveBeenCalledTimes(2);
 });

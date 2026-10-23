@@ -39,7 +39,7 @@ const recentExamples = [
 export default function HomePage() {
   const [query, setQuery] = useState('');
   return (
-    <PageShell withTabBar>
+    <PageShell>
       <View className={styles.hero}>
         <View className={styles.intro}>
           <Text className={styles.title}>高质量的{'\n'}移动端组件库</Text>

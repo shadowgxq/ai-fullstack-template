@@ -1,10 +1,16 @@
 import Taro from '@tarojs/taro';
 import { ApiError, abortError, isRecord } from './errors';
-import { getAuthToken, notifyUnauthorized } from './auth-token';
+import {
+  getAuthSession,
+  getSessionGeneration,
+  notifyUnauthorized,
+  onSessionChange,
+} from './auth-token';
 
 interface RequestOptions {
-  method?: 'GET' | 'POST';
+  method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   data?: Record<string, unknown>;
+  idempotencyKey?: string;
   auth?: boolean;
   signal?: AbortSignal;
 }
@@ -30,21 +36,32 @@ export function requestJson<T>(
   } catch (error) {
     return Promise.reject(error);
   }
-  const requestToken = options.auth === false ? null : getAuthToken();
+  const requestSession = options.auth === false ? null : getAuthSession();
+  const requestGeneration = getSessionGeneration();
   return new Promise<T>((resolve, reject) => {
     let settled = false;
     let task: ReturnType<typeof Taro.request> | undefined;
+    let unsubscribeSession: (() => void) | undefined;
     const finish = (callback: () => void) => {
       if (settled) return;
       settled = true;
+      unsubscribeSession?.();
       options.signal?.removeEventListener('abort', onAbort);
       callback();
     };
     const onAbort = () => {
       finish(() => reject(abortError()));
-      task?.abort();
+      try {
+        task?.abort();
+      } catch {
+        /* 外层已拒绝，宿主 abort 失败不能阻断会话隔离。 */
+      }
     };
     options.signal?.addEventListener('abort', onAbort, { once: true });
+    if (options.auth !== false)
+      unsubscribeSession = onSessionChange(() => {
+        if (getSessionGeneration() !== requestGeneration) onAbort();
+      });
     try {
       task = Taro.request({
         url,
@@ -53,7 +70,8 @@ export function requestJson<T>(
         timeout: 15000,
         header: {
           'Content-Type': 'application/json',
-          ...(requestToken ? { Authorization: `Bearer ${requestToken}` } : {}),
+          ...(options.idempotencyKey ? { 'Idempotency-Key': options.idempotencyKey } : {}),
+          ...(requestSession ? { Authorization: `Bearer ${requestSession.token}` } : {}),
         },
         success(response) {
           if (settled) return;
@@ -61,7 +79,7 @@ export function requestJson<T>(
             if (response.statusCode === 401) {
               // 迟到的旧会话 401 不得清除新会话；清理错误不覆盖原始 HTTP 错误。
               try {
-                notifyUnauthorized(requestToken);
+                notifyUnauthorized(requestSession);
               } catch {
                 /* Preserve the request error. */
               }

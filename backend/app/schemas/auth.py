@@ -40,3 +40,19 @@ class TokenResponse(BaseModel):
 class CurrentUserResponse(BaseModel):
     id: int
     username: str
+
+
+class WechatLoginRequest(BaseModel):
+    code: Annotated[str, StringConstraints(min_length=1, max_length=256)]
+    model_config = ConfigDict(extra="forbid")
+
+    @field_validator("code")
+    @classmethod
+    def nonblank_code(cls, value: str) -> str:
+        if not value.strip():
+            raise ValueError("Code cannot be blank")
+        return value
+
+
+class WechatTokenResponse(TokenResponse):
+    user: CurrentUserResponse

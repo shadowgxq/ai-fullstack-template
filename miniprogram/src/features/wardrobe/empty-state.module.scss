@@ -1,0 +1,116 @@
+.frame {
+  width: 100%;
+  box-sizing: border-box;
+}
+.page {
+  padding: 82px 30px 32px;
+}
+.inline {
+  padding: 24px 0;
+}
+.profile {
+  padding: 4px 14px 2px;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  width: 100%;
+  max-width: 330px;
+  margin: 0 auto;
+}
+.illustration {
+  display: block;
+  width: 100%;
+  height: 290px;
+}
+.title {
+  display: block;
+  width: 100%;
+  color: var(--mp-text-primary);
+  font-size: 26px;
+  font-weight: var(--mp-weight-semibold);
+  line-height: 1.4;
+  text-align: center;
+}
+.description {
+  display: block;
+  width: 100%;
+  min-height: 60px;
+  white-space: pre-line;
+  color: var(--mp-text-secondary);
+  font-size: 18px;
+  line-height: 1.65;
+  text-align: center;
+}
+.action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 62px;
+  padding: 12px 16px;
+  margin: 0;
+  border: 0;
+  border-radius: 999px;
+  color: var(--mp-text-on-action);
+  background: var(--mp-action-primary);
+  font-size: 18px;
+  font-weight: var(--mp-weight-medium);
+  line-height: var(--mp-body-leading);
+}
+.action::after,
+.secondary::after {
+  border: 0;
+}
+.action[disabled] {
+  opacity: var(--mp-disabled-opacity);
+}
+.pressed {
+  background: var(--mp-action-pressed);
+}
+.wechat {
+  width: 26px;
+  height: 26px;
+  flex: none;
+}
+.plus {
+  font-size: 20px;
+  line-height: 1;
+}
+.note {
+  display: block;
+  width: 100%;
+  color: var(--mp-text-secondary);
+  font-size: var(--mp-caption-size);
+  line-height: var(--mp-body-leading);
+  text-align: center;
+}
+.secondary {
+  min-height: var(--mp-touch-min);
+  padding: 8px 12px;
+  margin: 0;
+  color: var(--mp-action-primary);
+  background: transparent;
+  font-size: var(--mp-caption-size);
+  line-height: var(--mp-body-leading);
+}
+.profile .illustration {
+  height: 205px;
+}
+.profile .title {
+  font-size: 22px;
+}
+.profile .description {
+  min-height: 52px;
+  font-size: var(--mp-body-size);
+}
+.profile .action {
+  min-height: 52px;
+  font-size: var(--mp-body-size);
+}
+.profile .note {
+  font-size: var(--mp-ref-font-1);
+}

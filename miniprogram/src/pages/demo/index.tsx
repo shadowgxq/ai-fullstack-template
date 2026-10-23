@@ -312,7 +312,7 @@ export default function DemoPage() {
           title="未找到组件演示"
           detail="请返回组件库，选择要查看的分类。"
           onRetry={() => {
-            void Taro.switchTab({ url: '/pages/components/index' });
+            void Taro.navigateTo({ url: '/pages/components/index' });
           }}
         />
       </PageShell>

@@ -8,6 +8,12 @@ LOGIN_LOCK_SECONDS = 10 * 60
 TOKEN_BLACKLIST_PREFIX = "jwt:blacklist:"
 
 
+@redis_required
+def ensure_auth_available() -> None:
+    """签发微信会话前确认撤销依赖可用，不能在故障时产生不可验证的会话。"""
+    redis_client.ping()
+
+
 def get_login_fail_key(username: str) -> str:
     return f"{LOGIN_FAIL_PREFIX}{username}"
 

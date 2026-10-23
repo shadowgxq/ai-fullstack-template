@@ -10,12 +10,21 @@ from contextlib import contextmanager
 import psycopg
 from langgraph.checkpoint.postgres import PostgresSaver
 
-from ai_service.agent_core.contracts import WorkerAlreadyRunning
+from ai_service.agent_core.contracts import WorkerAlreadyRunning, WorkerAuthorityLost
+from ai_service.agent_core.model import ExecutionFailure
+from ai_service.api.schemas import (
+    RecommendationChoice,
+    RecommendationOutput,
+    WardrobeInput,
+)
 from ai_service.bootstrap import create_runner
 from ai_service.config import Settings
+from ai_service.infrastructure.execution import request_builder
 from ai_service.infrastructure.logging import configure_logging
-from ai_service.infrastructure.store import WORKER_LOCK, Store
+from ai_service.infrastructure.model_adapter import OpenAIResponsesAdapter
+from ai_service.infrastructure.store import WORKER_LOCK, OperationSession, Store
 from ai_service.workflows.echo import execute_echo
+from ai_service.workflows.wardrobe import execute_wardrobe
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +42,9 @@ def worker_connection(store: Store):
         yield connection
 
 
-def process_next(settings: Settings, store: Store, connection) -> bool:
+def process_next(
+    settings: Settings, store: Store, connection, *, model_port=None
+) -> bool:
     job = store.claim_next(connection)
     if job is None:
         return False
@@ -42,10 +53,37 @@ def process_next(settings: Settings, store: Store, connection) -> bool:
         # Checkpoint writes must lose authority together with the Worker lock.
         # Using a second connection would allow stale graph writes after lock loss.
         saver = PostgresSaver(connection)
-        runner = create_runner(lambda run_id, text: execute_echo(run_id, text, saver))
+        if model_port is None:
+            key = settings.model_api_key
+            model_port = OpenAIResponsesAdapter(
+                settings.model_enabled,
+                key.get_secret_value() if key else None,
+                endpoint=settings.model_base_url + "/responses",
+            )
+        runner = create_runner(
+            lambda run_id, text: execute_echo(run_id, text, saver),
+            lambda rid, payload: execute_wardrobe(
+                rid,
+                dict(payload),
+                job["execution_descriptor"],
+                saver,
+                OperationSession(store, connection),
+                model_port,
+                request_builder,
+                lambda value: WardrobeInput.model_validate(value).model_dump(
+                    mode="json"
+                ),
+                lambda value: RecommendationChoice.model_validate(value).model_dump(
+                    mode="json"
+                ),
+                lambda value: RecommendationOutput.model_validate(value).model_dump(
+                    mode="json"
+                ),
+            ),
+        )
         output = runner.run(job["workflow"], run_id, job["input"])
-    except psycopg.Error:
-        # Leave the command for restart. No external/paid work exists in this sample.
+    except (psycopg.Error, WorkerAuthorityLost):
+        # The next Worker must reconcile the durable Operation; never reconnect here.
         raise
     except Exception as exc:
         logger.error(
@@ -53,10 +91,19 @@ def process_next(settings: Settings, store: Store, connection) -> bool:
             extra={
                 "run_id": run_id,
                 "error_type": type(exc).__name__,
-                "error_code": "execution_failed",
+                "error_code": exc.code
+                if isinstance(exc, ExecutionFailure)
+                else "execution_failed",
             },
         )
-        store.finish(connection, run_id, None, error_code="execution_failed")
+        store.finish(
+            connection,
+            run_id,
+            None,
+            error_code=exc.code
+            if isinstance(exc, ExecutionFailure)
+            else "execution_failed",
+        )
     else:
         store.finish(connection, run_id, output)
     return True

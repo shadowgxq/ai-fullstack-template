@@ -7,7 +7,10 @@ from ai_service.agent_core.runtime import WorkflowRunner
 EchoExecutor = Callable[[str, str], dict[str, str]]
 
 
-def create_runner(execute_echo: EchoExecutor) -> WorkflowRunner:
+def create_runner(
+    execute_echo: EchoExecutor,
+    execute_wardrobe: Callable[[str, Mapping[str, object]], Mapping[str, object]],
+) -> WorkflowRunner:
     """Bind the deterministic workflow without creating connections or reading secrets."""
 
     def echo(run_id: str, payload: Mapping[str, object]) -> dict[str, str]:
@@ -20,4 +23,4 @@ def create_runner(execute_echo: EchoExecutor) -> WorkflowRunner:
             raise ValueError("Invalid persisted echo input")
         return execute_echo(run_id, text)
 
-    return WorkflowRunner({"echo.v1": echo})
+    return WorkflowRunner({"echo.v1": echo, "wardrobe.recommend.v1": execute_wardrobe})

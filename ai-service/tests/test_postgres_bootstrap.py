@@ -9,6 +9,7 @@ import pytest
 from fastapi.testclient import TestClient
 from test_postgres import TOKEN, create
 from test_postgres import environment as environment
+from test_postgres import owned_database as owned_database
 
 from ai_service.api.app import create_app
 from ai_service.worker import process_next, worker_connection

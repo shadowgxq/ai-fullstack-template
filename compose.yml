@@ -6,6 +6,15 @@ x-ai: &ai
     AI_DATABASE_URL: postgresql://ai_service:ai-dev@postgres:5432/ai_runtime
     AI_API_KEY: ${AI_API_KEY:-local-ai-service-key-change-before-deploy}
     AI_SCOPE: local
+    AI_MODEL_ENABLED: ${AI_MODEL_ENABLED:-false}
+    AI_MODEL_NAME: ${AI_MODEL_NAME:-}
+    AI_MODEL_BASE_URL: ${AI_MODEL_BASE_URL:-https://api.openai.com/v1}
+    AI_MODEL_RESPONSE_TRANSPORT: ${AI_MODEL_RESPONSE_TRANSPORT:-responses-json.v1}
+    AI_MODEL_REASONING_EFFORT: ${AI_MODEL_REASONING_EFFORT:-}
+    AI_MODEL_API_KEY: ${AI_MODEL_API_KEY:-}
+    AI_MODEL_TIMEOUT_SECONDS: ${AI_MODEL_TIMEOUT_SECONDS:-20}
+    AI_MODEL_MAX_RESPONSE_BYTES: ${AI_MODEL_MAX_RESPONSE_BYTES:-1048576}
+    AI_MODEL_MAX_OUTPUT_TOKENS: ${AI_MODEL_MAX_OUTPUT_TOKENS:-2048}
   restart: "no"
 x-backend: &backend
   build: ./backend
@@ -13,6 +22,17 @@ x-backend: &backend
     DATABASE_URL: postgresql+psycopg2://backend:backend-dev@postgres:5432/backend
     SECRET_KEY: ${BACKEND_SECRET_KEY:-local-backend-key-change-before-deploy}
     REDIS_URL: redis://redis:6379/0
+    MEDIA_ROOT: /app/var/media
+    WECHAT_APP_ID: ${WECHAT_APP_ID:-}
+    WECHAT_APP_SECRET: ${WECHAT_APP_SECRET:-}
+    WECHAT_TIMEOUT_SECONDS: ${WECHAT_TIMEOUT_SECONDS:-5}
+    TENCENT_MAP_KEY: ${TENCENT_MAP_KEY:-}
+    WEATHER_TIMEOUT_SECONDS: ${WEATHER_TIMEOUT_SECONDS:-5}
+    WEATHER_MAX_BYTES: ${WEATHER_MAX_BYTES:-524288}
+    AI_SERVICE_BASE_URL: http://ai-service:8001
+    AI_SERVICE_API_KEY: ${AI_API_KEY:-local-ai-service-key-change-before-deploy}
+    AI_SERVICE_TIMEOUT_SECONDS: ${AI_SERVICE_TIMEOUT_SECONDS:-5}
+    AI_SERVICE_MAX_RESPONSE_BYTES: ${AI_SERVICE_MAX_RESPONSE_BYTES:-1048576}
   restart: "no"
 services:
   postgres:
@@ -46,6 +66,8 @@ services:
   backend:
     <<: *backend
     ports: ["127.0.0.1:8000:8000"]
+    volumes:
+      - backend-media:/app/var/media
     depends_on:
       backend-migrate: {condition: service_completed_successfully}
       redis: {condition: service_healthy}
@@ -54,6 +76,14 @@ services:
       interval: 3s
       timeout: 8s
       retries: 30
+  backend-dispatch:
+    <<: *backend
+    profiles: [dispatch]
+    command: ["uv", "run", "--locked", "--no-dev", "python", "recommendation_dispatcher.py", "--limit", "100"]
+    depends_on:
+      backend-migrate: {condition: service_completed_successfully}
+      ai-service: {condition: service_healthy}
+      redis: {condition: service_healthy}
   ai-migrate:
     <<: *ai
     command: ["uv", "run", "--locked", "--no-dev", "python", "-m", "ai_service.infrastructure.migrate"]
@@ -86,3 +116,4 @@ services:
       retries: 20
 volumes:
   postgres-data:
+  backend-media:

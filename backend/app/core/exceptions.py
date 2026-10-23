@@ -69,3 +69,18 @@ class AuthDependencyUnavailable(BusinessException):
             message="Authentication temporarily unavailable",
             status_code=503,
         )
+
+
+class WechatLoginFailedException(BusinessException):
+    def __init__(self) -> None:
+        super().__init__(40103, "微信登录凭证无效，请重新登录", 401)
+
+
+class WechatDependencyUnavailable(BusinessException):
+    def __init__(self) -> None:
+        super().__init__(50302, "微信登录暂时不可用，请稍后重试", 503)
+
+
+class ProfileNotFoundException(BusinessException):
+    def __init__(self) -> None:
+        super().__init__(40401, "个人资料不存在", 404)

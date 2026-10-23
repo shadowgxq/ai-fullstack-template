@@ -1,0 +1,113 @@
+.page {
+  --mp-button-radius: 8px;
+  --mp-button-secondary-bg: var(--mp-surface-page);
+  --mp-button-secondary-border: var(--mp-border-control);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: var(--mp-text-primary);
+  background: var(--mp-surface-card);
+  font-family: var(--mp-font-sans);
+  font-size: var(--mp-body-size);
+  line-height: var(--mp-body-leading);
+  box-sizing: border-box;
+}
+.navigation {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: env(safe-area-inset-top, 0px) var(--mp-page-gutter) 0;
+  box-sizing: content-box;
+}
+.back {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 96px;
+  min-height: var(--mp-touch-min);
+  padding: 0 0 0 9px;
+  margin: 0;
+  border: 0;
+  color: var(--mp-text-primary);
+  background: transparent;
+}
+.back::after {
+  border: 0;
+}
+.chevron {
+  width: 10px;
+  height: 10px;
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+.accountIcon {
+  width: 24px;
+  height: 24px;
+}
+.title {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  font-size: var(--mp-body-size);
+  line-height: var(--mp-body-leading);
+  font-weight: var(--mp-weight-semibold);
+}
+.capsuleSpace {
+  width: 96px;
+  min-width: var(--mp-touch-min);
+  flex-shrink: 0;
+}
+.scroll {
+  flex: 1;
+  height: 0;
+  min-height: 0;
+}
+.content {
+  min-height: 100%;
+  width: 100%;
+  max-width: var(--mp-content-max-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+.withoutFooter {
+  padding-bottom: var(--mp-safe-bottom);
+}
+.footer {
+  flex: none;
+  padding: var(--mp-ref-space-3) var(--mp-page-gutter) calc(14px + var(--mp-safe-bottom));
+  background: var(--mp-surface-card);
+  --mp-button-min-height: 52px;
+}
+.footerWithNavigation {
+  padding-bottom: 14px;
+  --mp-button-min-height: 50px;
+}
+.bottomNavigation {
+  flex: none;
+  padding-bottom: var(--mp-safe-bottom);
+  border-top: 0.5px solid var(--mp-border-subtle);
+  background: var(--mp-surface-card);
+}
+.profilePage .navigation {
+  background: var(--mp-surface-glow);
+}
+.settingsPage {
+  background: var(--mp-surface-page);
+}
+.settingsPage .navigation {
+  background: var(--mp-surface-card);
+}
+.profilePage .navigation,
+.settingsPage .navigation {
+  min-height: 56px;
+}
+.profilePage .title,
+.settingsPage .title {
+  font-size: var(--mp-section-title-size);
+}

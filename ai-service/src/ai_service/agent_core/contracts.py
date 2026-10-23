@@ -20,7 +20,11 @@ class WorkerAlreadyRunning(Exception):
     pass
 
 
-def request_hash(workflow: str, payload: dict[str, str]) -> str:
+class WorkerAuthorityLost(Exception):
+    pass
+
+
+def request_hash(workflow: str, payload: dict) -> str:
     canonical = json.dumps(
         {"workflow": workflow, "input": payload},
         sort_keys=True,

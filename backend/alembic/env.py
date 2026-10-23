@@ -11,13 +11,25 @@ from app.core.base import Base
 # 导入所有模型，使其注册到 Base.metadata，alembic autogenerate 才能发现。
 # 新增业务模型后，在此追加一行 import。
 from app.models.user import User  # noqa: F401
+from app.models.user_profile import UserProfile  # noqa: F401
+from app.models.wardrobe_preferences import WardrobePreferences  # noqa: F401
+from app.models.weather_region import WeatherRegion  # noqa: F401
+from app.models.weather_context import WeatherContext  # noqa: F401
+from app.models.recommendation import RecommendationRequest, RecommendationOutbox  # noqa: F401
+from app.models.wechat_identity import WechatIdentity  # noqa: F401
+from app.models.account_revision import AccountRevision  # noqa: F401
+from app.models.idempotency_receipt import IdempotencyReceipt  # noqa: F401
+from app.models.garment import Garment  # noqa: F401
+from app.models.media_asset import MediaAsset  # noqa: F401
+from app.models.wear_record import WearRecord, WearRecordItem, WearRecordTombstone  # noqa: F401
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 
 # Override sqlalchemy.url from app settings
-config.set_main_option("sqlalchemy.url", settings.database_url)
+# ConfigParser uses percent interpolation; preserve URL-encoded credentials/options.
+config.set_main_option("sqlalchemy.url", settings.database_url.replace("%", "%%"))
 
 # Interpret the config file for Python logging.
 if config.config_file_name is not None:

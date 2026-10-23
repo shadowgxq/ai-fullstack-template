@@ -1,15 +1,200 @@
 {
   "components": {
     "schemas": {
+      "CallEvidence": {
+        "additionalProperties": false,
+        "properties": {
+          "adapter": {
+            "const": "openai.responses.v1",
+            "title": "Adapter",
+            "type": "string"
+          },
+          "operation_id": {
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+            "title": "Operation Id",
+            "type": "string"
+          },
+          "prompt_version": {
+            "const": "wardrobe.recommend.prompt.v1",
+            "title": "Prompt Version",
+            "type": "string"
+          },
+          "request_id": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Id"
+          },
+          "requested_model": {
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Requested Model",
+            "type": "string"
+          },
+          "response_ref": {
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+            "title": "Response Ref",
+            "type": "string"
+          },
+          "returned_model": {
+            "anyOf": [
+              {
+                "maxLength": 128,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Returned Model"
+          },
+          "schema_version": {
+            "const": "wardrobe.recommend.output.v1",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "usage": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Usage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "operation_id",
+          "response_ref",
+          "adapter",
+          "requested_model",
+          "returned_model",
+          "request_id",
+          "usage",
+          "prompt_version",
+          "schema_version"
+        ],
+        "title": "CallEvidence",
+        "type": "object"
+      },
+      "Candidate": {
+        "additionalProperties": false,
+        "properties": {
+          "category": {
+            "anyOf": [
+              {
+                "maxLength": 40,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category"
+          },
+          "color": {
+            "anyOf": [
+              {
+                "maxLength": 40,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Color"
+          },
+          "id": {
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "maxLength": 120,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "occasion": {
+            "items": {
+              "maxLength": 40,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 20,
+            "title": "Occasion",
+            "type": "array"
+          },
+          "season": {
+            "items": {
+              "maxLength": 40,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 4,
+            "title": "Season",
+            "type": "array"
+          },
+          "tags": {
+            "items": {
+              "maxLength": 40,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 32,
+            "title": "Tags",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "category",
+          "color",
+          "season",
+          "occasion",
+          "tags"
+        ],
+        "title": "Candidate",
+        "type": "object"
+      },
       "CreateRun": {
         "additionalProperties": false,
         "properties": {
           "input": {
-            "$ref": "#/components/schemas/EchoInput"
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EchoInput"
+              },
+              {
+                "$ref": "#/components/schemas/WardrobeInput"
+              }
+            ],
+            "title": "Input"
           },
           "workflow": {
-            "const": "echo.v1",
             "default": "echo.v1",
+            "enum": [
+              "echo.v1",
+              "wardrobe.recommend.v1"
+            ],
             "title": "Workflow",
             "type": "string"
           }
@@ -43,7 +228,9 @@
               "queued",
               "running",
               "completed",
-              "failed"
+              "failed",
+              "cancel_requested",
+              "cancelled"
             ],
             "title": "Event Type",
             "type": "string"
@@ -68,6 +255,198 @@
         "title": "EventView",
         "type": "object"
       },
+      "FactAtom": {
+        "additionalProperties": false,
+        "properties": {
+          "field": {
+            "enum": [
+              "name",
+              "category",
+              "color",
+              "style",
+              "season",
+              "occasion",
+              "tag",
+              "liked_style",
+              "liked_color",
+              "liked_occasion",
+              "wear_count",
+              "last_worn_on",
+              "observation_temperature_c",
+              "forecast_high_c",
+              "forecast_low_c",
+              "forecast_day_summary",
+              "forecast_night_summary"
+            ],
+            "title": "Field",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "garment",
+              "preference",
+              "history",
+              "weather"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "ref_id": {
+            "maxLength": 80,
+            "minLength": 1,
+            "pattern": "^[a-zA-Z0-9_.:-]+$",
+            "title": "Ref Id",
+            "type": "string"
+          },
+          "subject_id": {
+            "anyOf": [
+              {
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subject Id"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "ref_id",
+          "kind",
+          "subject_id",
+          "field",
+          "value"
+        ],
+        "title": "FactAtom",
+        "type": "object"
+      },
+      "Forecast": {
+        "additionalProperties": false,
+        "properties": {
+          "day_summary": {
+            "anyOf": [
+              {
+                "maxLength": 80,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Day Summary"
+          },
+          "forecast_date": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "title": "Forecast Date",
+            "type": "string"
+          },
+          "high_c": {
+            "anyOf": [
+              {
+                "maximum": 80.0,
+                "minimum": -100.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "High C"
+          },
+          "issued_at": {
+            "format": "date-time",
+            "title": "Issued At",
+            "type": "string"
+          },
+          "low_c": {
+            "anyOf": [
+              {
+                "maximum": 80.0,
+                "minimum": -100.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Low C"
+          },
+          "night_summary": {
+            "anyOf": [
+              {
+                "maxLength": 80,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Night Summary"
+          }
+        },
+        "required": [
+          "forecast_date",
+          "issued_at",
+          "day_summary",
+          "night_summary",
+          "high_c",
+          "low_c"
+        ],
+        "title": "Forecast",
+        "type": "object"
+      },
+      "GarmentHistory": {
+        "additionalProperties": false,
+        "properties": {
+          "garment_id": {
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+            "title": "Garment Id",
+            "type": "string"
+          },
+          "last_worn_on": {
+            "anyOf": [
+              {
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Worn On"
+          },
+          "wear_count": {
+            "minimum": 0.0,
+            "title": "Wear Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "garment_id",
+          "wear_count",
+          "last_worn_on"
+        ],
+        "title": "GarmentHistory",
+        "type": "object"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -81,8 +460,250 @@
         "title": "HTTPValidationError",
         "type": "object"
       },
+      "HistorySummary": {
+        "additionalProperties": false,
+        "properties": {
+          "end_date": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "title": "End Date",
+            "type": "string"
+          },
+          "garments": {
+            "items": {
+              "$ref": "#/components/schemas/GarmentHistory"
+            },
+            "maxItems": 256,
+            "title": "Garments",
+            "type": "array"
+          },
+          "start_date": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "title": "Start Date",
+            "type": "string"
+          }
+        },
+        "required": [
+          "start_date",
+          "end_date",
+          "garments"
+        ],
+        "title": "HistorySummary",
+        "type": "object"
+      },
+      "Observation": {
+        "additionalProperties": false,
+        "properties": {
+          "observed_at": {
+            "format": "date-time",
+            "title": "Observed At",
+            "type": "string"
+          },
+          "temperature_c": {
+            "maximum": 80.0,
+            "minimum": -100.0,
+            "title": "Temperature C",
+            "type": "number"
+          }
+        },
+        "required": [
+          "observed_at",
+          "temperature_c"
+        ],
+        "title": "Observation",
+        "type": "object"
+      },
+      "Preferences": {
+        "additionalProperties": false,
+        "properties": {
+          "avoided_colors": {
+            "items": {
+              "maxLength": 40,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 32,
+            "title": "Avoided Colors",
+            "type": "array"
+          },
+          "avoided_occasions": {
+            "items": {
+              "maxLength": 40,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 32,
+            "title": "Avoided Occasions",
+            "type": "array"
+          },
+          "avoided_styles": {
+            "items": {
+              "maxLength": 40,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 32,
+            "title": "Avoided Styles",
+            "type": "array"
+          },
+          "comfort_notes": {
+            "anyOf": [
+              {
+                "maxLength": 500,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comfort Notes"
+          },
+          "liked_colors": {
+            "items": {
+              "maxLength": 40,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 32,
+            "title": "Liked Colors",
+            "type": "array"
+          },
+          "liked_occasions": {
+            "items": {
+              "maxLength": 40,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 32,
+            "title": "Liked Occasions",
+            "type": "array"
+          },
+          "liked_styles": {
+            "items": {
+              "maxLength": 40,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 32,
+            "title": "Liked Styles",
+            "type": "array"
+          }
+        },
+        "required": [
+          "liked_styles",
+          "avoided_styles",
+          "liked_colors",
+          "avoided_colors",
+          "liked_occasions",
+          "avoided_occasions",
+          "comfort_notes"
+        ],
+        "title": "Preferences",
+        "type": "object"
+      },
+      "RecommendationOutput": {
+        "additionalProperties": false,
+        "properties": {
+          "call_evidence": {
+            "$ref": "#/components/schemas/CallEvidence"
+          },
+          "fact_refs": {
+            "items": {
+              "maxLength": 80,
+              "minLength": 1,
+              "pattern": "^[a-zA-Z0-9_.:-]+$",
+              "type": "string"
+            },
+            "maxItems": 128,
+            "title": "Fact Refs",
+            "type": "array"
+          },
+          "reason_codes": {
+            "items": {
+              "enum": [
+                "known_attributes",
+                "liked_style",
+                "liked_color",
+                "liked_occasion",
+                "scene_reference",
+                "weather_reference",
+                "history_reference"
+              ],
+              "type": "string"
+            },
+            "maxItems": 32,
+            "title": "Reason Codes",
+            "type": "array"
+          },
+          "selected_ids": {
+            "items": {
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+              "type": "string"
+            },
+            "maxItems": 64,
+            "minItems": 1,
+            "title": "Selected Ids",
+            "type": "array"
+          },
+          "tradeoff_codes": {
+            "items": {
+              "enum": [
+                "partial_outfit",
+                "unknown_attributes",
+                "weather_missing",
+                "history_empty",
+                "comfort_reference_only",
+                "candidate_scope_limited"
+              ],
+              "type": "string"
+            },
+            "maxItems": 32,
+            "title": "Tradeoff Codes",
+            "type": "array"
+          }
+        },
+        "required": [
+          "selected_ids",
+          "reason_codes",
+          "fact_refs",
+          "tradeoff_codes",
+          "call_evidence"
+        ],
+        "title": "RecommendationOutput",
+        "type": "object"
+      },
+      "Revisions": {
+        "additionalProperties": false,
+        "properties": {
+          "history_revision": {
+            "minimum": 0.0,
+            "title": "History Revision",
+            "type": "integer"
+          },
+          "inventory_revision": {
+            "minimum": 0.0,
+            "title": "Inventory Revision",
+            "type": "integer"
+          },
+          "preferences_revision": {
+            "minimum": 0.0,
+            "title": "Preferences Revision",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "inventory_revision",
+          "history_revision",
+          "preferences_revision"
+        ],
+        "title": "Revisions",
+        "type": "object"
+      },
       "RunView": {
         "properties": {
+          "cancel_requested": {
+            "title": "Cancel Requested",
+            "type": "boolean"
+          },
           "created_at": {
             "format": "date-time",
             "title": "Created At",
@@ -100,7 +721,15 @@
             "title": "Error Code"
           },
           "input": {
-            "$ref": "#/components/schemas/EchoInput"
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EchoInput"
+              },
+              {
+                "$ref": "#/components/schemas/WardrobeInput"
+              }
+            ],
+            "title": "Input"
           },
           "last_sequence": {
             "title": "Last Sequence",
@@ -112,9 +741,13 @@
                 "$ref": "#/components/schemas/EchoInput"
               },
               {
+                "$ref": "#/components/schemas/RecommendationOutput"
+              },
+              {
                 "type": "null"
               }
-            ]
+            ],
+            "title": "Output"
           },
           "run_id": {
             "format": "uuid",
@@ -126,7 +759,8 @@
               "queued",
               "running",
               "completed",
-              "failed"
+              "failed",
+              "cancelled"
             ],
             "title": "Status",
             "type": "string"
@@ -144,9 +778,58 @@
           "output",
           "error_code",
           "last_sequence",
-          "created_at"
+          "created_at",
+          "cancel_requested"
         ],
         "title": "RunView",
+        "type": "object"
+      },
+      "Usage": {
+        "additionalProperties": false,
+        "properties": {
+          "input_tokens": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input Tokens"
+          },
+          "output_tokens": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Output Tokens"
+          },
+          "total_tokens": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Tokens"
+          }
+        },
+        "required": [
+          "input_tokens",
+          "output_tokens",
+          "total_tokens"
+        ],
+        "title": "Usage",
         "type": "object"
       },
       "ValidationError": {
@@ -187,6 +870,234 @@
           "type"
         ],
         "title": "ValidationError",
+        "type": "object"
+      },
+      "Versions": {
+        "additionalProperties": false,
+        "properties": {
+          "catalog_version": {
+            "const": "1",
+            "title": "Catalog Version",
+            "type": "string"
+          },
+          "policy_version": {
+            "const": "wardrobe.filter.v1",
+            "title": "Policy Version",
+            "type": "string"
+          },
+          "prompt_version": {
+            "const": "wardrobe.recommend.prompt.v1",
+            "title": "Prompt Version",
+            "type": "string"
+          },
+          "schema_version": {
+            "const": "wardrobe.recommend.output.v1",
+            "title": "Schema Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "catalog_version",
+          "policy_version",
+          "prompt_version",
+          "schema_version"
+        ],
+        "title": "Versions",
+        "type": "object"
+      },
+      "WardrobeInput": {
+        "additionalProperties": false,
+        "properties": {
+          "candidate_scope_limited": {
+            "title": "Candidate Scope Limited",
+            "type": "boolean"
+          },
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/Candidate"
+            },
+            "maxItems": 256,
+            "minItems": 1,
+            "title": "Candidates",
+            "type": "array"
+          },
+          "fact_refs": {
+            "items": {
+              "$ref": "#/components/schemas/FactAtom"
+            },
+            "maxItems": 256,
+            "title": "Fact Refs",
+            "type": "array"
+          },
+          "history": {
+            "$ref": "#/components/schemas/HistorySummary"
+          },
+          "preferences": {
+            "$ref": "#/components/schemas/Preferences"
+          },
+          "revisions": {
+            "$ref": "#/components/schemas/Revisions"
+          },
+          "scene": {
+            "enum": [
+              "any",
+              "work",
+              "daily",
+              "date"
+            ],
+            "title": "Scene",
+            "type": "string"
+          },
+          "versions": {
+            "$ref": "#/components/schemas/Versions"
+          },
+          "weather": {
+            "$ref": "#/components/schemas/WeatherInput"
+          }
+        },
+        "required": [
+          "candidates",
+          "preferences",
+          "scene",
+          "history",
+          "weather",
+          "revisions",
+          "versions",
+          "fact_refs",
+          "candidate_scope_limited"
+        ],
+        "title": "WardrobeInput",
+        "type": "object"
+      },
+      "WeatherFacts": {
+        "additionalProperties": false,
+        "properties": {
+          "fetched_at": {
+            "format": "date-time",
+            "title": "Fetched At",
+            "type": "string"
+          },
+          "forecast": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Forecast"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "observation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Observation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "parser_version": {
+            "const": "weather1d.v1",
+            "title": "Parser Version",
+            "type": "string"
+          },
+          "source": {
+            "const": "weather.com.cn",
+            "title": "Source",
+            "type": "string"
+          },
+          "valid_until": {
+            "format": "date-time",
+            "title": "Valid Until",
+            "type": "string"
+          }
+        },
+        "required": [
+          "source",
+          "parser_version",
+          "fetched_at",
+          "valid_until",
+          "observation",
+          "forecast"
+        ],
+        "title": "WeatherFacts",
+        "type": "object"
+      },
+      "WeatherInput": {
+        "additionalProperties": false,
+        "properties": {
+          "context_id": {
+            "anyOf": [
+              {
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context Id"
+          },
+          "facts": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WeatherFacts"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "missing_reason": {
+            "anyOf": [
+              {
+                "maxLength": 40,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Missing Reason"
+          },
+          "region_id": {
+            "anyOf": [
+              {
+                "maxLength": 64,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Region Id"
+          },
+          "state": {
+            "enum": [
+              "available",
+              "missing"
+            ],
+            "title": "State",
+            "type": "string"
+          },
+          "weather_date": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "title": "Weather Date",
+            "type": "string"
+          }
+        },
+        "required": [
+          "state",
+          "context_id",
+          "region_id",
+          "weather_date",
+          "facts",
+          "missing_reason"
+        ],
+        "title": "WeatherInput",
         "type": "object"
       }
     },
@@ -269,6 +1180,72 @@
         "summary": "Create Run"
       }
     },
+    "/api/v1/runs/cancel-by-key": {
+      "post": {
+        "operationId": "cancelRunByKey",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "idempotency-key",
+            "required": true,
+            "schema": {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[!-~]+$",
+              "title": "Idempotency-Key",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRun"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "409": {
+            "description": "Idempotency conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "503": {
+            "description": "Storage unavailable"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Cancel By Key"
+      }
+    },
     "/api/v1/runs/{run_id}": {
       "get": {
         "operationId": "getRun",
@@ -321,6 +1298,60 @@
           }
         ],
         "summary": "Get Run"
+      }
+    },
+    "/api/v1/runs/{run_id}/cancel": {
+      "post": {
+        "operationId": "cancelRun",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Run not found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "503": {
+            "description": "Storage unavailable"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Cancel"
       }
     },
     "/api/v1/runs/{run_id}/events": {
@@ -412,7 +1443,15 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EchoInput"
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/EchoInput"
+                    },
+                    {
+                      "$ref": "#/components/schemas/RecommendationOutput"
+                    }
+                  ],
+                  "title": "Response Getrunresult"
                 }
               }
             },

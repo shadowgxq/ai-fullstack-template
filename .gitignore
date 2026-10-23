@@ -10,6 +10,7 @@
 **/.ruff_cache/
 **/node_modules/
 **/dist/
+backend/var/media/
 *.pyc
 *.log
 .DS_Store

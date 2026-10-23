@@ -15,6 +15,16 @@ from app.core import redis_client as redis_module
 from app.core.base import Base
 from app.core.session import get_db
 from app.models import user as _user  # noqa: F401
+from app.models import user_profile as _user_profile  # noqa: F401
+from app.models import wardrobe_preferences as _wardrobe_preferences  # noqa: F401
+from app.models import weather_region as _weather_region  # noqa: F401
+from app.models import weather_context as _weather_context  # noqa: F401
+from app.models import wechat_identity as _wechat_identity  # noqa: F401
+from app.models import account_revision as _account_revision  # noqa: F401
+from app.models import idempotency_receipt as _idempotency_receipt  # noqa: F401
+from app.models import garment as _garment  # noqa: F401
+from app.models import media_asset as _media_asset  # noqa: F401
+from app.models import wear_record as _wear_record  # noqa: F401
 from main import app
 
 
@@ -55,6 +65,9 @@ class FakeRedis:
 
     def get(self, key):
         return self.store.get(key)
+
+    def ping(self):
+        return True
 
     def set(self, key, value, ex=None):
         self.store[key] = value

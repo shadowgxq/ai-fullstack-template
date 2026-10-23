@@ -9,6 +9,7 @@ from app.core.exceptions import UsernameAlreadyExistsException
 from app.core.session import transaction
 from app.models.user import User
 from app.repositories.user_repository import UserRepository
+from app.repositories.profile_repository import ProfileRepository
 from app.services.auth_service import AuthService
 
 
@@ -91,7 +92,7 @@ def test_repository_does_not_commit_outer_transaction(db_session):
 
 def test_service_commits_registration_and_handles_unique_race(db_session, monkeypatch):
     repo = UserRepository(db_session)
-    service = AuthService(repo)
+    service = AuthService(repo, ProfileRepository(db_session))
     service.register("race", "password")
     db_session.rollback()
     assert repo.get_by_username("race") is not None

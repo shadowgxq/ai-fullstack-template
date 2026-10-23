@@ -14,13 +14,17 @@
 | 用户主动定位 | `wx.getFuzzyLocation(GCJ-02)` → Backend 用腾讯位置服务逆地址解析到省市 → 匹配可信天气地区目录 |
 | 无有效选择 | 读取 profile 已存城市，否则使用默认杭州；不自动索要位置权限 |
 
-Backend 持有版本化 `weather_regions(region_id,weather_code,province,city,aliases,geocoder_city_code?,mapping_version)`。同一地区的默认、手选、定位结果归一成相同 `region_id`；不直接将腾讯行政码截断成天气码，也不因为返回第一条城市搜索结果就认定有效。景点、街道、跨省同名或多候选不明确时保留手选入口。
+Backend 持有版本化 `weather_regions(region_id,weather_code,province,city,district?,aliases,geocoder_city_code?,mapping_version)`。同一地区的默认、手选、定位结果归一成相同 `region_id`；不直接将腾讯行政码截断成天气码，也不因为返回第一条城市搜索结果就认定有效。搜索展示完整省/市/区县层级以区分同名地区，景点、街道或多候选不明确时保留手选入口。
+
+可信目录来自中国天气网[移动搜索页](https://m.weather.com.cn/city/citysearch.shtml?fromurl=index)实际使用的[公开搜索数据](https://i.tq121.com.cn/j/wap2016/news/city_search_data.js?2022042521)，并与其[PC 层级目录](https://j.i8tq.com/weather2020/search/city.js)核对。只解析受限数据字面量，不执行 JavaScript；只接纳天气码唯一、国内层级完整、两源名称与省份一致的条目。混合的国际/乡镇/景点、重复码、来源冲突或缺失条目不自动归一，旧名不凭经验补为别名。电话区号与邮编不能作为腾讯行政码。
+
+经过核验的目录以冻结版本导入业务库，版本关联规范数据哈希及来源元数据；Last-Modified 仅作来源记录。`GET /cities` 搜索该版本的可信条目，其游标只分页这些实际命中，不冒称上游有全量行政区划分页。天气页仍须校验请求天气码与正文地区身份；目录一致不等于每次天气响应都有效。
 
 模糊定位只在用户触发时调用，坐标仅供本次解析，不保存位置历史；小程序需核对 API 支持、授权、实际账号开通和隐私声明。基础微信登录不等于已有定位权限。
 
 ## 2. 天气数据获取与消费接口
 
-使用 **中国天气网 HTTP 页面**及其城市搜索接口，由 Backend 在固定域名/路径发起请求，不接 MCP、模型搜索或任意用户 URL。HTML/JSON 数据按版本化解析器提取，校验结构、行政地区、天气日期、观测时间及预报发布时间；不运行网页 JS，不从其它未证实字段凑天气事实。
+使用 **中国天气网 HTTP 页面**与上述公开城市搜索数据。天气请求由 Backend 在固定域名/路径发起，不接 MCP、模型搜索或任意用户 URL。HTML/JSON 数据按版本化解析器提取，校验结构、地区身份、天气日期、观测时间及预报发布时间；不运行网页 JS，不从其它未证实字段凑天气事实。页面缺少有时刻证据的观测时保留 observation 缺失；有效当日预报可以单独返回，夜间和次日白天不能拼成当日实况或完整高低温。
 
 | 接口（`/api/v1` 前缀） | 输入与返回 |
 |---|---|

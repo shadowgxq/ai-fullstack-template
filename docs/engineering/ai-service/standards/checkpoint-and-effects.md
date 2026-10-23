@@ -18,14 +18,14 @@
 
 改变 State、Node 名称、workflow 版本或 Saver 依赖时，说明旧 Run 可以直接恢复、需要迁移还是必须阻断；兼容结论要有旧 Checkpoint fixture 和真实数据库用例。升级不能默默清空旧状态来让测试通过。
 
-## 外部副作用（扩展时）
+## 外部副作用
 
-当前无 Operation Ledger / 预算实现。接入付费模型或写工具前，按以下阶段建立可验证边界：
+当前穿搭工作流已有每Run单Operation与一次请求额度，不提供通用多attempt或金额预算。模型默认关闭；启用具体模型或扩展写工具时保持以下边界：
 
 ```text
 冻结 Operation 身份与 payload
   → prepare Node 返回，并确认相应 Checkpoint 已持久化
-  → 短事务登记 attempt 与预算预留，提交
+  → 短事务登记sending与一次请求额度，提交
   → 在事务外执行受控外部调用
   → 持久化完整响应引用与已知 usage
   → 将 response_ref 返回 workflow
@@ -42,10 +42,10 @@ Operation 身份区分逻辑操作、输入版本与 attempt；重放复用同�
 | 可能已发出但无已存响应 | 记录 `unknown`，保留预算预留；先核对或人工处理，不盲重发 |
 | 供应商支持可验证幂等/状态查询 | 在 adapter 中按真实能力核对；仍保留请求与响应记录 |
 
-`unknown` 是扩展调用状态，不是当前 Run 状态枚举。Checkpoint、数据库唯一约束和供应商调用不构成分布式事务，不能承诺远端 exactly-once 或绝不重复收费。
+`unknown` 是Operation调用状态，不是Run状态枚举；当前Run以call_outcome_unknown失败。Checkpoint、数据库唯一约束和供应商调用不构成分布式事务，不能承诺远端 exactly-once 或绝不重复收费。
 
-## 人工等待、取消与扩容（扩展时）
+## 取消与后续人工等待/扩容
 
 回答绑定 Run、当前 interrupt/等待身份和输入版本，先做授权与幂等校验，再由 Worker 消费；拒绝过期回答和不匹配的继续操作。等待不能占住数据库事务；暂停是否释放执行槽必须由实际调度与恢复测试证明。
 
-取消意图与最终发布按应用事务裁定；迟到响应仍保存到调用记录，但不得绕过取消状态发布。发布先完成则不回写为取消。多 Worker 需新增 claim、heartbeat、fencing 及旧执行者隔离，不只是增加副本数。
+当前取消意图与最终发布按应用事务裁定；queued/running可成为cancelled，取消与事件同事务提交，重复取消不增事件。迟到响应仍保存到调用记录，但不得绕过取消状态发布；发布先完成则不回写为取消。多 Worker 需新增 claim、heartbeat、fencing 及旧执行者隔离，不只是增加副本数。

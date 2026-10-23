@@ -9,9 +9,9 @@
 | backend | 身份、业务 API、事务 | FastAPI、SQLAlchemy、Alembic、PostgreSQL、Redis、uv |
 | ai-service | 持久化 Run、workflow、Checkpoint、事件 | FastAPI、LangGraph、PostgreSQL、独立 Worker、uv |
 | docs | 需求入口、架构、契约、工程规范与跨端设计约定 | [文档地图](docs/README.md) |
-| manager / openspec | 执行索引与变更任务；模板初始为空 | [交付流程](docs/engineering/workflow/delivery.md) |
+| manager / openspec | 当前计划、执行索引与变更任务 | [交付流程](docs/engineering/workflow/delivery.md) |
 
-模板提供前后端工程基座；AI 默认只运行 `echo.v1` 确定性 workflow，没有真实模型或付费请求。使用方的产品需求从 [产品入口](docs/product/README.md) 建立，不继承模板维护记录或演示业务 PRD。
+项目包含智能衣柜的小程序与Backend业务，以及 `echo.v1` 和 `wardrobe.recommend.v1` AI workflow。模型默认关闭；微信、定位、天气来源和模型生产接入条件须单独核验。当前需求与验收范围见 [产品入口](docs/product/README.md)。
 
 ## 复制模板后的视觉初始化
 
@@ -39,6 +39,14 @@ docker compose down
 前端 `http://localhost:8080`，后端 `http://localhost:8000/docs`，AI `http://localhost:8001/docs`。端口仅绑定 loopback。**此 Compose 使用开发凭证，不适用于公网生产部署。**
 
 PostgreSQL 按服务分库分角色；首次新卷创建账户。两个一次性迁移进程完成初始化，API/Worker 不自动改表。`down` 保留数据卷，不要用删卷代替修复迁移。
+
+穿搭推荐另需显式调度Backend Outbox；Compose的 `backend-dispatch` 是按需执行的有界命令，每次最多处理100条到期意图：
+
+```bash
+docker compose --profile dispatch run --rm backend-dispatch
+```
+
+该命令退出后不继续后台调度；后续生成、退避重试及取消清理需要再次运行或由部署方安排周期执行。AI Worker负责Run执行，不能替代Backend Dispatcher。Backend内部AI凭据与模型供应商凭据分离，均不进入客户端。
 
 ## 本地热更新
 
@@ -73,13 +81,13 @@ make up && make smoke # 启动三端、迁移、Worker 后验证 HTTP 行为
 
 CI 使用真实 PostgreSQL 验证 AI 幂等、scope 隔离、Checkpoint 恢复、排他；Compose 验证前端资源/代理、后端认证/Redis 登出、AI API→Worker→结果。`/health` 仅存活，`/ready` 检查依赖及已迁移表。
 
-业务 Run 页面、后端到 AI 的用户鉴权转发、SSE、人工中断、取消、预算/Operation Ledger、Artifact Store、真实模型尚未实现。测试客户端闭环不代表业务页面已接通，详见 [实现与目标](docs/architecture/README.md)。
+小程序消费Backend业务推荐，Backend以受信身份调用AI服务；已实现取消和每Run最多一次模型调用的持久恢复。客户端SSE事件、通用人工审批、金额预算、多Worker及Artifact Store尚未实现。隔离检查不等于真实模型、微信宿主或最终产品验收，详见 [实现与目标](docs/architecture/README.md)。
 
 ## 可选微信小程序
 
 [小程序 README](miniprogram/README.md) 维护安装、Watch 编译、开发者工具导入和后端连接；[专项导航](docs/engineering/miniprogram/README.md) 维护 AI 开发入口，[移动 UI](miniprogram/design/ui-spec.md) 与 [移动 Token](miniprogram/design/tokens.md) 在本端独立维护适配规则。小程序与 Web 共用根需求/架构/契约/Plan/OpenSpec，但分别拥有设计资产、UI 实现、依赖与构建。
 
-默认 `make install / check / up` 不安装或启动小程序。按需使用 `make install-miniprogram / dev-miniprogram / check-miniprogram / build-miniprogram`；微信发布单独授权。当前账户页消费已有用户名密码 API，微信身份交换、上传业务和真机联调不因新增客户端自动完成。
+默认 `make install / check / up` 不安装或启动小程序。按需使用 `make install-miniprogram / dev-miniprogram / check-miniprogram / build-miniprogram`；微信发布单独授权。当前业务采用微信code登录、本人私有媒体和衣柜/穿搭/记录三入口；旧用户名密码API继续保留。真实微信配置、上传域名与真机联调仍需验收。
 
 ## 不需要 AI 的业务
 
